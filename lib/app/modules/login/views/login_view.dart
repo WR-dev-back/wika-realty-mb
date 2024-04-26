@@ -146,7 +146,7 @@ class LoginView extends GetView<LoginController> {
                     () => SizedBox(
                       width: MediaQuery.of(context).size.width,
                       child: ElevatedButton(
-                        onPressed: () => Get.toNamed(Routes.HOME),
+                        onPressed: () => Get.offAllNamed(Routes.HOME),
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 18),
                           backgroundColor: Colors.grey,
@@ -194,6 +194,7 @@ class LoginView extends GetView<LoginController> {
                           child: Text('Facebook'),
                         ),
                       ),
+                      SizedBox(width: 10),
                       Container(
                         width: MediaQuery.of(context).size.width * 0.42,
                         child: ElevatedButton(
