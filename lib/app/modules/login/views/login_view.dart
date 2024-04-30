@@ -15,11 +15,12 @@ class LoginView extends GetView<LoginController> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-          leading: IconButton(
-        onPressed: () {},
-        icon: Icon(Icons.close),
-      )),
-      body: ListView(children: [
+        leading: IconButton(
+          onPressed: () {},
+          icon: Icon(Icons.close),
+        ),
+      ),
+      body: ListView(shrinkWrap: true, children: [
         Container(
           height: MediaQuery.of(context).size.height * 65 / 100,
           width: MediaQuery.of(context).size.width,
@@ -64,6 +65,7 @@ class LoginView extends GetView<LoginController> {
                 child: TextField(
                   style: const TextStyle(fontSize: 14, fontFamily: 'poppins'),
                   maxLines: 1,
+                  controller: controller.emailC,
                   decoration: InputDecoration(
                     label: Text(
                       "Email",
@@ -97,6 +99,7 @@ class LoginView extends GetView<LoginController> {
                       style:
                           const TextStyle(fontSize: 14, fontFamily: 'poppins'),
                       maxLines: 1,
+                      controller: controller.passC,
                       obscureText: controller.obsecureText.value,
                       decoration: InputDecoration(
                         label: Text(

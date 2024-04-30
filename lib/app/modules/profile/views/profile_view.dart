@@ -2,15 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
+import 'package:wr_project/app/widgets/custom_navigation_bar.dart';
 
+import '../../../controller/page_index_controller.dart';
 import '../../../style/app_color.dart';
 import '../controllers/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
-  const ProfileView({Key? key}) : super(key: key);
+  final pageC = Get.find<PageIndexController>();
+  ProfileView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
+      bottomNavigationBar: const CustomBottomNavigationBar(),
       body: Stack(
         children: [
           Container(
@@ -144,6 +149,14 @@ class ProfileView extends GetView<ProfileController> {
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
+                margin: EdgeInsets.only(top: 10, left: 20),
+                child: Text(
+                  "Pengaturan Akun",
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
                 margin: const EdgeInsets.only(top: 10),
                 child: Column(
                   children: [
@@ -167,31 +180,6 @@ class ProfileView extends GetView<ProfileController> {
                       icon: Icon(Icons.account_circle),
                       onTap: () {},
                     ),
-                    MenuTile(
-                      title: 'Akun Saya',
-                      icon: Icon(Icons.account_circle),
-                      onTap: () {},
-                    ),
-                    MenuTile(
-                      title: 'Akun Saya',
-                      icon: Icon(Icons.account_circle),
-                      onTap: () {},
-                    ),
-                    MenuTile(
-                      title: 'Akun Saya',
-                      icon: Icon(Icons.account_circle),
-                      onTap: () {},
-                    ),
-                    MenuTile(
-                      title: 'Akun Saya',
-                      icon: Icon(Icons.account_circle),
-                      onTap: () {},
-                    ),
-                    MenuTile(
-                      title: 'Akun Saya',
-                      icon: Icon(Icons.account_circle),
-                      onTap: () {},
-                    )
                   ],
                 ),
               )
