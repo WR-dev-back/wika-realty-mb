@@ -59,18 +59,6 @@ class CustomBottomNavigationBar extends GetView<PageIndexController> {
                         ),
                       ),
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 4,
-                      margin: const EdgeInsets.only(top: 24),
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Menu",
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: AppColor.primary,
-                        ),
-                      ),
-                    ),
                     Expanded(
                       child: InkWell(
                         onTap: () => controller.changePage(2),

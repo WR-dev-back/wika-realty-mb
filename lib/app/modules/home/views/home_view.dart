@@ -17,35 +17,45 @@ class HomeView extends GetView<HomeController> {
     return Scaffold(
       bottomNavigationBar: const CustomBottomNavigationBar(),
       extendBody: true,
-      body: Stack(
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height,
-            color: AppColor.cblight,
-          ),
-          Container(
-            child: Image.asset(
-              'assets/images/Frame 52.png',
-              fit: BoxFit.cover,
+      body: Container(
+        child: Stack(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height,
+              color: AppColor.cblight,
             ),
-            height: 200,
-            width: MediaQuery.of(context).size.width,
-          ),
-          Container(
-              padding: EdgeInsets.only(top: 150),
-              margin: EdgeInsets.only(left: 20),
-              child: Text(
-                "Wika Realty",
-                style: GoogleFonts.plusJakartaSans(
-                  textStyle:
-                      TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                ),
-              )),
-          SizedBox(
-            height: 20,
-          ),
-          Container(padding: EdgeInsets.only(top: 220), child: GridDashboard())
-        ],
+            Container(
+              child: Image.asset(
+                'assets/images/Frame 52.png',
+                fit: BoxFit.cover,
+              ),
+              height: 200,
+              width: MediaQuery.of(context).size.width,
+            ),
+            Container(
+                padding: EdgeInsets.only(top: 150),
+                margin: EdgeInsets.only(left: 20),
+                child: Text(
+                  "Wika Realty",
+                  style: GoogleFonts.plusJakartaSans(
+                    textStyle:
+                        TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  ),
+                )),
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+                padding: EdgeInsets.only(top: 220), child: GridDashboard()),
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+              padding: EdgeInsets.only(top: 450, left: 300),
+              child: TextButton(onPressed: () {}, child: Text("Lainnya")),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wr_project/app/routes/app_pages.dart';
@@ -66,7 +65,7 @@ class GridDashboard extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Image.asset(data.img, width: 30),
+                  Image.asset(data.img, width: 60),
                   SizedBox(height: 4),
                   Text(
                     data.title,
