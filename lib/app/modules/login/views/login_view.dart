@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:wr_project/app/routes/app_pages.dart';
 import 'package:wr_project/app/style/app_color.dart';
 
 import '../controllers/login_controller.dart';
@@ -153,7 +152,9 @@ class LoginView extends GetView<LoginController> {
                 () => SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: ElevatedButton(
-                    onPressed: () => Get.offAllNamed(Routes.HOME),
+                    onPressed: () async {
+                      await controller.login();
+                    },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 18),
                       backgroundColor: AppColor.cblight,
