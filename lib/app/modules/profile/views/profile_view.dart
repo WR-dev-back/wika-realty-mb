@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
+import 'package:wr_project/app/routes/app_pages.dart';
 import 'package:wr_project/app/widgets/custom_navigation_bar.dart';
 
 import '../../../controller/page_index_controller.dart';
@@ -23,10 +24,7 @@ class ProfileView extends GetView<ProfileController> {
             color: AppColor.cblight,
           ),
           Container(
-            child: Image.asset(
-              'assets/images/Frame 52.png',
-              fit: BoxFit.cover,
-            ),
+            color: AppColor.pcolor,
             height: 200,
             width: MediaQuery.of(context).size.width,
           ),
@@ -133,13 +131,16 @@ class ProfileView extends GetView<ProfileController> {
                                 style: ElevatedButton.styleFrom(
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 15),
-                                  backgroundColor: Colors.grey,
+                                  backgroundColor: AppColor.pcolor,
                                   elevation: 0,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                 ),
-                                child: Text('Lihat Detail'),
+                                child: Text(
+                                  'Lihat Detail',
+                                  style: TextStyle(color: AppColor.primary),
+                                ),
                               ),
                             ),
                           ]),
@@ -179,6 +180,12 @@ class ProfileView extends GetView<ProfileController> {
                       title: 'Akun Saya',
                       icon: Icon(Icons.account_circle),
                       onTap: () {},
+                    ),
+                    MenuTile(
+                      title: 'Log Out',
+                      icon: Icon(Icons.account_circle),
+                      isDanger: true,
+                      onTap: () => Get.toNamed(Routes.LOGIN),
                     ),
                   ],
                 ),

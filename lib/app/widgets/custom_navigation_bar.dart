@@ -64,7 +64,7 @@ class CustomBottomNavigationBar extends GetView<PageIndexController> {
                       margin: const EdgeInsets.only(top: 24),
                       alignment: Alignment.center,
                       child: Text(
-                        "Presence",
+                        "Menu",
                         style: TextStyle(
                           fontSize: 10,
                           color: AppColor.primary,

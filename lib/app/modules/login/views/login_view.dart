@@ -1,9 +1,11 @@
+import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:wr_project/app/routes/app_pages.dart';
+import 'package:wr_project/app/style/app_color.dart';
 
 import '../controllers/login_controller.dart';
 
@@ -16,7 +18,7 @@ class LoginView extends GetView<LoginController> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () => Get.back(),
           icon: Icon(Icons.close),
         ),
       ),
@@ -148,7 +150,7 @@ class LoginView extends GetView<LoginController> {
                     onPressed: () => Get.offAllNamed(Routes.HOME),
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 18),
-                      backgroundColor: Colors.grey,
+                      backgroundColor: AppColor.cblight,
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -182,13 +184,26 @@ class LoginView extends GetView<LoginController> {
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 15),
-                        backgroundColor: Colors.grey,
+                        backgroundColor: AppColor.cblight,
                         elevation: 0,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      child: Text('Facebook'),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(right: 5),
+                            child: Image.asset("assets/images/fl.png"),
+                          ),
+                          Text(
+                            'Facebook',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(width: 10),
@@ -198,13 +213,26 @@ class LoginView extends GetView<LoginController> {
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 15),
-                        backgroundColor: Colors.grey,
+                        backgroundColor: AppColor.cblight,
                         elevation: 0,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      child: Text('Google'),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(right: 5),
+                            child: Image.asset("assets/images/gl.png"),
+                          ),
+                          Text(
+                            'Google',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

@@ -9,5 +9,5 @@ class SplashscreenController extends GetxController {
 
   @override
   void onClose() {}
-  void goToHome() => Get.offAllNamed(Routes.LOGIN);
+  void goToHome() => Get.toNamed(Routes.LOGIN);
 }
