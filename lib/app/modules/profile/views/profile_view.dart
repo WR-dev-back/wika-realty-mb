@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
-import 'package:wr_project/app/routes/app_pages.dart';
+
 import 'package:wr_project/app/widgets/custom_navigation_bar.dart';
 
 import '../../../controller/page_index_controller.dart';
@@ -182,11 +182,10 @@ class ProfileView extends GetView<ProfileController> {
                       onTap: () {},
                     ),
                     MenuTile(
-                      title: 'Log Out',
-                      icon: Icon(Icons.account_circle),
-                      isDanger: true,
-                      onTap: () => Get.toNamed(Routes.LOGIN),
-                    ),
+                        title: 'Log Out',
+                        icon: Icon(Icons.account_circle),
+                        isDanger: true,
+                        onTap: controller.deleteToken),
                   ],
                 ),
               )

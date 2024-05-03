@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wr_project/app/widgets/custom_navigation_bar.dart';
 import 'package:wr_project/app/widgets/gridDashboard.dart';
 import '../../../controller/page_index_controller.dart';
@@ -11,6 +12,7 @@ import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
   final pageC = Get.find<PageIndexController>();
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   HomeView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -51,9 +53,13 @@ class HomeView extends GetView<HomeController> {
               height: 20,
             ),
             Container(
-              padding: EdgeInsets.only(top: 450, left: 300),
-              child: TextButton(onPressed: () {}, child: Text("Lainnya")),
-            ),
+                padding: EdgeInsets.only(top: 450, left: 300),
+                child: TextButton(
+                    onPressed: () async {
+                      final SharedPreferences? prefs = await _prefs;
+                      print(prefs?.get('token'));
+                    },
+                    child: Text('print token'))),
           ],
         ),
       ),

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:wr_project/app/controller/page_index_controller.dart';
 import 'app/routes/app_pages.dart';
 
-void main() {
+Future<void> main() async {
   Get.put(PageIndexController(), permanent: true);
   runApp(
     GetMaterialApp(

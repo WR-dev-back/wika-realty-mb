@@ -64,12 +64,6 @@ class LoginView extends GetView<LoginController> {
                   border: Border.all(width: 1, color: Colors.grey),
                 ),
                 child: TextFormField(
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your Email';
-                    }
-                    return null;
-                  },
                   style: const TextStyle(fontSize: 14, fontFamily: 'poppins'),
                   maxLines: 1,
                   controller: controller.emailC,

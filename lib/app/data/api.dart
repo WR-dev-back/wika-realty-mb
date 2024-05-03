@@ -1,9 +1,8 @@
 class ApiEndPoints {
-  static final String baseUrl = 'http://10.101.0.151:3000/docs/';
+  static final String baseUrl = 'http://10.101.0.151:3000';
   static _AuthEndPoints authEndpoints = _AuthEndPoints();
 }
 
 class _AuthEndPoints {
-  final String registerEmail = 'authaccount/registration';
-  final String loginEmail = '/Auth/AuthController_login';
+  final String loginEmail = '/api/v1/auth/login';
 }

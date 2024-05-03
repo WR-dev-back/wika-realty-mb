@@ -16,33 +16,37 @@ class LoginController extends GetxController {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   Future<void> login() async {
+    if (emailC.text.isEmpty || passC.text.isEmpty) {
+      showDialog(
+          context: Get.context!,
+          builder: (context) {
+            return SimpleDialog(
+              title: Text('Perhatian'),
+              contentPadding: EdgeInsets.all(20),
+              children: [Text('Isi Email & Password Terlebih dahulu')],
+            );
+          });
+      return;
+    }
     var headers = {'Content-Type': 'application/json'};
     try {
       var url = Uri.parse(
           ApiEndPoints.baseUrl + ApiEndPoints.authEndpoints.loginEmail);
-      Map body = {'email': emailC.text.trim(), 'password': passC.text};
+      Map body = {'identifier': emailC.text.trim(), 'password': passC.text};
       http.Response response =
           await http.post(url, body: jsonEncode(body), headers: headers);
-      print(response);
 
-      if (response.statusCode == 200) {
-        final json = jsonDecode(response.body);
-        if (json['code'] == 0) {
-          var token = json['data']['Token'];
-          final SharedPreferences prefs = await _prefs;
-          await prefs.setString('token', token);
+      if (response.statusCode == 201) {
+        Map json = jsonDecode(response.body);
+        var token = json['data']['token'];
+        final SharedPreferences prefs = await _prefs;
+        await prefs.setString('token', token);
 
-          emailC.clear();
-          passC.clear();
-          Get.offAllNamed(Routes.HOME);
-        } else if (json['code'] == 1) {
-          throw jsonDecode(response.body)['message'];
-        }
+        Get.offAllNamed(Routes.HOME);
       } else {
         throw jsonDecode(response.body)["Message"] ?? "Unknown Error Occured";
       }
     } catch (error) {
-      Get.back();
       showDialog(
           context: Get.context!,
           builder: (context) {

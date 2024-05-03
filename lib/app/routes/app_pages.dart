@@ -23,7 +23,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.SPLASHSCREEN,
-      page: () => const SplashscreenView(),
+      page: () => SplashscreenView(),
       binding: SplashscreenBinding(),
     ),
     GetPage(
