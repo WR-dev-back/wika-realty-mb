@@ -45,7 +45,7 @@ class ProfileView extends GetView<ProfileController> {
                         width: 90,
                         height: 28,
                         child: Image.asset(
-                          'assets/images/logo.png',
+                          'asset/images/logo.png',
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -94,7 +94,7 @@ class ProfileView extends GetView<ProfileController> {
                                       width: 56,
                                       height: 56,
                                       child: Image.asset(
-                                        'assets/images/Rectangle.png',
+                                        'asset/images/Rectangle.png',
                                         fit: BoxFit.cover,
                                       ),
                                     ),

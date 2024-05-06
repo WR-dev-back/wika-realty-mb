@@ -197,7 +197,7 @@ class LoginView extends GetView<LoginController> {
                         children: [
                           Container(
                             padding: EdgeInsets.only(right: 5),
-                            child: Image.asset("assets/images/fl.png"),
+                            child: Image.asset("asset/images/fl.png"),
                           ),
                           Text(
                             'Facebook',
@@ -226,7 +226,7 @@ class LoginView extends GetView<LoginController> {
                         children: [
                           Container(
                             padding: EdgeInsets.only(right: 5),
-                            child: Image.asset("assets/images/gl.png"),
+                            child: Image.asset("asset/images/gl.png"),
                           ),
                           Text(
                             'Google',
@@ -243,7 +243,7 @@ class LoginView extends GetView<LoginController> {
         ),
         Container(
           child: Image.asset(
-            'assets/images/background.png',
+            'asset/images/background.png',
             fit: BoxFit.fitWidth,
             alignment: Alignment.bottomCenter,
           ),

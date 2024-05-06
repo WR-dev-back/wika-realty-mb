@@ -6,8 +6,10 @@ class ProfileController extends GetxController {
   //TODO: Implement ProfileController
 
   void deleteToken() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove('token');
+    final SharedPreferences tkne = await SharedPreferences.getInstance();
+    await tkne.remove('token');
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
     // Navigate to login screen
     Get.toNamed(Routes.LOGIN);
   }

@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final body = bodyFromJson(jsonString);
+
 import 'dart:convert';
 
 Body bodyFromJson(String str) => Body.fromJson(json.decode(str));
@@ -30,20 +34,29 @@ class Body {
 
 class Data {
   String token;
+  List<Module> roles;
+  List<Module> modules;
   List<Menu> menus;
 
   Data({
     required this.token,
+    required this.roles,
+    required this.modules,
     required this.menus,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         token: json["token"],
+        roles: List<Module>.from(json["roles"].map((x) => Module.fromJson(x))),
+        modules:
+            List<Module>.from(json["modules"].map((x) => Module.fromJson(x))),
         menus: List<Menu>.from(json["menus"].map((x) => Menu.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "token": token,
+        "roles": List<dynamic>.from(roles.map((x) => x.toJson())),
+        "modules": List<dynamic>.from(modules.map((x) => x.toJson())),
         "menus": List<dynamic>.from(menus.map((x) => x.toJson())),
       };
 }
@@ -54,8 +67,8 @@ class Menu {
   DateTime createdAt;
   DateTime updatedAt;
   String name;
-  String url;
-  String? icon;
+  dynamic url;
+  String icon;
   dynamic activityName;
   bool isWeb;
   bool isMobile;
@@ -68,7 +81,6 @@ class Menu {
   dynamic parentClass;
   dynamic aclName;
   dynamic aclParam;
-  List<Menu>? children;
 
   Menu({
     required this.id,
@@ -90,7 +102,6 @@ class Menu {
     required this.parentClass,
     required this.aclName,
     required this.aclParam,
-    this.children,
   });
 
   factory Menu.fromJson(Map<String, dynamic> json) => Menu(
@@ -113,9 +124,6 @@ class Menu {
         parentClass: json["parentClass"],
         aclName: json["aclName"],
         aclParam: json["aclParam"],
-        children: json["children"] == null
-            ? []
-            : List<Menu>.from(json["children"]!.map((x) => Menu.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -138,8 +146,25 @@ class Menu {
         "parentClass": parentClass,
         "aclName": aclName,
         "aclParam": aclParam,
-        "children": children == null
-            ? []
-            : List<dynamic>.from(children!.map((x) => x.toJson())),
+      };
+}
+
+class Module {
+  String id;
+  String name;
+
+  Module({
+    required this.id,
+    required this.name,
+  });
+
+  factory Module.fromJson(Map<String, dynamic> json) => Module(
+        id: json["id"],
+        name: json["name"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
       };
 }

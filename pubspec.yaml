@@ -23,7 +23,7 @@ dev_dependencies:
 
 flutter: 
   assets: 
-    - assets/images/
-    - assets/icons/
+    - asset/images/
+    - asset/icons/
   uses-material-design: true
 

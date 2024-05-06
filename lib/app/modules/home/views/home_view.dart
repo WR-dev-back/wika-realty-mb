@@ -4,8 +4,10 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wr_project/app/model/body.dart';
+import 'package:wr_project/app/modules/login/controllers/login_controller.dart';
+
 import 'package:wr_project/app/widgets/custom_navigation_bar.dart';
-import 'package:wr_project/app/widgets/gridDashboard.dart';
 import '../../../controller/page_index_controller.dart';
 import '../../../style/app_color.dart';
 import '../controllers/home_controller.dart';
@@ -28,7 +30,7 @@ class HomeView extends GetView<HomeController> {
             ),
             Container(
               child: Image.asset(
-                'assets/images/Frame 52.png',
+                'asset/images/Frame 52.png',
                 fit: BoxFit.cover,
               ),
               height: 200,
@@ -48,9 +50,76 @@ class HomeView extends GetView<HomeController> {
               height: 20,
             ),
             Container(
-                padding: EdgeInsets.only(top: 220), child: GridDashboard()),
-            SizedBox(
-              height: 20,
+              padding: EdgeInsets.only(top: 180),
+              child: FutureBuilder<List<Menu>>(
+                future: LoginController.retrieveStoredData(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error: ${snapshot.error}'),
+                    );
+                  } else {
+                    final menuList = snapshot.data ?? [];
+                    return Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          mainAxisSpacing: 18,
+                          crossAxisSpacing: 18,
+                          childAspectRatio: 1.0,
+                        ),
+                        itemCount: menuList.length,
+                        itemBuilder: (context, index) {
+                          final menu = menuList[index];
+                          return Card(
+                            child: InkWell(
+                              onTap: () {
+                                // Handle onTap event for the menu item
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Container(
+                                    padding: EdgeInsets.only(top: 10),
+                                    child: Image.asset(menu.icon, width: 40),
+                                  ),
+                                  SizedBox(height: 4),
+                                  Text(
+                                    menu.name,
+                                    style: GoogleFonts.plusJakartaSans(
+                                      textStyle: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 4),
+                                  Text(
+                                    menu.name,
+                                    style: GoogleFonts.plusJakartaSans(
+                                      textStyle: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  }
+                },
+              ),
             ),
             Container(
                 padding: EdgeInsets.only(top: 450, left: 300),

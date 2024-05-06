@@ -41,11 +41,12 @@ class CustomBottomNavigationBar extends GetView<PageIndexController> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
+                                height: 25,
                                 margin: const EdgeInsets.only(bottom: 4),
                                 child: (controller.pageIndex.value == 0)
                                     ? SvgPicture.asset(
-                                        'assets/icons/home-active.svg')
-                                    : SvgPicture.asset('assets/icons/home.svg'),
+                                        'asset/icons/home-active.svg')
+                                    : SvgPicture.asset('asset/icons/home.svg'),
                               ),
                               Text(
                                 "Home",
@@ -68,12 +69,13 @@ class CustomBottomNavigationBar extends GetView<PageIndexController> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
+                                height: 25,
                                 margin: const EdgeInsets.only(bottom: 4),
                                 child: (controller.pageIndex.value == 2)
                                     ? SvgPicture.asset(
-                                        'assets/icons/people.svg')
+                                        'asset/icons/profile-1.svg')
                                     : SvgPicture.asset(
-                                        'assets/icons/profile-1.svg'),
+                                        'asset/icons/people.svg'),
                               ),
                               Text(
                                 "Profile",

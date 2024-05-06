@@ -13,22 +13,22 @@ class IntroscreenWidget extends StatelessWidget {
         PageViewModel(
           title: "Selamat Datang di aplikasi WeStay!",
           body: "Aplikasi yang memudahkan kamu",
-          image: Center(child: Image.asset('assets/images/intro1.png')),
+          image: Center(child: Image.asset('asset/images/intro1.png')),
         ),
         PageViewModel(
           title: "Cari Hotel Lebih Mudah ",
           body: "Kamu Bisa Menggunakan Fitur Dibawah ",
-          image: Center(child: Image.asset('assets/images/intro1.png')),
+          image: Center(child: Image.asset('asset/images/intro1.png')),
         ),
         PageViewModel(
           title: "Dapatkan Penawaran Murah ",
           body: "Manfaatkan berbgai penawaran ",
-          image: Center(child: Image.asset('assets/images/intro1.png')),
+          image: Center(child: Image.asset('asset/images/intro1.png')),
         ),
         PageViewModel(
           title: "Kumpulkan Point",
           body: "Kumpulkan point dari setiap transsaksi",
-          image: Center(child: Image.asset('assets/images/intro1.png')),
+          image: Center(child: Image.asset('asset/images/intro1.png')),
         ),
       ],
       onDone: () => controller.goToHome(),
