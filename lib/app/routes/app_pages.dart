@@ -1,7 +1,9 @@
 import 'package:get/get.dart';
 
-import '../modules/details/bindings/details_binding.dart';
-import '../modules/details/views/details_view.dart';
+import '../modules/approval/bindings/approval_binding.dart';
+import '../modules/approval/views/approval_view.dart';
+import '../modules/denda/bindings/denda_binding.dart';
+import '../modules/denda/views/denda_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
@@ -40,9 +42,14 @@ class AppPages {
       binding: ProfileBinding(),
     ),
     GetPage(
-      name: _Paths.DETAILS,
-      page: () => DetailsView(),
-      binding: DetailsBinding(),
+      name: _Paths.DENDA,
+      page: () => DendaView(),
+      binding: DendaBinding(),
+    ),
+    GetPage(
+      name: _Paths.APPROVAL,
+      page: () => const ApprovalView(),
+      binding: ApprovalBinding(),
     ),
   ];
 }
