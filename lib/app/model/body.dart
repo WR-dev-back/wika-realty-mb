@@ -34,8 +34,8 @@ class Body {
 
 class Data {
   String token;
-  List<Module> roles;
-  List<Module> modules;
+  List<Role> roles;
+  List<dynamic> modules;
   List<Menu> menus;
 
   Data({
@@ -47,16 +47,15 @@ class Data {
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         token: json["token"],
-        roles: List<Module>.from(json["roles"].map((x) => Module.fromJson(x))),
-        modules:
-            List<Module>.from(json["modules"].map((x) => Module.fromJson(x))),
+        roles: List<Role>.from(json["roles"].map((x) => Role.fromJson(x))),
+        modules: List<dynamic>.from(json["modules"].map((x) => x)),
         menus: List<Menu>.from(json["menus"].map((x) => Menu.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "token": token,
         "roles": List<dynamic>.from(roles.map((x) => x.toJson())),
-        "modules": List<dynamic>.from(modules.map((x) => x.toJson())),
+        "modules": List<dynamic>.from(modules.map((x) => x)),
         "menus": List<dynamic>.from(menus.map((x) => x.toJson())),
       };
 }
@@ -149,16 +148,16 @@ class Menu {
       };
 }
 
-class Module {
+class Role {
   String id;
   String name;
 
-  Module({
+  Role({
     required this.id,
     required this.name,
   });
 
-  factory Module.fromJson(Map<String, dynamic> json) => Module(
+  factory Role.fromJson(Map<String, dynamic> json) => Role(
         id: json["id"],
         name: json["name"],
       );

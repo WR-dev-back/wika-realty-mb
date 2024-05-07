@@ -177,11 +177,6 @@ class ProfileView extends GetView<ProfileController> {
                       onTap: () {},
                     ),
                     MenuTile(
-                      title: 'Akun Saya',
-                      icon: Icon(Icons.account_circle),
-                      onTap: () {},
-                    ),
-                    MenuTile(
                         title: 'Log Out',
                         icon: Icon(Icons.account_circle),
                         isDanger: true,
@@ -250,7 +245,7 @@ class MenuTile extends StatelessWidget {
             Container(
               margin: const EdgeInsets.only(left: 24),
               child: SvgPicture.asset(
-                'assets/icons/arrow-right.svg',
+                'asset/icons/arrow-right.svg',
                 color: (isDanger == false) ? AppColor.txt : AppColor.error,
               ),
             ),

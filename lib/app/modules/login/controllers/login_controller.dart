@@ -31,6 +31,34 @@ class LoginController extends GetxController {
       );
       return;
     }
+
+    if (!isValidEmail(emailC.text)) {
+      showDialog(
+        context: Get.context!,
+        builder: (context) {
+          return SimpleDialog(
+            title: Text('Perhatian'),
+            contentPadding: EdgeInsets.all(20),
+            children: [Text('Masukkan alamat email yang valid')],
+          );
+        },
+      );
+      return;
+    }
+
+    if (passC.text.length < 6) {
+      showDialog(
+        context: Get.context!,
+        builder: (context) {
+          return SimpleDialog(
+            title: Text('Perhatian'),
+            contentPadding: EdgeInsets.all(20),
+            children: [Text('Password harus terdiri dari minimal 6 karakter')],
+          );
+        },
+      );
+      return;
+    }
     var headers = {'Content-Type': 'application/json'};
     try {
       var url = Uri.parse(
@@ -40,23 +68,19 @@ class LoginController extends GetxController {
           await http.post(url, body: jsonEncode(body), headers: headers);
 
       if (response.statusCode == 201) {
-        // Parse the response body
         Map<String, dynamic> jsonData = jsonDecode(response.body);
-        print(response.body);
+
         var token = jsonData['data']['token'];
         final SharedPreferences tkne = await _prefs;
         await tkne.setString('token', token);
 
-        // Convert menu data to a list of Menu objects
         List<dynamic> menuJsonList = jsonData['data']['menus'];
         List<Menu> menuList =
             menuJsonList.map((e) => Menu.fromJson(e)).toList();
 
-        // Store the menu list using SharedPreferences
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString(_keyMenuList, jsonEncode(menuList));
 
-        // Navigate to the home screen
         Get.offAllNamed(Routes.HOME);
       } else {
         throw jsonDecode(response.body)["Message"] ?? "Unknown Error Occurred";
@@ -88,5 +112,9 @@ class LoginController extends GetxController {
     } else {
       return []; // Return empty list if no data is stored
     }
+  }
+
+  bool isValidEmail(String email) {
+    return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
   }
 }

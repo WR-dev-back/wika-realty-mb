@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -69,8 +69,8 @@ class HomeView extends GetView<HomeController> {
                       child: GridView.builder(
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
-                          mainAxisSpacing: 18,
-                          crossAxisSpacing: 18,
+                          mainAxisSpacing: 5,
+                          crossAxisSpacing: 5,
                           childAspectRatio: 1.0,
                         ),
                         itemCount: menuList.length,
@@ -79,7 +79,9 @@ class HomeView extends GetView<HomeController> {
                           return Card(
                             child: InkWell(
                               onTap: () {
-                                // Handle onTap event for the menu item
+                                String routeName =
+                                    '/${menu.name.toLowerCase()}';
+                                Get.toNamed(routeName, arguments: menu);
                               },
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
