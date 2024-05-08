@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:wr_project/app/widgets/custom_navigation_bar.dart';
 
@@ -100,27 +101,42 @@ class ProfileView extends GetView<ProfileController> {
                                     ),
                                   ),
                                   Container(
-                                      padding: EdgeInsets.only(
-                                        left: 20,
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Costumer WeStay",
-                                            style: TextStyle(fontSize: 20),
+                                    padding: EdgeInsets.only(
+                                      left: 20,
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Text(
+                                          "Costumer WeStay",
+                                          style: GoogleFonts.plusJakartaSans(
+                                            textStyle: TextStyle(
+                                              fontSize: 20,
+                                            ),
                                           ),
-                                          Text(
-                                            "Costumer@WeStay.com",
-                                            style: TextStyle(fontSize: 14),
+                                        ),
+                                        Text(
+                                          "Costumer@WeStay.com",
+                                          style: GoogleFonts.plusJakartaSans(
+                                            textStyle: TextStyle(
+                                              fontSize: 14,
+                                            ),
                                           ),
-                                          Text(
-                                            "085608783675",
-                                            style: TextStyle(fontSize: 14),
+                                        ),
+                                        Text(
+                                          "085608783675",
+                                          style: GoogleFonts.plusJakartaSans(
+                                            textStyle: TextStyle(
+                                              fontSize: 14,
+                                            ),
                                           ),
-                                        ],
-                                      )),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -139,7 +155,11 @@ class ProfileView extends GetView<ProfileController> {
                                 ),
                                 child: Text(
                                   'Lihat Detail',
-                                  style: TextStyle(color: AppColor.primary),
+                                  style: GoogleFonts.plusJakartaSans(
+                                    textStyle: TextStyle(
+                                      fontSize: 18,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
@@ -148,12 +168,19 @@ class ProfileView extends GetView<ProfileController> {
                   ],
                 ),
               ),
+              SizedBox(
+                height: 20,
+              ),
               Container(
                 width: MediaQuery.of(context).size.width,
                 margin: EdgeInsets.only(top: 10, left: 20),
                 child: Text(
                   "Pengaturan Akun",
-                  style: TextStyle(fontSize: 20),
+                  style: GoogleFonts.plusJakartaSans(
+                    textStyle: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
                 ),
               ),
               Container(
@@ -236,8 +263,10 @@ class MenuTile extends StatelessWidget {
             Expanded(
               child: Text(
                 title,
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
+                style: GoogleFonts.plusJakartaSans(
+                  textStyle: TextStyle(
+                    fontSize: 18,
+                  ),
                   color: (isDanger == false) ? AppColor.txt : AppColor.error,
                 ),
               ),

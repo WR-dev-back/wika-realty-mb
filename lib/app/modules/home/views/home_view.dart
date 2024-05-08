@@ -108,10 +108,12 @@ class HomeView extends GetView<HomeController> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: <Widget>[
-                                      Container(
-                                        padding: EdgeInsets.only(top: 10),
-                                        child:
-                                            Image.asset(menu.icon, width: 60),
+                                      Center(
+                                        child: Container(
+                                          padding: EdgeInsets.only(top: 20),
+                                          child:
+                                              Image.asset(menu.icon, width: 40),
+                                        ),
                                       ),
                                       SizedBox(height: 5),
                                       Text(
