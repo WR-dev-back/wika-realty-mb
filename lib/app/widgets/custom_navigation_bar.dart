@@ -48,12 +48,22 @@ class CustomBottomNavigationBar extends GetView<PageIndexController> {
                                         'asset/icons/home-active.svg')
                                     : SvgPicture.asset('asset/icons/home.svg'),
                               ),
-                              Text(
-                                "Home",
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  color: AppColor.primary,
-                                ),
+                              Container(
+                                child: (controller.pageIndex.value == 0)
+                                    ? Text(
+                                        "Home",
+                                        style: TextStyle(
+                                          fontSize: 10,
+                                          color: AppColor.primary,
+                                        ),
+                                      )
+                                    : Text(
+                                        "Home",
+                                        style: TextStyle(
+                                          fontSize: 10,
+                                          color: Colors.black,
+                                        ),
+                                      ),
                               ),
                             ],
                           ),
@@ -77,12 +87,22 @@ class CustomBottomNavigationBar extends GetView<PageIndexController> {
                                     : SvgPicture.asset(
                                         'asset/icons/people.svg'),
                               ),
-                              Text(
-                                "Profile",
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  color: AppColor.primary,
-                                ),
+                              Container(
+                                child: (controller.pageIndex.value == 2)
+                                    ? Text(
+                                        "Profile",
+                                        style: TextStyle(
+                                          fontSize: 10,
+                                          color: AppColor.primary,
+                                        ),
+                                      )
+                                    : Text(
+                                        "Profile",
+                                        style: TextStyle(
+                                          fontSize: 10,
+                                          color: Colors.black,
+                                        ),
+                                      ),
                               ),
                             ],
                           ),

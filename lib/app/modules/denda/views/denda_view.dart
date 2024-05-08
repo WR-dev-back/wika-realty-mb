@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:wr_project/app/style/app_color.dart';
 
 import '../controllers/denda_controller.dart';
 
@@ -29,43 +31,66 @@ class DendaView extends GetView<DendaController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('List Denda'),
+        backgroundColor: AppColor.primary,
+        title: Text(
+          "Menu",
+          style: GoogleFonts.plusJakartaSans(
+            textStyle: TextStyle(
+              fontSize: 20,
+            ),
+          ),
+        ),
         centerTitle: true,
       ),
       body: RefreshIndicator(
         onRefresh: controller.refreshData,
-        child: ListView.builder(
-          itemCount: dendaList.length,
-          itemBuilder: (BuildContext context, int index) {
-            Denda denda = dendaList[index];
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-              child: Container(
-                decoration: ShapeDecoration(
-                  shape: RoundedRectangleBorder(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: ListView.builder(
+            itemCount: dendaList.length,
+            itemBuilder: (BuildContext context, int index) {
+              Denda denda = dendaList[index];
+              return Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black, width: 1),
                     borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
                   ),
-                  color: Colors.grey,
-                  shadows: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 1,
-                      blurRadius: 3,
-                      offset: Offset(0, 3),
+                  child: ListTile(
+                    title: Text(
+                      denda.name,
+                      style: GoogleFonts.plusJakartaSans(
+                        textStyle: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
                     ),
-                  ],
+                    subtitle: Text(
+                      denda.description,
+                      style: GoogleFonts.plusJakartaSans(
+                        textStyle: TextStyle(
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                    trailing: Text(
+                      'Rp.${denda.amount}',
+                      style: GoogleFonts.plusJakartaSans(
+                        textStyle: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    onTap: () {
+                      print('Tapped on ${denda.name}');
+                    },
+                  ),
                 ),
-                child: ListTile(
-                  title: Text(denda.name),
-                  subtitle: Text(denda.description),
-                  trailing: Text('Rp.${denda.amount}'),
-                  onTap: () {
-                    print('Tapped on ${denda.name}');
-                  },
-                ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );

@@ -22,6 +22,7 @@ class LoginView extends GetView<LoginController> {
         ),
       ),
       body: ListView(
+        physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         children: [
           Container(
@@ -29,8 +30,8 @@ class LoginView extends GetView<LoginController> {
             height: MediaQuery.of(context).size.height * 65 / 100,
             width: MediaQuery.of(context).size.width,
             color: Colors.white,
-            padding:
-                const EdgeInsets.only(left: 20, right: 20, top: 36, bottom: 10),
+            padding: const EdgeInsets.only(
+                left: 20, right: 20, top: 100, bottom: 10),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,7 +120,7 @@ class LoginView extends GetView<LoginController> {
                           hintText: "*************",
                           suffixIcon: IconButton(
                             icon: (controller.obsecureText != false)
-                                ? SvgPicture.asset('assets/icons/show.svg')
+                                ? SvgPicture.asset('asset/icons/show.svg')
                                 : SvgPicture.asset('assets/icons/hide.svg'),
                             onPressed: () {
                               controller.obsecureText.value =
