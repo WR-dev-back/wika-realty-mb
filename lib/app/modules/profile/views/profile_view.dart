@@ -32,186 +32,186 @@ class ProfileView extends GetView<ProfileController> {
           ListView(
             physics: const BouncingScrollPhysics(),
             children: [
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.only(bottom: 20),
-                      child: SizedBox(
-                        width: 90,
-                        height: 28,
-                        child: Image.asset(
-                          'asset/images/logo.png',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    Spacer(),
-                    Row(
-                      children: [
-                        IconButton(
-                          onPressed: () {},
-                          padding: EdgeInsets.only(bottom: 20),
-                          icon: Icon(Icons.message),
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          padding: EdgeInsets.only(bottom: 20),
-                          icon: Icon(Icons.notifications),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.only(
-                          left: 24, top: 24, right: 24, bottom: 16),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(18),
-                      ),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              padding: EdgeInsets.only(bottom: 20),
-                              child: Row(
-                                children: [
-                                  ClipOval(
-                                    child: SizedBox(
-                                      width: 56,
-                                      height: 56,
-                                      child: Image.asset(
-                                        'asset/images/Rectangle.png',
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.only(
-                                      left: 20,
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Text(
-                                          "Costumer WeStay",
-                                          style: GoogleFonts.plusJakartaSans(
-                                            textStyle: TextStyle(
-                                              fontSize: 20,
-                                            ),
-                                          ),
-                                        ),
-                                        Text(
-                                          "Costumer@WeStay.com",
-                                          style: GoogleFonts.plusJakartaSans(
-                                            textStyle: TextStyle(
-                                              fontSize: 14,
-                                            ),
-                                          ),
-                                        ),
-                                        Text(
-                                          "085608783675",
-                                          style: GoogleFonts.plusJakartaSans(
-                                            textStyle: TextStyle(
-                                              fontSize: 14,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width,
-                              child: ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 15),
-                                  backgroundColor: AppColor.pcolor,
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                ),
-                                child: Text(
-                                  'Lihat Detail',
-                                  style: GoogleFonts.plusJakartaSans(
-                                    textStyle: TextStyle(
-                                      fontSize: 18,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ]),
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
-                  "Pengaturan Akun",
-                  style: GoogleFonts.plusJakartaSans(
-                    textStyle: TextStyle(
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                margin: const EdgeInsets.only(top: 10),
-                child: Column(
-                  children: [
-                    MenuTile(
-                      title: 'Akun Saya',
-                      icon: Icon(Icons.account_circle),
-                      onTap: () {},
-                    ),
-                    MenuTile(
-                      title: 'Keamanan Akun',
-                      icon: Icon(Icons.lock),
-                      onTap: () {},
-                    ),
-                    MenuTile(
-                      title: 'Bahasa',
-                      icon: Icon(Icons.lock_open_outlined),
-                      onTap: () {},
-                    ),
-                    MenuTile(
-                        title: 'Log Out',
-                        icon: Icon(Icons.account_circle),
-                        isDanger: true,
-                        onTap: controller.deleteToken),
-                  ],
-                ),
-              )
+              _buildHeader(context),
+              _buildProfileSection(context),
+              const SizedBox(height: 10),
+              _buildAccountSettingsTitle(context),
+              _buildMenuOptions(context),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHeader(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          _buildLogo(),
+          const Spacer(),
+          _buildActionIcons(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLogo() {
+    return Container(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: SizedBox(
+        width: 90,
+        height: 28,
+        child: Image.asset(
+          'asset/images/logo.png',
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildActionIcons() {
+    return Row(
+      children: [
+        IconButton(
+          onPressed: () {},
+          padding: const EdgeInsets.only(bottom: 20),
+          icon: const Icon(Icons.message),
+        ),
+        IconButton(
+          onPressed: () {},
+          padding: const EdgeInsets.only(bottom: 20),
+          icon: const Icon(Icons.notifications),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildProfileSection(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width,
+            padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(18),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildProfileInfo(),
+                _buildDetailButton(context),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildProfileInfo() {
+    return Container(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: Row(
+        children: [
+          ClipOval(
+            child: SizedBox(
+              width: 56,
+              height: 56,
+              child: Image.asset(
+                'asset/images/Rectangle.png',
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          const SizedBox(width: 20),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                "Costumer WeStay",
+                style: GoogleFonts.plusJakartaSans(fontSize: 20),
+              ),
+              Text(
+                "Costumer@WeStay.com",
+                style: GoogleFonts.plusJakartaSans(fontSize: 14),
+              ),
+              Text(
+                "085608783675",
+                style: GoogleFonts.plusJakartaSans(fontSize: 14),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDetailButton(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      child: ElevatedButton(
+        onPressed: () {},
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 15),
+          backgroundColor: AppColor.pcolor,
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+        child: Text(
+          'Lihat Detail',
+          style: GoogleFonts.plusJakartaSans(fontSize: 18),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAccountSettingsTitle(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      margin: const EdgeInsets.only(top: 10, left: 20),
+      child: Text(
+        "Pengaturan Akun",
+        style: GoogleFonts.plusJakartaSans(fontSize: 20),
+      ),
+    );
+  }
+
+  Widget _buildMenuOptions(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      margin: const EdgeInsets.only(top: 10),
+      child: Column(
+        children: [
+          MenuTile(
+            title: 'Akun Saya',
+            icon: const Icon(Icons.account_circle),
+            onTap: () {},
+          ),
+          MenuTile(
+            title: 'Keamanan Akun',
+            icon: const Icon(Icons.lock),
+            onTap: () {},
+          ),
+          MenuTile(
+            title: 'Bahasa',
+            icon: const Icon(Icons.lock_open_outlined),
+            onTap: () {},
+          ),
+          MenuTile(
+            title: 'Log Out',
+            icon: const Icon(Icons.account_circle),
+            isDanger: true,
+            onTap: controller.deleteToken,
           ),
         ],
       ),

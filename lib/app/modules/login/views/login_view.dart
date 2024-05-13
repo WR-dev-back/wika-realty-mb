@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:wr_project/app/style/app_color.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../controllers/login_controller.dart';
 
@@ -38,22 +39,20 @@ class LoginView extends GetView<LoginController> {
               children: [
                 Container(
                   margin: const EdgeInsets.only(bottom: 10),
-                  child: const Text(
+                  child: Text(
                     'Masuk Akun',
-                    style: TextStyle(
+                    style: GoogleFonts.plusJakartaSans(
                       fontSize: 25,
-                      fontFamily: 'poppins',
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
                 Container(
                   margin: const EdgeInsets.only(bottom: 10),
-                  child: const Text(
+                  child: Text(
                     'Lengkapi data dibawah untuk masuk ke akunmu yang sudah terdaftar di We Stay.',
-                    style: TextStyle(
+                    style: GoogleFonts.plusJakartaSans(
                       fontSize: 16,
-                      fontFamily: 'poppins',
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -61,31 +60,27 @@ class LoginView extends GetView<LoginController> {
                 Container(
                   key: Key('emailContainer'),
                   width: MediaQuery.of(context).size.width,
-                  padding: const EdgeInsets.only(left: 14, right: 14, top: 4),
+                  padding: const EdgeInsets.only(top: 4),
                   margin: const EdgeInsets.only(bottom: 10),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(width: 1, color: Colors.grey),
-                  ),
                   child: TextFormField(
-                    style: const TextStyle(fontSize: 14, fontFamily: 'poppins'),
+                    style: GoogleFonts.plusJakartaSans(
+                      fontSize: 14,
+                    ),
                     maxLines: 1,
                     controller: controller.emailC,
                     decoration: InputDecoration(
                       label: Text(
                         "Email",
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14,
+                        style: GoogleFonts.plusJakartaSans(
+                          color: Colors.black,
+                          fontSize: 16,
                         ),
                       ),
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      border: InputBorder.none,
+                      floatingLabelBehavior: FloatingLabelBehavior.auto,
+                      border: OutlineInputBorder(),
                       hintText: "youremail@email.com",
-                      hintStyle: TextStyle(
+                      hintStyle: GoogleFonts.plusJakartaSans(
                         fontSize: 14,
-                        fontFamily: 'poppins',
                         fontWeight: FontWeight.w500,
                         color: Colors.grey,
                       ),
@@ -95,28 +90,25 @@ class LoginView extends GetView<LoginController> {
                 Material(
                   child: Container(
                     width: MediaQuery.of(context).size.width,
-                    padding: const EdgeInsets.only(left: 14, right: 14, top: 4),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(width: 1, color: Colors.grey),
-                    ),
+                    padding: const EdgeInsets.only(top: 4),
                     child: Obx(
                       () => TextField(
-                        style: const TextStyle(
-                            fontSize: 14, fontFamily: 'poppins'),
+                        style: GoogleFonts.plusJakartaSans(
+                          fontSize: 14,
+                        ),
                         maxLines: 1,
                         controller: controller.passC,
                         obscureText: controller.obsecureText.value,
                         decoration: InputDecoration(
                           label: Text(
                             "Password",
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 14,
+                            style: GoogleFonts.plusJakartaSans(
+                              color: Colors.black,
+                              fontSize: 16,
                             ),
                           ),
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                          border: InputBorder.none,
+                          floatingLabelBehavior: FloatingLabelBehavior.auto,
+                          border: OutlineInputBorder(),
                           hintText: "*************",
                           suffixIcon: IconButton(
                             icon: (controller.obsecureText != false)
@@ -127,9 +119,8 @@ class LoginView extends GetView<LoginController> {
                                   !(controller.obsecureText.value);
                             },
                           ),
-                          hintStyle: TextStyle(
+                          hintStyle: GoogleFonts.plusJakartaSans(
                             fontSize: 14,
-                            fontFamily: 'poppins',
                             fontWeight: FontWeight.w500,
                             color: Colors.grey,
                           ),
@@ -144,7 +135,7 @@ class LoginView extends GetView<LoginController> {
                     style: TextButton.styleFrom(
                       foregroundColor: Colors.blue,
                     ),
-                    child: const Text("Lupa password?"),
+                    child: Text("Lupa password?"),
                   ),
                 ),
                 Obx(
@@ -166,9 +157,8 @@ class LoginView extends GetView<LoginController> {
                         (controller.isLoading.isFalse)
                             ? 'Log in'
                             : 'Loading...',
-                        style: const TextStyle(
+                        style: GoogleFonts.plusJakartaSans(
                             fontSize: 16,
-                            fontFamily: 'poppins',
                             fontWeight: FontWeight.w500,
                             color: Colors.black),
                       ),
@@ -179,6 +169,7 @@ class LoginView extends GetView<LoginController> {
             ),
           ),
           Container(
+            padding: EdgeInsets.only(top: 10),
             key: Key('bottomImageContainer'),
             alignment: Alignment.bottomCenter,
             child: Image.asset(

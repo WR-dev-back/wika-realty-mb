@@ -6,12 +6,12 @@ import 'app/routes/app_pages.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final prefs = await SharedPreferences.getInstance();
-  final token = prefs.getString('token');
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  final String? token = prefs.getString('token');
   Get.put(PageIndexController(), permanent: true);
   runApp(
     GetMaterialApp(
-      title: "Application",
+      title: "WR Project",
       debugShowCheckedModeBanner: false,
       initialRoute: token != null ? Routes.HOME : AppPages.INITIAL,
       getPages: AppPages.routes,

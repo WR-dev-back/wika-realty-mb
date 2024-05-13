@@ -33,11 +33,9 @@ class DendaView extends GetView<DendaController> {
       appBar: AppBar(
         backgroundColor: AppColor.primary,
         title: Text(
-          "Menu",
+          "Denda",
           style: GoogleFonts.plusJakartaSans(
-            textStyle: TextStyle(
-              fontSize: 20,
-            ),
+            fontSize: 20,
           ),
         ),
         centerTitle: true,
@@ -62,17 +60,13 @@ class DendaView extends GetView<DendaController> {
                     title: Text(
                       denda.name,
                       style: GoogleFonts.plusJakartaSans(
-                        textStyle: TextStyle(
-                          fontSize: 20,
-                        ),
+                        fontSize: 20,
                       ),
                     ),
                     subtitle: Text(
                       denda.description,
                       style: GoogleFonts.plusJakartaSans(
-                        textStyle: TextStyle(
-                          fontSize: 14,
-                        ),
+                        fontSize: 14,
                       ),
                     ),
                     trailing: Text(
