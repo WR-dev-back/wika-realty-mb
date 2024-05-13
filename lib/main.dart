@@ -15,7 +15,9 @@ Future<void> main() async {
       debugShowCheckedModeBanner: false,
       initialRoute: token != null ? Routes.HOME : AppPages.INITIAL,
       getPages: AppPages.routes,
-      theme: ThemeData(useMaterial3: true),
+      theme: ThemeData(
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          useMaterial3: true),
     ),
   );
 }

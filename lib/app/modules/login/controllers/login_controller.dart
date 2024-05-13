@@ -17,6 +17,30 @@ class LoginController extends GetxController {
   static const _keyMenuList = 'menuList';
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
+  var isFormValid = false.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    // Listen to changes in email and password fields
+    emailC.addListener(updateFormValidity);
+    passC.addListener(updateFormValidity);
+  }
+
+  @override
+  void onClose() {
+    // Dispose listeners when controller is closed
+    emailC.removeListener(updateFormValidity);
+    passC.removeListener(updateFormValidity);
+    super.onClose();
+  }
+
+  void updateFormValidity() {
+    // Update isFormValid based on the validity of email and password fields
+    bool isValid = emailC.text.isNotEmpty && passC.text.isNotEmpty;
+    isFormValid.value = isValid;
+  }
+
   Future<void> login() async {
     if (emailC.text.isEmpty || passC.text.isEmpty) {
       showDialog(
