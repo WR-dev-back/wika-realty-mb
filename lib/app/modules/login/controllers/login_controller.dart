@@ -116,7 +116,7 @@ class LoginController extends GetxController {
           return SimpleDialog(
             title: Text('Error'),
             contentPadding: EdgeInsets.all(20),
-            children: [Text(error.toString())],
+            children: [Text("Wrong Email And Password")],
           );
         },
       );

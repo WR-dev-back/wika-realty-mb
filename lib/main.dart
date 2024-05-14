@@ -16,8 +16,9 @@ Future<void> main() async {
       initialRoute: token != null ? Routes.HOME : AppPages.INITIAL,
       getPages: AppPages.routes,
       theme: ThemeData(
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          useMaterial3: true),
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        useMaterial3: true,
+      ),
     ),
   );
 }

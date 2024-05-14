@@ -11,6 +11,6 @@ class ProfileController extends GetxController {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.clear();
     // Navigate to login screen
-    Get.toNamed(Routes.LOGIN);
+    Get.offAllNamed(Routes.LOGIN);
   }
 }

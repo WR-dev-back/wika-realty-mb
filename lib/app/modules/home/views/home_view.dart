@@ -145,23 +145,26 @@ class HomeView extends GetView<HomeController> {
                     color: Colors.grey[300],
                   ),
                   Expanded(
-                    child: Container(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                      ),
                       child: ListView(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(left: 20),
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Text(
                               "Menu",
                               style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 18,
+                                fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height,
+                            height: MediaQuery.of(context).size.height / 4,
                             margin: EdgeInsets.only(top: 10),
                             child: Column(
                               children: [
@@ -173,11 +176,13 @@ class HomeView extends GetView<HomeController> {
                                       if (snapshot.connectionState ==
                                           ConnectionState.waiting) {
                                         return const Center(
-                                            child: CircularProgressIndicator());
+                                          child: CircularProgressIndicator(),
+                                        );
                                       } else if (snapshot.hasError) {
                                         return Center(
-                                            child: Text(
-                                                'Error: ${snapshot.error}'));
+                                          child:
+                                              Text('Error: ${snapshot.error}'),
+                                        );
                                       } else {
                                         final List<Menu> menuList =
                                             snapshot.data ?? [];
@@ -187,8 +192,8 @@ class HomeView extends GetView<HomeController> {
                                           gridDelegate:
                                               const SliverGridDelegateWithFixedCrossAxisCount(
                                             crossAxisCount: 4,
-                                            mainAxisSpacing: 2,
-                                            crossAxisSpacing: 2,
+                                            mainAxisSpacing: 4,
+                                            crossAxisSpacing: 4,
                                             childAspectRatio: 1,
                                           ),
                                           itemCount: menuList.length,
@@ -234,6 +239,91 @@ class HomeView extends GetView<HomeController> {
                               ],
                             ),
                           ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Pembayaran Terbaru",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () {},
+                                  child: Text(
+                                    "Lihat Semua",
+                                    style: TextStyle(
+                                      color: Colors.blue,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 20),
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(right: 20),
+                                    width: Get.width * 0.7,
+                                    height: 100,
+                                    decoration: BoxDecoration(
+                                      color: Colors.amber,
+                                      borderRadius: BorderRadius.circular(20),
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                          "asset/images/Frame 52.png",
+                                        ),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(right: 20),
+                                    width: Get.width * 0.7,
+                                    height: 100,
+                                    decoration: BoxDecoration(
+                                      color: Colors.amber,
+                                      borderRadius: BorderRadius.circular(20),
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                          "asset/images/Frame 52.png",
+                                        ),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(right: 20),
+                                    width: Get.width * 0.7,
+                                    height: 100,
+                                    decoration: BoxDecoration(
+                                      color: Colors.amber,
+                                      borderRadius: BorderRadius.circular(20),
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                          "asset/images/Frame 52.png",
+                                        ),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 100,
+                          )
                         ],
                       ),
                     ),
