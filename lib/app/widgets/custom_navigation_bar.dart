@@ -10,7 +10,7 @@ class CustomBottomNavigationBar extends GetView<PageIndexController> {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
-      elevation: 10,
+      elevation: 1,
       shape: const CircularNotchedRectangle(),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -24,7 +24,7 @@ class CustomBottomNavigationBar extends GetView<PageIndexController> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      height: 25,
+                      height: 35,
                       margin: const EdgeInsets.only(bottom: 4),
                       child: (controller.pageIndex.value == 0)
                           ? SvgPicture.asset('asset/icons/home-active.svg')
@@ -35,14 +35,14 @@ class CustomBottomNavigationBar extends GetView<PageIndexController> {
                           ? Text(
                               "Home",
                               style: TextStyle(
-                                fontSize: 10,
+                                fontSize: 12,
                                 color: AppColor.primary,
                               ),
                             )
                           : Text(
                               "Home",
                               style: TextStyle(
-                                fontSize: 10,
+                                fontSize: 12,
                                 color: Colors.black,
                               ),
                             ),
@@ -61,7 +61,7 @@ class CustomBottomNavigationBar extends GetView<PageIndexController> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      height: 25,
+                      height: 35,
                       margin: const EdgeInsets.only(bottom: 4),
                       child: (controller.pageIndex.value == 2)
                           ? SvgPicture.asset('asset/icons/profile-1.svg')
@@ -72,14 +72,14 @@ class CustomBottomNavigationBar extends GetView<PageIndexController> {
                           ? Text(
                               "Profile",
                               style: TextStyle(
-                                fontSize: 10,
+                                fontSize: 12,
                                 color: AppColor.primary,
                               ),
                             )
                           : Text(
                               "Profile",
                               style: TextStyle(
-                                fontSize: 10,
+                                fontSize: 12,
                                 color: Colors.black,
                               ),
                             ),
