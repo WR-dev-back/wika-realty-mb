@@ -71,9 +71,7 @@ class LeadsView extends GetView<LeadsController> {
                         itemBuilder: (BuildContext context, int index) {
                           return ListTile(
                             title: Text(items1[index]),
-                            onTap: () {
-                              // Do something when the item is tapped
-                            },
+                            onTap: () {},
                           );
                         },
                       ),
