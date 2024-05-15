@@ -10,6 +10,8 @@ abstract class Routes {
   static const DETAILS = _Paths.DETAILS;
   static const DENDA = _Paths.DENDA;
   static const APPROVAL = _Paths.APPROVAL;
+  static const LEADS = _Paths.LEADS;
+  static const INPUT_LEADS = _Paths.INPUT_LEADS;
 }
 
 abstract class _Paths {
@@ -21,4 +23,6 @@ abstract class _Paths {
   static const DETAILS = '/details';
   static const DENDA = '/denda';
   static const APPROVAL = '/approval';
+  static const LEADS = '/leads';
+  static const INPUT_LEADS = '/input-leads';
 }

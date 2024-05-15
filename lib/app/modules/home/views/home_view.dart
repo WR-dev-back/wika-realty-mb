@@ -1,11 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:wr_project/app/model/body.dart';
 import 'package:wr_project/app/modules/login/controllers/login_controller.dart';
+import 'package:wr_project/app/routes/app_pages.dart';
 import 'package:wr_project/app/widgets/custom_navigation_bar.dart';
 import '../../../controller/page_index_controller.dart';
 import '../../../style/app_color.dart';
@@ -164,7 +163,7 @@ class HomeView extends GetView<HomeController> {
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height / 4,
+                            height: MediaQuery.of(context).size.height / 6,
                             margin: EdgeInsets.only(top: 10),
                             child: Column(
                               children: [
@@ -238,6 +237,52 @@ class HomeView extends GetView<HomeController> {
                                 ),
                               ],
                             ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 20,
+                            ),
+                            child: Row(
+                              children: [
+                                Row(
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            color: Color(0xFFDBEDFF),
+                                            borderRadius: BorderRadius.circular(
+                                              180,
+                                            ),
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                child: IconButton(
+                                                  onPressed: () =>
+                                                      Get.toNamed(Routes.LEADS),
+                                                  icon: Icon(
+                                                    Icons.leaderboard,
+                                                    color: Colors.blue,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text("Leads")
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),

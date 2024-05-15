@@ -6,6 +6,8 @@ import '../modules/denda/bindings/denda_binding.dart';
 import '../modules/denda/views/denda_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
+import '../modules/leads/bindings/leads_binding.dart';
+import '../modules/leads/views/leads_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
@@ -50,6 +52,11 @@ class AppPages {
       name: _Paths.APPROVAL,
       page: () => const ApprovalView(),
       binding: ApprovalBinding(),
+    ),
+    GetPage(
+      name: _Paths.LEADS,
+      page: () => LeadsView(),
+      binding: LeadsBinding(),
     ),
   ];
 }
