@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,24 +9,6 @@ import '../controllers/leads_controller.dart';
 
 class LeadsView extends GetView<LeadsController> {
   LeadsView({Key? key}) : super(key: key);
-
-  final List<Leads> leadslist = [
-    Leads(
-      name: "Pak Didik",
-      description: "L00000005648",
-      amount: "08566545456",
-    ),
-    Leads(
-      name: "Kevin",
-      description: "L00000005678",
-      amount: "08164864848",
-    ),
-    Leads(
-      name: "Dawam",
-      description: "L00000005789",
-      amount: "085608783675",
-    ),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -64,59 +47,71 @@ class LeadsView extends GetView<LeadsController> {
             Expanded(
               child: TabBarView(
                 children: [
-                  RefreshIndicator(
-                    onRefresh: controller.refreshData,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Container(
-                      margin: EdgeInsets.symmetric(
-                        horizontal: 20,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          top: 20,
-                        ),
-                        child: ListView.builder(
-                          itemCount: leadslist.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            Leads leads = leadslist[index];
-                            return Padding(
-                              padding: EdgeInsets.symmetric(
-                                vertical: 8,
-                              ),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border:
-                                      Border.all(color: Colors.black, width: 1),
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.white,
-                                ),
-                                child: ListTile(
-                                  title: Text(
-                                    leads.name,
-                                    style: GoogleFonts.plusJakartaSans(
-                                      fontSize: 20,
+                      child: Column(
+                        children: [
+                          TextField(
+                            decoration: InputDecoration(
+                              labelText: 'Search Leads',
+                              prefixIcon: Icon(Icons.search),
+                            ),
+                            onChanged: (value) {
+                              controller.searchLeads(value);
+                            },
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Expanded(
+                            child: Obx(
+                              () => ListView.builder(
+                                itemCount: controller.leads.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 8,
                                     ),
-                                  ),
-                                  subtitle: Text(
-                                    leads.description,
-                                    style: GoogleFonts.plusJakartaSans(
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                  trailing: Text(
-                                    leads.amount,
-                                    style: GoogleFonts.plusJakartaSans(
-                                      textStyle: TextStyle(
-                                        fontSize: 14,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Colors.black, width: 1),
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Colors.white,
+                                      ),
+                                      child: ListTile(
+                                        title: Text(
+                                          controller.leads[index].name,
+                                          style: GoogleFonts.plusJakartaSans(
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                        subtitle: Text(
+                                          controller.leads[index].description,
+                                          style: GoogleFonts.plusJakartaSans(
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                        trailing: Text(
+                                          controller.leads[index].amount,
+                                          style: GoogleFonts.plusJakartaSans(
+                                            textStyle: TextStyle(
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ),
+                                        onTap: () => Get.toNamed(
+                                            Routes.DETAIL_LEADS,
+                                            arguments: controller.leads[index]),
                                       ),
                                     ),
-                                  ),
-                                  onTap: () => Get.toNamed(Routes.DETAIL_LEADS,
-                                      arguments: leads),
-                                ),
+                                  );
+                                },
                               ),
-                            );
-                          },
-                        ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
