@@ -4,6 +4,8 @@ import '../modules/approval/bindings/approval_binding.dart';
 import '../modules/approval/views/approval_view.dart';
 import '../modules/denda/bindings/denda_binding.dart';
 import '../modules/denda/views/denda_view.dart';
+import '../modules/detail_leads/bindings/detail_leads_binding.dart';
+import '../modules/detail_leads/views/detail_leads_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/leads/bindings/leads_binding.dart';
@@ -57,6 +59,11 @@ class AppPages {
       name: _Paths.LEADS,
       page: () => LeadsView(),
       binding: LeadsBinding(),
+    ),
+    GetPage(
+      name: _Paths.DETAIL_LEADS,
+      page: () => DetailLeadsView(),
+      binding: DetailLeadsBinding(),
     ),
   ];
 }

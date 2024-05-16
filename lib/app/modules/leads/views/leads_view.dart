@@ -1,19 +1,31 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:wr_project/app/routes/app_pages.dart';
 import 'package:wr_project/app/style/app_color.dart';
 import '../controllers/leads_controller.dart';
 
 class LeadsView extends GetView<LeadsController> {
   LeadsView({Key? key}) : super(key: key);
 
-  final List<String> items1 = List.generate(
-    20,
-    (index) => "Item $index",
-  );
+  final List<Leads> leadslist = [
+    Leads(
+      name: "Pak Didik",
+      description: "L00000005648",
+      amount: "08566545456",
+    ),
+    Leads(
+      name: "Kevin",
+      description: "L00000005678",
+      amount: "08164864848",
+    ),
+    Leads(
+      name: "Dawam",
+      description: "L00000005789",
+      amount: "085608783675",
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -52,28 +64,59 @@ class LeadsView extends GetView<LeadsController> {
             Expanded(
               child: TabBarView(
                 children: [
-                  Container(
-                    margin: EdgeInsets.symmetric(
-                      horizontal: 20,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        top: 20,
+                  RefreshIndicator(
+                    onRefresh: controller.refreshData,
+                    child: Container(
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 20,
                       ),
-                      child: ListView.separated(
-                        itemCount: items1.length,
-                        separatorBuilder: (BuildContext context, int index) {
-                          return Divider(
-                            color: Colors.grey,
-                            thickness: 1.0,
-                          );
-                        },
-                        itemBuilder: (BuildContext context, int index) {
-                          return ListTile(
-                            title: Text(items1[index]),
-                            onTap: () {},
-                          );
-                        },
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          top: 20,
+                        ),
+                        child: ListView.builder(
+                          itemCount: leadslist.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            Leads leads = leadslist[index];
+                            return Padding(
+                              padding: EdgeInsets.symmetric(
+                                vertical: 8,
+                              ),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border:
+                                      Border.all(color: Colors.black, width: 1),
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.white,
+                                ),
+                                child: ListTile(
+                                  title: Text(
+                                    leads.name,
+                                    style: GoogleFonts.plusJakartaSans(
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    leads.description,
+                                    style: GoogleFonts.plusJakartaSans(
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  trailing: Text(
+                                    leads.amount,
+                                    style: GoogleFonts.plusJakartaSans(
+                                      textStyle: TextStyle(
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ),
+                                  onTap: () => Get.toNamed(Routes.DETAIL_LEADS,
+                                      arguments: leads),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),
@@ -122,7 +165,7 @@ class LeadsView extends GetView<LeadsController> {
                                   fontSize: 14,
                                 ),
                                 maxLines: 1,
-                                controller: controller.sumD,
+                                controller: controller.sumOf,
                                 decoration: InputDecoration(
                                   label: Text(
                                     "Sumber Offline",
@@ -145,7 +188,7 @@ class LeadsView extends GetView<LeadsController> {
                                   fontSize: 14,
                                 ),
                                 maxLines: 1,
-                                controller: controller.sumD,
+                                controller: controller.lok,
                                 decoration: InputDecoration(
                                   label: Text(
                                     "Lokasi Kegiatan",
@@ -168,7 +211,7 @@ class LeadsView extends GetView<LeadsController> {
                                   fontSize: 14,
                                 ),
                                 maxLines: 1,
-                                controller: controller.sumD,
+                                controller: controller.fullName,
                                 decoration: InputDecoration(
                                   label: Text(
                                     "Full Name",
@@ -191,7 +234,8 @@ class LeadsView extends GetView<LeadsController> {
                                   fontSize: 14,
                                 ),
                                 maxLines: 1,
-                                controller: controller.sumD,
+                                controller: controller.phoneNum,
+                                keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                   label: Text(
                                     "Phone Number",
@@ -214,7 +258,7 @@ class LeadsView extends GetView<LeadsController> {
                                   fontSize: 14,
                                 ),
                                 maxLines: 1,
-                                controller: controller.sumD,
+                                controller: controller.email,
                                 decoration: InputDecoration(
                                   label: Text(
                                     "Email",
@@ -237,7 +281,7 @@ class LeadsView extends GetView<LeadsController> {
                                   fontSize: 14,
                                 ),
                                 maxLines: 1,
-                                controller: controller.sumD,
+                                controller: controller.npwpC,
                                 decoration: InputDecoration(
                                   label: Text(
                                     "NPWP",
@@ -260,7 +304,7 @@ class LeadsView extends GetView<LeadsController> {
                                   fontSize: 14,
                                 ),
                                 maxLines: 1,
-                                controller: controller.sumD,
+                                controller: controller.cityC,
                                 decoration: InputDecoration(
                                   label: Text(
                                     "City",
@@ -283,7 +327,7 @@ class LeadsView extends GetView<LeadsController> {
                                   fontSize: 14,
                                 ),
                                 maxLines: 1,
-                                controller: controller.sumD,
+                                controller: controller.salesF,
                                 decoration: InputDecoration(
                                   label: Text(
                                     "Sales Force",
@@ -306,7 +350,7 @@ class LeadsView extends GetView<LeadsController> {
                                   fontSize: 14,
                                 ),
                                 maxLines: 1,
-                                controller: controller.sumD,
+                                controller: controller.ppuC,
                                 decoration: InputDecoration(
                                   label: Text(
                                     "PPU",
@@ -359,4 +403,12 @@ class LeadsView extends GetView<LeadsController> {
       ),
     );
   }
+}
+
+class Leads {
+  final String name;
+  final String description;
+  final String amount;
+
+  Leads({required this.name, required this.description, required this.amount});
 }

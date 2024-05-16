@@ -12,6 +12,7 @@ abstract class Routes {
   static const APPROVAL = _Paths.APPROVAL;
   static const LEADS = _Paths.LEADS;
   static const INPUT_LEADS = _Paths.INPUT_LEADS;
+  static const DETAIL_LEADS = _Paths.DETAIL_LEADS;
 }
 
 abstract class _Paths {
@@ -25,4 +26,5 @@ abstract class _Paths {
   static const APPROVAL = '/approval';
   static const LEADS = '/leads';
   static const INPUT_LEADS = '/input-leads';
+  static const DETAIL_LEADS = '/detail-leads';
 }

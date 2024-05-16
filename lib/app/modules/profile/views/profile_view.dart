@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:wr_project/app/widgets/custom_navigation_bar.dart';
+import 'package:social_design_system/social_design_system.dart';
 
 import '../../../controller/page_index_controller.dart';
 import '../../../style/app_color.dart';
@@ -22,10 +23,10 @@ class ProfileView extends GetView<ProfileController> {
         children: [
           Container(
             height: MediaQuery.of(context).size.height,
-            color: AppColor.cblight,
+            color: Colors.white,
           ),
           Container(
-            color: AppColor.pcolor,
+            color: AppColor.primary,
             height: 200,
             width: MediaQuery.of(context).size.width,
           ),
@@ -35,7 +36,6 @@ class ProfileView extends GetView<ProfileController> {
               _buildHeader(context),
               _buildProfileSection(context),
               const SizedBox(height: 10),
-              _buildAccountSettingsTitle(context),
               _buildMenuOptions(context),
             ],
           ),
@@ -80,11 +80,13 @@ class ProfileView extends GetView<ProfileController> {
           onPressed: () {},
           padding: const EdgeInsets.only(bottom: 20),
           icon: const Icon(Icons.message),
+          color: Colors.white,
         ),
         IconButton(
           onPressed: () {},
           padding: const EdgeInsets.only(bottom: 20),
           icon: const Icon(Icons.notifications),
+          color: Colors.white,
         ),
       ],
     );
@@ -95,19 +97,21 @@ class ProfileView extends GetView<ProfileController> {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
-          Container(
-            width: MediaQuery.of(context).size.width,
-            padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(18),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildProfileInfo(),
-                _buildDetailButton(context),
-              ],
+          Card(
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(18),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildProfileInfo(),
+                  _buildDetailButton(context),
+                ],
+              ),
             ),
           )
         ],
@@ -175,43 +179,47 @@ class ProfileView extends GetView<ProfileController> {
     );
   }
 
-  Widget _buildAccountSettingsTitle(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      margin: const EdgeInsets.only(top: 10, left: 20),
-      child: Text(
-        "Pengaturan Akun",
-        style: GoogleFonts.plusJakartaSans(fontSize: 20),
-      ),
-    );
-  }
-
   Widget _buildMenuOptions(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      margin: const EdgeInsets.only(top: 10),
-      child: Column(
+      margin: const EdgeInsets.symmetric(
+        horizontal: 20,
+      ),
+      child: Settings(
+        label: 'Settings',
         children: [
-          MenuTile(
-            title: 'Akun Saya',
-            icon: const Icon(Icons.account_circle),
-            onTap: () {},
+          ListTile(
+            visualDensity: VisualDensity.compact,
+            title: const Text('Notifications'),
+            subtitle: const Text('Receive notifications'),
+            leading: const Icon(Icons.notifications_outlined),
+            trailing: const Icon(Icons.chevron_right_rounded),
+            onTap: () => debugPrint('Item 1'),
           ),
-          MenuTile(
-            title: 'Keamanan Akun',
-            icon: const Icon(Icons.lock),
-            onTap: () {},
+          ListTile(
+            visualDensity: VisualDensity.compact,
+            title: const Text('Favorites'),
+            subtitle: const Text('Want to know who likes you?'),
+            leading: const Icon(Icons.favorite_border_outlined),
+            trailing: const Icon(
+              Icons.arrow_right_rounded,
+              size: 32,
+            ),
+            onTap: () => debugPrint('Item 2'),
           ),
-          MenuTile(
-            title: 'Bahasa',
-            icon: const Icon(Icons.lock_open_outlined),
-            onTap: () {},
+          ListTile(
+            title: const Text('Privacy Policy'),
+            leading: const Icon(Icons.shield_outlined),
+            trailing: const Icon(Icons.arrow_circle_right_outlined),
+            onTap: () => debugPrint('Item 3'),
           ),
-          MenuTile(
-            title: 'Log Out',
-            icon: const Icon(Icons.account_circle),
-            isDanger: true,
+          ListTile(
+            title: const Text('Log Out'),
+            leading: const Icon(Icons.logout),
+            trailing: const Icon(Icons.chevron_right_rounded),
             onTap: controller.deleteToken,
+            iconColor: Colors.red,
+            textColor: Colors.red,
           ),
         ],
       ),
@@ -275,6 +283,7 @@ class MenuTile extends StatelessWidget {
               margin: const EdgeInsets.only(left: 24),
               child: SvgPicture.asset(
                 'asset/icons/arrow-right.svg',
+                // ignore: deprecated_member_use
                 color: (isDanger == false) ? AppColor.txt : AppColor.error,
               ),
             ),
