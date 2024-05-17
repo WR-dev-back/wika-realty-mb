@@ -319,14 +319,13 @@ class HomeView extends GetView<HomeController> {
                                 children: [
                                   Container(
                                     margin: EdgeInsets.only(right: 20),
-                                    width: Get.width * 0.7,
-                                    height: 100,
+                                    width: Get.width * 0.8,
+                                    height: 200,
                                     decoration: BoxDecoration(
-                                      color: Colors.amber,
                                       borderRadius: BorderRadius.circular(20),
                                       image: DecorationImage(
                                         image: AssetImage(
-                                          "asset/images/Frame 52.png",
+                                          "asset/images/obito.jpeg",
                                         ),
                                         fit: BoxFit.cover,
                                       ),
@@ -334,14 +333,13 @@ class HomeView extends GetView<HomeController> {
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(right: 20),
-                                    width: Get.width * 0.7,
-                                    height: 100,
+                                    width: Get.width * 0.8,
+                                    height: 200,
                                     decoration: BoxDecoration(
-                                      color: Colors.amber,
                                       borderRadius: BorderRadius.circular(20),
                                       image: DecorationImage(
                                         image: AssetImage(
-                                          "asset/images/Frame 52.png",
+                                          "asset/images/obito.jpeg",
                                         ),
                                         fit: BoxFit.cover,
                                       ),
@@ -349,14 +347,13 @@ class HomeView extends GetView<HomeController> {
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(right: 20),
-                                    width: Get.width * 0.7,
-                                    height: 100,
+                                    width: Get.width * 0.8,
+                                    height: 200,
                                     decoration: BoxDecoration(
-                                      color: Colors.amber,
                                       borderRadius: BorderRadius.circular(20),
                                       image: DecorationImage(
                                         image: AssetImage(
-                                          "asset/images/Frame 52.png",
+                                          "asset/images/obito.jpeg",
                                         ),
                                         fit: BoxFit.cover,
                                       ),
