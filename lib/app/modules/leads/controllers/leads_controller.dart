@@ -6,7 +6,6 @@ import '../views/leads_view.dart';
 class LeadsController extends GetxController {
   var leads = <Leads>[].obs;
 
-  // Original list of leads
   final List<Leads> originalLeadsList = [
     Leads(
       name: "Pak Didik",
@@ -27,25 +26,21 @@ class LeadsController extends GetxController {
 
   @override
   void onInit() {
-    // Initially, assign the original leads list to the leads observable
     leads.assignAll(originalLeadsList);
     super.onInit();
   }
 
-  // Method to filter leads based on search query
   void searchLeads(String query) {
     if (query.isEmpty) {
-      // If query is empty, display all leads
       leads.assignAll(originalLeadsList);
     } else {
-      // Filter leads based on query
       final filteredLeads = originalLeadsList
           .where((lead) =>
               lead.name.toLowerCase().contains(query.toLowerCase()) ||
               lead.description.toLowerCase().contains(query.toLowerCase()) ||
               lead.amount.toLowerCase().contains(query.toLowerCase()))
           .toList();
-      // Update the leads observable with filtered leads
+
       leads.assignAll(filteredLeads);
     }
   }
