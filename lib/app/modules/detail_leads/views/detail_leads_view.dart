@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:wr_project/app/modules/leads/views/leads_view.dart';
 import 'package:wr_project/app/style/app_color.dart';
 
@@ -14,7 +15,14 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('DetailLeadsView'),
+        title: Text(
+          'Detail Leads View',
+          style: GoogleFonts.plusJakartaSans(
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+            color: Colors.black,
+          ),
+        ),
         centerTitle: true,
       ),
       body: Padding(
@@ -106,7 +114,7 @@ class FollowUpDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("Follow Up ${leads.description}"),
+      title: Text("Follow Up ${leads.name}"),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

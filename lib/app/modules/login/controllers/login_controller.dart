@@ -105,6 +105,8 @@ class LoginController extends GetxController {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString(_keyMenuList, jsonEncode(menuList));
 
+        print(token);
+
         Get.offAllNamed(Routes.HOME);
       } else {
         throw jsonDecode(response.body)["Message"] ?? "Unknown Error Occurred";
