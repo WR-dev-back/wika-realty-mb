@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:wr_project/app/modules/leads/views/leads_view.dart';
+import 'package:wr_project/app/model/leads.dart';
 import 'package:wr_project/app/style/app_color.dart';
 
 import '../controllers/detail_leads_controller.dart';
 
 class DetailLeadsView extends GetView<DetailLeadsController> {
   DetailLeadsView({Key? key}) : super(key: key);
-  final Leads leads = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
+    final Datum datum = Get.arguments;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -50,7 +50,9 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                       context: context,
                       builder: (BuildContext context) {
                         return FollowUpDialog(
-                            controller: controller, leads: leads);
+                          controller: controller,
+                          datum: datum,
+                        );
                       },
                     );
                   },
@@ -84,15 +86,15 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'ID: ${leads.description}',
+                      'ID: ${datum.id}',
                       style: TextStyle(fontSize: 20),
                     ),
                     Text(
-                      'Name: ${leads.name}',
+                      'Name: ${datum.fullName}',
                       style: TextStyle(fontSize: 20),
                     ),
                     Text(
-                      'Nomor Hp: ${leads.amount}',
+                      'Nomor Hp: ${datum.phoneNumber}',
                       style: TextStyle(fontSize: 20),
                     ),
                   ],
@@ -108,13 +110,13 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
 
 class FollowUpDialog extends StatelessWidget {
   final DetailLeadsController controller;
-  final Leads leads;
-  FollowUpDialog({required this.controller, required this.leads});
+  final Datum datum;
+  FollowUpDialog({required this.controller, required this.datum});
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("Follow Up ${leads.name}"),
+      title: Text("Follow Up ${datum.fullName}"),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

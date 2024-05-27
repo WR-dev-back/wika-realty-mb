@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:wr_project/app/model/leads.dart';
+import 'package:wr_project/app/modules/leads/controllers/leads_controller.dart';
 import 'package:wr_project/app/routes/app_pages.dart';
 import 'package:wr_project/app/style/app_color.dart';
-import '../controllers/leads_controller.dart';
 
 class LeadsView extends GetView<LeadsController> {
   LeadsView({Key? key}) : super(key: key);
@@ -60,64 +61,83 @@ class LeadsView extends GetView<LeadsController> {
                       child: Column(
                         children: [
                           TextField(
+                            controller: controller.searchController,
                             decoration: InputDecoration(
                               labelText: 'Search Leads',
                               prefixIcon: Icon(Icons.search),
                             ),
                             onChanged: (value) {
-                              controller.searchLeads(value);
+                              controller.filterLeads(value);
                             },
                           ),
                           SizedBox(
                             height: 10,
                           ),
-                          Expanded(
-                            child: Obx(
-                              () => ListView.builder(
-                                itemCount: controller.leads.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 8,
-                                    ),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: Colors.black, width: 1),
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: Colors.white,
-                                      ),
-                                      child: ListTile(
-                                        title: Text(
-                                          controller.leads[index].name,
-                                          style: GoogleFonts.plusJakartaSans(
-                                            fontSize: 20,
+                          FutureBuilder<List<Datum>>(
+                              future: controller.fetchDataLeads(),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Center(
+                                      child: CircularProgressIndicator());
+                                } else if (snapshot.hasError) {
+                                  return Center(
+                                      child: Text("error : ${snapshot.error}"));
+                                } else {
+                                  List<Datum> leads = controller.filteredLeads;
+                                  return Expanded(
+                                    child: ListView.builder(
+                                      itemCount: leads.length,
+                                      itemBuilder: (context, index) {
+                                        return Padding(
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: 8,
                                           ),
-                                        ),
-                                        subtitle: Text(
-                                          controller.leads[index].description,
-                                          style: GoogleFonts.plusJakartaSans(
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                        trailing: Text(
-                                          controller.leads[index].amount,
-                                          style: GoogleFonts.plusJakartaSans(
-                                            textStyle: TextStyle(
-                                              fontSize: 14,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: Colors.black,
+                                                  width: 1),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              color: Colors.white,
+                                            ),
+                                            child: ListTile(
+                                              title: Text(
+                                                leads[index].fullName,
+                                                style:
+                                                    GoogleFonts.plusJakartaSans(
+                                                  fontSize: 20,
+                                                ),
+                                              ),
+                                              subtitle: Text(
+                                                leads[index].email,
+                                                style:
+                                                    GoogleFonts.plusJakartaSans(
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                              trailing: Text(
+                                                leads[index].phoneNumber,
+                                                style:
+                                                    GoogleFonts.plusJakartaSans(
+                                                  textStyle: TextStyle(
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ),
+                                              onTap: () => Get.toNamed(
+                                                Routes.DETAIL_LEADS,
+                                                arguments: leads[index],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        onTap: () => Get.toNamed(
-                                            Routes.DETAIL_LEADS,
-                                            arguments: controller.leads[index]),
-                                      ),
+                                        );
+                                      },
                                     ),
                                   );
-                                },
-                              ),
-                            ),
-                          ),
+                                }
+                              })
                         ],
                       ),
                     ),
@@ -405,12 +425,4 @@ class LeadsView extends GetView<LeadsController> {
       ),
     );
   }
-}
-
-class Leads {
-  final String name;
-  final String description;
-  final String amount;
-
-  Leads({required this.name, required this.description, required this.amount});
 }

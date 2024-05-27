@@ -1,48 +1,56 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:wr_project/app/model/leads.dart';
 
-import '../views/leads_view.dart';
+import '../../../data/api.dart';
 
 class LeadsController extends GetxController {
-  var leads = <Leads>[].obs;
-
-  final List<Leads> originalLeadsList = [
-    Leads(
-      name: "Pak Didik",
-      description: "L00000005648",
-      amount: "08566545456",
-    ),
-    Leads(
-      name: "Kevin",
-      description: "L00000005678",
-      amount: "08164864848",
-    ),
-    Leads(
-      name: "Dawam",
-      description: "L00000005789",
-      amount: "085608783675",
-    ),
-  ];
+  late List<Datum> _leads = [];
+  late List<Datum> _filteredLeads = [];
+  List<Datum> get filteredLeads => _filteredLeads;
+  TextEditingController searchController = TextEditingController();
 
   @override
   void onInit() {
-    leads.assignAll(originalLeadsList);
     super.onInit();
+    fetchDataLeads();
   }
 
-  void searchLeads(String query) {
-    if (query.isEmpty) {
-      leads.assignAll(originalLeadsList);
-    } else {
-      final filteredLeads = originalLeadsList
-          .where((lead) =>
-              lead.name.toLowerCase().contains(query.toLowerCase()) ||
-              lead.description.toLowerCase().contains(query.toLowerCase()) ||
-              lead.amount.toLowerCase().contains(query.toLowerCase()))
-          .toList();
+  Future<List<Datum>> fetchDataLeads() async {
+    var apiUrl =
+        Uri.parse(ApiEndPoints.baseUrl + ApiEndPoints.getDataLeads.dataLeads);
 
-      leads.assignAll(filteredLeads);
+    try {
+      http.Response response = await http.get(apiUrl);
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData = jsonDecode(response.body);
+        final leadsData = Leads.fromJson(responseData);
+        _leads = leadsData.data;
+        _filteredLeads = _leads;
+        return _leads;
+      } else {
+        print('Request failed: ${response.statusCode}');
+        return [];
+      }
+    } catch (error) {
+      print('Error fetching data: $error');
+      return [];
     }
+  }
+
+  void filterLeads(String query) {
+    if (query.isEmpty) {
+      _filteredLeads = List.from(_leads); // If query is empty, show all leads
+    } else {
+      _filteredLeads = _leads.where((lead) {
+        return lead.fullName.toLowerCase().contains(query.toLowerCase());
+      }).toList(); // Filter leads based on the query
+    }
+    update(); // Update the UI to reflect the changes
   }
 
   TextEditingController sumD = TextEditingController();

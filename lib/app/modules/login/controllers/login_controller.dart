@@ -14,7 +14,7 @@ class LoginController extends GetxController {
   RxBool obsecureText = true.obs;
   TextEditingController emailC = TextEditingController();
   TextEditingController passC = TextEditingController();
-  static const _keyMenuList = 'menuList';
+  static const String _keyMenuList = 'menuList';
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   var isFormValid = false.obs;
@@ -125,15 +125,19 @@ class LoginController extends GetxController {
     }
   }
 
-  static Future<List<Menu>> retrieveStoredData() async {
+  static Future<List<Menu>> retrieveStoredData(bool isMobile) async {
     final prefs = await SharedPreferences.getInstance();
     final String? menuListJson = prefs.getString(_keyMenuList);
 
     if (menuListJson != null) {
       // Parse stored JSON data
       final List<dynamic> jsonData = jsonDecode(menuListJson);
-      final List<Menu> menuList =
-          jsonData.map((e) => Menu.fromJson(e)).toList();
+      final List<Menu> menuList = jsonData
+          .map((e) => Menu.fromJson(e))
+          .where((menu) => isMobile
+              ? menu.isMobile
+              : !menu.isMobile) // Filter menu items based on platform
+          .toList();
       return menuList;
     } else {
       return []; // Return empty list if no data is stored
