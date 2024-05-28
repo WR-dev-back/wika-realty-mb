@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -73,71 +74,57 @@ class LeadsView extends GetView<LeadsController> {
                           SizedBox(
                             height: 10,
                           ),
-                          FutureBuilder<List<Datum>>(
-                              future: controller.fetchDataLeads(),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return Center(
-                                      child: CircularProgressIndicator());
-                                } else if (snapshot.hasError) {
-                                  return Center(
-                                      child: Text("error : ${snapshot.error}"));
-                                } else {
-                                  List<Datum> leads = controller.filteredLeads;
-                                  return Expanded(
-                                    child: ListView.builder(
-                                      itemCount: leads.length,
-                                      itemBuilder: (context, index) {
-                                        return Padding(
-                                          padding: EdgeInsets.symmetric(
-                                            vertical: 8,
+                          Expanded(
+                            child: Obx(() {
+                              if (controller.isFetching.value) {
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              } else {
+                                List<Datum> leads = controller.filteredLeads;
+                                return ListView.builder(
+                                    itemCount: leads.length,
+                                    itemBuilder: (context, index) {
+                                      return Padding(
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 8),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: Colors.black, width: 1),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.white,
                                           ),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: Colors.black,
-                                                  width: 1),
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              color: Colors.white,
+                                          child: ListTile(
+                                            title: Text(
+                                              leads[index].fullName,
+                                              style:
+                                                  GoogleFonts.plusJakartaSans(
+                                                      fontSize: 20),
                                             ),
-                                            child: ListTile(
-                                              title: Text(
-                                                leads[index].fullName,
-                                                style:
-                                                    GoogleFonts.plusJakartaSans(
-                                                  fontSize: 20,
-                                                ),
-                                              ),
-                                              subtitle: Text(
-                                                leads[index].email,
-                                                style:
-                                                    GoogleFonts.plusJakartaSans(
-                                                  fontSize: 14,
-                                                ),
-                                              ),
-                                              trailing: Text(
-                                                leads[index].phoneNumber,
-                                                style:
-                                                    GoogleFonts.plusJakartaSans(
-                                                  textStyle: TextStyle(
-                                                    fontSize: 14,
-                                                  ),
-                                                ),
-                                              ),
-                                              onTap: () => Get.toNamed(
-                                                Routes.DETAIL_LEADS,
-                                                arguments: leads[index],
-                                              ),
+                                            subtitle: Text(
+                                              leads[index].email,
+                                              style:
+                                                  GoogleFonts.plusJakartaSans(
+                                                      fontSize: 14),
+                                            ),
+                                            trailing: Text(
+                                              leads[index].phoneNumber,
+                                              style:
+                                                  GoogleFonts.plusJakartaSans(
+                                                      fontSize: 14),
+                                            ),
+                                            onTap: () => Get.toNamed(
+                                              Routes.DETAIL_LEADS,
+                                              arguments: leads[index],
                                             ),
                                           ),
-                                        );
-                                      },
-                                    ),
-                                  );
-                                }
-                              })
+                                        ),
+                                      );
+                                    });
+                              }
+                            }),
+                          )
                         ],
                       ),
                     ),
@@ -257,7 +244,12 @@ class LeadsView extends GetView<LeadsController> {
                                 ),
                                 maxLines: 1,
                                 controller: controller.phoneNum,
-                                keyboardType: TextInputType.number,
+                                keyboardType: TextInputType.phone,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                  LengthLimitingTextInputFormatter(15),
+                                  PhoneNumberFormatter(),
+                                ],
                                 decoration: InputDecoration(
                                   label: Text(
                                     "Phone Number",
@@ -303,29 +295,6 @@ class LeadsView extends GetView<LeadsController> {
                                   fontSize: 14,
                                 ),
                                 maxLines: 1,
-                                controller: controller.npwpC,
-                                decoration: InputDecoration(
-                                  label: Text(
-                                    "NPWP",
-                                    style: GoogleFonts.plusJakartaSans(
-                                      fontSize: 20,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  floatingLabelBehavior:
-                                      FloatingLabelBehavior.always,
-                                  border: OutlineInputBorder(),
-                                  hintText: "",
-                                ),
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              TextFormField(
-                                style: GoogleFonts.plusJakartaSans(
-                                  fontSize: 14,
-                                ),
-                                maxLines: 1,
                                 controller: controller.cityC,
                                 decoration: InputDecoration(
                                   label: Text(
@@ -349,10 +318,10 @@ class LeadsView extends GetView<LeadsController> {
                                   fontSize: 14,
                                 ),
                                 maxLines: 1,
-                                controller: controller.salesF,
+                                controller: controller.typeC,
                                 decoration: InputDecoration(
                                   label: Text(
-                                    "Sales Force",
+                                    "Type",
                                     style: GoogleFonts.plusJakartaSans(
                                       fontSize: 20,
                                       color: Colors.black,
@@ -372,10 +341,33 @@ class LeadsView extends GetView<LeadsController> {
                                   fontSize: 14,
                                 ),
                                 maxLines: 1,
-                                controller: controller.ppuC,
+                                controller: controller.areaC,
                                 decoration: InputDecoration(
                                   label: Text(
-                                    "PPU",
+                                    "Area",
+                                    style: GoogleFonts.plusJakartaSans(
+                                      fontSize: 20,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.always,
+                                  border: OutlineInputBorder(),
+                                  hintText: "",
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              TextFormField(
+                                style: GoogleFonts.plusJakartaSans(
+                                  fontSize: 14,
+                                ),
+                                maxLines: 1,
+                                controller: controller.omzetC,
+                                decoration: InputDecoration(
+                                  label: Text(
+                                    "Omzet",
                                     style: GoogleFonts.plusJakartaSans(
                                       fontSize: 20,
                                       color: Colors.black,
@@ -395,7 +387,24 @@ class LeadsView extends GetView<LeadsController> {
                                   height: 50,
                                   width: 100,
                                   child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () async {
+                                      await controller.postDataToBackend(
+                                        email: controller.email.text,
+                                        fullName: controller.fullName.text,
+                                        phoneNumber: controller.phoneNum.text,
+                                        digitalSource: controller.sumD.text,
+                                        offlineSource: controller.sumOf.text,
+                                        locationOffline: controller.lok.text,
+                                        city: controller.cityC.text,
+                                        type: controller.typeC.text,
+                                        area: int.tryParse(
+                                                controller.areaC.text) ??
+                                            0,
+                                        omzet: int.tryParse(
+                                                controller.omzetC.text) ??
+                                            0,
+                                      );
+                                    },
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: AppColor.primary),
                                     child: Text(
@@ -424,5 +433,20 @@ class LeadsView extends GetView<LeadsController> {
         ),
       ),
     );
+  }
+}
+
+class PhoneNumberFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    // Add '+' if the length is less than or equal to 1
+    if (newValue.text.length <= 1) {
+      return TextEditingValue(
+        text: '+${newValue.text}',
+        selection: TextSelection.collapsed(offset: newValue.text.length + 1),
+      );
+    }
+    return newValue;
   }
 }

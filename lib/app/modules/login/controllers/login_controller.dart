@@ -147,4 +147,9 @@ class LoginController extends GetxController {
   bool isValidEmail(String email) {
     return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
   }
+
+  Future<String?> getToken() async {
+    final SharedPreferences prefs = await _prefs;
+    return prefs.getString('token');
+  }
 }
