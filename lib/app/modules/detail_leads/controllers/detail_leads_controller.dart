@@ -1,23 +1,30 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DetailLeadsController extends GetxController {
-  //TODO: Implement DetailLeadsController
+  TextEditingController date = TextEditingController();
+  Rx<DateTime> selectedDate = DateTime.now().obs;
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  TextEditingController pproyek = TextEditingController();
+  TextEditingController statusl = TextEditingController();
+
+  RxString hintText = "Tanggal :".obs;
+
+  List<String> followUpOptions = ['Cold', 'Reserved', 'Hot Prospek', 'ok'];
+
+  String? selectedFollowUpOption;
+
+  void showFollowUpDialog() async {
+    final DateTime? picked = await showDatePicker(
+      context: Get.context!,
+      initialDate: selectedDate.value,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null && picked != selectedDate.value) {
+      selectedDate.value = picked;
+      // Update the hint text with the selected date
+      hintText.value = "Tanggal : ${picked.toString().split(' ')[0]}";
+    }
   }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }

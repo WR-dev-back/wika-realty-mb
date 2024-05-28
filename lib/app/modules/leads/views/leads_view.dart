@@ -1,37 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:wr_project/app/model/leads.dart';
+import 'package:wr_project/app/modules/leads/controllers/leads_controller.dart';
 import 'package:wr_project/app/routes/app_pages.dart';
 import 'package:wr_project/app/style/app_color.dart';
-import '../controllers/leads_controller.dart';
 
 class LeadsView extends GetView<LeadsController> {
   LeadsView({Key? key}) : super(key: key);
-
-  final List<Leads> leadslist = [
-    Leads(
-      name: "Pak Didik",
-      description: "L00000005648",
-      amount: "08566545456",
-    ),
-    Leads(
-      name: "Kevin",
-      description: "L00000005678",
-      amount: "08164864848",
-    ),
-    Leads(
-      name: "Dawam",
-      description: "L00000005789",
-      amount: "085608783675",
-    ),
-  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Leads View'),
+        backgroundColor: AppColor.primary,
+        title: Text(
+          'Leads View',
+          style: GoogleFonts.plusJakartaSans(
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+            color: Colors.white,
+          ),
+        ),
         centerTitle: true,
       ),
       body: DefaultTabController(
@@ -64,59 +56,76 @@ class LeadsView extends GetView<LeadsController> {
             Expanded(
               child: TabBarView(
                 children: [
-                  RefreshIndicator(
-                    onRefresh: controller.refreshData,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Container(
-                      margin: EdgeInsets.symmetric(
-                        horizontal: 20,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          top: 20,
-                        ),
-                        child: ListView.builder(
-                          itemCount: leadslist.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            Leads leads = leadslist[index];
-                            return Padding(
-                              padding: EdgeInsets.symmetric(
-                                vertical: 8,
-                              ),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border:
-                                      Border.all(color: Colors.black, width: 1),
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.white,
-                                ),
-                                child: ListTile(
-                                  title: Text(
-                                    leads.name,
-                                    style: GoogleFonts.plusJakartaSans(
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                  subtitle: Text(
-                                    leads.description,
-                                    style: GoogleFonts.plusJakartaSans(
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                  trailing: Text(
-                                    leads.amount,
-                                    style: GoogleFonts.plusJakartaSans(
-                                      textStyle: TextStyle(
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ),
-                                  onTap: () => Get.toNamed(Routes.DETAIL_LEADS,
-                                      arguments: leads),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
+                      child: Column(
+                        children: [
+                          TextField(
+                            controller: controller.searchController,
+                            decoration: InputDecoration(
+                              labelText: 'Search Leads',
+                              prefixIcon: Icon(Icons.search),
+                            ),
+                            onChanged: (value) {
+                              controller.filterLeads(value);
+                            },
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Expanded(
+                            child: Obx(() {
+                              if (controller.isFetching.value) {
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              } else {
+                                List<Datum> leads = controller.filteredLeads;
+                                return ListView.builder(
+                                    itemCount: leads.length,
+                                    itemBuilder: (context, index) {
+                                      return Padding(
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 8),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: Colors.black, width: 1),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.white,
+                                          ),
+                                          child: ListTile(
+                                            title: Text(
+                                              leads[index].fullName,
+                                              style:
+                                                  GoogleFonts.plusJakartaSans(
+                                                      fontSize: 20),
+                                            ),
+                                            subtitle: Text(
+                                              leads[index].email,
+                                              style:
+                                                  GoogleFonts.plusJakartaSans(
+                                                      fontSize: 14),
+                                            ),
+                                            trailing: Text(
+                                              leads[index].phoneNumber,
+                                              style:
+                                                  GoogleFonts.plusJakartaSans(
+                                                      fontSize: 14),
+                                            ),
+                                            onTap: () => Get.toNamed(
+                                              Routes.DETAIL_LEADS,
+                                              arguments: leads[index],
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    });
+                              }
+                            }),
+                          )
+                        ],
                       ),
                     ),
                   ),
@@ -235,7 +244,12 @@ class LeadsView extends GetView<LeadsController> {
                                 ),
                                 maxLines: 1,
                                 controller: controller.phoneNum,
-                                keyboardType: TextInputType.number,
+                                keyboardType: TextInputType.phone,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                  LengthLimitingTextInputFormatter(15),
+                                  PhoneNumberFormatter(),
+                                ],
                                 decoration: InputDecoration(
                                   label: Text(
                                     "Phone Number",
@@ -281,29 +295,6 @@ class LeadsView extends GetView<LeadsController> {
                                   fontSize: 14,
                                 ),
                                 maxLines: 1,
-                                controller: controller.npwpC,
-                                decoration: InputDecoration(
-                                  label: Text(
-                                    "NPWP",
-                                    style: GoogleFonts.plusJakartaSans(
-                                      fontSize: 20,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  floatingLabelBehavior:
-                                      FloatingLabelBehavior.always,
-                                  border: OutlineInputBorder(),
-                                  hintText: "",
-                                ),
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              TextFormField(
-                                style: GoogleFonts.plusJakartaSans(
-                                  fontSize: 14,
-                                ),
-                                maxLines: 1,
                                 controller: controller.cityC,
                                 decoration: InputDecoration(
                                   label: Text(
@@ -327,10 +318,10 @@ class LeadsView extends GetView<LeadsController> {
                                   fontSize: 14,
                                 ),
                                 maxLines: 1,
-                                controller: controller.salesF,
+                                controller: controller.typeC,
                                 decoration: InputDecoration(
                                   label: Text(
-                                    "Sales Force",
+                                    "Type",
                                     style: GoogleFonts.plusJakartaSans(
                                       fontSize: 20,
                                       color: Colors.black,
@@ -350,10 +341,33 @@ class LeadsView extends GetView<LeadsController> {
                                   fontSize: 14,
                                 ),
                                 maxLines: 1,
-                                controller: controller.ppuC,
+                                controller: controller.areaC,
                                 decoration: InputDecoration(
                                   label: Text(
-                                    "PPU",
+                                    "Area",
+                                    style: GoogleFonts.plusJakartaSans(
+                                      fontSize: 20,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.always,
+                                  border: OutlineInputBorder(),
+                                  hintText: "",
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              TextFormField(
+                                style: GoogleFonts.plusJakartaSans(
+                                  fontSize: 14,
+                                ),
+                                maxLines: 1,
+                                controller: controller.omzetC,
+                                decoration: InputDecoration(
+                                  label: Text(
+                                    "Omzet",
                                     style: GoogleFonts.plusJakartaSans(
                                       fontSize: 20,
                                       color: Colors.black,
@@ -373,7 +387,24 @@ class LeadsView extends GetView<LeadsController> {
                                   height: 50,
                                   width: 100,
                                   child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () async {
+                                      await controller.postDataToBackend(
+                                        email: controller.email.text,
+                                        fullName: controller.fullName.text,
+                                        phoneNumber: controller.phoneNum.text,
+                                        digitalSource: controller.sumD.text,
+                                        offlineSource: controller.sumOf.text,
+                                        locationOffline: controller.lok.text,
+                                        city: controller.cityC.text,
+                                        type: controller.typeC.text,
+                                        area: int.tryParse(
+                                                controller.areaC.text) ??
+                                            0,
+                                        omzet: int.tryParse(
+                                                controller.omzetC.text) ??
+                                            0,
+                                      );
+                                    },
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: AppColor.primary),
                                     child: Text(
@@ -405,10 +436,17 @@ class LeadsView extends GetView<LeadsController> {
   }
 }
 
-class Leads {
-  final String name;
-  final String description;
-  final String amount;
-
-  Leads({required this.name, required this.description, required this.amount});
+class PhoneNumberFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    // Add '+' if the length is less than or equal to 1
+    if (newValue.text.length <= 1) {
+      return TextEditingValue(
+        text: '+${newValue.text}',
+        selection: TextSelection.collapsed(offset: newValue.text.length + 1),
+      );
+    }
+    return newValue;
+  }
 }

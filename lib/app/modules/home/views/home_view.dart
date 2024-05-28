@@ -169,8 +169,11 @@ class HomeView extends GetView<HomeController> {
                               children: [
                                 Expanded(
                                   child: FutureBuilder<List<Menu>>(
-                                    future:
-                                        LoginController.retrieveStoredData(),
+                                    future: LoginController.retrieveStoredData(
+                                        MediaQuery.of(context)
+                                                .size
+                                                .shortestSide <
+                                            600), // Pass isMobile parameter
                                     builder: (context, snapshot) {
                                       if (snapshot.connectionState ==
                                           ConnectionState.waiting) {
@@ -198,37 +201,51 @@ class HomeView extends GetView<HomeController> {
                                           itemCount: menuList.length,
                                           itemBuilder: (context, index) {
                                             final Menu menu = menuList[index];
-                                            return InkWell(
-                                              onTap: () {
-                                                String routeName =
-                                                    '/${menu.name.toLowerCase()}';
-                                                Get.toNamed(routeName,
-                                                    arguments: menu);
-                                              },
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: <Widget>[
-                                                  Image.asset(
-                                                    menu.icon,
-                                                    width: 80,
-                                                    height: 70,
-                                                  ),
-                                                  Text(
-                                                    menu.name,
-                                                    style: GoogleFonts
-                                                        .plusJakartaSans(
-                                                      color: Colors.black,
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w600,
+                                            if (menu.isMobile &&
+                                                    MediaQuery.of(context)
+                                                            .size
+                                                            .shortestSide <
+                                                        600 ||
+                                                !menu.isMobile &&
+                                                    MediaQuery.of(context)
+                                                            .size
+                                                            .shortestSide >=
+                                                        600) {
+                                              // Conditionally show menu item based on platform
+                                              return InkWell(
+                                                onTap: () {
+                                                  String routeName =
+                                                      '/${menu.name.toLowerCase()}';
+                                                  Get.toNamed(routeName,
+                                                      arguments: menu);
+                                                },
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    Image.asset(
+                                                      menu.icon,
+                                                      width: 80,
+                                                      height: 70,
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                            );
+                                                    Text(
+                                                      menu.name,
+                                                      style: GoogleFonts
+                                                          .plusJakartaSans(
+                                                        color: Colors.black,
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            } else {
+                                              return SizedBox(); // Return an empty SizedBox if the menu item should not be shown
+                                            }
                                           },
                                         );
                                       }
@@ -319,14 +336,13 @@ class HomeView extends GetView<HomeController> {
                                 children: [
                                   Container(
                                     margin: EdgeInsets.only(right: 20),
-                                    width: Get.width * 0.7,
-                                    height: 100,
+                                    width: Get.width * 0.8,
+                                    height: 200,
                                     decoration: BoxDecoration(
-                                      color: Colors.amber,
                                       borderRadius: BorderRadius.circular(20),
                                       image: DecorationImage(
                                         image: AssetImage(
-                                          "asset/images/Frame 52.png",
+                                          "asset/images/obito.jpeg",
                                         ),
                                         fit: BoxFit.cover,
                                       ),
@@ -334,14 +350,13 @@ class HomeView extends GetView<HomeController> {
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(right: 20),
-                                    width: Get.width * 0.7,
-                                    height: 100,
+                                    width: Get.width * 0.8,
+                                    height: 200,
                                     decoration: BoxDecoration(
-                                      color: Colors.amber,
                                       borderRadius: BorderRadius.circular(20),
                                       image: DecorationImage(
                                         image: AssetImage(
-                                          "asset/images/Frame 52.png",
+                                          "asset/images/obito.jpeg",
                                         ),
                                         fit: BoxFit.cover,
                                       ),
@@ -349,14 +364,13 @@ class HomeView extends GetView<HomeController> {
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(right: 20),
-                                    width: Get.width * 0.7,
-                                    height: 100,
+                                    width: Get.width * 0.8,
+                                    height: 200,
                                     decoration: BoxDecoration(
-                                      color: Colors.amber,
                                       borderRadius: BorderRadius.circular(20),
                                       image: DecorationImage(
                                         image: AssetImage(
-                                          "asset/images/Frame 52.png",
+                                          "asset/images/obito.jpeg",
                                         ),
                                         fit: BoxFit.cover,
                                       ),
