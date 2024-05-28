@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:wr_project/app/model/body.dart';
 import 'package:wr_project/app/modules/login/controllers/login_controller.dart';
-import 'package:wr_project/app/routes/app_pages.dart';
+
 import 'package:wr_project/app/widgets/custom_navigation_bar.dart';
 import '../../../controller/page_index_controller.dart';
 import '../../../style/app_color.dart';
@@ -255,51 +255,8 @@ class HomeView extends GetView<HomeController> {
                               ],
                             ),
                           ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 20,
-                            ),
-                            child: Row(
-                              children: [
-                                Row(
-                                  children: [
-                                    Column(
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            color: Color(0xFFDBEDFF),
-                                            borderRadius: BorderRadius.circular(
-                                              180,
-                                            ),
-                                          ),
-                                          child: Column(
-                                            children: [
-                                              Container(
-                                                child: IconButton(
-                                                  onPressed: () =>
-                                                      Get.toNamed(Routes.LEADS),
-                                                  icon: Icon(
-                                                    Icons.leaderboard,
-                                                    color: Colors.blue,
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text("Leads")
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
                           SizedBox(
-                            height: 10,
+                            height: 30,
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),

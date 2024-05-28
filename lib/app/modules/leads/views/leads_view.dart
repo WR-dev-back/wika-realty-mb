@@ -318,6 +318,29 @@ class LeadsView extends GetView<LeadsController> {
                                   fontSize: 14,
                                 ),
                                 maxLines: 1,
+                                controller: controller.npwpC,
+                                decoration: InputDecoration(
+                                  label: Text(
+                                    "Npwp",
+                                    style: GoogleFonts.plusJakartaSans(
+                                      fontSize: 20,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.always,
+                                  border: OutlineInputBorder(),
+                                  hintText: "",
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              TextFormField(
+                                style: GoogleFonts.plusJakartaSans(
+                                  fontSize: 14,
+                                ),
+                                maxLines: 1,
                                 controller: controller.typeC,
                                 decoration: InputDecoration(
                                   label: Text(
@@ -395,6 +418,7 @@ class LeadsView extends GetView<LeadsController> {
                                         digitalSource: controller.sumD.text,
                                         offlineSource: controller.sumOf.text,
                                         locationOffline: controller.lok.text,
+                                        npwp: controller.npwpC.text,
                                         city: controller.cityC.text,
                                         type: controller.typeC.text,
                                         area: int.tryParse(
@@ -440,13 +464,10 @@ class PhoneNumberFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {
-    // Add '+' if the length is less than or equal to 1
-    if (newValue.text.length <= 1) {
-      return TextEditingValue(
-        text: '+${newValue.text}',
-        selection: TextSelection.collapsed(offset: newValue.text.length + 1),
-      );
-    }
-    return newValue;
+    // Always add '+' in front of the phone number
+    return TextEditingValue(
+      text: '+${newValue.text}',
+      selection: TextSelection.collapsed(offset: newValue.text.length + 1),
+    );
   }
 }

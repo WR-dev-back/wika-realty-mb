@@ -12,7 +12,8 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
 
   @override
   Widget build(BuildContext context) {
-    final Datum datum = Get.arguments;
+    final Datum leads = Get.arguments;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -51,7 +52,7 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                       builder: (BuildContext context) {
                         return FollowUpDialog(
                           controller: controller,
-                          datum: datum,
+                          datum: leads,
                         );
                       },
                     );
@@ -86,16 +87,59 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'ID: ${datum.id}',
-                      style: TextStyle(fontSize: 20),
+                      'Full Name: ${leads.fullName}',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
+                    SizedBox(height: 10),
                     Text(
-                      'Name: ${datum.fullName}',
-                      style: TextStyle(fontSize: 20),
+                      'Email: ${leads.email}',
+                      style: TextStyle(fontSize: 16),
                     ),
+                    SizedBox(height: 10),
                     Text(
-                      'Nomor Hp: ${datum.phoneNumber}',
-                      style: TextStyle(fontSize: 20),
+                      'Phone Number: ${leads.phoneNumber}',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Sumber Digital: ${leads.digitalSource}',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Sumber Offline: ${leads.offlineSource}',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Lokasi Kegiatan: ${leads.locationOffline}',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Npwp: ${leads.npwp}',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'City: ${leads.city}',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Type: ${leads.type}',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Area: ${leads.area}',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Omzet: ${leads.omzet}',
+                      style: TextStyle(fontSize: 16),
                     ),
                   ],
                 ),

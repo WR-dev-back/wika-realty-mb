@@ -46,8 +46,7 @@ class LeadsController extends GetxController {
         http.Response response = await http.get(
           apiUrl,
           headers: {
-            'Authorization':
-                'Bearer $token', // Include token in the request headers
+            'Authorization': 'Bearer $token',
           },
         );
 
@@ -95,6 +94,7 @@ class LeadsController extends GetxController {
   TextEditingController sumD = TextEditingController();
   TextEditingController sumOf = TextEditingController();
   TextEditingController lok = TextEditingController();
+  TextEditingController npwpC = TextEditingController();
   TextEditingController cityC = TextEditingController();
   TextEditingController typeC = TextEditingController();
   TextEditingController areaC = TextEditingController();
@@ -107,6 +107,7 @@ class LeadsController extends GetxController {
     required String digitalSource,
     required String offlineSource,
     required String locationOffline,
+    required String npwp,
     required String city,
     required String type,
     required int area,
@@ -122,6 +123,7 @@ class LeadsController extends GetxController {
       'digital_source': digitalSource,
       'offline_source': offlineSource,
       'location_offline': locationOffline,
+      'npwp': npwp,
       'city': city,
       'type': type,
       'area': area,
@@ -144,6 +146,20 @@ class LeadsController extends GetxController {
 
         if (response.statusCode == 201) {
           print('Data berhasil dikirim');
+
+          // Clear all TextEditingController after successful submission
+
+          phoneNum.clear();
+          sumD.clear();
+          sumOf.clear();
+          lok.clear();
+          npwpC.clear();
+          cityC.clear();
+          typeC.clear();
+          areaC.clear();
+          omzetC.clear();
+
+          Get.back();
         } else {
           print('Gagal mengirim data: ${response.statusCode}');
         }
