@@ -163,7 +163,7 @@ class HomeView extends GetView<HomeController> {
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height / 6,
+                            height: MediaQuery.of(context).size.height / 4,
                             margin: EdgeInsets.only(top: 10),
                             child: Column(
                               children: [
@@ -244,7 +244,7 @@ class HomeView extends GetView<HomeController> {
                                                 ),
                                               );
                                             } else {
-                                              return SizedBox(); // Return an empty SizedBox if the menu item should not be shown
+                                              return SizedBox();
                                             }
                                           },
                                         );
@@ -256,7 +256,7 @@ class HomeView extends GetView<HomeController> {
                             ),
                           ),
                           SizedBox(
-                            height: 30,
+                            height: 10,
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),

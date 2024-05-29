@@ -32,7 +32,24 @@ class LeadsView extends GetView<LeadsController> {
           children: [
             TabBar(
               tabs: [
-                Tab(text: 'List Leads'),
+                Tab(
+                  child: Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Icon(
+                          Icons.list,
+                        ),
+                        Text(
+                          "List Leads",
+                          style: GoogleFonts.plusJakartaSans(
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
                 Tab(
                   child: Container(
                     child: Row(
@@ -63,17 +80,21 @@ class LeadsView extends GetView<LeadsController> {
                         children: [
                           TextField(
                             controller: controller.searchController,
+                            onSubmitted: (value) {
+                              if (value.isNotEmpty) {
+                                print(value);
+                                controller.searchLeads(value);
+                              }
+                            },
                             decoration: InputDecoration(
                               labelText: 'Search Leads',
                               prefixIcon: Icon(Icons.search),
                             ),
-                            onChanged: (value) {
-                              controller.filterLeads(value);
-                            },
                           ),
                           SizedBox(
                             height: 10,
                           ),
+                          Container(),
                           Expanded(
                             child: Obx(() {
                               if (controller.isFetching.value) {

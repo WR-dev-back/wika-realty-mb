@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wr_project/app/model/leads.dart';
+import 'package:wr_project/app/modules/detail_leads/views/edit_leads.dart';
 import 'package:wr_project/app/style/app_color.dart';
 
 import '../controllers/detail_leads_controller.dart';
@@ -34,7 +35,17 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EditDetailLeads(
+                          leads: leads,
+                          controller: controller,
+                        ),
+                      ),
+                    );
+                  },
                   child: Row(
                     children: [
                       Icon(Icons.edit),

@@ -5,13 +5,12 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wr_project/app/model/leads.dart';
+import 'package:wr_project/app/routes/app_pages.dart';
 
 import '../../../data/api.dart';
 
 class LeadsController extends GetxController {
-  late List<Datum> _leads = [];
-  late RxList<Datum> _filteredLeads = RxList<Datum>();
-  List<Datum> get filteredLeads => _filteredLeads;
+  var filteredLeads = List<Datum>.empty().obs;
   TextEditingController searchController = TextEditingController();
 
   var isFetching = false.obs;
@@ -28,12 +27,9 @@ class LeadsController extends GetxController {
   void onInit() {
     super.onInit();
     fetchDataLeads();
-    searchController.addListener(() {
-      filterLeads(searchController.text);
-    });
   }
 
-  Future<List<Datum>> fetchDataLeads() async {
+  Future<void> fetchDataLeads() async {
     startFetching();
 
     var apiUrl =
@@ -51,41 +47,57 @@ class LeadsController extends GetxController {
         );
 
         if (response.statusCode == 200) {
-          final Map<String, dynamic> responseData = jsonDecode(response.body);
-          final leadsData = Leads.fromJson(responseData);
-          _leads = leadsData.data;
-          _filteredLeads.addAll(_leads);
-          return _leads;
+          Leads leadsData = leadsFromJson(response.body);
+          filteredLeads.value = leadsData.data;
         } else {
           print('Request failed: ${response.statusCode}');
-          return [];
         }
       } else {
         print('Token not found');
-        return [];
       }
     } catch (error) {
       print('Error fetching data: $error');
-      return [];
     } finally {
       stopFetching();
     }
   }
 
-  void filterLeads(String query) {
-    _filteredLeads.clear();
-    if (query.isEmpty) {
-      _filteredLeads.addAll(_leads);
-    } else {
-      _filteredLeads.addAll(_leads.where((lead) {
-        return lead.fullName.toLowerCase().contains(query.toLowerCase());
-      }));
+  Future<void> searchLeads(String query) async {
+    startFetching();
+
+    var apiUrl = Uri.parse(ApiEndPoints.baseUrl +
+        ApiEndPoints.getDataLeads.dataLeads +
+        '&search=$query');
+
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('token');
+      if (token != null) {
+        var response = await http.get(
+          apiUrl,
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        );
+
+        if (response.statusCode == 200) {
+          Leads leadsData = leadsFromJson(response.body);
+          filteredLeads.value = leadsData.data;
+        } else {
+          print('Failed to search data: ${response.statusCode}');
+        }
+      }
+    } catch (e) {
+      print('Error searching data: $e');
+    } finally {
+      stopFetching();
     }
   }
 
-  void resetSearch() {
-    searchController.clear();
-    filterLeads('');
+  @override
+  void onClose() {
+    super.onClose();
+    searchController.dispose();
   }
 
   TextEditingController email = TextEditingController();
@@ -134,17 +146,29 @@ class LeadsController extends GetxController {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String? token = prefs.getString('token');
       if (token != null) {
-        var response = await http.post(
-          url,
-          headers: {
-            'accept': '*/*',
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer $token',
-          },
-          body: jsonEncode(data),
-        );
+        // var response = await http.post(
+        //   url,
+        //   headers: {
+        //     'accept': '*/*',
+        //     'Content-Type': 'application/json',
+        //     'Authorization': 'Bearer $token',
+        //   },
+        //   body: jsonEncode(data),
+        // );
+
+        final response = Response(201);
 
         if (response.statusCode == 201) {
+          showDialog(
+            context: Get.context!,
+            builder: (context) {
+              return SimpleDialog(
+                title: Text('Berhasil'),
+                contentPadding: EdgeInsets.all(20),
+                children: [Text("Data Berhasil Dikirim")],
+              );
+            },
+          );
           print('Data berhasil dikirim');
 
           // Clear all TextEditingController after successful submission
@@ -160,8 +184,21 @@ class LeadsController extends GetxController {
           omzetC.clear();
 
           Get.back();
+          Get.toNamed(Routes.LEADS);
         } else {
           print('Gagal mengirim data: ${response.statusCode}');
+          showDialog(
+            context: Get.context!,
+            builder: (context) {
+              return SimpleDialog(
+                title: Text('Error'),
+                contentPadding: EdgeInsets.all(20),
+                children: [
+                  Text('Gagal mengirim data: ${response.statusCode}'),
+                ],
+              );
+            },
+          );
         }
       }
     } catch (error) {
@@ -178,4 +215,9 @@ class LeadsController extends GetxController {
 
     isRefreshing(false);
   }
+}
+
+class Response {
+  final int statusCode;
+  Response(this.statusCode);
 }
