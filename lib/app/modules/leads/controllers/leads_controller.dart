@@ -1,27 +1,17 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wr_project/app/model/leads.dart';
-import 'package:wr_project/app/routes/app_pages.dart';
-
-import '../../../data/api.dart';
+import 'package:wr_project/app/provider/api_service.dart';
 
 class LeadsController extends GetxController {
   var filteredLeads = List<Datum>.empty().obs;
   TextEditingController searchController = TextEditingController();
-
   var isFetching = false.obs;
+  var apiService = ApiService();
 
-  void startFetching() {
-    isFetching(true);
-  }
+  void startFetching() => isFetching(true);
 
-  void stopFetching() {
-    isFetching(false);
-  }
+  void stopFetching() => isFetching(false);
 
   @override
   void onInit() {
@@ -31,30 +21,8 @@ class LeadsController extends GetxController {
 
   Future<void> fetchDataLeads() async {
     startFetching();
-
-    var apiUrl =
-        Uri.parse(ApiEndPoints.baseUrl + ApiEndPoints.getDataLeads.dataLeads);
-
     try {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final String? token = prefs.getString('token');
-      if (token != null) {
-        http.Response response = await http.get(
-          apiUrl,
-          headers: {
-            'Authorization': 'Bearer $token',
-          },
-        );
-
-        if (response.statusCode == 200) {
-          Leads leadsData = leadsFromJson(response.body);
-          filteredLeads.value = leadsData.data;
-        } else {
-          print('Request failed: ${response.statusCode}');
-        }
-      } else {
-        print('Token not found');
-      }
+      filteredLeads.value = await apiService.fetchDataLeads();
     } catch (error) {
       print('Error fetching data: $error');
     } finally {
@@ -64,31 +32,10 @@ class LeadsController extends GetxController {
 
   Future<void> searchLeads(String query) async {
     startFetching();
-
-    var apiUrl = Uri.parse(ApiEndPoints.baseUrl +
-        ApiEndPoints.getDataLeads.dataLeads +
-        '&search=$query');
-
     try {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final String? token = prefs.getString('token');
-      if (token != null) {
-        var response = await http.get(
-          apiUrl,
-          headers: {
-            'Authorization': 'Bearer $token',
-          },
-        );
-
-        if (response.statusCode == 200) {
-          Leads leadsData = leadsFromJson(response.body);
-          filteredLeads.value = leadsData.data;
-        } else {
-          print('Failed to search data: ${response.statusCode}');
-        }
-      }
-    } catch (e) {
-      print('Error searching data: $e');
+      filteredLeads.value = await apiService.searchLeads(query);
+    } catch (error) {
+      print('Error searching data: $error');
     } finally {
       stopFetching();
     }
@@ -125,82 +72,20 @@ class LeadsController extends GetxController {
     required int area,
     required int omzet,
   }) async {
-    var url =
-        Uri.parse(ApiEndPoints.baseUrl + ApiEndPoints.postDataLeads.postLeads);
-
-    var data = {
-      'email': email,
-      'full_name': fullName,
-      'phone_number': phoneNumber,
-      'digital_source': digitalSource,
-      'offline_source': offlineSource,
-      'location_offline': locationOffline,
-      'npwp': npwp,
-      'city': city,
-      'type': type,
-      'area': area,
-      'omzet': omzet,
-    };
-
     try {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final String? token = prefs.getString('token');
-      if (token != null) {
-        // var response = await http.post(
-        //   url,
-        //   headers: {
-        //     'accept': '*/*',
-        //     'Content-Type': 'application/json',
-        //     'Authorization': 'Bearer $token',
-        //   },
-        //   body: jsonEncode(data),
-        // );
-
-        final response = Response(201);
-
-        if (response.statusCode == 201) {
-          showDialog(
-            context: Get.context!,
-            builder: (context) {
-              return SimpleDialog(
-                title: Text('Berhasil'),
-                contentPadding: EdgeInsets.all(20),
-                children: [Text("Data Berhasil Dikirim")],
-              );
-            },
-          );
-          print('Data berhasil dikirim');
-
-          // Clear all TextEditingController after successful submission
-
-          phoneNum.clear();
-          sumD.clear();
-          sumOf.clear();
-          lok.clear();
-          npwpC.clear();
-          cityC.clear();
-          typeC.clear();
-          areaC.clear();
-          omzetC.clear();
-
-          Get.back();
-          Get.toNamed(Routes.LEADS);
-        } else {
-          print('Gagal mengirim data: ${response.statusCode}');
-          showDialog(
-            context: Get.context!,
-            builder: (context) {
-              return SimpleDialog(
-                title: Text('Error'),
-                contentPadding: EdgeInsets.all(20),
-                children: [
-                  Text('Gagal mengirim data: ${response.statusCode}'),
-                ],
-              );
-            },
-          );
-        }
-      }
+      await apiService.postDataToBackend(
+        email: email,
+        fullName: fullName,
+        phoneNumber: phoneNumber,
+        digitalSource: digitalSource,
+        offlineSource: offlineSource,
+        locationOffline: locationOffline,
+        npwp: npwp,
+        city: city,
+        type: type,
+        area: area,
+        omzet: omzet,
+      );
     } catch (error) {
       print('Error: $error');
     }
@@ -210,14 +95,7 @@ class LeadsController extends GetxController {
 
   Future<void> refreshData() async {
     isRefreshing(true);
-
     await Future.delayed(Duration(seconds: 2));
-
     isRefreshing(false);
   }
-}
-
-class Response {
-  final int statusCode;
-  Response(this.statusCode);
 }

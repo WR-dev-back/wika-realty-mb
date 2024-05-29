@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:wr_project/app/model/body.dart';
-import 'package:wr_project/app/modules/login/controllers/login_controller.dart';
+import 'package:wr_project/app/provider/api_service.dart';
 
 import 'package:wr_project/app/widgets/custom_navigation_bar.dart';
 import '../../../controller/page_index_controller.dart';
@@ -147,11 +147,11 @@ class HomeView extends GetView<HomeController> {
                               children: [
                                 Expanded(
                                   child: FutureBuilder<List<Menu>>(
-                                    future: LoginController.retrieveStoredData(
+                                    future: ApiService().retrieveStoredData(
                                         MediaQuery.of(context)
                                                 .size
                                                 .shortestSide <
-                                            600), // Pass isMobile parameter
+                                            600),
                                     builder: (context, snapshot) {
                                       if (snapshot.connectionState ==
                                           ConnectionState.waiting) {
@@ -179,17 +179,16 @@ class HomeView extends GetView<HomeController> {
                                           itemCount: menuList.length,
                                           itemBuilder: (context, index) {
                                             final Menu menu = menuList[index];
-                                            if (menu.isMobile &&
+                                            if ((menu.isMobile &&
                                                     MediaQuery.of(context)
                                                             .size
                                                             .shortestSide <
-                                                        600 ||
-                                                !menu.isMobile &&
+                                                        600) ||
+                                                (!menu.isMobile &&
                                                     MediaQuery.of(context)
                                                             .size
                                                             .shortestSide >=
-                                                        600) {
-                                              // Conditionally show menu item based on platform
+                                                        600)) {
                                               return InkWell(
                                                 onTap: () {
                                                   String routeName =
