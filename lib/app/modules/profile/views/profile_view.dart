@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'package:wr_project/app/widgets/custom_navigation_bar.dart';
 import 'package:social_design_system/social_design_system.dart';
@@ -10,6 +9,7 @@ import 'package:social_design_system/social_design_system.dart';
 import '../../../controller/page_index_controller.dart';
 import '../../../style/app_color.dart';
 import '../controllers/profile_controller.dart';
+import '../../../style/text_styles.dart'; // Import the style definitions
 
 class ProfileView extends GetView<ProfileController> {
   final pageC = Get.find<PageIndexController>();
@@ -125,33 +125,40 @@ class ProfileView extends GetView<ProfileController> {
       child: Row(
         children: [
           ClipOval(
-            child: SizedBox(
-              width: 56,
-              height: 56,
-              child: Image.asset(
-                'asset/images/Rectangle.png',
-                fit: BoxFit.cover,
+            child: FittedBox(
+              fit: BoxFit.cover,
+              child: SizedBox(
+                width: 56,
+                height: 56,
+                child: Image.asset(
+                  'asset/images/Rectangle.png',
+                ),
               ),
             ),
           ),
           const SizedBox(width: 20),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(
-                "Costumer WeStay",
-                style: GoogleFonts.plusJakartaSans(fontSize: 20),
-              ),
-              Text(
-                "Costumer@WeStay.com",
-                style: GoogleFonts.plusJakartaSans(fontSize: 14),
-              ),
-              Text(
-                "085608783675",
-                style: GoogleFonts.plusJakartaSans(fontSize: 14),
-              ),
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  "Customer WeStay",
+                  style:
+                      TextStyles.headerStyleProfile, // Use the predefined style
+                ),
+                Text(
+                  "Customer@WeStay.com",
+                  style:
+                      TextStyles.descriptionStyle, // Use the predefined style
+                ),
+                Text(
+                  "085608783675",
+                  style:
+                      TextStyles.descriptionStyle, // Use the predefined style
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -173,7 +180,7 @@ class ProfileView extends GetView<ProfileController> {
         ),
         child: Text(
           'Lihat Detail',
-          style: GoogleFonts.plusJakartaSans(fontSize: 18),
+          style: TextStyles.buttonTextStyle, // Use the predefined style
         ),
       ),
     );
@@ -190,16 +197,28 @@ class ProfileView extends GetView<ProfileController> {
         children: [
           ListTile(
             visualDensity: VisualDensity.compact,
-            title: const Text('Notifications'),
-            subtitle: const Text('Receive notifications'),
+            title: Text(
+              'Notifications',
+              style: TextStyles.headerStyleProfile, // Apply predefined style
+            ),
+            subtitle: Text(
+              'Receive notifications',
+              style: TextStyles.descriptionStyle, // Apply predefined style
+            ),
             leading: const Icon(Icons.notifications_outlined),
             trailing: const Icon(Icons.chevron_right_rounded),
             onTap: () => debugPrint('Item 1'),
           ),
           ListTile(
             visualDensity: VisualDensity.compact,
-            title: const Text('Favorites'),
-            subtitle: const Text('Want to know who likes you?'),
+            title: Text(
+              'Favorites',
+              style: TextStyles.headerStyleProfile, // Apply predefined style
+            ),
+            subtitle: Text(
+              'Want to know who likes you?',
+              style: TextStyles.descriptionStyle, // Apply predefined style
+            ),
             leading: const Icon(Icons.favorite_border_outlined),
             trailing: const Icon(
               Icons.arrow_right_rounded,
@@ -208,18 +227,30 @@ class ProfileView extends GetView<ProfileController> {
             onTap: () => debugPrint('Item 2'),
           ),
           ListTile(
-            title: const Text('Privacy Policy'),
+            title: Text(
+              'Privacy Policy',
+              style: TextStyles.headerStyleProfile, // Apply predefined style
+            ),
             leading: const Icon(Icons.shield_outlined),
             trailing: const Icon(Icons.arrow_circle_right_outlined),
             onTap: () => debugPrint('Item 3'),
           ),
           ListTile(
-            title: const Text('Log Out'),
-            leading: const Icon(Icons.logout),
-            trailing: const Icon(Icons.chevron_right_rounded),
+            title: Text(
+              'Log Out',
+              style: TextStyles.headerStyleProfile, // Apply predefined style
+            ),
+            leading: Icon(
+              Icons.logout,
+              color: Colors.red, // Set icon color to red
+            ),
+            trailing: Icon(
+              Icons.chevron_right_rounded,
+              color: Colors.red, // Set icon color to red
+            ),
             onTap: controller.deleteToken,
-            iconColor: Colors.red,
-            textColor: Colors.red,
+            tileColor: Colors.red, // Set tile color
+            textColor: Colors.red, // Set text color
           ),
         ],
       ),
@@ -271,20 +302,19 @@ class MenuTile extends StatelessWidget {
             Expanded(
               child: Text(
                 title,
-                style: GoogleFonts.plusJakartaSans(
-                  textStyle: TextStyle(
-                    fontSize: 18,
-                  ),
-                  color: (isDanger == false) ? AppColor.txt : AppColor.error,
-                ),
+                style: isDanger
+                    ? TextStyles.dangerTextStyle
+                    : TextStyles.generalTextStyle,
               ),
             ),
             Container(
               margin: const EdgeInsets.only(left: 24),
               child: SvgPicture.asset(
                 'asset/icons/arrow-right.svg',
-                // ignore: deprecated_member_use
-                color: (isDanger == false) ? AppColor.txt : AppColor.error,
+                colorFilter: ColorFilter.mode(
+                  isDanger ? AppColor.error : AppColor.txt,
+                  BlendMode.srcIn,
+                ),
               ),
             ),
           ],

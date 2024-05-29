@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'package:wr_project/app/model/body.dart';
 import 'package:wr_project/app/modules/login/controllers/login_controller.dart';
@@ -9,6 +8,7 @@ import 'package:wr_project/app/widgets/custom_navigation_bar.dart';
 import '../../../controller/page_index_controller.dart';
 import '../../../style/app_color.dart';
 import '../controllers/home_controller.dart';
+import '../../../style/text_styles.dart'; // Import the style definitions
 
 class HomeView extends GetView<HomeController> {
   final PageIndexController pageC = Get.find<PageIndexController>();
@@ -61,11 +61,8 @@ class HomeView extends GetView<HomeController> {
                                 children: [
                                   Text(
                                     "081290112333",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                    style: TextStyles
+                                        .headerStyle, // Use the predefined style
                                   ),
                                   Image.asset("asset/images/logo.png"),
                                 ],
@@ -73,11 +70,8 @@ class HomeView extends GetView<HomeController> {
                               SizedBox(height: 20),
                               Text(
                                 "Muhammad Dawam",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                style: TextStyles
+                                    .descriptionStyle, // Use the predefined style
                               ),
                               SizedBox(height: 10),
                               Row(
@@ -86,20 +80,15 @@ class HomeView extends GetView<HomeController> {
                                 children: [
                                   Text(
                                     "Developer",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 26,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                    style: TextStyles
+                                        .headerStyle, // Use the predefined style
                                   ),
                                   ElevatedButton(
                                     onPressed: () {},
                                     child: Text(
                                       "Profile",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 20,
-                                      ),
+                                      style: TextStyles
+                                          .buttonTextStyle, // Use the predefined style
                                     ),
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Color(0xFFF7B731),
@@ -115,18 +104,13 @@ class HomeView extends GetView<HomeController> {
                               RichText(
                                 text: TextSpan(
                                   text: "Berlaku sampai ",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                  ),
+                                  style: TextStyles
+                                      .descriptionStyle, // Use the predefined style
                                   children: [
                                     TextSpan(
                                       text: "23 Agustus 2024",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                      style: TextStyles
+                                          .descriptionStyle, // Use the predefined style
                                     )
                                   ],
                                 ),
@@ -152,14 +136,8 @@ class HomeView extends GetView<HomeController> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Text(
-                              "Menu",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                            child:
+                                Text("Menu", style: TextStyles.fieldLabelStyle),
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width,
@@ -230,16 +208,9 @@ class HomeView extends GetView<HomeController> {
                                                       width: 80,
                                                       height: 70,
                                                     ),
-                                                    Text(
-                                                      menu.name,
-                                                      style: GoogleFonts
-                                                          .plusJakartaSans(
-                                                        color: Colors.black,
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                      ),
-                                                    ),
+                                                    Text(menu.name,
+                                                        style: TextStyles
+                                                            .menuTextStyle),
                                                   ],
                                                 ),
                                               );
@@ -265,22 +236,13 @@ class HomeView extends GetView<HomeController> {
                               children: [
                                 Text(
                                   "Pembayaran Terbaru",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                  style: TextStyles
+                                      .fieldLabelStyle, // Use the predefined style
                                 ),
                                 TextButton(
                                   onPressed: () {},
-                                  child: Text(
-                                    "Lihat Semua",
-                                    style: TextStyle(
-                                      color: Colors.blue,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
+                                  child: Text("Lihat Semua",
+                                      style: TextStyles.buttonTextStyle),
                                 ),
                               ],
                             ),

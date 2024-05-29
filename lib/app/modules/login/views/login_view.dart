@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -6,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:wr_project/app/style/app_color.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:wr_project/app/style/text_styles.dart'; // Import the style definitions
 
 import '../controllers/login_controller.dart';
 
@@ -57,10 +57,7 @@ class LoginView extends GetView<LoginController> {
       margin: EdgeInsets.only(bottom: 20),
       child: Text(
         'Masuk Akun',
-        style: GoogleFonts.plusJakartaSans(
-          fontSize: 25,
-          fontWeight: FontWeight.bold,
-        ),
+        style: TextStyles.headerStyle, // Use the predefined style
       ),
     );
   }
@@ -70,10 +67,7 @@ class LoginView extends GetView<LoginController> {
       margin: EdgeInsets.only(bottom: 20),
       child: Text(
         'Lengkapi data dibawah untuk masuk ke akunmu yang sudah terdaftar di We Stay.',
-        style: GoogleFonts.plusJakartaSans(
-          fontSize: 16,
-          fontWeight: FontWeight.w400,
-        ),
+        style: TextStyles.descriptionStyle, // Use the predefined style
       ),
     );
   }
@@ -91,10 +85,7 @@ class LoginView extends GetView<LoginController> {
         decoration: InputDecoration(
           label: Text(
             "Email",
-            style: GoogleFonts.plusJakartaSans(
-              fontSize: 20,
-              color: Colors.black,
-            ),
+            style: TextStyles.fieldLabelStyle, // Use the predefined style
           ),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           border: OutlineInputBorder(),
@@ -178,11 +169,7 @@ class LoginView extends GetView<LoginController> {
             ),
             child: Text(
               (controller.isLoading.isFalse) ? 'Log in' : 'Loading...',
-              style: GoogleFonts.plusJakartaSans(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: Colors.black,
-              ),
+              style: TextStyles.buttonTextStyle, // Use the predefined style
             ),
           ),
         ),

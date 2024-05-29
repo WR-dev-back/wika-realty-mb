@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:wr_project/app/model/leads.dart';
 import 'package:wr_project/app/modules/leads/controllers/leads_controller.dart';
 import 'package:wr_project/app/routes/app_pages.dart';
 import 'package:wr_project/app/style/app_color.dart';
+import '../../../style/text_styles.dart';
 
 class LeadsView extends GetView<LeadsController> {
   LeadsView({Key? key}) : super(key: key);
@@ -18,11 +18,7 @@ class LeadsView extends GetView<LeadsController> {
         backgroundColor: AppColor.primary,
         title: Text(
           'Leads View',
-          style: GoogleFonts.plusJakartaSans(
-            fontSize: 20,
-            fontWeight: FontWeight.w500,
-            color: Colors.white,
-          ),
+          style: TextStyles.fieldLabelStyle,
         ),
         centerTitle: true,
       ),
@@ -40,12 +36,7 @@ class LeadsView extends GetView<LeadsController> {
                         Icon(
                           Icons.list,
                         ),
-                        Text(
-                          "List Leads",
-                          style: GoogleFonts.plusJakartaSans(
-                            fontSize: 14,
-                          ),
-                        ),
+                        Text("List Leads", style: TextStyles.leadsTextStyle),
                       ],
                     ),
                   ),
@@ -58,12 +49,7 @@ class LeadsView extends GetView<LeadsController> {
                         Icon(
                           Icons.input,
                         ),
-                        Text(
-                          "Input",
-                          style: GoogleFonts.plusJakartaSans(
-                            fontSize: 14,
-                          ),
-                        ),
+                        Text("Input", style: TextStyles.leadsTextStyle),
                       ],
                     ),
                   ),
@@ -117,24 +103,16 @@ class LeadsView extends GetView<LeadsController> {
                                             color: Colors.white,
                                           ),
                                           child: ListTile(
-                                            title: Text(
-                                              leads[index].fullName,
-                                              style:
-                                                  GoogleFonts.plusJakartaSans(
-                                                      fontSize: 20),
-                                            ),
-                                            subtitle: Text(
-                                              leads[index].email,
-                                              style:
-                                                  GoogleFonts.plusJakartaSans(
-                                                      fontSize: 14),
-                                            ),
+                                            title: Text(leads[index].fullName,
+                                                style: TextStyles
+                                                    .headerStyleProfile),
+                                            subtitle: Text(leads[index].email,
+                                                style: TextStyles
+                                                    .leadsdecTextStyle),
                                             trailing: Text(
-                                              leads[index].phoneNumber,
-                                              style:
-                                                  GoogleFonts.plusJakartaSans(
-                                                      fontSize: 14),
-                                            ),
+                                                leads[index].phoneNumber,
+                                                style: TextStyles
+                                                    .leadsdecTextStyle),
                                             onTap: () => Get.toNamed(
                                               Routes.DETAIL_LEADS,
                                               arguments: leads[index],
@@ -164,22 +142,18 @@ class LeadsView extends GetView<LeadsController> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("Form Input Leads"),
+                              Text("Form Input Leads",
+                                  style: TextStyles.menuTextStyle),
                               SizedBox(
                                 height: 20,
                               ),
                               TextFormField(
-                                style: GoogleFonts.plusJakartaSans(
-                                  fontSize: 14,
-                                ),
+                                style: TextStyles.leadsdecTextStyle,
                                 controller: controller.sumD,
                                 decoration: InputDecoration(
                                   label: Text(
                                     "Sumber Digital",
-                                    style: GoogleFonts.plusJakartaSans(
-                                      fontSize: 20,
-                                      color: Colors.black,
-                                    ),
+                                    style: TextStyles.headerFieldStyle,
                                   ),
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
@@ -191,18 +165,13 @@ class LeadsView extends GetView<LeadsController> {
                                 height: 20,
                               ),
                               TextFormField(
-                                style: GoogleFonts.plusJakartaSans(
-                                  fontSize: 14,
-                                ),
+                                style: TextStyles.leadsdecTextStyle,
                                 maxLines: 1,
                                 controller: controller.sumOf,
                                 decoration: InputDecoration(
                                   label: Text(
                                     "Sumber Offline",
-                                    style: GoogleFonts.plusJakartaSans(
-                                      fontSize: 20,
-                                      color: Colors.black,
-                                    ),
+                                    style: TextStyles.headerFieldStyle,
                                   ),
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
@@ -214,18 +183,13 @@ class LeadsView extends GetView<LeadsController> {
                                 height: 20,
                               ),
                               TextFormField(
-                                style: GoogleFonts.plusJakartaSans(
-                                  fontSize: 14,
-                                ),
+                                style: TextStyles.leadsdecTextStyle,
                                 maxLines: 1,
                                 controller: controller.lok,
                                 decoration: InputDecoration(
                                   label: Text(
                                     "Lokasi Kegiatan",
-                                    style: GoogleFonts.plusJakartaSans(
-                                      fontSize: 20,
-                                      color: Colors.black,
-                                    ),
+                                    style: TextStyles.headerFieldStyle,
                                   ),
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
@@ -237,18 +201,13 @@ class LeadsView extends GetView<LeadsController> {
                                 height: 20,
                               ),
                               TextFormField(
-                                style: GoogleFonts.plusJakartaSans(
-                                  fontSize: 14,
-                                ),
+                                style: TextStyles.leadsdecTextStyle,
                                 maxLines: 1,
                                 controller: controller.fullName,
                                 decoration: InputDecoration(
                                   label: Text(
                                     "Full Name",
-                                    style: GoogleFonts.plusJakartaSans(
-                                      fontSize: 20,
-                                      color: Colors.black,
-                                    ),
+                                    style: TextStyles.headerFieldStyle,
                                   ),
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
@@ -260,9 +219,7 @@ class LeadsView extends GetView<LeadsController> {
                                 height: 20,
                               ),
                               TextFormField(
-                                style: GoogleFonts.plusJakartaSans(
-                                  fontSize: 14,
-                                ),
+                                style: TextStyles.leadsdecTextStyle,
                                 maxLines: 1,
                                 controller: controller.phoneNum,
                                 keyboardType: TextInputType.phone,
@@ -274,10 +231,7 @@ class LeadsView extends GetView<LeadsController> {
                                 decoration: InputDecoration(
                                   label: Text(
                                     "Phone Number",
-                                    style: GoogleFonts.plusJakartaSans(
-                                      fontSize: 20,
-                                      color: Colors.black,
-                                    ),
+                                    style: TextStyles.headerFieldStyle,
                                   ),
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
@@ -289,18 +243,13 @@ class LeadsView extends GetView<LeadsController> {
                                 height: 20,
                               ),
                               TextFormField(
-                                style: GoogleFonts.plusJakartaSans(
-                                  fontSize: 14,
-                                ),
+                                style: TextStyles.leadsdecTextStyle,
                                 maxLines: 1,
                                 controller: controller.email,
                                 decoration: InputDecoration(
                                   label: Text(
                                     "Email",
-                                    style: GoogleFonts.plusJakartaSans(
-                                      fontSize: 20,
-                                      color: Colors.black,
-                                    ),
+                                    style: TextStyles.headerFieldStyle,
                                   ),
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
@@ -312,18 +261,13 @@ class LeadsView extends GetView<LeadsController> {
                                 height: 20,
                               ),
                               TextFormField(
-                                style: GoogleFonts.plusJakartaSans(
-                                  fontSize: 14,
-                                ),
+                                style: TextStyles.leadsdecTextStyle,
                                 maxLines: 1,
                                 controller: controller.cityC,
                                 decoration: InputDecoration(
                                   label: Text(
                                     "City",
-                                    style: GoogleFonts.plusJakartaSans(
-                                      fontSize: 20,
-                                      color: Colors.black,
-                                    ),
+                                    style: TextStyles.headerFieldStyle,
                                   ),
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
@@ -335,18 +279,13 @@ class LeadsView extends GetView<LeadsController> {
                                 height: 20,
                               ),
                               TextFormField(
-                                style: GoogleFonts.plusJakartaSans(
-                                  fontSize: 14,
-                                ),
+                                style: TextStyles.leadsdecTextStyle,
                                 maxLines: 1,
                                 controller: controller.npwpC,
                                 decoration: InputDecoration(
                                   label: Text(
                                     "Npwp",
-                                    style: GoogleFonts.plusJakartaSans(
-                                      fontSize: 20,
-                                      color: Colors.black,
-                                    ),
+                                    style: TextStyles.headerFieldStyle,
                                   ),
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
@@ -358,18 +297,13 @@ class LeadsView extends GetView<LeadsController> {
                                 height: 20,
                               ),
                               TextFormField(
-                                style: GoogleFonts.plusJakartaSans(
-                                  fontSize: 14,
-                                ),
+                                style: TextStyles.leadsdecTextStyle,
                                 maxLines: 1,
                                 controller: controller.typeC,
                                 decoration: InputDecoration(
                                   label: Text(
                                     "Type",
-                                    style: GoogleFonts.plusJakartaSans(
-                                      fontSize: 20,
-                                      color: Colors.black,
-                                    ),
+                                    style: TextStyles.headerFieldStyle,
                                   ),
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
@@ -381,18 +315,13 @@ class LeadsView extends GetView<LeadsController> {
                                 height: 20,
                               ),
                               TextFormField(
-                                style: GoogleFonts.plusJakartaSans(
-                                  fontSize: 14,
-                                ),
+                                style: TextStyles.leadsdecTextStyle,
                                 maxLines: 1,
                                 controller: controller.areaC,
                                 decoration: InputDecoration(
                                   label: Text(
                                     "Area",
-                                    style: GoogleFonts.plusJakartaSans(
-                                      fontSize: 20,
-                                      color: Colors.black,
-                                    ),
+                                    style: TextStyles.headerFieldStyle,
                                   ),
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
@@ -404,18 +333,13 @@ class LeadsView extends GetView<LeadsController> {
                                 height: 20,
                               ),
                               TextFormField(
-                                style: GoogleFonts.plusJakartaSans(
-                                  fontSize: 14,
-                                ),
+                                style: TextStyles.leadsdecTextStyle,
                                 maxLines: 1,
                                 controller: controller.omzetC,
                                 decoration: InputDecoration(
                                   label: Text(
                                     "Omzet",
-                                    style: GoogleFonts.plusJakartaSans(
-                                      fontSize: 20,
-                                      color: Colors.black,
-                                    ),
+                                    style: TextStyles.headerFieldStyle,
                                   ),
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
@@ -454,10 +378,7 @@ class LeadsView extends GetView<LeadsController> {
                                         backgroundColor: AppColor.primary),
                                     child: Text(
                                       "Submit",
-                                      style: GoogleFonts.plusJakartaSans(
-                                        fontSize: 14,
-                                        color: Colors.white,
-                                      ),
+                                      style: TextStyles.buttonTextStyle,
                                     ),
                                   ),
                                 ),
