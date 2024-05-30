@@ -48,7 +48,6 @@ class LoginController extends GetxController {
 
     try {
       await _loginProvider.login(emailC.text, passC.text);
-      // Handle successful login
     } catch (error) {
       _showDialog('Error', 'Wrong Email And Password');
     }
