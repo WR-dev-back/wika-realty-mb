@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:wr_project/app/controller/page_index_controller.dart';
-import 'package:wr_project/app/style/app_color.dart';
+import 'package:wr_project/app/modules/dashboard/controller/page_index_controller.dart';
+import 'package:wr_project/app/utils/constant/style/app_color.dart';
 
 class CustomBottomNavigationBar extends GetView<PageIndexController> {
   const CustomBottomNavigationBar({super.key});

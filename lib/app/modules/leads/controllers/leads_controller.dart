@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wr_project/app/model/leads.dart';
-import 'package:wr_project/app/provider/api_service.dart';
+import 'package:wr_project/app/common/model/leads.dart';
+import 'package:wr_project/app/modules/leads/provider/leads_provider.dart';
 
 class LeadsController extends GetxController {
   var filteredLeads = List<Datum>.empty().obs;
   TextEditingController searchController = TextEditingController();
   var isFetching = false.obs;
-  var apiService = ApiService();
+  final LeadsProvider leadsProvider = Get.find();
+  ScrollController scrollController = ScrollController();
 
   void startFetching() => isFetching(true);
 
@@ -17,12 +18,19 @@ class LeadsController extends GetxController {
   void onInit() {
     super.onInit();
     fetchDataLeads();
+    scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        // Load more data here
+        fetchDataLeads();
+      }
+    });
   }
 
   Future<void> fetchDataLeads() async {
     startFetching();
     try {
-      filteredLeads.value = await apiService.fetchDataLeads();
+      filteredLeads.value = await leadsProvider.fetchDataLeads();
     } catch (error) {
       print('Error fetching data: $error');
     } finally {
@@ -33,7 +41,7 @@ class LeadsController extends GetxController {
   Future<void> searchLeads(String query) async {
     startFetching();
     try {
-      filteredLeads.value = await apiService.searchLeads(query);
+      filteredLeads.value = await leadsProvider.searchLeads(query);
     } catch (error) {
       print('Error searching data: $error');
     } finally {
@@ -73,7 +81,7 @@ class LeadsController extends GetxController {
     required int omzet,
   }) async {
     try {
-      await apiService.postDataToBackend(
+      await leadsProvider.postDataToBackend(
         email: email,
         fullName: fullName,
         phoneNumber: phoneNumber,

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:get/get.dart';
-import 'package:wr_project/app/model/leads.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:wr_project/app/common/model/leads.dart';
 import 'package:wr_project/app/modules/leads/controllers/leads_controller.dart';
 import 'package:wr_project/app/routes/app_pages.dart';
-import 'package:wr_project/app/style/app_color.dart';
-import '../../../style/text_styles.dart';
+import 'package:wr_project/app/utils/constant/style/app_color.dart';
 
 class LeadsView extends GetView<LeadsController> {
   LeadsView({Key? key}) : super(key: key);
@@ -17,7 +18,11 @@ class LeadsView extends GetView<LeadsController> {
         backgroundColor: AppColor.primary,
         title: Text(
           'Leads View',
-          style: TextStyles.fieldLabelStyle,
+          style: GoogleFonts.plusJakartaSans(
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+            color: Colors.white,
+          ),
         ),
         centerTitle: true,
       ),
@@ -27,19 +32,7 @@ class LeadsView extends GetView<LeadsController> {
           children: [
             TabBar(
               tabs: [
-                Tab(
-                  child: Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Icon(
-                          Icons.list,
-                        ),
-                        Text("List Leads", style: TextStyles.leadsTextStyle),
-                      ],
-                    ),
-                  ),
-                ),
+                Tab(text: 'List Leads'),
                 Tab(
                   child: Container(
                     child: Row(
@@ -48,7 +41,12 @@ class LeadsView extends GetView<LeadsController> {
                         Icon(
                           Icons.input,
                         ),
-                        Text("Input", style: TextStyles.leadsTextStyle),
+                        Text(
+                          "Input",
+                          style: GoogleFonts.plusJakartaSans(
+                            fontSize: 14,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -58,36 +56,32 @@ class LeadsView extends GetView<LeadsController> {
             Expanded(
               child: TabBarView(
                 children: [
-                  ListView(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Container(
-                          child: Column(
-                            children: [
-                              TextField(
-                                controller: controller.searchController,
-                                onSubmitted: (value) {
-                                  if (value.isNotEmpty) {
-                                    print(value);
-                                    controller.searchLeads(value);
-                                  }
-                                },
-                                decoration: InputDecoration(
-                                  labelText: 'Search Leads',
-                                  prefixIcon: Icon(Icons.search),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Obx(() {
-                                if (controller.isFetching.value) {
-                                  return Center(
-                                      child: CircularProgressIndicator());
-                                } else {
-                                  List<Datum> leads = controller.filteredLeads;
-                                  return ListView.builder(
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Container(
+                      child: Column(
+                        children: [
+                          TextField(
+                            controller: controller.searchController,
+                            decoration: InputDecoration(
+                              labelText: 'Search Leads',
+                              prefixIcon: Icon(Icons.search),
+                            ),
+                            onSubmitted: (value) {
+                              controller.searchLeads(value);
+                            },
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Expanded(
+                            child: Obx(() {
+                              if (controller.isFetching.value) {
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              } else {
+                                List<Datum> leads = controller.filteredLeads;
+                                return ListView.builder(
                                     itemCount: leads.length,
                                     itemBuilder: (context, index) {
                                       return Padding(
@@ -102,16 +96,24 @@ class LeadsView extends GetView<LeadsController> {
                                             color: Colors.white,
                                           ),
                                           child: ListTile(
-                                            title: Text(leads[index].fullName,
-                                                style: TextStyles
-                                                    .headerStyleProfile),
-                                            subtitle: Text(leads[index].email,
-                                                style: TextStyles
-                                                    .leadsdecTextStyle),
+                                            title: Text(
+                                              leads[index].fullName,
+                                              style:
+                                                  GoogleFonts.plusJakartaSans(
+                                                      fontSize: 20),
+                                            ),
+                                            subtitle: Text(
+                                              leads[index].email,
+                                              style:
+                                                  GoogleFonts.plusJakartaSans(
+                                                      fontSize: 14),
+                                            ),
                                             trailing: Text(
-                                                leads[index].phoneNumber,
-                                                style: TextStyles
-                                                    .leadsdecTextStyle),
+                                              leads[index].phoneNumber,
+                                              style:
+                                                  GoogleFonts.plusJakartaSans(
+                                                      fontSize: 14),
+                                            ),
                                             onTap: () => Get.toNamed(
                                               Routes.DETAIL_LEADS,
                                               arguments: leads[index],
@@ -119,168 +121,44 @@ class LeadsView extends GetView<LeadsController> {
                                           ),
                                         ),
                                       );
-                                    },
-                                  );
-                                }
-                              }),
-                            ],
-                          ),
-                        ),
+                                    });
+                              }
+                            }),
+                          )
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                   ListView(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(top: 20),
+                        padding: const EdgeInsets.only(
+                          top: 20,
+                        ),
                         child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 20),
+                          margin: EdgeInsets.symmetric(
+                            horizontal: 20,
+                          ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("Form Input Leads",
-                                  style: TextStyles.menuTextStyle),
-                              SizedBox(height: 20),
+                              Text("Form Input Leads"),
+                              SizedBox(
+                                height: 20,
+                              ),
                               TextFormField(
-                                style: TextStyles.leadsdecTextStyle,
+                                style: GoogleFonts.plusJakartaSans(
+                                  fontSize: 14,
+                                ),
                                 controller: controller.sumD,
                                 decoration: InputDecoration(
-                                  label: Text("Sumber Digital",
-                                      style: TextStyles.headerFieldStyle),
-                                  floatingLabelBehavior:
-                                      FloatingLabelBehavior.always,
-                                  border: OutlineInputBorder(),
-                                  hintText: "",
-                                ),
-                              ),
-                              SizedBox(height: 20),
-                              TextFormField(
-                                style: TextStyles.leadsdecTextStyle,
-                                maxLines: 1,
-                                controller: controller.sumOf,
-                                decoration: InputDecoration(
-                                  label: Text("Sumber Offline",
-                                      style: TextStyles.headerFieldStyle),
-                                  floatingLabelBehavior:
-                                      FloatingLabelBehavior.always,
-                                  border: OutlineInputBorder(),
-                                  hintText: "",
-                                ),
-                              ),
-                              SizedBox(height: 20),
-                              TextFormField(
-                                style: TextStyles.leadsdecTextStyle,
-                                maxLines: 1,
-                                controller: controller.cityC,
-                                decoration: InputDecoration(
-                                  label: Text("City",
-                                      style: TextStyles.headerFieldStyle),
-                                  floatingLabelBehavior:
-                                      FloatingLabelBehavior.always,
-                                  border: OutlineInputBorder(),
-                                  hintText: "",
-                                ),
-                              ),
-                              SizedBox(height: 20),
-                              TextFormField(
-                                style: TextStyles.leadsdecTextStyle,
-                                maxLines: 1,
-                                controller: controller.npwpC,
-                                decoration: InputDecoration(
-                                  label: Text("Npwp",
-                                      style: TextStyles.headerFieldStyle),
-                                  floatingLabelBehavior:
-                                      FloatingLabelBehavior.always,
-                                  border: OutlineInputBorder(),
-                                  hintText: "",
-                                ),
-                              ),
-                              SizedBox(height: 20),
-                              TextFormField(
-                                style: TextStyles.leadsdecTextStyle,
-                                maxLines: 1,
-                                controller: controller.typeC,
-                                decoration: InputDecoration(
-                                  label: Text("Type",
-                                      style: TextStyles.headerFieldStyle),
-                                  floatingLabelBehavior:
-                                      FloatingLabelBehavior.always,
-                                  border: OutlineInputBorder(),
-                                  hintText: "",
-                                ),
-                              ),
-                              SizedBox(height: 20),
-                              TextFormField(
-                                style: TextStyles.leadsdecTextStyle,
-                                maxLines: 1,
-                                controller: controller.areaC,
-                                decoration: InputDecoration(
-                                  label: Text("Area",
-                                      style: TextStyles.headerFieldStyle),
-                                  floatingLabelBehavior:
-                                      FloatingLabelBehavior.always,
-                                  border: OutlineInputBorder(),
-                                  hintText: "",
-                                ),
-                              ),
-                              SizedBox(height: 20),
-                              TextFormField(
-                                style: TextStyles.leadsdecTextStyle,
-                                maxLines: 1,
-                                controller: controller.lok,
-                                decoration: InputDecoration(
-                                  label: Text("Lokasi Kegiatan",
-                                      style: TextStyles.headerFieldStyle),
-                                  floatingLabelBehavior:
-                                      FloatingLabelBehavior.always,
-                                  border: OutlineInputBorder(),
-                                  hintText: "",
-                                ),
-                              ),
-                              SizedBox(height: 20),
-                              TextFormField(
-                                style: TextStyles.leadsdecTextStyle,
-                                maxLines: 1,
-                                controller: controller.phoneNum,
-                                keyboardType: TextInputType.phone,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.digitsOnly,
-                                  LengthLimitingTextInputFormatter(15),
-                                  PhoneNumberFormatter(),
-                                ],
-                                decoration: InputDecoration(
-                                  label: Text("Phone Number",
-                                      style: TextStyles.headerFieldStyle),
-                                  floatingLabelBehavior:
-                                      FloatingLabelBehavior.always,
-                                  border: OutlineInputBorder(),
-                                  hintText: "",
-                                ),
-                              ),
-                              SizedBox(height: 20),
-                              TextFormField(
-                                style: TextStyles.leadsdecTextStyle,
-                                maxLines: 1,
-                                controller: controller.email,
-                                decoration: InputDecoration(
-                                  label: Text("Email",
-                                      style: TextStyles.headerFieldStyle),
-                                  floatingLabelBehavior:
-                                      FloatingLabelBehavior.always,
-                                  border: OutlineInputBorder(),
-                                  hintText: "",
-                                ),
-                              ),
-                              SizedBox(height: 20),
-                              TextFormField(
-                                style: TextStyles.leadsdecTextStyle,
-                                maxLines: 1,
-                                controller: controller.fullName,
-                                decoration: InputDecoration(
                                   label: Text(
-                                    "Full Name",
-                                    style: TextStyles.headerFieldStyle,
+                                    "Sumber Digital",
+                                    style: GoogleFonts.plusJakartaSans(
+                                      fontSize: 20,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
@@ -290,6 +168,219 @@ class LeadsView extends GetView<LeadsController> {
                               ),
                               SizedBox(
                                 height: 20,
+                              ),
+                              TextFormField(
+                                style: GoogleFonts.plusJakartaSans(
+                                  fontSize: 14,
+                                ),
+                                maxLines: 1,
+                                controller: controller.sumOf,
+                                decoration: InputDecoration(
+                                  label: Text(
+                                    "Sumber Offline",
+                                    style: GoogleFonts.plusJakartaSans(
+                                      fontSize: 20,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.always,
+                                  border: OutlineInputBorder(),
+                                  hintText: "",
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              TextFormField(
+                                style: GoogleFonts.plusJakartaSans(
+                                  fontSize: 14,
+                                ),
+                                maxLines: 1,
+                                controller: controller.lok,
+                                decoration: InputDecoration(
+                                  label: Text(
+                                    "Lokasi Kegiatan",
+                                    style: GoogleFonts.plusJakartaSans(
+                                      fontSize: 20,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.always,
+                                  border: OutlineInputBorder(),
+                                  hintText: "",
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              TextFormField(
+                                style: GoogleFonts.plusJakartaSans(
+                                  fontSize: 14,
+                                ),
+                                maxLines: 1,
+                                controller: controller.fullName,
+                                decoration: InputDecoration(
+                                  label: Text(
+                                    "Full Name",
+                                    style: GoogleFonts.plusJakartaSans(
+                                      fontSize: 20,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.always,
+                                  border: OutlineInputBorder(),
+                                  hintText: "",
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              TextFormField(
+                                style: GoogleFonts.plusJakartaSans(
+                                  fontSize: 14,
+                                ),
+                                maxLines: 1,
+                                controller: controller.phoneNum,
+                                keyboardType: TextInputType.phone,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                  LengthLimitingTextInputFormatter(15),
+                                  PhoneNumberFormatter(),
+                                ],
+                                decoration: InputDecoration(
+                                  label: Text(
+                                    "Phone Number",
+                                    style: GoogleFonts.plusJakartaSans(
+                                      fontSize: 20,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.always,
+                                  border: OutlineInputBorder(),
+                                  hintText: "",
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              TextFormField(
+                                style: GoogleFonts.plusJakartaSans(
+                                  fontSize: 14,
+                                ),
+                                maxLines: 1,
+                                controller: controller.email,
+                                decoration: InputDecoration(
+                                  label: Text(
+                                    "Email",
+                                    style: GoogleFonts.plusJakartaSans(
+                                      fontSize: 20,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.always,
+                                  border: OutlineInputBorder(),
+                                  hintText: "",
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              TextFormField(
+                                style: GoogleFonts.plusJakartaSans(
+                                  fontSize: 14,
+                                ),
+                                maxLines: 1,
+                                controller: controller.cityC,
+                                decoration: InputDecoration(
+                                  label: Text(
+                                    "City",
+                                    style: GoogleFonts.plusJakartaSans(
+                                      fontSize: 20,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.always,
+                                  border: OutlineInputBorder(),
+                                  hintText: "",
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              TextFormField(
+                                style: GoogleFonts.plusJakartaSans(
+                                  fontSize: 14,
+                                ),
+                                maxLines: 1,
+                                controller: controller.typeC,
+                                decoration: InputDecoration(
+                                  label: Text(
+                                    "Type",
+                                    style: GoogleFonts.plusJakartaSans(
+                                      fontSize: 20,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.always,
+                                  border: OutlineInputBorder(),
+                                  hintText: "",
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              TextFormField(
+                                style: GoogleFonts.plusJakartaSans(
+                                  fontSize: 14,
+                                ),
+                                maxLines: 1,
+                                controller: controller.areaC,
+                                decoration: InputDecoration(
+                                  label: Text(
+                                    "Area",
+                                    style: GoogleFonts.plusJakartaSans(
+                                      fontSize: 20,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.always,
+                                  border: OutlineInputBorder(),
+                                  hintText: "",
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              TextFormField(
+                                style: GoogleFonts.plusJakartaSans(
+                                  fontSize: 14,
+                                ),
+                                maxLines: 1,
+                                controller: controller.omzetC,
+                                decoration: InputDecoration(
+                                  label: Text(
+                                    "Omzet",
+                                    style: GoogleFonts.plusJakartaSans(
+                                      fontSize: 20,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.always,
+                                  border: OutlineInputBorder(),
+                                  hintText: "",
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
                               ),
                               Center(
                                 child: Container(
@@ -301,10 +392,10 @@ class LeadsView extends GetView<LeadsController> {
                                         email: controller.email.text,
                                         fullName: controller.fullName.text,
                                         phoneNumber: controller.phoneNum.text,
+                                        npwp: controller.npwpC.text,
                                         digitalSource: controller.sumD.text,
                                         offlineSource: controller.sumOf.text,
                                         locationOffline: controller.lok.text,
-                                        npwp: controller.npwpC.text,
                                         city: controller.cityC.text,
                                         type: controller.typeC.text,
                                         area: int.tryParse(
@@ -316,11 +407,13 @@ class LeadsView extends GetView<LeadsController> {
                                       );
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: AppColor.primary,
-                                    ),
+                                        backgroundColor: AppColor.primary),
                                     child: Text(
                                       "Submit",
-                                      style: TextStyles.buttonTextStyle,
+                                      style: GoogleFonts.plusJakartaSans(
+                                        fontSize: 14,
+                                        color: Colors.white,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -348,10 +441,13 @@ class PhoneNumberFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {
-    // Always add '+' in front of the phone number
-    return TextEditingValue(
-      text: '+${newValue.text}',
-      selection: TextSelection.collapsed(offset: newValue.text.length + 1),
-    );
+    // Add '+' if the length is less than or equal to 1
+    if (newValue.text.length <= 1) {
+      return TextEditingValue(
+        text: '+${newValue.text}',
+        selection: TextSelection.collapsed(offset: newValue.text.length + 1),
+      );
+    }
+    return newValue;
   }
 }

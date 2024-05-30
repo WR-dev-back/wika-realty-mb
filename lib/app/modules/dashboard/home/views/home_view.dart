@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wr_project/app/modules/dashboard/home/provider/home_provider.dart';
 
-import 'package:wr_project/app/model/body.dart';
-import 'package:wr_project/app/provider/api_service.dart';
-
-import 'package:wr_project/app/widgets/custom_navigation_bar.dart';
-import '../../../controller/page_index_controller.dart';
-import '../../../style/app_color.dart';
+import 'package:wr_project/app/modules/dashboard/view/custom_navigation_bar.dart';
+import '../../controller/page_index_controller.dart';
+import '../../../../utils/constant/style/app_color.dart';
+import '../../../auth/login/model/login_model.dart';
 import '../controllers/home_controller.dart';
-import '../../../style/text_styles.dart'; // Import the style definitions
+import '../../../../utils/constant/style/text_styles.dart'; // Import the style definitions
 
 class HomeView extends GetView<HomeController> {
   final PageIndexController pageC = Get.find<PageIndexController>();
@@ -147,7 +146,7 @@ class HomeView extends GetView<HomeController> {
                               children: [
                                 Expanded(
                                   child: FutureBuilder<List<Menu>>(
-                                    future: ApiService().retrieveStoredData(
+                                    future: HomeProvider().retrieveStoredData(
                                         MediaQuery.of(context)
                                                 .size
                                                 .shortestSide <

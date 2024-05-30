@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:wr_project/app/model/body.dart';
 import 'package:wr_project/app/routes/app_pages.dart';
-import 'package:wr_project/app/style/app_color.dart';
+import 'package:wr_project/app/utils/constant/style/app_color.dart';
+
+import '../../modules/auth/login/model/login_model.dart';
 
 // ignore: must_be_immutable
 class GridDashboard extends StatelessWidget {

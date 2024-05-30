@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wr_project/app/provider/api_service.dart';
+import 'package:wr_project/app/modules/auth/login/provider/login_provider.dart';
 
 class LoginController extends GetxController {
-  final ApiService _apiService = ApiService();
+  final LoginProvider _loginProvider = LoginProvider();
   final TextEditingController emailC = TextEditingController();
   final TextEditingController passC = TextEditingController();
   final RxBool isLoading = false.obs;
@@ -47,7 +47,7 @@ class LoginController extends GetxController {
     }
 
     try {
-      await _apiService.login(emailC.text, passC.text);
+      await _loginProvider.login(emailC.text, passC.text);
       // Handle successful login
     } catch (error) {
       _showDialog('Error', 'Wrong Email And Password');

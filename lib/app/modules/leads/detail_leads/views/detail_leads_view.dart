@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:wr_project/app/model/leads.dart';
-import 'package:wr_project/app/modules/detail_leads/views/edit_leads.dart';
-import 'package:wr_project/app/style/app_color.dart';
+import 'package:wr_project/app/common/model/leads.dart';
+import 'package:wr_project/app/modules/leads/detail_leads/views/edit_leads.dart';
+import 'package:wr_project/app/utils/constant/style/app_color.dart';
 
 import '../controllers/detail_leads_controller.dart';
 

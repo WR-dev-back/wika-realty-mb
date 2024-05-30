@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wr_project/app/model/leads.dart';
+import 'package:wr_project/app/common/model/leads.dart';
 
 class DetailLeadsController extends GetxController {
   TextEditingController date = TextEditingController();

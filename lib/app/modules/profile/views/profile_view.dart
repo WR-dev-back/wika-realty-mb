@@ -3,13 +3,13 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 
-import 'package:wr_project/app/widgets/custom_navigation_bar.dart';
+import 'package:wr_project/app/modules/dashboard/view/custom_navigation_bar.dart';
 import 'package:social_design_system/social_design_system.dart';
 
-import '../../../controller/page_index_controller.dart';
-import '../../../style/app_color.dart';
+import '../../dashboard/controller/page_index_controller.dart';
+import '../../../utils/constant/style/app_color.dart';
 import '../controllers/profile_controller.dart';
-import '../../../style/text_styles.dart'; // Import the style definitions
+import '../../../utils/constant/style/text_styles.dart'; // Import the style definitions
 
 class ProfileView extends GetView<ProfileController> {
   final pageC = Get.find<PageIndexController>();

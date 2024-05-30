@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:wr_project/app/modules/detail_leads/controllers/detail_leads_controller.dart';
+import 'package:wr_project/app/modules/leads/detail_leads/controllers/detail_leads_controller.dart';
 
-import '../../../model/leads.dart';
+import '../../../../common/model/leads.dart';
 
 class EditDetailLeads extends StatefulWidget {
   final Datum leads;

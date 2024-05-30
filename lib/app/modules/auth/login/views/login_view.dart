@@ -1,11 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:wr_project/app/style/app_color.dart';
+import 'package:wr_project/app/utils/constant/style/app_color.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:wr_project/app/style/text_styles.dart'; // Import the style definitions
+import 'package:wr_project/app/utils/constant/style/text_styles.dart'; // Import the style definitions
 
 import '../controllers/login_controller.dart';
 
