@@ -15,10 +15,23 @@ class DetailLeadsController extends GetxController {
 
   String? selectedFollowUpOption;
 
-  // Your existing code...
+  // Initialize all controllers directly
+  TextEditingController fullNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController phoneNumController = TextEditingController();
+  TextEditingController sumDController = TextEditingController();
+  TextEditingController sumOfController = TextEditingController();
+  TextEditingController lokController = TextEditingController();
+  TextEditingController npwpController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
+  TextEditingController typeController = TextEditingController();
+  TextEditingController areaController = TextEditingController();
+  TextEditingController omzetController = TextEditingController();
 
+  // Add controllers for other fields as needed
+
+  // Function to update leads data
   Future<void> updateLeadsData(Datum leads) async {
-    // Implement your API call here to update the leads data
     try {
       // Perform the API call to update the leads data
       // For example:
@@ -36,6 +49,7 @@ class DetailLeadsController extends GetxController {
     }
   }
 
+  // Function to show follow-up dialog
   void showFollowUpDialog() async {
     final DateTime? picked = await showDatePicker(
       context: Get.context!,
@@ -48,50 +62,5 @@ class DetailLeadsController extends GetxController {
       // Update the hint text with the selected date
       hintText.value = "Tanggal : ${picked.toString().split(' ')[0]}";
     }
-  }
-
-  late TextEditingController fullNameController;
-  late TextEditingController emailController;
-  late TextEditingController phoneNumController;
-  late TextEditingController sumDController;
-  late TextEditingController sumOfController;
-  late TextEditingController lokController;
-  late TextEditingController npwpController;
-  late TextEditingController cityController;
-  late TextEditingController typeController;
-  late TextEditingController areaController;
-  late TextEditingController omzetController;
-  // Add controllers for other fields as needed
-
-  @override
-  void onInit() {
-    super.onInit();
-    fullNameController = TextEditingController();
-    emailController = TextEditingController();
-    phoneNumController = TextEditingController();
-    sumDController = TextEditingController();
-    sumOfController = TextEditingController();
-    lokController = TextEditingController();
-    npwpController = TextEditingController();
-    cityController = TextEditingController();
-    typeController = TextEditingController();
-    areaController = TextEditingController();
-    omzetController = TextEditingController();
-  }
-
-  @override
-  void onClose() {
-    fullNameController.dispose();
-    emailController.dispose();
-    phoneNumController.dispose();
-    sumDController.dispose();
-    sumOfController.dispose();
-    lokController.dispose();
-    npwpController.dispose();
-    cityController.dispose();
-    typeController.dispose();
-    areaController.dispose();
-    omzetController.dispose();
-    super.onClose();
   }
 }

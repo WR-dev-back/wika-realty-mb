@@ -11,7 +11,7 @@ class _AuthEndPoints {
 }
 
 class _GetDataLeads {
-  final String dataLeads = '/api/v1/leads?orderBy=ASC&page=1&limit=25';
+  final String dataLeads = '/api/v1/leads?orderBy=DSC&page=1&limit=25';
 }
 
 class _PostDataLeads {
@@ -19,5 +19,5 @@ class _PostDataLeads {
 }
 
 class _CheckNum {
-  final String checkLeads = '/api/v1/leads/duplicate?npwp';
+  final String checkDuplicate = '/api/v1/leads/duplicate';
 }

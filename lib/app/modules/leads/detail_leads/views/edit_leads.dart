@@ -1,23 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:wr_project/app/common/model/leads.dart';
 import 'package:wr_project/app/modules/leads/detail_leads/controllers/detail_leads_controller.dart';
 
-import '../../../../common/model/leads.dart';
-
-class EditDetailLeads extends StatefulWidget {
+class EditDetailLeads extends StatelessWidget {
   final Datum leads;
   final DetailLeadsController controller;
 
-  const EditDetailLeads(
-      {Key? key, required this.leads, required this.controller})
-      : super(key: key);
+  const EditDetailLeads({
+    Key? key,
+    required this.leads,
+    required this.controller,
+  }) : super(key: key);
 
-  @override
-  _EditDetailLeadsState createState() => _EditDetailLeadsState();
-}
-
-class _EditDetailLeadsState extends State<EditDetailLeads> {
   @override
   Widget build(BuildContext context) {
+    controller.fullNameController.text = leads.fullName;
+    controller.emailController.text = leads.email;
+    controller.phoneNumController.text = leads.phoneNumber;
+    controller.sumDController.text = leads.digitalSource ?? '';
+    controller.sumOfController.text = leads.offlineSource ?? '';
+    controller.lokController.text = leads.locationOffline ?? '';
+    controller.npwpController.text = leads.npwp;
+    controller.cityController.text = leads.city ?? '';
+    controller.typeController.text = leads.type ?? '';
+    controller.areaController.text = leads.area.toString();
+    controller.omzetController.text = leads.omzet.toString();
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Edit Leads"),
@@ -29,53 +38,56 @@ class _EditDetailLeadsState extends State<EditDetailLeads> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextField(
-              controller: widget.controller.fullNameController,
+              controller: controller.fullNameController,
               decoration: InputDecoration(labelText: 'Full Name'),
             ),
             TextField(
-              controller: widget.controller.emailController,
+              controller: controller.emailController,
               decoration: InputDecoration(labelText: 'Email'),
             ),
             TextField(
-              controller: widget.controller.phoneNumController,
+              controller: controller.phoneNumController,
               decoration: InputDecoration(labelText: 'Phone Number'),
             ),
             TextField(
-              controller: widget.controller.sumDController,
+              controller: controller.sumDController,
               decoration: InputDecoration(labelText: 'Sumber Digital'),
             ),
             TextField(
-              controller: widget.controller.sumOfController,
+              controller: controller.sumOfController,
               decoration: InputDecoration(labelText: 'Sumber Offline'),
             ),
             TextField(
-              controller: widget.controller.lokController,
+              controller: controller.lokController,
               decoration: InputDecoration(labelText: 'Lokasi'),
             ),
             TextField(
-              controller: widget.controller.npwpController,
+              controller: controller.npwpController,
               decoration: InputDecoration(labelText: 'Npwp'),
             ),
             TextField(
-              controller: widget.controller.cityController,
+              controller: controller.cityController,
               decoration: InputDecoration(labelText: 'City'),
             ),
             TextField(
-              controller: widget.controller.typeController,
+              controller: controller.typeController,
               decoration: InputDecoration(labelText: 'Type'),
             ),
             TextField(
-              controller: widget.controller.areaController,
+              controller: controller.areaController,
               decoration: InputDecoration(labelText: 'Area'),
             ),
             TextField(
-              controller: widget.controller.omzetController,
+              controller: controller.omzetController,
               decoration: InputDecoration(labelText: 'Omzet'),
             ),
             // Add input fields for other lead properties
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                controller.updateLeadsData(leads);
+                Get.back();
+              },
               child: Text('Save'),
             ),
           ],

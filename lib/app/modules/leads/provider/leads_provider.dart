@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../common/model/leads.dart';
@@ -19,18 +18,18 @@ class LeadsProvider extends GetConnect {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String? token = prefs.getString('token');
       if (token != null) {
-        final response = await http.get(
-          Uri.parse(apiUrl),
+        final response = await get(
+          apiUrl,
           headers: {
             'Authorization': 'Bearer $token',
           },
         );
 
         if (response.statusCode == 200) {
-          final responseBody = response.body;
+          final responseBody = response.bodyString;
           print('Response Body: $responseBody'); // Debugging line
 
-          final Map<String, dynamic> responseData = jsonDecode(responseBody);
+          final Map<String, dynamic> responseData = jsonDecode(responseBody!);
           final leadsData = Leads.fromJson(responseData);
 
           // Assuming _leads and _filteredLeads are defined elsewhere
@@ -60,17 +59,17 @@ class LeadsProvider extends GetConnect {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String? token = prefs.getString('token');
       if (token != null) {
-        var response = await http.get(
-          apiUrl,
+        var response = await get(
+          apiUrl.toString(),
           headers: {
             'Authorization': 'Bearer $token',
           },
         );
 
         if (response.statusCode == 200) {
-          print('Response Body: ${response.body}'); // Debugging line
+          print('Response Body: ${response.bodyString}'); // Debugging line
 
-          Leads leadsData = leadsFromJson(response.body);
+          Leads leadsData = leadsFromJson(response.bodyString!);
 
           // Assuming filteredLeads is a reactive variable or a state management variable
           filteredLeads.value = leadsData.data;
@@ -95,10 +94,67 @@ class LeadsProvider extends GetConnect {
     return prefs.getString('token');
   }
 
+  Future<bool> checkDuplicate({
+    required String email,
+    required String phone,
+    required String npwp,
+  }) async {
+    final apiUrl =
+        '${ApiEndPoints.baseUrl}${ApiEndPoints.checkLeads.checkDuplicate}';
+    final data = {
+      // Pass parameters in the body
+      'email': email,
+      'phone': phone,
+      'npwp': npwp,
+    };
+
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('token');
+      if (token != null) {
+        var response = await put(
+          apiUrl,
+          data,
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        );
+
+        if (response.statusCode == 200) {
+          print(response.body);
+          final Map<String, dynamic> responseBody =
+              response.body as Map<String, dynamic>;
+          final bool isDuplicate = responseBody['status'] ?? false;
+          final String message = responseBody['message'] ?? '';
+
+          if (isDuplicate) {
+            // Continue with post if status is true
+            return true;
+          } else {
+            // Do not continue with post if status is false
+            // Show alert
+            Get.snackbar('Duplicate Found', message,
+                snackPosition: SnackPosition.BOTTOM);
+            return false;
+          }
+        } else {
+          // Handle other status codes (e.g., 400, 404, etc.) if needed
+          throw Exception('Failed to check duplicate: ${response.statusCode}');
+        }
+      } else {
+        // Handle case where token is not available
+        throw Exception('Token not found');
+      }
+    } catch (e) {
+      // Handle network errors or exceptions
+      throw Exception('Error checking duplicate: $e');
+    }
+  }
+
   Future<void> postDataToBackend({
     required String email,
     required String fullName,
-    required String phoneNumber,
+    required String phone,
     required String digitalSource,
     required String offlineSource,
     required String locationOffline,
@@ -108,35 +164,56 @@ class LeadsProvider extends GetConnect {
     required int area,
     required int omzet,
   }) async {
-    var url = '${ApiEndPoints.baseUrl}${ApiEndPoints.postDataLeads.postLeads}';
-    var data = {
-      'email': email,
-      'full_name': fullName,
-      'phone_number': phoneNumber,
-      'digital_source': digitalSource,
-      'offline_source': offlineSource,
-      'location_offline': locationOffline,
-      'npwp': npwp,
-      'city': city,
-      'type': type,
-      'area': area,
-      'omzet': omzet,
-    };
-
     try {
-      final token = await _getToken();
+      // Check duplicate before posting
+      bool isDuplicate = await checkDuplicate(
+        email: email,
+        phone: phone,
+        npwp: npwp,
+      );
 
-      if (token != null) {
-        var response =
-            await post(url, data, headers: {'Authorization': 'Bearer $token'});
+      if (!isDuplicate) {
+        var url =
+            '${ApiEndPoints.baseUrl}${ApiEndPoints.postDataLeads.postLeads}';
+        var data = {
+          'email': email,
+          'full_name': fullName,
+          'phone_number': phone,
+          'digital_source': digitalSource,
+          'offline_source': offlineSource,
+          'location_offline': locationOffline,
+          'npwp': npwp,
+          'city': city,
+          'type': type,
+          'area': area,
+          'omzet': omzet,
+        };
 
-        if (response.statusCode == 201) {
-          // Handle successful response
-          print('Data successfully sent');
-        } else {
-          // Handle error response
-          print('Error: ${response.body}');
+        final token = await _getToken();
+
+        if (token != null) {
+          var response = await post(
+            url,
+            jsonEncode(data), // Encode data as JSON
+            headers: {
+              'Authorization': 'Bearer $token',
+              'Content-Type': 'application/json', // Set Content-Type header
+            },
+          );
+
+          print(response.body);
+
+          if (response.statusCode == 201) {
+            // Handle successful response
+            print('Data successfully sent');
+          } else {
+            // Handle error response
+            print('Error: ${response.body}');
+          }
         }
+      } else {
+        // Handle case where duplicate exists
+        print('Duplicate entry found, post aborted.');
       }
     } catch (error) {
       print('Error: $error');
