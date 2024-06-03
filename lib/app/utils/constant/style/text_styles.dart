@@ -8,6 +8,10 @@ class TextStyles {
     fontWeight: FontWeight.bold,
   );
 
+  static TextStyle headStyle = GoogleFonts.plusJakartaSans(
+    fontSize: 20,
+  );
+
   static TextStyle headerStyleProfile = GoogleFonts.plusJakartaSans(
     fontSize: 20,
     fontWeight: FontWeight.bold,
@@ -41,6 +45,12 @@ class TextStyles {
   );
 
   static TextStyle leadsdecTextStyle = GoogleFonts.plusJakartaSans(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: Colors.black,
+  );
+
+  static TextStyle decTextStyle = GoogleFonts.plusJakartaSans(
     fontSize: 14,
     fontWeight: FontWeight.w500,
     color: Colors.black,

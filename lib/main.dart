@@ -8,8 +8,6 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   final String? token = prefs.getString('token');
-
-  // Initialize the providers and controllers
   Get.put(PageIndexController(), permanent: true);
 
   runApp(

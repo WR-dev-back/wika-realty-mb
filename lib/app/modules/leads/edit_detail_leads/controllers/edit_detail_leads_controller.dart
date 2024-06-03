@@ -5,7 +5,8 @@ import '../../../../common/model/leads.dart';
 import '../provider/edit_detail_leads.dart';
 
 class EditDetailLeadsController extends GetxController {
-  late EditDetailLeadsProvider editDetailLeadsProvider;
+  final EditDetailLeadsProvider _editDetailLeadsProvider =
+      EditDetailLeadsProvider();
 
   TextEditingController fullNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -54,7 +55,7 @@ class EditDetailLeadsController extends GetxController {
 
       // Perform the API call to update the leads data
       final response =
-          await editDetailLeadsProvider.updateLeadsData(leadId, leads);
+          await _editDetailLeadsProvider.updateLeadsData(leadId, leads);
       print(leadId);
 
       // Check the response status code

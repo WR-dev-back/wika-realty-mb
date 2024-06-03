@@ -4,15 +4,12 @@ import 'package:wr_project/app/common/model/leads.dart';
 import '../controllers/edit_detail_leads_controller.dart';
 
 class EditDetailLeadsView extends GetView<EditDetailLeadsController> {
-  EditDetailLeadsView({Key? key}) : super(key: key);
+  final Datum leads;
+
+  EditDetailLeadsView(this.leads, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // Retrieve the map from arguments and convert it to a Datum object
-    final Map<String, dynamic> leadsMap = Get.arguments['leads'];
-    final Datum leads = Datum.fromJson(leadsMap);
-
-    // Initialize the controllers with the values from the Datum object
     controller.fullNameController.text = leads.fullName;
     controller.emailController.text = leads.email;
     controller.phoneNumController.text = leads.phoneNumber;

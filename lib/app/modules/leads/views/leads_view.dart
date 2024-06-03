@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../common/model/leads.dart';
 import '../../../routes/app_pages.dart';
 import '../../../utils/constant/style/app_color.dart';
+import '../../../utils/constant/style/text_styles.dart';
 import '../controllers/leads_controller.dart';
 
 class LeadsView extends GetView<LeadsController> {
@@ -20,11 +21,7 @@ class LeadsView extends GetView<LeadsController> {
         backgroundColor: AppColor.primary,
         title: Text(
           'Leads View',
-          style: GoogleFonts.plusJakartaSans(
-            fontSize: 20,
-            fontWeight: FontWeight.w500,
-            color: Colors.white,
-          ),
+          style: TextStyles.fieldLabelStyle,
         ),
         centerTitle: true,
       ),
@@ -42,9 +39,7 @@ class LeadsView extends GetView<LeadsController> {
                       Icon(Icons.input),
                       Text(
                         "Input",
-                        style: GoogleFonts.plusJakartaSans(
-                          fontSize: 14,
-                        ),
+                        style: TextStyles.decTextStyle,
                       ),
                     ],
                   ),
@@ -90,18 +85,15 @@ class LeadsView extends GetView<LeadsController> {
                                       child: ListTile(
                                         title: Text(
                                           leads[index].fullName,
-                                          style: GoogleFonts.plusJakartaSans(
-                                              fontSize: 20),
+                                          style: TextStyles.headStyle,
                                         ),
                                         subtitle: Text(
                                           leads[index].email,
-                                          style: GoogleFonts.plusJakartaSans(
-                                              fontSize: 14),
+                                          style: TextStyles.decTextStyle,
                                         ),
                                         trailing: Text(
                                           leads[index].phoneNumber,
-                                          style: GoogleFonts.plusJakartaSans(
-                                              fontSize: 14),
+                                          style: TextStyles.decTextStyle,
                                         ),
                                         onTap: () => Get.toNamed(
                                           Routes.DETAIL_LEADS,
@@ -194,10 +186,7 @@ class LeadsView extends GetView<LeadsController> {
                                         backgroundColor: AppColor.primary),
                                     child: Text(
                                       "Submit",
-                                      style: GoogleFonts.plusJakartaSans(
-                                        fontSize: 14,
-                                        color: Colors.white,
-                                      ),
+                                      style: TextStyles.decTextStyle,
                                     ),
                                   ),
                                 ),
@@ -222,7 +211,7 @@ class LeadsView extends GetView<LeadsController> {
       {TextInputType keyboardType = TextInputType.text,
       List<TextInputFormatter>? inputFormatters}) {
     return TextFormField(
-      style: GoogleFonts.plusJakartaSans(fontSize: 14),
+      style: TextStyles.decTextStyle,
       controller: controller,
       keyboardType: keyboardType,
       inputFormatters: inputFormatters,

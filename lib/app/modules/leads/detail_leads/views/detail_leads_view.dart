@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:wr_project/app/common/model/leads.dart';
 import 'package:wr_project/app/routes/app_pages.dart';
 import 'package:wr_project/app/utils/constant/style/app_color.dart';
 
+import '../../../../utils/constant/style/text_styles.dart';
 import '../controllers/detail_leads_controller.dart';
 
 class DetailLeadsView extends GetView<DetailLeadsController> {
@@ -19,11 +19,7 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
       appBar: AppBar(
         title: Text(
           'Detail Leads View',
-          style: GoogleFonts.plusJakartaSans(
-            fontSize: 20,
-            fontWeight: FontWeight.w500,
-            color: Colors.black,
-          ),
+          style: TextStyles.headerStyleProfile,
         ),
         centerTitle: true,
       ),
@@ -96,58 +92,57 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                   children: [
                     Text(
                       'Full Name: ${leads?.fullName}',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyles.leadsTextStyle,
                     ),
                     SizedBox(height: 10),
                     Text(
                       'Email: ${leads?.email}',
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyles.leadsTextStyle,
                     ),
                     SizedBox(height: 10),
                     Text(
                       'Phone Number: ${leads?.phoneNumber}',
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyles.leadsTextStyle,
                     ),
                     SizedBox(height: 10),
                     Text(
                       'Sumber Digital: ${leads?.digitalSource}',
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyles.leadsTextStyle,
                     ),
                     SizedBox(height: 10),
                     Text(
                       'Sumber Offline: ${leads?.offlineSource}',
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyles.leadsTextStyle,
                     ),
                     SizedBox(height: 10),
                     Text(
                       'Lokasi Kegiatan: ${leads?.locationOffline}',
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyles.leadsTextStyle,
                     ),
                     SizedBox(height: 10),
                     Text(
                       'Npwp: ${leads?.npwp}',
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyles.leadsTextStyle,
                     ),
                     SizedBox(height: 10),
                     Text(
                       'City: ${leads?.city}',
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyles.leadsTextStyle,
                     ),
                     SizedBox(height: 10),
                     Text(
                       'Type: ${leads?.type}',
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyles.leadsTextStyle,
                     ),
                     SizedBox(height: 10),
                     Text(
                       'Area: ${leads?.area}',
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyles.leadsTextStyle,
                     ),
                     SizedBox(height: 10),
                     Text(
                       'Omzet: ${leads?.omzet}',
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyles.leadsTextStyle,
                     ),
                   ],
                 ),
@@ -211,13 +206,13 @@ class FollowUpDialog extends StatelessWidget {
         TextButton(
           child: Text("Cancel"),
           onPressed: () {
-            Navigator.of(context).pop();
+            Get.back();
           },
         ),
         TextButton(
           child: Text("Save"),
           onPressed: () {
-            Navigator.of(context).pop();
+            Get.back();
           },
         ),
       ],
