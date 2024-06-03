@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wr_project/app/common/model/leads.dart';
-import 'package:wr_project/app/modules/leads/detail_leads/views/edit_leads.dart';
+import 'package:wr_project/app/routes/app_pages.dart';
 import 'package:wr_project/app/utils/constant/style/app_color.dart';
 
 import '../controllers/detail_leads_controller.dart';
@@ -13,7 +13,7 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
 
   @override
   Widget build(BuildContext context) {
-    final Datum leads = Get.arguments;
+    final leads = Get.arguments;
 
     return Scaffold(
       appBar: AppBar(
@@ -36,14 +36,11 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
               children: [
                 ElevatedButton(
                   onPressed: () async {
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => EditDetailLeads(
-                          leads: leads,
-                          controller: controller,
-                        ),
-                      ),
+                    Get.toNamed(
+                      Routes.EDIT_DETAIL_LEADS,
+                      arguments: {
+                        leads: leads,
+                      },
                     );
                   },
                   child: Row(
@@ -63,7 +60,7 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                       builder: (BuildContext context) {
                         return FollowUpDialog(
                           controller: controller,
-                          datum: leads,
+                          leads: leads,
                         );
                       },
                     );
@@ -98,58 +95,58 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Full Name: ${leads.fullName}',
+                      'Full Name: ${leads?.fullName}',
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'Email: ${leads.email}',
+                      'Email: ${leads?.email}',
                       style: TextStyle(fontSize: 16),
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'Phone Number: ${leads.phoneNumber}',
+                      'Phone Number: ${leads?.phoneNumber}',
                       style: TextStyle(fontSize: 16),
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'Sumber Digital: ${leads.digitalSource}',
+                      'Sumber Digital: ${leads?.digitalSource}',
                       style: TextStyle(fontSize: 16),
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'Sumber Offline: ${leads.offlineSource}',
+                      'Sumber Offline: ${leads?.offlineSource}',
                       style: TextStyle(fontSize: 16),
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'Lokasi Kegiatan: ${leads.locationOffline}',
+                      'Lokasi Kegiatan: ${leads?.locationOffline}',
                       style: TextStyle(fontSize: 16),
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'Npwp: ${leads.npwp}',
+                      'Npwp: ${leads?.npwp}',
                       style: TextStyle(fontSize: 16),
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'City: ${leads.city}',
+                      'City: ${leads?.city}',
                       style: TextStyle(fontSize: 16),
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'Type: ${leads.type}',
+                      'Type: ${leads?.type}',
                       style: TextStyle(fontSize: 16),
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'Area: ${leads.area}',
+                      'Area: ${leads?.area}',
                       style: TextStyle(fontSize: 16),
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'Omzet: ${leads.omzet}',
+                      'Omzet: ${leads?.omzet}',
                       style: TextStyle(fontSize: 16),
                     ),
                   ],
@@ -165,13 +162,13 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
 
 class FollowUpDialog extends StatelessWidget {
   final DetailLeadsController controller;
-  final Datum datum;
-  FollowUpDialog({required this.controller, required this.datum});
+  final Datum leads;
+  FollowUpDialog({required this.controller, required this.leads});
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("Follow Up ${datum.fullName}"),
+      title: Text("Follow Up ${leads.fullName}"),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

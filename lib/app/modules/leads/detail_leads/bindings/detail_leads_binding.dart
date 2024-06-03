@@ -1,12 +1,9 @@
 import 'package:get/get.dart';
-
-import '../controllers/detail_leads_controller.dart';
+import 'package:wr_project/app/modules/leads/detail_leads/provider/detail_leads_provider.dart';
 
 class DetailLeadsBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<DetailLeadsController>(
-      () => DetailLeadsController(),
-    );
+    Get.lazyPut<DetailLeadsProvider>(() => DetailLeadsProvider());
   }
 }

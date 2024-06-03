@@ -13,6 +13,7 @@ abstract class Routes {
   static const LEADS = _Paths.LEADS;
   static const INPUT_LEADS = _Paths.INPUT_LEADS;
   static const DETAIL_LEADS = _Paths.DETAIL_LEADS;
+  static const EDIT_DETAIL_LEADS = _Paths.EDIT_DETAIL_LEADS;
 }
 
 abstract class _Paths {
@@ -27,4 +28,5 @@ abstract class _Paths {
   static const LEADS = '/leads';
   static const INPUT_LEADS = '/input-leads';
   static const DETAIL_LEADS = '/detail-leads';
+  static const EDIT_DETAIL_LEADS = '/edit_detail-leads';
 }

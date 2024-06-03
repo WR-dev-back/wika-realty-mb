@@ -4,6 +4,7 @@ class ApiEndPoints {
   static _GetDataLeads getDataLeads = _GetDataLeads();
   static _PostDataLeads postDataLeads = _PostDataLeads();
   static _CheckNum checkLeads = _CheckNum();
+  static _EditLeads puteditLeads = _EditLeads();
 }
 
 class _AuthEndPoints {
@@ -20,4 +21,8 @@ class _PostDataLeads {
 
 class _CheckNum {
   final String checkDuplicate = '/api/v1/leads/duplicate';
+}
+
+class _EditLeads {
+  final String editLeads = '/api/v1/leads/update/';
 }

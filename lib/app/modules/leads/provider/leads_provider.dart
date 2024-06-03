@@ -100,7 +100,7 @@ class LeadsProvider extends GetConnect {
     required String npwp,
   }) async {
     final apiUrl =
-        '${ApiEndPoints.baseUrl}${ApiEndPoints.checkLeads.checkDuplicate}';
+        '${ApiEndPoints.baseUrl}${ApiEndPoints.checkLeads.checkDuplicate}?email=$email&phone=$phone&npwp=$npwp';
     final data = {
       // Pass parameters in the body
       'email': email,
@@ -126,10 +126,10 @@ class LeadsProvider extends GetConnect {
               response.body as Map<String, dynamic>;
           final bool isDuplicate = responseBody['status'] ?? false;
           final String message = responseBody['message'] ?? '';
-
+          print(isDuplicate);
           if (isDuplicate) {
             // Continue with post if status is true
-            return true;
+            return false;
           } else {
             // Do not continue with post if status is false
             // Show alert

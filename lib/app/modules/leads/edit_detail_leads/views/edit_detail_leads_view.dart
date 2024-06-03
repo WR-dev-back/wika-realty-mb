@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_project/app/common/model/leads.dart';
-import 'package:wr_project/app/modules/leads/detail_leads/controllers/detail_leads_controller.dart';
+import '../controllers/edit_detail_leads_controller.dart';
 
-class EditDetailLeads extends StatelessWidget {
-  final Datum leads;
-  final DetailLeadsController controller;
-
-  const EditDetailLeads({
-    Key? key,
-    required this.leads,
-    required this.controller,
-  }) : super(key: key);
+class EditDetailLeadsView extends GetView<EditDetailLeadsController> {
+  EditDetailLeadsView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // Retrieve the map from arguments and convert it to a Datum object
+    final Map<String, dynamic> leadsMap = Get.arguments['leads'];
+    final Datum leads = Datum.fromJson(leadsMap);
+
+    // Initialize the controllers with the values from the Datum object
     controller.fullNameController.text = leads.fullName;
     controller.emailController.text = leads.email;
     controller.phoneNumController.text = leads.phoneNumber;
@@ -85,8 +83,7 @@ class EditDetailLeads extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                controller.updateLeadsData(leads);
-                Get.back();
+                controller.updateLeadsData(leads.id, leads);
               },
               child: Text('Save'),
             ),
