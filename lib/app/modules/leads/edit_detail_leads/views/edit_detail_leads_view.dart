@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wr_project/app/common/model/leads.dart';
 import '../controllers/edit_detail_leads_controller.dart';
 
 class EditDetailLeadsView extends GetView<EditDetailLeadsController> {
-  final Datum leads;
-
-  EditDetailLeadsView(this.leads, {Key? key}) : super(key: key);
+  EditDetailLeadsView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final leads = Get.arguments;
     controller.fullNameController.text = leads.fullName;
     controller.emailController.text = leads.email;
     controller.phoneNumController.text = leads.phoneNumber;

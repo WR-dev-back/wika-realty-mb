@@ -15,7 +15,35 @@ class DetailLeadsController extends GetxController {
 
   String? selectedFollowUpOption;
 
-  // Function to update leads dat
+  TextEditingController fullNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController phoneNumController = TextEditingController();
+  TextEditingController sumDController = TextEditingController();
+  TextEditingController sumOfController = TextEditingController();
+  TextEditingController lokController = TextEditingController();
+  TextEditingController npwpController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
+  TextEditingController typeController = TextEditingController();
+  TextEditingController areaController = TextEditingController();
+  TextEditingController omzetController = TextEditingController();
+
+  // Add controllers for other fields as needed
+
+  @override
+  void onClose() {
+    fullNameController.dispose();
+    emailController.dispose();
+    phoneNumController.dispose();
+    sumDController.dispose();
+    sumOfController.dispose();
+    lokController.dispose();
+    npwpController.dispose();
+    cityController.dispose();
+    typeController.dispose();
+    areaController.dispose();
+    omzetController.dispose();
+    super.onClose();
+  }
 
   // Function to show follow-up dialog
   void showFollowUpDialog() async {

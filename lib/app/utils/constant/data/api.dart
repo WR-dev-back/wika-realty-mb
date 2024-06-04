@@ -1,5 +1,5 @@
 class ApiEndPoints {
-  static final String baseUrl = 'http://10.103.0.55:3000';
+  static final String baseUrl = 'http://backend.sdsn.io';
   static _AuthEndPoints authEndpoints = _AuthEndPoints();
   static _GetDataLeads getDataLeads = _GetDataLeads();
   static _PostDataLeads postDataLeads = _PostDataLeads();

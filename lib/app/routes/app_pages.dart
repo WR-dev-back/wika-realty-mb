@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:wr_project/app/modules/leads/edit_detail_leads/bindings/edit_detail_leads_binding.dart';
+import 'package:wr_project/app/modules/leads/edit_detail_leads/views/edit_detail_leads_view.dart';
 
 import '../modules/approval/bindings/approval_binding.dart';
 import '../modules/approval/views/approval_view.dart';
@@ -52,7 +54,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.APPROVAL,
-      page: () => const ApprovalView(),
+      page: () => ApprovalView(),
       binding: ApprovalBinding(),
     ),
     GetPage(
@@ -67,8 +69,8 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.EDIT_DETAIL_LEADS,
-      page: () => DetailLeadsView(),
-      binding: DetailLeadsBinding(),
+      page: () => EditDetailLeadsView(),
+      binding: EditDetailLeadsBinding(),
     ),
   ];
 }
