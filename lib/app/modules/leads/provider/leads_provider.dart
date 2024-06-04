@@ -95,17 +95,17 @@ class LeadsProvider extends GetConnect {
   }
 
   Future<bool> checkDuplicate({
-    required String email,
-    required String phone,
     required String npwp,
+    required String phone,
+    required String email,
   }) async {
     final apiUrl =
-        '${ApiEndPoints.baseUrl}${ApiEndPoints.checkLeads.checkDuplicate}?email=$email&phone=$phone&npwp=$npwp';
+        '${ApiEndPoints.baseUrl}${ApiEndPoints.checkLeads.checkDuplicate}?&npwp=$npwp&phone=$phone$email=$email';
     final data = {
       // Pass parameters in the body
-      'email': email,
-      'phone': phone,
       'npwp': npwp,
+      'phone': phone,
+      'email': email,
     };
 
     try {
@@ -124,7 +124,7 @@ class LeadsProvider extends GetConnect {
           print(response.body);
           final Map<String, dynamic> responseBody =
               response.body as Map<String, dynamic>;
-          final bool isDuplicate = responseBody['status'] ?? false;
+          final bool isDuplicate = responseBody['status'] ?? true;
           final String message = responseBody['message'] ?? '';
           print(isDuplicate);
           if (isDuplicate) {
@@ -135,7 +135,7 @@ class LeadsProvider extends GetConnect {
             // Show alert
             Get.snackbar('Duplicate Found', message,
                 snackPosition: SnackPosition.BOTTOM);
-            return false;
+            return true;
           }
         } else {
           // Handle other status codes (e.g., 400, 404, etc.) if needed

@@ -32,6 +32,13 @@ class FollowupLeadsController extends GetxController
     _prefs = await SharedPreferences.getInstance();
     followUp1Completed.value = _prefs?.getBool('followUp1Completed') ?? false;
     selectedFollowUpOption = _prefs?.getString('followUp1Option');
+
+    if (followUp1Completed.value) {
+      currentFollowUpType = 2; // Set current follow-up type to 2 (Follow-up 2)
+      tabController.index =
+          1; // Move the tab controller to the second tab (Follow-up 2)
+    }
+
     super.onInit();
   }
 
