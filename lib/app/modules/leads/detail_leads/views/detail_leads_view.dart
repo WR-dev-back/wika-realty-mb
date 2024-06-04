@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:wr_project/app/common/model/leads.dart';
 import 'package:wr_project/app/routes/app_pages.dart';
 import 'package:wr_project/app/utils/constant/style/app_color.dart';
 
@@ -49,14 +48,9 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return FollowUpDialog(
-                          controller: controller,
-                          leads: leads,
-                        );
-                      },
+                    Get.toNamed(
+                      Routes.FOLLOWUP_LEADS,
+                      arguments: leads,
                     );
                   },
                   style: ElevatedButton.styleFrom(
@@ -149,71 +143,6 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class FollowUpDialog extends StatelessWidget {
-  final DetailLeadsController controller;
-  final Datum leads;
-  FollowUpDialog({required this.controller, required this.leads});
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text("Follow Up ${leads.fullName}"),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Obx(
-            () => TextFormField(
-              readOnly: true,
-              controller: controller.date,
-              decoration: InputDecoration(
-                  hintText: Get.find<DetailLeadsController>().hintText.value),
-              onTap: () =>
-                  Get.find<DetailLeadsController>().showFollowUpDialog(),
-            ),
-          ),
-          TextField(
-            controller: controller.pproyek,
-            decoration: InputDecoration(hintText: "Remake"),
-          ),
-          TextField(
-            controller: controller.statusl,
-            decoration: InputDecoration(hintText: "Pertimbangan Proyek"),
-          ),
-          DropdownButtonFormField(
-            value: controller.selectedFollowUpOption,
-            items: controller.followUpOptions.map((option) {
-              return DropdownMenuItem(
-                value: option,
-                child: Text(option),
-              );
-            }).toList(),
-            onChanged: (value) {
-              controller.selectedFollowUpOption = value;
-            },
-            decoration: InputDecoration(
-              hintText: 'Status Leads',
-            ),
-          ),
-        ],
-      ),
-      actions: <Widget>[
-        TextButton(
-          child: Text("Cancel"),
-          onPressed: () {
-            Get.back();
-          },
-        ),
-        TextButton(
-          child: Text("Save"),
-          onPressed: () {
-            Get.back();
-          },
-        ),
-      ],
     );
   }
 }

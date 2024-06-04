@@ -76,11 +76,13 @@ class EditDetailLeadsView extends GetView<EditDetailLeadsController> {
             ),
             // Add input fields for other lead properties
             SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                controller.updateLeadsData(leads.id, leads);
-              },
-              child: Text('Save'),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  controller.updateLeadsData(leads.id, leads);
+                },
+                child: Text('Save'),
+              ),
             ),
           ],
         ),

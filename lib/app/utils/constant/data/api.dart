@@ -5,6 +5,7 @@ class ApiEndPoints {
   static _PostDataLeads postDataLeads = _PostDataLeads();
   static _CheckNum checkLeads = _CheckNum();
   static _EditLeads puteditLeads = _EditLeads();
+  static _FollowUpLeads followUpLeads = _FollowUpLeads();
 }
 
 class _AuthEndPoints {
@@ -25,4 +26,8 @@ class _CheckNum {
 
 class _EditLeads {
   final String editLeads = '/api/v1/leads/update/';
+}
+
+class _FollowUpLeads {
+  final String follow = '/api/v1/leads/follow-up/';
 }

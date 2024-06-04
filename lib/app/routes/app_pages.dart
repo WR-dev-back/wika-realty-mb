@@ -1,6 +1,4 @@
 import 'package:get/get.dart';
-import 'package:wr_project/app/modules/leads/edit_detail_leads/bindings/edit_detail_leads_binding.dart';
-import 'package:wr_project/app/modules/leads/edit_detail_leads/views/edit_detail_leads_view.dart';
 
 import '../modules/approval/bindings/approval_binding.dart';
 import '../modules/approval/views/approval_view.dart';
@@ -10,9 +8,13 @@ import '../modules/dashboard/home/bindings/home_binding.dart';
 import '../modules/dashboard/home/views/home_view.dart';
 import '../modules/denda/bindings/denda_binding.dart';
 import '../modules/denda/views/denda_view.dart';
+import '../modules/leads/follow_up_leads/bindings/followup_leads_binding.dart';
+import '../modules/leads/follow_up_leads/views/followup_leads_view.dart';
 import '../modules/leads/bindings/leads_binding.dart';
 import '../modules/leads/detail_leads/bindings/detail_leads_binding.dart';
 import '../modules/leads/detail_leads/views/detail_leads_view.dart';
+import '../modules/leads/edit_detail_leads/bindings/edit_detail_leads_binding.dart';
+import '../modules/leads/edit_detail_leads/views/edit_detail_leads_view.dart';
 import '../modules/leads/views/leads_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
@@ -71,6 +73,11 @@ class AppPages {
       name: _Paths.EDIT_DETAIL_LEADS,
       page: () => EditDetailLeadsView(),
       binding: EditDetailLeadsBinding(),
+    ),
+    GetPage(
+      name: _Paths.FOLLOWUP_LEADS,
+      page: () => FollowupLeadsView(),
+      binding: FollowupLeadsBinding(),
     ),
   ];
 }
