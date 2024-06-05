@@ -34,7 +34,6 @@ class LeadsProvider extends GetConnect {
           final Map<String, dynamic> responseData = jsonDecode(responseBody!);
           final leadsData = Leads.fromJson(responseData);
 
-          // Assuming _leads and _filteredLeads are defined elsewhere
           _leads = leadsData.data;
           _filteredLeads.addAll(_leads);
           return _leads;
@@ -73,7 +72,6 @@ class LeadsProvider extends GetConnect {
 
           Leads leadsData = leadsFromJson(response.bodyString!);
 
-          // Assuming filteredLeads is a reactive variable or a state management variable
           filteredLeads.value = leadsData.data;
 
           return leadsData.data;
@@ -104,7 +102,6 @@ class LeadsProvider extends GetConnect {
     final apiUrl =
         '${ApiEndPoints.baseUrl}${ApiEndPoints.checkLeads.checkDuplicate}?&npwp=$npwp&phone=$phone$email=$email';
     final data = {
-      // Pass parameters in the body
       'npwp': npwp,
       'phone': phone,
       'email': email,
@@ -134,7 +131,7 @@ class LeadsProvider extends GetConnect {
             return false;
           } else {
             // Do not continue with post if status is false
-            // Show alert
+
             Get.snackbar('Duplicate Found', message,
                 snackPosition: SnackPosition.BOTTOM);
             return true;
@@ -196,10 +193,10 @@ class LeadsProvider extends GetConnect {
         if (token != null) {
           var response = await post(
             url,
-            jsonEncode(data), // Encode data as JSON
+            jsonEncode(data),
             headers: {
               'Authorization': 'Bearer $token',
-              'Content-Type': 'application/json', // Set Content-Type header
+              'Content-Type': 'application/json',
             },
           );
 

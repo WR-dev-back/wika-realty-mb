@@ -9,7 +9,7 @@ import 'package:social_design_system/social_design_system.dart';
 import '../../dashboard/controller/page_index_controller.dart';
 import '../../../utils/constant/style/app_color.dart';
 import '../controllers/profile_controller.dart';
-import '../../../utils/constant/style/text_styles.dart'; // Import the style definitions
+import '../../../utils/constant/style/text_styles.dart';
 
 class ProfileView extends GetView<ProfileController> {
   final pageC = Get.find<PageIndexController>();
@@ -144,18 +144,15 @@ class ProfileView extends GetView<ProfileController> {
               children: [
                 Text(
                   "Customer WeStay",
-                  style:
-                      TextStyles.headerStyleProfile, // Use the predefined style
+                  style: TextStyles.headerStyleProfile,
                 ),
                 Text(
                   "Customer@WeStay.com",
-                  style:
-                      TextStyles.descriptionStyle, // Use the predefined style
+                  style: TextStyles.descriptionStyle,
                 ),
                 Text(
                   "085608783675",
-                  style:
-                      TextStyles.descriptionStyle, // Use the predefined style
+                  style: TextStyles.descriptionStyle,
                 ),
               ],
             ),
@@ -180,7 +177,7 @@ class ProfileView extends GetView<ProfileController> {
         ),
         child: Text(
           'Lihat Detail',
-          style: TextStyles.buttonTextStyle, // Use the predefined style
+          style: TextStyles.buttonTextStyle,
         ),
       ),
     );
@@ -199,11 +196,11 @@ class ProfileView extends GetView<ProfileController> {
             visualDensity: VisualDensity.compact,
             title: Text(
               'Notifications',
-              style: TextStyles.headerStyleProfile, // Apply predefined style
+              style: TextStyles.headerStyleProfile,
             ),
             subtitle: Text(
               'Receive notifications',
-              style: TextStyles.descriptionStyle, // Apply predefined style
+              style: TextStyles.descriptionStyle,
             ),
             leading: const Icon(Icons.notifications_outlined),
             trailing: const Icon(Icons.chevron_right_rounded),
@@ -213,11 +210,11 @@ class ProfileView extends GetView<ProfileController> {
             visualDensity: VisualDensity.compact,
             title: Text(
               'Favorites',
-              style: TextStyles.headerStyleProfile, // Apply predefined style
+              style: TextStyles.headerStyleProfile,
             ),
             subtitle: Text(
               'Want to know who likes you?',
-              style: TextStyles.descriptionStyle, // Apply predefined style
+              style: TextStyles.descriptionStyle,
             ),
             leading: const Icon(Icons.favorite_border_outlined),
             trailing: const Icon(
@@ -229,7 +226,7 @@ class ProfileView extends GetView<ProfileController> {
           ListTile(
             title: Text(
               'Privacy Policy',
-              style: TextStyles.headerStyleProfile, // Apply predefined style
+              style: TextStyles.headerStyleProfile,
             ),
             leading: const Icon(Icons.shield_outlined),
             trailing: const Icon(Icons.arrow_circle_right_outlined),
@@ -238,19 +235,19 @@ class ProfileView extends GetView<ProfileController> {
           ListTile(
             title: Text(
               'Log Out',
-              style: TextStyles.headerStyleProfile, // Apply predefined style
+              style: TextStyles.headerStyleProfile,
             ),
             leading: Icon(
               Icons.logout,
-              color: Colors.red, // Set icon color to red
+              color: Colors.red,
             ),
             trailing: Icon(
               Icons.chevron_right_rounded,
-              color: Colors.red, // Set icon color to red
+              color: Colors.red,
             ),
             onTap: controller.deleteToken,
-            tileColor: Colors.red, // Set tile color
-            textColor: Colors.red, // Set text color
+            tileColor: Colors.red,
+            textColor: Colors.red,
           ),
         ],
       ),
