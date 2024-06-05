@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:wr_project/app/style/app_color.dart';
+import 'package:wr_project/app/utils/constant/style/app_color.dart';
 
 import '../controllers/denda_controller.dart';
 

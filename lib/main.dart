@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wr_project/app/controller/page_index_controller.dart';
+import 'package:wr_project/app/modules/dashboard/controller/page_index_controller.dart';
 import 'app/routes/app_pages.dart';
 
 Future<void> main() async {
@@ -9,6 +9,7 @@ Future<void> main() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   final String? token = prefs.getString('token');
   Get.put(PageIndexController(), permanent: true);
+
   runApp(
     GetMaterialApp(
       title: "WR Project",
