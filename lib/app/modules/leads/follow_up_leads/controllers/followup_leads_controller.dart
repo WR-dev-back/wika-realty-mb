@@ -5,7 +5,7 @@ import 'package:wr_project/app/modules/leads/follow_up_leads/provider/follow_up_
 
 class FollowupLeadsController extends GetxController
     with GetSingleTickerProviderStateMixin {
-  final FollowUpLeadsProvider _detailLeadsProvider = FollowUpLeadsProvider();
+  final FollowUpLeadsProvider _followUpLeadsProvider = FollowUpLeadsProvider();
 
   late TabController tabController;
 
@@ -24,6 +24,9 @@ class FollowupLeadsController extends GetxController
   // Variable to track current follow-up type
   int currentFollowUpType = 1;
 
+  // RxBool to track form validity
+  RxBool isFormValid = false.obs;
+
   SharedPreferences? _prefs;
 
   @override
@@ -39,12 +42,20 @@ class FollowupLeadsController extends GetxController
           1; // Move the tab controller to the second tab (Follow-up 2)
     }
 
+    // Listen to changes in text fields to validate form
+    followUpController.addListener(validateForm);
+    prospectsController.addListener(validateForm);
+    dateController.addListener(validateForm);
+
     super.onInit();
   }
 
   @override
   void onClose() {
     tabController.dispose();
+    followUpController.dispose();
+    prospectsController.dispose();
+    dateController.dispose();
     super.onClose();
   }
 
@@ -79,7 +90,8 @@ class FollowupLeadsController extends GetxController
     };
 
     try {
-      final response = await _detailLeadsProvider.updateFollowUp(leadId, body);
+      final response =
+          await _followUpLeadsProvider.updateFollowUp(leadId, body);
 
       if (response.statusCode == 201) {
         Get.snackbar('Success', 'Leads data updated successfully');
@@ -131,6 +143,17 @@ class FollowupLeadsController extends GetxController
       prospectsController.clear();
       hintText.value = "Tanggal :";
       selectedFollowUpOption = null;
+
+      // Revalidate the form
+      validateForm();
     }
+  }
+
+  // Function to validate form
+  void validateForm() {
+    isFormValid.value = dateController.text.isNotEmpty &&
+        followUpController.text.isNotEmpty &&
+        prospectsController.text.isNotEmpty &&
+        selectedFollowUpOption != null;
   }
 }

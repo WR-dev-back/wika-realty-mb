@@ -5,6 +5,33 @@ import 'dart:convert';
 import '../../../../utils/constant/data/api.dart';
 
 class FollowUpLeadsProvider extends GetConnect {
+  Future<Response> getLeadDetails(String leadId) async {
+    final apiUrl =
+        ApiEndPoints.baseUrl + ApiEndPoints.getDataLeads.dataLeads + leadId;
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? token = prefs.getString('token');
+    return await get(
+      apiUrl,
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+    );
+  }
+
+  Future<Response> fecthData() async {
+    final apiUrl = ApiEndPoints.baseUrl + ApiEndPoints.getDataLeads.dataLeads;
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? token = prefs.getString('token');
+    return await get(
+      apiUrl,
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+    );
+  }
+
   Future<Response> updateFollowUp(
       String leadId, Map<String, dynamic> body) async {
     final apiUrl =

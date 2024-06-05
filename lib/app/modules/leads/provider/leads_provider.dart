@@ -11,8 +11,10 @@ class LeadsProvider extends GetConnect {
   late List<Datum> _leads = [];
   late RxList<Datum> _filteredLeads = RxList<Datum>();
 
-  Future<List<Datum>> fetchDataLeads() async {
-    var apiUrl = ApiEndPoints.baseUrl + ApiEndPoints.getDataLeads.dataLeads;
+  Future<List<Datum>> fetchDataLeads({int page = 1, int limit = 25}) async {
+    var apiUrl = ApiEndPoints.baseUrl +
+        ApiEndPoints.getDataLeads.dataLeads +
+        'page=${page}&limit=${limit}';
 
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();

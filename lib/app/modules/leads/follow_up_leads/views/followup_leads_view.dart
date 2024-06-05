@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wr_project/app/utils/constant/style/text_styles.dart';
 import '../controllers/followup_leads_controller.dart';
 
 class FollowupLeadsView extends GetView<FollowupLeadsController> {
@@ -11,7 +10,7 @@ class FollowupLeadsView extends GetView<FollowupLeadsController> {
     final leads = Get.arguments as dynamic;
 
     return DefaultTabController(
-      length: 3, // Number of tabs
+      length: 3,
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -19,43 +18,25 @@ class FollowupLeadsView extends GetView<FollowupLeadsController> {
           bottom: TabBar(
             controller: controller.tabController,
             tabs: [
-              Obx(
-                () => Tab(
-                  text: 'Follow Up 1',
-                  icon: Icon(
-                    Icons.check_circle,
-                    color: controller.followUp1Completed.value
-                        ? Colors.green
-                        : Colors.grey,
-                  ),
-                ),
-              ),
-              Obx(
-                () => Tab(
-                  text: 'Follow Up 2',
-                  icon: Icon(
-                    Icons.check_circle,
-                    color: controller.followUp2Completed.value
-                        ? Colors.green
-                        : Colors.grey,
-                  ),
-                ),
-              ),
-              Tab(
-                text: 'Follow Up 3',
-                icon: Icon(
-                  Icons.check_circle,
-                  color: Colors.grey,
-                ),
-              ),
+              Obx(() => FollowUpTab(
+                    text: 'Follow Up 1',
+                    completed: controller.followUp1Completed.value,
+                  )),
+              Obx(() => FollowUpTab(
+                    text: 'Follow Up 2',
+                    completed: controller.followUp2Completed.value,
+                  )),
+              Obx(() => FollowUpTab(
+                    text: 'Follow Up 3',
+                    completed: controller.isNextFollowUpTypeEnabled(3),
+                  )),
             ],
           ),
         ),
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          padding: const EdgeInsets.all(20.0),
           child: TabBarView(
             controller: controller.tabController,
-            physics: NeverScrollableScrollPhysics(),
             children: [
               buildFollowUpTab(controller, leads, 1),
               Obx(() => controller.isNextFollowUpTypeEnabled(2)
@@ -74,33 +55,29 @@ class FollowupLeadsView extends GetView<FollowupLeadsController> {
   Widget buildFollowUpTab(
       FollowupLeadsController controller, dynamic leads, int followUpNumber) {
     return Column(
-      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: 20),
-        Center(
-          child: Text(
-            'Follow Up $followUpNumber ${leads?.fullName}',
-            style: TextStyles.headerStyle,
-          ),
+        Text(
+          'Follow Up $followUpNumber ${leads?.fullName}',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 10),
-        Obx(
-          () => TextFormField(
-            readOnly: true,
-            controller: controller.dateController,
-            decoration: InputDecoration(
-              hintText: controller.hintText.value,
-            ),
-            onTap: () => controller.showFollowUpDialog(),
-          ),
-        ),
+        Obx(() => TextFormField(
+              readOnly: true,
+              controller: controller.dateController,
+              decoration: InputDecoration(
+                hintText: controller.hintText.value,
+              ),
+              onTap: () => controller.showFollowUpDialog(),
+            )),
         TextField(
           controller: controller.followUpController,
           decoration: InputDecoration(hintText: "Follow Up"),
         ),
         TextField(
           controller: controller.prospectsController,
-          decoration: InputDecoration(hintText: "Prospek"),
+          decoration: InputDecoration(hintText: "Prospects"),
         ),
         DropdownButtonFormField(
           value: controller.selectedFollowUpOption,
@@ -119,16 +96,40 @@ class FollowupLeadsView extends GetView<FollowupLeadsController> {
         ),
         SizedBox(height: 20),
         Center(
-          child: ElevatedButton(
-            onPressed: () {
-              controller.updateFollowUp(
-                leads?.id ?? '', // Ensure leads.id is not null
-              );
-            },
-            child: Text('Save'),
-          ),
+          child: Obx(() => ElevatedButton(
+                onPressed: controller.isFormValid.value
+                    ? () {
+                        controller.updateFollowUp(
+                          leads?.id ?? '', // Ensure leads.id is not null
+                        );
+                      }
+                    : null,
+                child: Text('Save'),
+              )),
         ),
       ],
+    );
+  }
+}
+
+class FollowUpTab extends StatelessWidget {
+  final String text;
+  final bool completed;
+
+  const FollowUpTab({
+    Key? key,
+    required this.text,
+    required this.completed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Tab(
+      text: text,
+      icon: Icon(
+        Icons.check_circle,
+        color: completed ? Colors.green : Colors.grey,
+      ),
     );
   }
 }

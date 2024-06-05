@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../../common/model/leads.dart';
 import '../../../routes/app_pages.dart';
 import '../../../utils/constant/style/app_color.dart';
 import '../../../utils/constant/style/text_styles.dart';
@@ -65,47 +63,55 @@ class LeadsView extends GetView<LeadsController> {
                         ),
                         SizedBox(height: 10),
                         Expanded(
-                          child: Obx(() {
-                            if (controller.isFetching.value) {
-                              return Center(child: CircularProgressIndicator());
-                            } else {
-                              List<Datum> leads = controller.filteredLeads;
-                              return ListView.builder(
-                                itemCount: leads.length,
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 8),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: Colors.black, width: 1),
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: Colors.white,
-                                      ),
-                                      child: ListTile(
-                                        title: Text(
-                                          leads[index].fullName,
-                                          style: TextStyles.headStyle,
-                                        ),
-                                        subtitle: Text(
-                                          leads[index].email,
-                                          style: TextStyles.decTextStyle,
-                                        ),
-                                        trailing: Text(
-                                          leads[index].phoneNumber,
-                                          style: TextStyles.decTextStyle,
-                                        ),
-                                        onTap: () => Get.toNamed(
-                                          Routes.DETAIL_LEADS,
-                                          arguments: leads[index],
-                                        ),
-                                      ),
+                          child: Obx(
+                            () => RefreshIndicator(
+                              onRefresh: controller.refreshData,
+                              child: controller.isFetching.value &&
+                                      controller.currentPage.value == 1
+                                  ? Center(child: CircularProgressIndicator())
+                                  : ListView.builder(
+                                      controller: controller.scrollController,
+                                      itemCount:
+                                          controller.filteredLeads.length,
+                                      itemBuilder: (context, index) {
+                                        final leads =
+                                            controller.filteredLeads[index];
+                                        return Padding(
+                                          padding:
+                                              EdgeInsets.symmetric(vertical: 8),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: Colors.black,
+                                                  width: 1),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              color: Colors.white,
+                                            ),
+                                            child: ListTile(
+                                              title: Text(
+                                                leads.fullName,
+                                                style: TextStyles.headStyle,
+                                              ),
+                                              subtitle: Text(
+                                                leads.email,
+                                                style: TextStyles.decTextStyle,
+                                              ),
+                                              trailing: Text(
+                                                leads.phoneNumber,
+                                                style: TextStyles.decTextStyle,
+                                              ),
+                                              onTap: () => Get.toNamed(
+                                                Routes.DETAIL_LEADS,
+                                                arguments: leads,
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
                                     ),
-                                  );
-                                },
-                              );
-                            }
-                          }),
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -218,7 +224,7 @@ class LeadsView extends GetView<LeadsController> {
       decoration: InputDecoration(
         label: Text(
           labelText,
-          style: GoogleFonts.plusJakartaSans(fontSize: 20, color: Colors.black),
+          style: TextStyles.headerStyle,
         ),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         border: OutlineInputBorder(),

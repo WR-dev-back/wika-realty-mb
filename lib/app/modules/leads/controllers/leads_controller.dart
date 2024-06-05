@@ -26,6 +26,9 @@ class LeadsController extends GetxController {
 
   var isFormValid = false.obs;
 
+  var currentPage = 1.obs;
+  var totalPages = 1.obs;
+
   void startFetching() => isFetching(true);
 
   void stopFetching() => isFetching(false);
@@ -33,12 +36,13 @@ class LeadsController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchDataLeads();
+    fetchDataLeads(page: 1);
     scrollController.addListener(
       () {
         if (scrollController.position.pixels ==
-            scrollController.position.maxScrollExtent) {
-          fetchDataLeads();
+                scrollController.position.maxScrollExtent &&
+            currentPage.value < totalPages.value) {
+          loadMoreData();
         }
       },
     );
@@ -55,7 +59,6 @@ class LeadsController extends GetxController {
     areaC = TextEditingController();
     omzetC = TextEditingController();
 
-    // Add listeners to the controllers
     email.addListener(validateForm);
     fullName.addListener(validateForm);
     phone.addListener(validateForm);
@@ -83,10 +86,18 @@ class LeadsController extends GetxController {
         omzetC.text.isNotEmpty;
   }
 
-  Future<void> fetchDataLeads() async {
+  Future<void> fetchDataLeads({int page = 1}) async {
     startFetching();
     try {
-      filteredLeads.value = await leadsProvider.fetchDataLeads();
+      final response = await leadsProvider.fetchDataLeads(page: page);
+      if (page == 1) {
+        filteredLeads.value = response;
+      } else {
+        filteredLeads.addAll(response);
+      }
+      currentPage.value = page;
+
+      totalPages.value = (response.length / 25).ceil();
     } catch (error) {
       print('Error fetching data: $error');
     } finally {
@@ -102,6 +113,12 @@ class LeadsController extends GetxController {
       print('Error searching data: $error');
     } finally {
       stopFetching();
+    }
+  }
+
+  Future<void> loadMoreData() async {
+    if (currentPage.value < totalPages.value) {
+      await fetchDataLeads(page: currentPage.value + 1);
     }
   }
 
@@ -155,7 +172,7 @@ class LeadsController extends GetxController {
 
   Future<void> refreshData() async {
     isRefreshing(true);
-    await Future.delayed(Duration(seconds: 2));
+    await fetchDataLeads(page: 1);
     isRefreshing(false);
   }
 

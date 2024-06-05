@@ -13,7 +13,7 @@ class _AuthEndPoints {
 }
 
 class _GetDataLeads {
-  final String dataLeads = '/api/v1/leads?orderBy=DSC&page=1&limit=25';
+  final String dataLeads = '/api/v1/leads?orderBy=DSC&';
 }
 
 class _PostDataLeads {

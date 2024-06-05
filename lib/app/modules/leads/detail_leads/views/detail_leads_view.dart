@@ -83,57 +83,57 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Full Name: ${leads.fullName}',
+                      'Full Name: ${leads?.fullName}',
                       style: TextStyles.leadsTextStyle,
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'Email: ${leads.email}',
+                      'Email: ${leads?.email}',
                       style: TextStyles.leadsTextStyle,
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'Phone Number: ${leads.phoneNumber}',
+                      'Phone Number: ${leads?.phoneNumber}',
                       style: TextStyles.leadsTextStyle,
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'Sumber Digital: ${leads.digitalSource}',
+                      'Sumber Digital: ${leads?.digitalSource}',
                       style: TextStyles.leadsTextStyle,
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'Sumber Offline: ${leads.offlineSource}',
+                      'Sumber Offline: ${leads?.offlineSource}',
                       style: TextStyles.leadsTextStyle,
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'Lokasi Kegiatan: ${leads.locationOffline}',
+                      'Lokasi Kegiatan: ${leads?.locationOffline}',
                       style: TextStyles.leadsTextStyle,
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'Npwp: ${leads.npwp}',
+                      'Npwp: ${leads?.npwp}',
                       style: TextStyles.leadsTextStyle,
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'City: ${leads.city}',
+                      'City: ${leads?.city}',
                       style: TextStyles.leadsTextStyle,
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'Type: ${leads.type}',
+                      'Type: ${leads?.type}',
                       style: TextStyles.leadsTextStyle,
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'Area: ${leads.area}',
+                      'Area: ${leads?.area}',
                       style: TextStyles.leadsTextStyle,
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'Omzet: ${leads.omzet}',
+                      'Omzet: ${leads?.omzet}',
                       style: TextStyles.leadsTextStyle,
                     ),
                   ],
