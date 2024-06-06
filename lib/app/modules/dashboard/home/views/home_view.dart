@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wr_project/app/modules/dashboard/home/provider/home_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:wr_project/app/modules/dashboard/view/custom_navigation_bar.dart';
 import '../../controller/page_index_controller.dart';
 import '../../../../utils/constant/style/app_color.dart';
 import '../../../auth/login/model/login_model.dart';
 import '../controllers/home_controller.dart';
-import '../../../../utils/constant/style/text_styles.dart'; // Import the style definitions
+import '../../../../utils/constant/style/text_styles.dart';
 
 class HomeView extends GetView<HomeController> {
   final PageIndexController pageC = Get.find<PageIndexController>();
@@ -45,8 +45,8 @@ class HomeView extends GetView<HomeController> {
                           borderRadius: BorderRadius.circular(20),
                           gradient: LinearGradient(
                             colors: [
-                              Color(0xFF2995FB),
-                              Color(0xFF034B8F),
+                              Color.fromARGB(255, 50, 145, 235),
+                              Color.fromARGB(255, 70, 54, 250),
                             ],
                           ),
                         ),
@@ -83,11 +83,19 @@ class HomeView extends GetView<HomeController> {
                                         .headerStyle, // Use the predefined style
                                   ),
                                   ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () async {
+                                      final SharedPreferences prefs =
+                                          await SharedPreferences.getInstance();
+
+                                      // Mendapatkan nilai token dari SharedPreferences
+                                      String? token = prefs.getString('token');
+
+                                      print(token);
+                                    },
                                     child: Text(
                                       "Profile",
                                       style: TextStyles
-                                          .buttonTextStyle, // Use the predefined style
+                                          .cardbuttomTextStyle, // Use the predefined style
                                     ),
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Color(0xFFF7B731),
@@ -146,7 +154,7 @@ class HomeView extends GetView<HomeController> {
                               children: [
                                 Expanded(
                                   child: FutureBuilder<List<Menu>>(
-                                    future: HomeProvider().retrieveStoredData(
+                                    future: controller.retrieveStoredData(
                                         MediaQuery.of(context)
                                                 .size
                                                 .shortestSide <

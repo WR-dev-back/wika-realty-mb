@@ -18,7 +18,7 @@ class ProfileView extends GetView<ProfileController> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      bottomNavigationBar: const CustomBottomNavigationBar(),
+      bottomNavigationBar: CustomBottomNavigationBar(),
       body: Stack(
         children: [
           Container(

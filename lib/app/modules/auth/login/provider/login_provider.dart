@@ -10,6 +10,7 @@ import '../model/login_model.dart';
 
 class LoginProvider extends GetConnect {
   static const String _keyMenuList = 'menuList';
+  static const String _keyUser = 'user';
 
   Future<void> login(String email, String password) async {
     var headers = {'Content-Type': 'application/json'};
@@ -21,19 +22,19 @@ class LoginProvider extends GetConnect {
 
       if (response.statusCode == 201) {
         Map<String, dynamic> jsonData = response.body as Map<String, dynamic>;
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
 
         var token = jsonData['data']['token'];
-        final SharedPreferences tkne = await SharedPreferences.getInstance();
-        await tkne.setString('token', token);
+        await prefs.setString('token', token);
+
+        var user = jsonData['data']['user'];
+        await prefs.setString(_keyUser, jsonEncode(user));
 
         List<dynamic> menuJsonList = jsonData['data']['menus'];
         List<Menu> menuList =
             menuJsonList.map((e) => Menu.fromJson(e)).toList();
 
-        final prefs = await SharedPreferences.getInstance();
         await prefs.setString(_keyMenuList, jsonEncode(menuList));
-
-        print(token);
 
         Get.offAllNamed(Routes.HOME);
       } else {

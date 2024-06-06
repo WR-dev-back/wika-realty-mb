@@ -5,33 +5,31 @@ import 'dart:convert';
 import '../../../../utils/constant/data/api.dart';
 
 class FollowUpLeadsProvider extends GetConnect {
-  Future<Response> getLeadDetails(String leadId) async {
-    final apiUrl =
-        ApiEndPoints.baseUrl + ApiEndPoints.getDataLeads.dataLeads + leadId;
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? token = prefs.getString('token');
-    return await get(
-      apiUrl,
-      headers: {
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/json',
-      },
-    );
-  }
-
-  Future<Response> fecthData() async {
+  // Method to fetch follow-up data
+  Future<Response> getFollowUpData() async {
     final apiUrl = ApiEndPoints.baseUrl + ApiEndPoints.getDataLeads.dataLeads;
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? token = prefs.getString('token');
-    return await get(
-      apiUrl,
-      headers: {
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/json',
-      },
-    );
+
+    if (token == null) {
+      return Response(statusCode: 401, statusText: 'Unauthorized');
+    }
+
+    try {
+      final response = await get(
+        apiUrl,
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+      return response;
+    } catch (error) {
+      return Response(statusCode: 500, statusText: 'Error: $error');
+    }
   }
 
+  // Method to update follow-up data
   Future<Response> updateFollowUp(
       String leadId, Map<String, dynamic> body) async {
     final apiUrl =
@@ -41,21 +39,20 @@ class FollowUpLeadsProvider extends GetConnect {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String? token = prefs.getString('token');
 
-      if (token != null) {
-        final response = await post(
-          apiUrl,
-          jsonEncode(body),
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json',
-          },
-        );
-        print(body);
-        print(response.body);
-        return response;
-      } else {
+      if (token == null) {
         return Response(statusCode: 401, statusText: 'Unauthorized');
       }
+
+      final response = await post(
+        apiUrl,
+        jsonEncode(body),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      return response;
     } catch (error) {
       return Response(statusCode: 500, statusText: 'Error: $error');
     }

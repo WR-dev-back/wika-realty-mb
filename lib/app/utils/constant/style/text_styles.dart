@@ -32,6 +32,17 @@ class TextStyles {
     color: Colors.black,
   );
 
+  static TextStyle titleLabelStyle = GoogleFonts.plusJakartaSans(
+    fontSize: 20,
+    color: Colors.white,
+  );
+
+  static TextStyle cardbuttomTextStyle = GoogleFonts.plusJakartaSans(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: Colors.white,
+  );
+
   static TextStyle buttonTextStyle = GoogleFonts.plusJakartaSans(
     fontSize: 16,
     fontWeight: FontWeight.w500,
@@ -57,6 +68,12 @@ class TextStyles {
   );
 
   static TextStyle menuTextStyle = GoogleFonts.plusJakartaSans(
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: Colors.black,
+  );
+
+  static TextStyle menuTextStyleblue = GoogleFonts.plusJakartaSans(
     fontSize: 12,
     fontWeight: FontWeight.w500,
     color: Colors.black,

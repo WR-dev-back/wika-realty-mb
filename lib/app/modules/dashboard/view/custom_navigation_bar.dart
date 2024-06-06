@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:wr_project/app/modules/dashboard/controller/page_index_controller.dart';
-import 'package:wr_project/app/utils/constant/style/app_color.dart';
+
+import '../../../utils/constant/style/text_styles.dart';
 
 class CustomBottomNavigationBar extends GetView<PageIndexController> {
   const CustomBottomNavigationBar({super.key});
@@ -34,17 +35,11 @@ class CustomBottomNavigationBar extends GetView<PageIndexController> {
                       child: (controller.pageIndex.value == 0)
                           ? Text(
                               "Home",
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: AppColor.primary,
-                              ),
+                              style: TextStyles.menuTextStyleblue,
                             )
                           : Text(
                               "Home",
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.black,
-                              ),
+                              style: TextStyles.menuTextStyle,
                             ),
                     ),
                   ],
@@ -71,17 +66,11 @@ class CustomBottomNavigationBar extends GetView<PageIndexController> {
                       child: (controller.pageIndex.value == 2)
                           ? Text(
                               "Profile",
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: AppColor.primary,
-                              ),
+                              style: TextStyles.menuTextStyleblue,
                             )
                           : Text(
                               "Profile",
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.black,
-                              ),
+                              style: TextStyles.menuTextStyle,
                             ),
                     ),
                   ],

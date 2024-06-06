@@ -14,42 +14,53 @@ class LoginController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    emailC.addListener(updateFormValidity);
-    passC.addListener(updateFormValidity);
+    emailC.addListener(validateForm);
+    passC.addListener(validateForm);
   }
 
   @override
   void onClose() {
-    emailC.removeListener(updateFormValidity);
-    passC.removeListener(updateFormValidity);
+    emailC.dispose();
+    passC.dispose();
     super.onClose();
   }
 
-  void updateFormValidity() {
-    isFormValid.value = emailC.text.isNotEmpty && passC.text.isNotEmpty;
+  void validateForm() {
+    if (validateEmail(emailC.text) == null &&
+        validatePassword(passC.text) == null) {
+      isFormValid.value = true;
+    } else {
+      isFormValid.value = false;
+    }
+  }
+
+  String? validateEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Email is required';
+    } else if (!RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+        .hasMatch(value)) {
+      return 'Enter a valid email';
+    }
+    return null;
+  }
+
+  String? validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Password is required';
+    } else if (value.length < 8) {
+      return 'Password must be at least 8 characters long';
+    }
+    return null;
   }
 
   Future<void> login() async {
-    if (emailC.text.isEmpty || passC.text.isEmpty) {
-      _showDialog('Perhatian', 'Isi Email & Password Terlebih dahulu');
-      return;
-    }
-
-    if (!isValidEmail(emailC.text)) {
-      _showDialog('Perhatian', 'Masukkan alamat email yang valid');
-      return;
-    }
-
-    if (passC.text.length < 6) {
-      _showDialog(
-          'Perhatian', 'Password harus terdiri dari minimal 6 karakter');
-      return;
-    }
-
+    isLoading.value = true;
     try {
       await _loginProvider.login(emailC.text, passC.text);
     } catch (error) {
       _showDialog('Error', 'Wrong Email And Password');
+    } finally {
+      isLoading.value = false;
     }
   }
 

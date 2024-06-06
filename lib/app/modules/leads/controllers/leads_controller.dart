@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wr_project/app/common/model/leads.dart';
 import 'package:wr_project/app/modules/leads/provider/leads_provider.dart';
 
+import '../../../common/model/leads.dart';
 import '../../../routes/app_pages.dart';
 
 class LeadsController extends GetxController {
@@ -72,6 +72,23 @@ class LeadsController extends GetxController {
     omzetC.addListener(validateForm);
   }
 
+  @override
+  void onClose() {
+    super.onClose();
+    searchController.dispose();
+    email.dispose();
+    fullName.dispose();
+    phone.dispose();
+    sumD.dispose();
+    sumOf.dispose();
+    lok.dispose();
+    npwpC.dispose();
+    cityC.dispose();
+    typeC.dispose();
+    areaC.dispose();
+    omzetC.dispose();
+  }
+
   void validateForm() {
     isFormValid.value = email.text.isNotEmpty &&
         fullName.text.isNotEmpty &&
@@ -84,6 +101,22 @@ class LeadsController extends GetxController {
         typeC.text.isNotEmpty &&
         areaC.text.isNotEmpty &&
         omzetC.text.isNotEmpty;
+  }
+
+  String? validateFullName(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Full Name is required';
+    }
+    return null;
+  }
+
+  String? validatePhoneNumber(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Phone Number is required';
+    } else if (!RegExp(r'^\+?\d{10,15}$').hasMatch(value)) {
+      return 'Enter a valid phone number';
+    }
+    return null;
   }
 
   Future<void> fetchDataLeads({int page = 1}) async {
@@ -174,22 +207,5 @@ class LeadsController extends GetxController {
     isRefreshing(true);
     await fetchDataLeads(page: 1);
     isRefreshing(false);
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-    searchController.dispose();
-    email.dispose();
-    fullName.dispose();
-    phone.dispose();
-    sumD.dispose();
-    sumOf.dispose();
-    lok.dispose();
-    npwpC.dispose();
-    cityC.dispose();
-    typeC.dispose();
-    areaC.dispose();
-    omzetC.dispose();
   }
 }

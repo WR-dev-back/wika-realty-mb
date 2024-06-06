@@ -89,6 +89,7 @@ class FollowupLeadsView extends GetView<FollowupLeadsController> {
           }).toList(),
           onChanged: (value) {
             controller.selectedFollowUpOption = value;
+            controller.validateForm(); // Re-validate form when option changes
           },
           decoration: InputDecoration(
             hintText: 'Status Leads',

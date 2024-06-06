@@ -205,9 +205,11 @@ class LeadsProvider extends GetConnect {
           if (response.statusCode == 201) {
             // Handle successful response
             print('Data successfully sent');
+            Get.snackbar('Succes', 'Succes Post Data');
           } else {
             // Handle error response
-            print('Error: ${response.body}');
+            print('Error: ${response.statusCode}');
+            Get.snackbar('Error', 'Failed to Post data');
           }
         }
       } else {

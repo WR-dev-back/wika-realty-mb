@@ -3,12 +3,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:wr_project/app/utils/constant/style/app_color.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:wr_project/app/utils/constant/style/text_styles.dart'; // Import the style definitions
+import 'package:wr_project/app/utils/constant/style/text_styles.dart';
 
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
   LoginView({Key? key}) : super(key: key);
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -36,16 +38,20 @@ class LoginView extends GetView<LoginController> {
       key: Key('loginContentContainer'),
       color: Colors.white,
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 80),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          buildHeaderText(),
-          buildDescriptionText(),
-          buildEmailField(),
-          buildPasswordField(),
-          buildForgotPasswordButton(),
-          buildLoginButton(),
-        ],
+      child: Form(
+        key: _formKey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            buildHeaderText(),
+            buildDescriptionText(),
+            buildEmailField(),
+            buildPasswordField(),
+            buildForgotPasswordButton(),
+            buildLoginButton(),
+          ],
+        ),
       ),
     );
   }
@@ -55,7 +61,7 @@ class LoginView extends GetView<LoginController> {
       margin: EdgeInsets.only(bottom: 20),
       child: Text(
         'Masuk Akun',
-        style: TextStyles.headerStyle, // Use the predefined style
+        style: TextStyles.headerStyle,
       ),
     );
   }
@@ -65,7 +71,7 @@ class LoginView extends GetView<LoginController> {
       margin: EdgeInsets.only(bottom: 20),
       child: Text(
         'Lengkapi data dibawah untuk masuk ke akunmu yang sudah terdaftar di We Stay.',
-        style: TextStyles.descriptionStyle, // Use the predefined style
+        style: TextStyles.descriptionStyle,
       ),
     );
   }
@@ -83,12 +89,13 @@ class LoginView extends GetView<LoginController> {
         decoration: InputDecoration(
           label: Text(
             "Email",
-            style: TextStyles.fieldLabelStyle, // Use the predefined style
+            style: TextStyles.fieldLabelStyle,
           ),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           border: OutlineInputBorder(),
           hintText: "Masukkan Email Anda",
         ),
+        validator: controller.validateEmail,
       ),
     );
   }
@@ -98,7 +105,7 @@ class LoginView extends GetView<LoginController> {
       child: Container(
         margin: EdgeInsets.only(bottom: 5),
         child: Obx(
-          () => TextField(
+          () => TextFormField(
             style: GoogleFonts.plusJakartaSans(
               fontSize: 14,
             ),
@@ -108,16 +115,13 @@ class LoginView extends GetView<LoginController> {
             decoration: InputDecoration(
               label: Text(
                 "Password",
-                style: GoogleFonts.plusJakartaSans(
-                  fontSize: 20,
-                  color: Colors.black,
-                ),
+                style: TextStyles.headStyle,
               ),
               floatingLabelBehavior: FloatingLabelBehavior.always,
               border: OutlineInputBorder(),
               hintText: "Masukkan Password",
               suffixIcon: IconButton(
-                icon: (controller.obsecureText != false)
+                icon: (controller.obsecureText.value)
                     ? SvgPicture.asset('asset/icons/show.svg')
                     : SvgPicture.asset('asset/icons/hide.svg'),
                 onPressed: () {
@@ -126,6 +130,7 @@ class LoginView extends GetView<LoginController> {
                 },
               ),
             ),
+            validator: controller.validatePassword,
           ),
         ),
       ),
@@ -153,7 +158,9 @@ class LoginView extends GetView<LoginController> {
           child: ElevatedButton(
             onPressed: controller.isFormValid.value
                 ? () async {
-                    await controller.login();
+                    if (_formKey.currentState!.validate()) {
+                      await controller.login();
+                    }
                   }
                 : null,
             style: ElevatedButton.styleFrom(
@@ -167,7 +174,7 @@ class LoginView extends GetView<LoginController> {
             ),
             child: Text(
               (controller.isLoading.isFalse) ? 'Log in' : 'Loading...',
-              style: TextStyles.buttonTextStyle, // Use the predefined style
+              style: TextStyles.buttonTextStyle,
             ),
           ),
         ),
