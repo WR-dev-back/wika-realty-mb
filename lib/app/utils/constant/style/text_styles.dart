@@ -49,6 +49,12 @@ class TextStyles {
     color: Colors.blue,
   );
 
+  static TextStyle buttonauthTextStyle = GoogleFonts.plusJakartaSans(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: Colors.white,
+  );
+
   static TextStyle leadsTextStyle = GoogleFonts.plusJakartaSans(
     fontSize: 16,
     fontWeight: FontWeight.w500,
@@ -65,6 +71,12 @@ class TextStyles {
     fontSize: 14,
     fontWeight: FontWeight.w500,
     color: Colors.black,
+  );
+
+  static TextStyle inputbuttonTextStyle = GoogleFonts.plusJakartaSans(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: Colors.white,
   );
 
   static TextStyle menuTextStyle = GoogleFonts.plusJakartaSans(

@@ -20,23 +20,9 @@ class HomeController extends GetxController {
     isRefreshing(false);
   }
 
-  User? user;
-  List<Menu>? menuList;
-
   @override
   void onInit() {
     super.onInit();
-    _loadUserData();
-  }
-
-  Future<void> _loadUserData() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    String? userJson = prefs.getString('user');
-    if (userJson != null) {
-      user = User.fromJson(jsonDecode(userJson));
-    }
-    update(); // Update the UI
   }
 
   static const String _keyMenuList = 'menuList';

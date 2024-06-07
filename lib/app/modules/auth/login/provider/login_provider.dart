@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,7 +9,6 @@ import '../model/login_model.dart';
 
 class LoginProvider extends GetConnect {
   static const String _keyMenuList = 'menuList';
-  static const String _keyUser = 'user';
 
   Future<void> login(String email, String password) async {
     var headers = {'Content-Type': 'application/json'};
@@ -27,8 +25,15 @@ class LoginProvider extends GetConnect {
         var token = jsonData['data']['token'];
         await prefs.setString('token', token);
 
-        var user = jsonData['data']['user'];
-        await prefs.setString(_keyUser, jsonEncode(user));
+        var userJson = jsonData['data']['user'];
+        User user = User.fromJson(userJson);
+        await prefs.setString('user', jsonEncode(user.toJson()));
+
+        print(user.title);
+
+        // var ppuJson = jsonData['data']['ppu'];
+        // Ppu ppu = Ppu.fromJson(ppuJson);
+        // await prefs.setString('ppu', jsonEncode(ppu.toJson()));
 
         List<dynamic> menuJsonList = jsonData['data']['menus'];
         List<Menu> menuList =
@@ -36,7 +41,13 @@ class LoginProvider extends GetConnect {
 
         await prefs.setString(_keyMenuList, jsonEncode(menuList));
 
-        Get.offAllNamed(Routes.HOME);
+        Get.offAllNamed(
+          Routes.HOME,
+          arguments: {
+            'user': user,
+            // 'ppu': ppu,
+          },
+        );
       } else {
         throw jsonDecode(response.body)["Message"] ?? "Unknown Error Occurred";
       }

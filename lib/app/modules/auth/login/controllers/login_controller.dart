@@ -36,19 +36,19 @@ class LoginController extends GetxController {
 
   String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Email is required';
+      return 'Email Wajib Diisi';
     } else if (!RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
         .hasMatch(value)) {
-      return 'Enter a valid email';
+      return 'Masukkan Email yang Valid';
     }
     return null;
   }
 
   String? validatePassword(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Password is required';
-    } else if (value.length < 8) {
-      return 'Password must be at least 8 characters long';
+      return 'Password Wajib Diisi';
+    } else if (value.length < 6) {
+      return 'Password harus berisi 8';
     }
     return null;
   }
@@ -58,7 +58,7 @@ class LoginController extends GetxController {
     try {
       await _loginProvider.login(emailC.text, passC.text);
     } catch (error) {
-      _showDialog('Error', 'Wrong Email And Password');
+      _showDialog('Error', 'Email Dan Password Salah');
     } finally {
       isLoading.value = false;
     }
@@ -72,10 +72,6 @@ class LoginController extends GetxController {
         children: [Text(message)],
       ),
     );
-  }
-
-  bool isValidEmail(String email) {
-    return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
   }
 
   Future<String?> getToken() async {

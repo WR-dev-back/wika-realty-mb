@@ -14,8 +14,6 @@ class LeadsView extends GetView<LeadsController> {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<LeadsController>();
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColor.primary,
@@ -31,7 +29,18 @@ class LeadsView extends GetView<LeadsController> {
           children: [
             TabBar(
               tabs: [
-                Tab(text: 'List Leads'),
+                Tab(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Icon(Icons.list),
+                      Text(
+                        "List Leads",
+                        style: TextStyles.decTextStyle,
+                      ),
+                    ],
+                  ),
+                ),
                 Tab(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -63,7 +72,9 @@ class LeadsView extends GetView<LeadsController> {
                             controller.searchLeads(value);
                           },
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(
+                          height: 10,
+                        ),
                         Expanded(
                           child: Obx(
                             () => RefreshIndicator(
@@ -94,14 +105,17 @@ class LeadsView extends GetView<LeadsController> {
                                             ),
                                             child: ListTile(
                                               title: Text(
+                                                maxLines: 1,
                                                 leads.fullName,
                                                 style: TextStyles.headStyle,
                                               ),
                                               subtitle: Text(
+                                                maxLines: 1,
                                                 leads.email,
                                                 style: TextStyles.decTextStyle,
                                               ),
                                               trailing: Text(
+                                                maxLines: 1,
                                                 leads.phoneNumber,
                                                 style: TextStyles.decTextStyle,
                                               ),
@@ -208,7 +222,7 @@ class LeadsView extends GetView<LeadsController> {
                                           backgroundColor: AppColor.primary),
                                       child: Text(
                                         "Submit",
-                                        style: TextStyles.decTextStyle,
+                                        style: TextStyles.inputbuttonTextStyle,
                                       ),
                                     ),
                                   ),

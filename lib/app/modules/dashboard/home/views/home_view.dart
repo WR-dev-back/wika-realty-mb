@@ -9,13 +9,19 @@ import '../../../auth/login/model/login_model.dart';
 import '../controllers/home_controller.dart';
 import '../../../../utils/constant/style/text_styles.dart';
 
+// ignore: must_be_immutable
 class HomeView extends GetView<HomeController> {
   final PageIndexController pageC = Get.find<PageIndexController>();
+  // late User user;
 
   HomeView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // final user = Get.arguments;
+
+    // print(user!.name);
+
     return Scaffold(
       bottomNavigationBar: const CustomBottomNavigationBar(),
       body: RefreshIndicator(
@@ -45,8 +51,8 @@ class HomeView extends GetView<HomeController> {
                           borderRadius: BorderRadius.circular(20),
                           gradient: LinearGradient(
                             colors: [
-                              Color.fromARGB(255, 50, 145, 235),
-                              Color.fromARGB(255, 70, 54, 250),
+                              Color.fromARGB(255, 33, 143, 247),
+                              Color.fromARGB(255, 97, 136, 242),
                             ],
                           ),
                         ),
@@ -68,7 +74,7 @@ class HomeView extends GetView<HomeController> {
                               ),
                               SizedBox(height: 20),
                               Text(
-                                "Muhammad Dawam",
+                                "name",
                                 style: TextStyles
                                     .descriptionStyle, // Use the predefined style
                               ),
@@ -78,7 +84,7 @@ class HomeView extends GetView<HomeController> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "Developer",
+                                    "username",
                                     style: TextStyles
                                         .headerStyle, // Use the predefined style
                                   ),
@@ -108,19 +114,9 @@ class HomeView extends GetView<HomeController> {
                                 color: Colors.black,
                               ),
                               SizedBox(height: 10),
-                              RichText(
-                                text: TextSpan(
-                                  text: "Berlaku sampai ",
-                                  style: TextStyles
-                                      .descriptionStyle, // Use the predefined style
-                                  children: [
-                                    TextSpan(
-                                      text: "23 Agustus 2024",
-                                      style: TextStyles
-                                          .descriptionStyle, // Use the predefined style
-                                    )
-                                  ],
-                                ),
+                              Text(
+                                "id",
+                                style: TextStyles.cardbuttomTextStyle,
                               ),
                               SizedBox(height: 10),
                             ],

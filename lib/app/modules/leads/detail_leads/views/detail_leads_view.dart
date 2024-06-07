@@ -77,66 +77,70 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
               padding: const EdgeInsets.only(
                 top: 10,
               ),
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Full Name: ${leads?.fullName}',
-                      style: TextStyles.leadsTextStyle,
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Email: ${leads?.email}',
-                      style: TextStyles.leadsTextStyle,
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Phone Number: ${leads?.phoneNumber}',
-                      style: TextStyles.leadsTextStyle,
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Sumber Digital: ${leads?.digitalSource}',
-                      style: TextStyles.leadsTextStyle,
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Sumber Offline: ${leads?.offlineSource}',
-                      style: TextStyles.leadsTextStyle,
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Lokasi Kegiatan: ${leads?.locationOffline}',
-                      style: TextStyles.leadsTextStyle,
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Npwp: ${leads?.npwp}',
-                      style: TextStyles.leadsTextStyle,
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'City: ${leads?.city}',
-                      style: TextStyles.leadsTextStyle,
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Type: ${leads?.type}',
-                      style: TextStyles.leadsTextStyle,
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Area: ${leads?.area}',
-                      style: TextStyles.leadsTextStyle,
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Omzet: ${leads?.omzet}',
-                      style: TextStyles.leadsTextStyle,
-                    ),
-                  ],
+              child: Card(
+                color: Colors.white,
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Full Name: ${leads?.fullName}',
+                        style: TextStyles.leadsTextStyle,
+                      ),
+                      SizedBox(height: 15),
+                      Text(
+                        'Email: ${leads?.email}',
+                        style: TextStyles.leadsTextStyle,
+                      ),
+                      SizedBox(height: 15),
+                      Text(
+                        'Phone Number: ${leads?.phoneNumber}',
+                        style: TextStyles.leadsTextStyle,
+                      ),
+                      SizedBox(height: 15),
+                      Text(
+                        'Sumber Digital: ${leads?.digitalSource}',
+                        style: TextStyles.leadsTextStyle,
+                      ),
+                      SizedBox(height: 15),
+                      Text(
+                        'Sumber Offline: ${leads?.offlineSource}',
+                        style: TextStyles.leadsTextStyle,
+                      ),
+                      SizedBox(height: 15),
+                      Text(
+                        'Lokasi Kegiatan: ${leads?.locationOffline}',
+                        style: TextStyles.leadsTextStyle,
+                      ),
+                      SizedBox(height: 15),
+                      Text(
+                        'Npwp: ${leads?.npwp}',
+                        style: TextStyles.leadsTextStyle,
+                      ),
+                      SizedBox(height: 15),
+                      Text(
+                        'City: ${leads?.city}',
+                        style: TextStyles.leadsTextStyle,
+                      ),
+                      SizedBox(height: 15),
+                      Text(
+                        'Type: ${leads?.type}',
+                        style: TextStyles.leadsTextStyle,
+                      ),
+                      SizedBox(height: 15),
+                      Text(
+                        'Area: ${leads?.area}',
+                        style: TextStyles.leadsTextStyle,
+                      ),
+                      SizedBox(height: 15),
+                      Text(
+                        'Omzet: ${leads?.omzet}',
+                        style: TextStyles.leadsTextStyle,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
