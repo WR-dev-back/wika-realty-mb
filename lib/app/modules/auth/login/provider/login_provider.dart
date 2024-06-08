@@ -25,11 +25,11 @@ class LoginProvider extends GetConnect {
         var token = jsonData['data']['token'];
         await prefs.setString('token', token);
 
-        var userJson = jsonData['data']['user'];
-        User user = User.fromJson(userJson);
-        await prefs.setString('user', jsonEncode(user.toJson()));
+        // var userJson = jsonData['data']['user'];
+        // User user = User.fromJson(userJson);
+        // await prefs.setString('user', jsonEncode(user.toJson()));
 
-        print(user.title);
+        // print(user.title);
 
         // var ppuJson = jsonData['data']['ppu'];
         // Ppu ppu = Ppu.fromJson(ppuJson);
@@ -44,7 +44,7 @@ class LoginProvider extends GetConnect {
         Get.offAllNamed(
           Routes.HOME,
           arguments: {
-            'user': user,
+            // 'user': user,
             // 'ppu': ppu,
           },
         );

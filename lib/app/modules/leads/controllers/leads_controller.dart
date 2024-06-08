@@ -176,7 +176,7 @@ class LeadsController extends GetxController {
       );
 
       if (isDuplicate) {
-        Get.snackbar('Error', 'Duplicate data found');
+        Get.snackbar('Error', 'Npwp, Email, Nomor Handphone tealah Dipakai');
         return;
       }
 

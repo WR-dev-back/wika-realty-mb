@@ -28,7 +28,7 @@ class FollowupLeadsView extends GetView<FollowupLeadsController> {
                   )),
               Obx(() => FollowUpTab(
                     text: 'Follow Up 3',
-                    completed: controller.isNextFollowUpTypeEnabled(3),
+                    completed: controller.followUp3Completed.value,
                   )),
             ],
           ),
@@ -79,22 +79,25 @@ class FollowupLeadsView extends GetView<FollowupLeadsController> {
           controller: controller.prospectsController,
           decoration: InputDecoration(hintText: "Prospects"),
         ),
-        DropdownButtonFormField(
-          value: controller.selectedFollowUpOption,
-          items: controller.followUpOptions.map((option) {
-            return DropdownMenuItem(
-              value: option,
-              child: Text(option),
-            );
-          }).toList(),
-          onChanged: (value) {
-            controller.selectedFollowUpOption = value;
-            controller.validateForm(); // Re-validate form when option changes
-          },
-          decoration: InputDecoration(
-            hintText: 'Status Leads',
-          ),
-        ),
+        Obx(() => DropdownButtonFormField(
+              value: controller.selectedFollowUpOption.value.isEmpty
+                  ? null
+                  : controller.selectedFollowUpOption.value,
+              items: controller.followUpOptions.map((option) {
+                return DropdownMenuItem(
+                  value: option,
+                  child: Text(option),
+                );
+              }).toList(),
+              onChanged: (value) {
+                controller.selectedFollowUpOption.value = value as String;
+                controller
+                    .validateForm(); // Re-validate form when option changes
+              },
+              decoration: InputDecoration(
+                hintText: 'Status Leads',
+              ),
+            )),
         SizedBox(height: 20),
         Center(
           child: Obx(() => ElevatedButton(
