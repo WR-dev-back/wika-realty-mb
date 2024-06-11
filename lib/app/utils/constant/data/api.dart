@@ -3,6 +3,7 @@ class ApiEndPoints {
   static _AuthEndPoints authEndpoints = _AuthEndPoints();
   static _GetDataUser getDataUser = _GetDataUser();
   static _GetDataLeads getDataLeads = _GetDataLeads();
+  static _GetDataApproval getDataApproval = _GetDataApproval();
   static _PostDataLeads postDataLeads = _PostDataLeads();
   static _CheckNum checkLeads = _CheckNum();
   static _EditLeads puteditLeads = _EditLeads();
@@ -19,6 +20,10 @@ class _GetDataUser {
 
 class _GetDataLeads {
   final String dataLeads = '/api/v1/leads?orderBy=DSC&';
+}
+
+class _GetDataApproval {
+  final String dataApproval = '/api/v1/master-approval';
 }
 
 class _PostDataLeads {

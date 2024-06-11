@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wr_project/app/routes/app_pages.dart';
 import '../provider/follow_up_leads_provider.dart';
 
 class FollowupLeadsController extends GetxController
@@ -248,6 +249,7 @@ class FollowupLeadsController extends GetxController
       selectedFollowUpOption.value = '';
 
       validateForm();
+      Get.toNamed(Routes.LEADS);
     }
   }
 

@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import 'package:wr_project/app/modules/dashboard/view/custom_navigation_bar.dart';
-import 'package:social_design_system/social_design_system.dart';
 
 import '../../dashboard/controller/page_index_controller.dart';
 import '../../../utils/constant/style/app_color.dart';
@@ -189,68 +188,66 @@ class ProfileView extends GetView<ProfileController> {
       margin: const EdgeInsets.symmetric(
         horizontal: 20,
       ),
-      child: Settings(
-        label: 'Settings',
-        children: [
-          ListTile(
-            visualDensity: VisualDensity.compact,
-            title: Text(
-              'Notifications',
-              style: TextStyles.headerStyleProfile,
-            ),
-            subtitle: Text(
-              'Receive notifications',
-              style: TextStyles.descriptionStyle,
-            ),
-            leading: const Icon(Icons.notifications_outlined),
-            trailing: const Icon(Icons.chevron_right_rounded),
-            onTap: () => debugPrint('Item 1'),
-          ),
-          ListTile(
-            visualDensity: VisualDensity.compact,
-            title: Text(
-              'Favorites',
-              style: TextStyles.headerStyleProfile,
-            ),
-            subtitle: Text(
-              'Want to know who likes you?',
-              style: TextStyles.descriptionStyle,
-            ),
-            leading: const Icon(Icons.favorite_border_outlined),
-            trailing: const Icon(
-              Icons.arrow_right_rounded,
-              size: 32,
-            ),
-            onTap: () => debugPrint('Item 2'),
-          ),
-          ListTile(
-            title: Text(
-              'Privacy Policy',
-              style: TextStyles.headerStyleProfile,
-            ),
-            leading: const Icon(Icons.shield_outlined),
-            trailing: const Icon(Icons.arrow_circle_right_outlined),
-            onTap: () => debugPrint('Item 3'),
-          ),
-          ListTile(
-            title: Text(
-              'Log Out',
-              style: TextStyles.headerStyleProfile,
-            ),
-            leading: Icon(
-              Icons.logout,
-              color: Colors.red,
-            ),
-            trailing: Icon(
-              Icons.chevron_right_rounded,
-              color: Colors.red,
-            ),
-            onTap: controller.deleteToken,
-            tileColor: Colors.red,
-            textColor: Colors.red,
-          ),
-        ],
+      // child: Settings(
+      //   label: 'Settings',
+      //   children: [
+      //     ListTile(
+      //       visualDensity: VisualDensity.compact,
+      //       title: Text(
+      //         'Notifications',
+      //         style: TextStyles.headerStyleProfile,
+      //       ),
+      //       subtitle: Text(
+      //         'Receive notifications',
+      //         style: TextStyles.descriptionStyle,
+      //       ),
+      //       leading: const Icon(Icons.notifications_outlined),
+      //       trailing: const Icon(Icons.chevron_right_rounded),
+      //       onTap: () => debugPrint('Item 1'),
+      //     ),
+      child: ListTile(
+        visualDensity: VisualDensity.compact,
+        title: Text(
+          'Favorites',
+          style: TextStyles.headerStyleProfile,
+        ),
+        subtitle: Text(
+          'Want to know who likes you?',
+          style: TextStyles.descriptionStyle,
+        ),
+        leading: const Icon(Icons.favorite_border_outlined),
+        trailing: const Icon(
+          Icons.arrow_right_rounded,
+          size: 32,
+        ),
+        onTap: () => debugPrint('Item 2'),
       ),
+      // ListTile(
+      //   title: Text(
+      //     'Privacy Policy',
+      //     style: TextStyles.headerStyleProfile,
+      //   ),
+      //   leading: const Icon(Icons.shield_outlined),
+      //   trailing: const Icon(Icons.arrow_circle_right_outlined),
+      //   onTap: () => debugPrint('Item 3'),
+      // ),
+      // ListTile(
+      //   title: Text(
+      //     'Log Out',
+      //     style: TextStyles.headerStyleProfile,
+      //   ),
+      //   leading: Icon(
+      //     Icons.logout,
+      //     color: Colors.red,
+      //   ),
+      //   trailing: Icon(
+      //     Icons.chevron_right_rounded,
+      //     color: Colors.red,
+      //   ),
+      //   onTap: controller.deleteToken,
+      //   tileColor: Colors.red,
+      //   textColor: Colors.red,
+      // ),
     );
   }
 }

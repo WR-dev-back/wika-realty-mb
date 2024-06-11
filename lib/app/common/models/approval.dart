@@ -1,16 +1,41 @@
-// To parse this JSON data, do
-//
-//     final leads = leadsFromJson(jsonString);
-
 import 'dart:convert';
 
-List<Leads> leadsFromJson(String str) =>
-    List<Leads>.from(json.decode(str).map((x) => Leads.fromJson(x)));
+List<Approval> approvalFromJson(String str) =>
+    List<Approval>.from(json.decode(str).map((x) => Approval.fromJson(x)));
 
-String leadsToJson(List<Leads> data) =>
+String approvalToJson(List<Approval> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class Leads {
+class Approval {
+  String code;
+  String name;
+  String costProfitCenter;
+  List<ListElement> list;
+
+  Approval({
+    required this.code,
+    required this.name,
+    required this.costProfitCenter,
+    required this.list,
+  });
+
+  factory Approval.fromJson(Map<String, dynamic> json) => Approval(
+        code: json["code"],
+        name: json["name"],
+        costProfitCenter: json["costProfitCenter"],
+        list: List<ListElement>.from(
+            json["list"].map((x) => ListElement.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "code": code,
+        "name": name,
+        "costProfitCenter": costProfitCenter,
+        "list": List<dynamic>.from(list.map((x) => x.toJson())),
+      };
+}
+
+class ListElement {
   String id;
   bool isActive;
   DateTime createdAt;
@@ -19,8 +44,9 @@ class Leads {
   String name;
   String minOmzet;
   String maxOmzet;
+  List<ApprovalDetail> approvalDetails;
 
-  Leads({
+  ListElement({
     required this.id,
     required this.isActive,
     required this.createdAt,
@@ -29,9 +55,10 @@ class Leads {
     required this.name,
     required this.minOmzet,
     required this.maxOmzet,
+    required this.approvalDetails,
   });
 
-  factory Leads.fromJson(Map<String, dynamic> json) => Leads(
+  factory ListElement.fromJson(Map<String, dynamic> json) => ListElement(
         id: json["id"],
         isActive: json["isActive"],
         createdAt: DateTime.parse(json["createdAt"]),
@@ -40,6 +67,8 @@ class Leads {
         name: json["name"],
         minOmzet: json["minOmzet"],
         maxOmzet: json["maxOmzet"],
+        approvalDetails: List<ApprovalDetail>.from(
+            json["approvalDetails"].map((x) => ApprovalDetail.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -51,5 +80,35 @@ class Leads {
         "name": name,
         "minOmzet": minOmzet,
         "maxOmzet": maxOmzet,
+        "approvalDetails":
+            List<dynamic>.from(approvalDetails.map((x) => x.toJson())),
+      };
+}
+
+class ApprovalDetail {
+  String id;
+  bool isActive;
+  DateTime createdAt;
+  DateTime updatedAt;
+
+  ApprovalDetail({
+    required this.id,
+    required this.isActive,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  factory ApprovalDetail.fromJson(Map<String, dynamic> json) => ApprovalDetail(
+        id: json["id"],
+        isActive: json["isActive"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "isActive": isActive,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
       };
 }

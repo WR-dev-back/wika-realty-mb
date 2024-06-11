@@ -1,49 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wr_project/app/routes/app_pages.dart';
 
 import '../../../utils/constant/style/app_color.dart';
 import '../../../utils/constant/style/text_styles.dart';
 import '../controllers/approval_controller.dart';
-
-// Model untuk Lead
-class Approval {
-  final String nomer;
-  final String fullName;
-  final String email;
-  final String phoneNumber;
-
-  Approval({
-    required this.nomer,
-    required this.fullName,
-    required this.email,
-    required this.phoneNumber,
-  });
-}
-
-// Data dummy
-final List<Approval> dummyApproval = [
-  Approval(
-      nomer: '822',
-      fullName: 'John Doe',
-      email: 'john@example.com',
-      phoneNumber: '1234567890'),
-  Approval(
-      nomer: '823',
-      fullName: 'Jane Smith',
-      email: 'jane@example.com',
-      phoneNumber: '0987654321'),
-  Approval(
-      nomer: '824',
-      fullName: 'Alice Johnson',
-      email: 'alice@example.com',
-      phoneNumber: '1122334455'),
-  Approval(
-      nomer: '825',
-      fullName: 'Bob Brown',
-      email: 'bob@example.com',
-      phoneNumber: '2233445566'),
-];
 
 class ApprovalView extends GetView<ApprovalController> {
   const ApprovalView({Key? key}) : super(key: key);
@@ -77,44 +37,39 @@ class ApprovalView extends GetView<ApprovalController> {
             ),
             SizedBox(height: 10),
             Expanded(
-              child: ListView.builder(
-                itemCount: dummyApproval.length,
-                itemBuilder: (context, index) {
-                  final approval = dummyApproval[index];
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black, width: 1),
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
-                      ),
-                      child: ListTile(
-                        leading: Text(
-                          approval.nomer,
-                          style: TextStyles.headStyle,
+              child: Obx(
+                () => RefreshIndicator(
+                  onRefresh: controller.refreshData,
+                  child: controller.isFetching.value
+                      ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : ListView.builder(
+                          itemCount: controller.approvals.length,
+                          itemBuilder: (context, index) {
+                            final approval = controller.approvals[index];
+                            return ExpansionTile(
+                              title: Text(approval.name),
+                              subtitle: Text(approval.costProfitCenter),
+                              children: approval.list.map((listElement) {
+                                return ListTile(
+                                  title: Text(listElement.name),
+                                  subtitle: Text(
+                                      'Min Omzet: ${listElement.minOmzet}, Max Omzet: ${listElement.maxOmzet}'),
+                                  // trailing: Column(
+                                  //   crossAxisAlignment: CrossAxisAlignment.end,
+                                  //   children: listElement.approvalDetails
+                                  //       .map((detail) {
+                                  //     return Text(
+                                  //         'Detail ID: ${detail.createdAt}');
+                                  //   }).toList(),
+                                  // ),
+                                );
+                              }).toList(),
+                            );
+                          },
                         ),
-                        title: Text(
-                          approval.fullName,
-                          style: TextStyles.headStyle,
-                        ),
-                        subtitle: Text(
-                          approval.email,
-                          style: TextStyles.decTextStyle,
-                        ),
-                        trailing: Text(
-                          approval.phoneNumber,
-                          style: TextStyles.decTextStyle,
-                        ),
-                        onTap: () {
-                          // Handle item tap
-                          Get.toNamed(Routes.DETAIL_APPROVAL,
-                              arguments: approval);
-                        },
-                      ),
-                    ),
-                  );
-                },
+                ),
               ),
             ),
           ],
