@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:get/get_connect.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wr_project/app/common/model/leads.dart';
+import 'package:wr_project/app/common/models/leads.dart';
 import 'package:wr_project/app/utils/constant/data/api.dart';
 
 class EditDetailLeadsProvider extends GetConnect {

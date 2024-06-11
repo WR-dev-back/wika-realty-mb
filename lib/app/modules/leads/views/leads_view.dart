@@ -16,6 +16,9 @@ class LeadsView extends GetView<LeadsController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: BackButton(
+          color: Colors.white,
+        ),
         backgroundColor: AppColor.primary,
         title: Text(
           'Leads View',
@@ -212,9 +215,7 @@ class LeadsView extends GetView<LeadsController> {
                                             area: int.tryParse(
                                                     controller.areaC.text) ??
                                                 0,
-                                            omzet: int.tryParse(
-                                                    controller.omzetC.text) ??
-                                                0,
+                                            omzet: controller.omzetC.text,
                                           );
                                         }
                                       },

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wr_project/app/routes/app_pages.dart';
 
 import '../../../utils/constant/style/app_color.dart';
 import '../../../utils/constant/style/text_styles.dart';
@@ -7,11 +8,13 @@ import '../controllers/approval_controller.dart';
 
 // Model untuk Lead
 class Approval {
+  final String nomer;
   final String fullName;
   final String email;
   final String phoneNumber;
 
   Approval({
+    required this.nomer,
     required this.fullName,
     required this.email,
     required this.phoneNumber,
@@ -21,18 +24,22 @@ class Approval {
 // Data dummy
 final List<Approval> dummyApproval = [
   Approval(
+      nomer: '822',
       fullName: 'John Doe',
       email: 'john@example.com',
       phoneNumber: '1234567890'),
   Approval(
+      nomer: '823',
       fullName: 'Jane Smith',
       email: 'jane@example.com',
       phoneNumber: '0987654321'),
   Approval(
+      nomer: '824',
       fullName: 'Alice Johnson',
       email: 'alice@example.com',
       phoneNumber: '1122334455'),
   Approval(
+      nomer: '825',
       fullName: 'Bob Brown',
       email: 'bob@example.com',
       phoneNumber: '2233445566'),
@@ -45,6 +52,9 @@ class ApprovalView extends GetView<ApprovalController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: BackButton(
+          color: Colors.white,
+        ),
         backgroundColor: AppColor.primary,
         title: Text(
           'Approval View',
@@ -80,6 +90,10 @@ class ApprovalView extends GetView<ApprovalController> {
                         color: Colors.white,
                       ),
                       child: ListTile(
+                        leading: Text(
+                          approval.nomer,
+                          style: TextStyles.headStyle,
+                        ),
                         title: Text(
                           approval.fullName,
                           style: TextStyles.headStyle,
@@ -94,7 +108,8 @@ class ApprovalView extends GetView<ApprovalController> {
                         ),
                         onTap: () {
                           // Handle item tap
-                          print('Tapped on ${approval.fullName}');
+                          Get.toNamed(Routes.DETAIL_APPROVAL,
+                              arguments: approval);
                         },
                       ),
                     ),

@@ -16,14 +16,18 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: BackButton(
+          color: Colors.white,
+        ),
+        backgroundColor: AppColor.primary,
         title: Text(
           'Detail Leads View',
-          style: TextStyles.headerStyleProfile,
+          style: TextStyles.titleLabelStyle,
         ),
         centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Column(
           children: [
             Row(
@@ -39,7 +43,9 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                   child: Row(
                     children: [
                       Icon(Icons.edit),
-                      Text("Edit"),
+                      Text(
+                        "Edit",
+                      ),
                     ],
                   ),
                 ),

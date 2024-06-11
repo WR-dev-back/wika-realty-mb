@@ -1,6 +1,7 @@
 class ApiEndPoints {
-  static final String baseUrl = 'http://192.168.100.74:8080';
+  static final String baseUrl = 'http://10.103.0.55:3000';
   static _AuthEndPoints authEndpoints = _AuthEndPoints();
+  static _GetDataUser getDataUser = _GetDataUser();
   static _GetDataLeads getDataLeads = _GetDataLeads();
   static _PostDataLeads postDataLeads = _PostDataLeads();
   static _CheckNum checkLeads = _CheckNum();
@@ -10,6 +11,10 @@ class ApiEndPoints {
 
 class _AuthEndPoints {
   final String loginEmail = '/api/v1/auth/login';
+}
+
+class _GetDataUser {
+  final String userData = '/api/v1/users/';
 }
 
 class _GetDataLeads {

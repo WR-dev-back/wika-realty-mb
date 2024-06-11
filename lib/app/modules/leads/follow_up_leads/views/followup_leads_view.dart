@@ -18,18 +18,24 @@ class FollowupLeadsView extends GetView<FollowupLeadsController> {
           bottom: TabBar(
             controller: controller.tabController,
             tabs: [
-              Obx(() => FollowUpTab(
-                    text: 'Follow Up 1',
-                    completed: controller.followUp1Completed.value,
-                  )),
-              Obx(() => FollowUpTab(
-                    text: 'Follow Up 2',
-                    completed: controller.followUp2Completed.value,
-                  )),
-              Obx(() => FollowUpTab(
-                    text: 'Follow Up 3',
-                    completed: controller.followUp3Completed.value,
-                  )),
+              Obx(
+                () => FollowUpTab(
+                  text: 'Follow Up 1',
+                  completed: controller.followUp1Completed.value,
+                ),
+              ),
+              Obx(
+                () => FollowUpTab(
+                  text: 'Follow Up 2',
+                  completed: controller.followUp2Completed.value,
+                ),
+              ),
+              Obx(
+                () => FollowUpTab(
+                  text: 'Follow Up 3',
+                  completed: controller.followUp3Completed.value,
+                ),
+              ),
             ],
           ),
         ),
@@ -39,12 +45,16 @@ class FollowupLeadsView extends GetView<FollowupLeadsController> {
             controller: controller.tabController,
             children: [
               buildFollowUpTab(controller, leads, 1),
-              Obx(() => controller.isNextFollowUpTypeEnabled(2)
-                  ? buildFollowUpTab(controller, leads, 2)
-                  : Center(child: Text('Complete Follow Up 1 first'))),
-              Obx(() => controller.isNextFollowUpTypeEnabled(3)
-                  ? buildFollowUpTab(controller, leads, 3)
-                  : Center(child: Text('Complete Follow Up 2 first'))),
+              Obx(
+                () => controller.isNextFollowUpTypeEnabled(2)
+                    ? buildFollowUpTab(controller, leads, 2)
+                    : Center(child: Text('Complete Follow Up 1 first')),
+              ),
+              Obx(
+                () => controller.isNextFollowUpTypeEnabled(3)
+                    ? buildFollowUpTab(controller, leads, 3)
+                    : Center(child: Text('Complete Follow Up 2 first')),
+              ),
             ],
           ),
         ),
@@ -91,8 +101,7 @@ class FollowupLeadsView extends GetView<FollowupLeadsController> {
               }).toList(),
               onChanged: (value) {
                 controller.selectedFollowUpOption.value = value as String;
-                controller
-                    .validateForm(); // Re-validate form when option changes
+                controller.validateForm();
               },
               decoration: InputDecoration(
                 hintText: 'Status Leads',

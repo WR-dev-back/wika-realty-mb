@@ -67,7 +67,7 @@ class HomeView extends GetView<HomeController> {
                                   Text(
                                     "081290112333",
                                     style: TextStyles
-                                        .headerStyle, // Use the predefined style
+                                        .headerhomeStyle, // Use the predefined style
                                   ),
                                   Image.asset("asset/images/logo.png"),
                                 ],
@@ -76,7 +76,7 @@ class HomeView extends GetView<HomeController> {
                               Text(
                                 "name",
                                 style: TextStyles
-                                    .descriptionStyle, // Use the predefined style
+                                    .descriptionhomeStyle, // Use the predefined style
                               ),
                               SizedBox(height: 10),
                               Row(
@@ -86,7 +86,7 @@ class HomeView extends GetView<HomeController> {
                                   Text(
                                     "username",
                                     style: TextStyles
-                                        .headerStyle, // Use the predefined style
+                                        .headerhomeStyle, // Use the predefined style
                                   ),
                                   ElevatedButton(
                                     onPressed: () async {

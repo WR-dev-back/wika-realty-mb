@@ -58,7 +58,7 @@ class Datum {
   String? ppu;
   String? type;
   int area;
-  int omzet;
+  String? omzet;
   bool isRead;
   bool isSend;
   List<LeadFollowUp> leadFollowUp;

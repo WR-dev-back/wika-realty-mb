@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../common/model/leads.dart';
+import '../../../common/models/leads.dart';
 import '../../../utils/constant/data/api.dart';
 
 class LeadsProvider extends GetConnect {
@@ -165,7 +165,7 @@ class LeadsProvider extends GetConnect {
     required String city,
     required String type,
     required int area,
-    required int omzet,
+    required String omzet,
   }) async {
     try {
       // Check duplicate before posting

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wr_project/app/utils/constant/style/app_color.dart';
+import 'package:wr_project/app/utils/constant/style/text_styles.dart';
 import '../controllers/edit_detail_leads_controller.dart';
 
 class EditDetailLeadsView extends GetView<EditDetailLeadsController> {
@@ -18,15 +20,22 @@ class EditDetailLeadsView extends GetView<EditDetailLeadsController> {
     controller.cityController.text = leads.city ?? '';
     controller.typeController.text = leads.type ?? '';
     controller.areaController.text = leads.area.toString();
-    controller.omzetController.text = leads.omzet.toString();
+    controller.omzetController.text = leads.omzet ?? '';
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Edit Leads"),
+        leading: BackButton(
+          color: Colors.white,
+        ),
+        backgroundColor: AppColor.primary,
+        title: Text(
+          "Edit Leads",
+          style: TextStyles.titleLabelStyle,
+        ),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

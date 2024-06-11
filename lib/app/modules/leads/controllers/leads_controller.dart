@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_project/app/modules/leads/provider/leads_provider.dart';
 
-import '../../../common/model/leads.dart';
+import '../../../common/models/leads.dart';
 import '../../../routes/app_pages.dart';
 
 class LeadsController extends GetxController {
@@ -132,7 +132,7 @@ class LeadsController extends GetxController {
 
       totalPages.value = (response.length / 25).ceil();
     } catch (error) {
-      print('Error fetching data: $error');
+      // print('Error fetching data: $error');
     } finally {
       stopFetching();
     }
@@ -166,7 +166,7 @@ class LeadsController extends GetxController {
     required String city,
     required String type,
     required int area,
-    required int omzet,
+    required String omzet,
   }) async {
     try {
       bool isDuplicate = await leadsProvider.checkDuplicate(

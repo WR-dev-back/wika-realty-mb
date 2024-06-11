@@ -8,6 +8,12 @@ class TextStyles {
     fontWeight: FontWeight.bold,
   );
 
+  static TextStyle headerhomeStyle = GoogleFonts.plusJakartaSans(
+    fontSize: 25,
+    color: Colors.white,
+    fontWeight: FontWeight.bold,
+  );
+
   static TextStyle headStyle = GoogleFonts.plusJakartaSans(
     fontSize: 20,
   );
@@ -24,6 +30,12 @@ class TextStyles {
 
   static TextStyle descriptionStyle = GoogleFonts.plusJakartaSans(
     fontSize: 16,
+    fontWeight: FontWeight.w400,
+  );
+
+  static TextStyle descriptionhomeStyle = GoogleFonts.plusJakartaSans(
+    fontSize: 16,
+    color: Colors.white,
     fontWeight: FontWeight.w400,
   );
 
