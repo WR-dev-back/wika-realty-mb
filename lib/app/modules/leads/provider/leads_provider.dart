@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../../../common/models/leads.dart';
 import '../../../utils/constant/data/api.dart';
@@ -10,6 +10,7 @@ class LeadsProvider extends GetConnect {
   RxList<Datum> filteredLeads = <Datum>[].obs;
   late List<Datum> _leads = [];
   late RxList<Datum> _filteredLeads = RxList<Datum>();
+  final GetStorage storage = GetStorage();
 
   Future<List<Datum>> fetchDataLeads({int page = 1, int limit = 25}) async {
     var apiUrl = ApiEndPoints.baseUrl +
@@ -17,8 +18,7 @@ class LeadsProvider extends GetConnect {
         'page=${page}&limit=${limit}';
 
     try {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final String? token = prefs.getString('token');
+      final String? token = storage.read('token');
       if (token != null) {
         final response = await get(
           apiUrl,
@@ -57,8 +57,7 @@ class LeadsProvider extends GetConnect {
         '&search=$query');
 
     try {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final String? token = prefs.getString('token');
+      final String? token = storage.read('token');
       if (token != null) {
         var response = await get(
           apiUrl.toString(),
@@ -89,11 +88,6 @@ class LeadsProvider extends GetConnect {
     }
   }
 
-  Future<String?> _getToken() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('token');
-  }
-
   Future<bool> checkDuplicate({
     required String npwp,
     required String phone,
@@ -109,8 +103,7 @@ class LeadsProvider extends GetConnect {
     };
 
     try {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final String? token = prefs.getString('token');
+      final String? token = storage.read('token');
       if (token != null) {
         var response = await put(
           apiUrl,
@@ -192,7 +185,7 @@ class LeadsProvider extends GetConnect {
           'omzet': omzet,
         };
 
-        final token = await _getToken();
+        final String? token = storage.read('token');
 
         if (token != null) {
           var response = await post(

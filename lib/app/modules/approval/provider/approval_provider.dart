@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../../../utils/constant/data/api.dart';
 
@@ -9,8 +9,8 @@ class ApprovalProvider extends GetConnect {
         ApiEndPoints.baseUrl + ApiEndPoints.getDataApproval.dataApproval;
 
     try {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final String? token = prefs.getString('token');
+      final GetStorage storage = GetStorage();
+      final String? token = storage.read('token');
 
       if (token == null) {
         return Response(statusCode: 401, statusText: 'Unauthorized');

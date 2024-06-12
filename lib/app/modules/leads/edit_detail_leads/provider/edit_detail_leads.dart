@@ -1,17 +1,18 @@
 import 'dart:convert';
 import 'package:get/get_connect.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:wr_project/app/common/models/leads.dart';
 import 'package:wr_project/app/utils/constant/data/api.dart';
 
 class EditDetailLeadsProvider extends GetConnect {
+  final GetStorage storage = GetStorage();
+
   Future<Response> updateLeadsData(String leadId, Datum leads) async {
     final apiUrl =
         ApiEndPoints.baseUrl + ApiEndPoints.puteditLeads.editLeads + leadId;
 
     try {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final String? token = prefs.getString('token');
+      final String? token = storage.read('token');
 
       if (token != null) {
         final response = await put(

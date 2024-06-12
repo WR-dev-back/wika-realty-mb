@@ -1,15 +1,17 @@
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get_storage/get_storage.dart';
+
 import 'dart:convert';
 
 import '../../../../utils/constant/data/api.dart';
 
 class FollowUpLeadsProvider extends GetConnect {
+  final GetStorage storage = GetStorage();
   // Method to fetch follow-up data
   Future<Response> getFollowUpData() async {
     final apiUrl = ApiEndPoints.baseUrl + ApiEndPoints.getDataLeads.dataLeads;
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? token = prefs.getString('token');
+
+    final String? token = storage.read('token');
 
     if (token == null) {
       return Response(statusCode: 401, statusText: 'Unauthorized');
@@ -36,8 +38,7 @@ class FollowUpLeadsProvider extends GetConnect {
         ApiEndPoints.baseUrl + ApiEndPoints.followUpLeads.follow + leadId;
 
     try {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final String? token = prefs.getString('token');
+      final String? token = storage.read('token');
 
       if (token == null) {
         return Response(statusCode: 401, statusText: 'Unauthorized');
