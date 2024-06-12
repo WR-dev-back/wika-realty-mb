@@ -1,20 +1,22 @@
 import 'dart:convert';
-
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../../../auth/login/model/login_model.dart';
 
 class HomeController extends GetxController {
-  var isRefreshing = false.obs;
+  var isRefreshing = false.obs; // Reactive variable for ppu
+  late User user; // Nullable user variable
+  late Ppu ppu; // Nullable ppu variable
+  var menus = <Menu>[].obs; // Reactive variable for list of menus
+
+  final GetStorage storage = GetStorage();
 
   Future<void> refreshData() async {
     isRefreshing(true);
 
     await Future.delayed(
-      Duration(
-        seconds: 2,
-      ),
+      Duration(seconds: 2),
     );
 
     isRefreshing(false);
@@ -23,14 +25,25 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
+    final String userJson = storage.read('user');
+    try {
+      user = User.fromJson(jsonDecode(userJson));
+    } catch (e) {
+      print('Error parsing user data: $e');
+    }
+
+    final String ppuJson = storage.read('ppu');
+    ppu = Ppu.fromJson(jsonDecode(ppuJson));
+
+    final String menuJsonList = storage.read('menuList');
+    menus.value = (jsonDecode(menuJsonList) as List)
+        .map((e) => Menu.fromJson(e))
+        .toList();
   }
 
-  static const String _keyMenuList = 'menuList';
-
   Future<List<Menu>> retrieveStoredData(bool isMobile) async {
-    final prefs = await SharedPreferences.getInstance();
-    final String? menuListJson = prefs.getString(_keyMenuList);
-
+    final String? menuListJson = storage.read('menuList');
     if (menuListJson != null) {
       final List<dynamic> jsonData = jsonDecode(menuListJson);
       final List<Menu> menuList = jsonData

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../routes/app_pages.dart';
 import '../../../utils/constant/style/app_color.dart';
 import '../../../utils/constant/style/text_styles.dart';
 import '../controllers/approval_controller.dart';
@@ -45,27 +46,28 @@ class ApprovalView extends GetView<ApprovalController> {
                           child: CircularProgressIndicator(),
                         )
                       : ListView.builder(
-                          itemCount: controller.approvals.length,
+                          itemCount: controller.flatApprovals.length,
                           itemBuilder: (context, index) {
-                            final approval = controller.approvals[index];
-                            return ExpansionTile(
-                              title: Text(approval.name),
-                              subtitle: Text(approval.costProfitCenter),
-                              children: approval.list.map((listElement) {
-                                return ListTile(
+                            final listElement = controller.flatApprovals[index];
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 8,
+                              ),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border:
+                                      Border.all(color: Colors.black, width: 1),
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.white,
+                                ),
+                                child: ListTile(
                                   title: Text(listElement.name),
-                                  subtitle: Text(
-                                      'Min Omzet: ${listElement.minOmzet}, Max Omzet: ${listElement.maxOmzet}'),
-                                  // trailing: Column(
-                                  //   crossAxisAlignment: CrossAxisAlignment.end,
-                                  //   children: listElement.approvalDetails
-                                  //       .map((detail) {
-                                  //     return Text(
-                                  //         'Detail ID: ${detail.createdAt}');
-                                  //   }).toList(),
-                                  // ),
-                                );
-                              }).toList(),
+                                  onTap: () => Get.toNamed(
+                                    Routes.DETAIL_APPROVAL,
+                                    arguments: listElement,
+                                  ),
+                                ),
+                              ),
                             );
                           },
                         ),

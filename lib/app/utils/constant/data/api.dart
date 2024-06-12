@@ -1,5 +1,5 @@
 class ApiEndPoints {
-  static final String baseUrl = 'http://10.103.0.55:3000';
+  static final String baseUrl = 'http://10.103.0.28:8080';
   static _AuthEndPoints authEndpoints = _AuthEndPoints();
   static _GetDataUser getDataUser = _GetDataUser();
   static _GetDataLeads getDataLeads = _GetDataLeads();

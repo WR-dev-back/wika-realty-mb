@@ -1,14 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../../../../utils/constant/data/api.dart';
 import '../../../../routes/app_pages.dart';
-import '../model/login_model.dart';
 
 class LoginProvider extends GetConnect {
-  static const String _keyMenuList = 'menuList';
+  final GetStorage storage = GetStorage();
 
   Future<void> login(String email, String password) async {
     var headers = {'Content-Type': 'application/json'};
@@ -20,34 +19,23 @@ class LoginProvider extends GetConnect {
 
       if (response.statusCode == 201) {
         Map<String, dynamic> jsonData = response.body as Map<String, dynamic>;
-        final SharedPreferences prefs = await SharedPreferences.getInstance();
 
         var token = jsonData['data']['token'];
-        await prefs.setString('token', token);
+        await storage.write('token', token);
 
-        // var userJson = jsonData['data']['user'];
-        // User user = User.fromJson(userJson);
-        // await prefs.setString('user', jsonEncode(user.toJson()));
+        var userJson = jsonData['data']['user'];
+        await storage.write('user', jsonEncode(userJson));
 
-        // print(user.title);
+        var ppuJson = jsonData['data']['user']['ppu'];
+        await storage.write('ppu', jsonEncode(ppuJson));
 
-        // var ppuJson = jsonData['data']['ppu'];
-        // Ppu ppu = Ppu.fromJson(ppuJson);
-        // await prefs.setString('ppu', jsonEncode(ppu.toJson()));
+        print(ppuJson);
+        print(userJson);
 
         List<dynamic> menuJsonList = jsonData['data']['menus'];
-        List<Menu> menuList =
-            menuJsonList.map((e) => Menu.fromJson(e)).toList();
+        await storage.write('menuList', jsonEncode(menuJsonList));
 
-        await prefs.setString(_keyMenuList, jsonEncode(menuList));
-
-        Get.offAllNamed(
-          Routes.HOME,
-          arguments: {
-            // 'user': user,
-            // 'ppu': ppu,
-          },
-        );
+        Get.offAllNamed(Routes.HOME);
       } else {
         throw jsonDecode(response.body)["Message"] ?? "Unknown Error Occurred";
       }

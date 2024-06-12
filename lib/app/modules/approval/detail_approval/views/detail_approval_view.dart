@@ -10,7 +10,7 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
   const DetailApprovalView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final approval = Get.arguments;
+    final listEl = Get.arguments;
 
     return Scaffold(
       appBar: AppBar(
@@ -44,25 +44,34 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Nomor Approval: ${approval?.nomer}',
+                            'Name : ${listEl?.name}',
                             style: TextStyles.leadsTextStyle,
                           ),
                           SizedBox(height: 15),
                           Text(
-                            'Nama: ${approval?.fullName}',
+                            'Min Omzet: ${listEl.minOmzet}',
                             style: TextStyles.leadsTextStyle,
                           ),
                           SizedBox(height: 15),
                           Text(
-                            'Email: ${approval?.email}',
+                            'Max Omzet: ${listEl.maxOmzet}',
                             style: TextStyles.leadsTextStyle,
                           ),
-                          SizedBox(height: 15),
-                          Text(
-                            'Phone Number: ${approval?.phoneNumber}',
-                            style: TextStyles.leadsTextStyle,
-                          ),
-                          SizedBox(height: 15),
+                          // Text(
+                          //   'Nama: ${approval?.fullName}',
+                          //   style: TextStyles.leadsTextStyle,
+                          // ),
+                          // SizedBox(height: 15),
+                          // Text(
+                          //   'Email: ${approval?.email}',
+                          //   style: TextStyles.leadsTextStyle,
+                          // ),
+                          // SizedBox(height: 15),
+                          // Text(
+                          //   'Phone Number: ${approval?.phoneNumber}',
+                          //   style: TextStyles.leadsTextStyle,
+                          // ),
+                          // SizedBox(height: 15),
                         ],
                       ),
                     ),

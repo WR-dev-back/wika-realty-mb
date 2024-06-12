@@ -220,7 +220,7 @@ class ProfileView extends GetView<ProfileController> {
           Icons.arrow_right_rounded,
           size: 32,
         ),
-        onTap: () => debugPrint('Item 2'),
+        onTap: controller.deleteToken,
       ),
       // ListTile(
       //   title: Text(

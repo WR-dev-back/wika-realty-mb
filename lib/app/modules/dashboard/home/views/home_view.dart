@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get_storage/get_storage.dart';
 
 import 'package:wr_project/app/modules/dashboard/view/custom_navigation_bar.dart';
 import '../../controller/page_index_controller.dart';
@@ -9,19 +9,15 @@ import '../../../auth/login/model/login_model.dart';
 import '../controllers/home_controller.dart';
 import '../../../../utils/constant/style/text_styles.dart';
 
-// ignore: must_be_immutable
 class HomeView extends GetView<HomeController> {
   final PageIndexController pageC = Get.find<PageIndexController>();
-  // late User user;
+
+  final GetStorage storage = GetStorage();
 
   HomeView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // final user = Get.arguments;
-
-    // print(user!.name);
-
     return Scaffold(
       bottomNavigationBar: const CustomBottomNavigationBar(),
       body: RefreshIndicator(
@@ -65,43 +61,29 @@ class HomeView extends GetView<HomeController> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "081290112333",
-                                    style: TextStyles
-                                        .headerhomeStyle, // Use the predefined style
+                                    controller.user.name,
+                                    style: TextStyles.headerhomeStyle,
                                   ),
                                   Image.asset("asset/images/logo.png"),
                                 ],
                               ),
-                              SizedBox(height: 20),
-                              Text(
-                                "name",
-                                style: TextStyles
-                                    .descriptionhomeStyle, // Use the predefined style
-                              ),
-                              SizedBox(height: 10),
+                              SizedBox(height: 40),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "username",
-                                    style: TextStyles
-                                        .headerhomeStyle, // Use the predefined style
+                                    controller.user.username, //
+                                    style: TextStyles.headerhomeStyle,
                                   ),
                                   ElevatedButton(
                                     onPressed: () async {
-                                      final SharedPreferences prefs =
-                                          await SharedPreferences.getInstance();
-
-                                      // Mendapatkan nilai token dari SharedPreferences
-                                      String? token = prefs.getString('token');
-
+                                      String? token = storage.read('token');
                                       print(token);
                                     },
                                     child: Text(
                                       "Profile",
-                                      style: TextStyles
-                                          .cardbuttomTextStyle, // Use the predefined style
+                                      style: TextStyles.cardbuttomTextStyle,
                                     ),
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Color(0xFFF7B731),
@@ -115,7 +97,7 @@ class HomeView extends GetView<HomeController> {
                               ),
                               SizedBox(height: 10),
                               Text(
-                                "id",
+                                controller.ppu.name,
                                 style: TextStyles.cardbuttomTextStyle,
                               ),
                               SizedBox(height: 10),
@@ -132,9 +114,7 @@ class HomeView extends GetView<HomeController> {
                   ),
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: ListView(
                         children: [
                           Padding(
@@ -228,9 +208,7 @@ class HomeView extends GetView<HomeController> {
                               ],
                             ),
                           ),
-                          SizedBox(
-                            height: 10,
-                          ),
+                          SizedBox(height: 10),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Row(
@@ -238,8 +216,7 @@ class HomeView extends GetView<HomeController> {
                               children: [
                                 Text(
                                   "Pembayaran Terbaru",
-                                  style: TextStyles
-                                      .fieldLabelStyle, // Use the predefined style
+                                  style: TextStyles.fieldLabelStyle,
                                 ),
                                 TextButton(
                                   onPressed: () {},
@@ -263,8 +240,7 @@ class HomeView extends GetView<HomeController> {
                                       borderRadius: BorderRadius.circular(20),
                                       image: DecorationImage(
                                         image: AssetImage(
-                                          "asset/images/obito.jpeg",
-                                        ),
+                                            "asset/images/obito.jpeg"),
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -277,8 +253,7 @@ class HomeView extends GetView<HomeController> {
                                       borderRadius: BorderRadius.circular(20),
                                       image: DecorationImage(
                                         image: AssetImage(
-                                          "asset/images/obito.jpeg",
-                                        ),
+                                            "asset/images/obito.jpeg"),
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -291,8 +266,7 @@ class HomeView extends GetView<HomeController> {
                                       borderRadius: BorderRadius.circular(20),
                                       image: DecorationImage(
                                         image: AssetImage(
-                                          "asset/images/obito.jpeg",
-                                        ),
+                                            "asset/images/obito.jpeg"),
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -301,9 +275,7 @@ class HomeView extends GetView<HomeController> {
                               ),
                             ),
                           ),
-                          Container(
-                            height: 100,
-                          )
+                          Container(height: 100)
                         ],
                       ),
                     ),
@@ -341,11 +313,7 @@ class ClipPathClass extends CustomClipper<Path> {
     Path path = Path();
     path.lineTo(0, size.height - 60);
     path.quadraticBezierTo(
-      size.width / 2,
-      size.height,
-      size.width,
-      size.height - 60,
-    );
+        size.width / 2, size.height, size.width, size.height - 60);
     path.lineTo(size.width, 0);
     path.close();
 

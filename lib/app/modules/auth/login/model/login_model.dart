@@ -157,18 +157,18 @@ class User {
   String id;
   String email;
   String username;
-  Title title;
   Ppu ppu;
-  List<Title> roles;
+  List<Role> roles;
+  Position position;
 
   User({
     required this.name,
     required this.id,
     required this.email,
     required this.username,
-    required this.title,
     required this.ppu,
     required this.roles,
+    required this.position,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -176,9 +176,9 @@ class User {
         id: json["id"],
         email: json["email"],
         username: json["username"],
-        title: Title.fromJson(json["title"]),
         ppu: Ppu.fromJson(json["ppu"]),
-        roles: List<Title>.from(json["roles"].map((x) => Title.fromJson(x))),
+        roles: List<Role>.from(json["roles"].map((x) => Role.fromJson(x))),
+        position: Position.fromJson(json["position"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -186,42 +186,66 @@ class User {
         "id": id,
         "email": email,
         "username": username,
-        "title": title.toJson(),
         "ppu": ppu.toJson(),
         "roles": List<dynamic>.from(roles.map((x) => x.toJson())),
+        "position": position.toJson(),
+      };
+}
+
+class Position {
+  String title;
+  String id;
+
+  Position({
+    required this.title,
+    required this.id,
+  });
+
+  factory Position.fromJson(Map<String, dynamic> json) => Position(
+        title: json["title"],
+        id: json["id"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "title": title,
+        "id": id,
       };
 }
 
 class Ppu {
   String code;
   String name;
+  String id;
 
   Ppu({
     required this.code,
     required this.name,
+    required this.id,
   });
 
   factory Ppu.fromJson(Map<String, dynamic> json) => Ppu(
         code: json["code"],
         name: json["name"],
+        id: json["id"],
       );
 
   Map<String, dynamic> toJson() => {
         "code": code,
         "name": name,
+        "id": id,
       };
 }
 
-class Title {
+class Role {
   String id;
   String name;
 
-  Title({
+  Role({
     required this.id,
     required this.name,
   });
 
-  factory Title.fromJson(Map<String, dynamic> json) => Title(
+  factory Role.fromJson(Map<String, dynamic> json) => Role(
         id: json["id"],
         name: json["name"],
       );
