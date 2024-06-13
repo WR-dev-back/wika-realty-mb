@@ -61,6 +61,12 @@ class TextStyles {
     color: Colors.blue,
   );
 
+  static TextStyle buttonprofileTextStyle = GoogleFonts.plusJakartaSans(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: Colors.black,
+  );
+
   static TextStyle buttonauthTextStyle = GoogleFonts.plusJakartaSans(
     fontSize: 16,
     fontWeight: FontWeight.w500,

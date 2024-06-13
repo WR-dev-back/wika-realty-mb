@@ -67,7 +67,12 @@ class HomeView extends GetView<HomeController> {
                                   Image.asset("asset/images/logo.png"),
                                 ],
                               ),
-                              SizedBox(height: 40),
+                              SizedBox(height: 20),
+                              Text(
+                                controller.user.email,
+                                style: TextStyles.buttonauthTextStyle,
+                              ),
+                              SizedBox(height: 20),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,

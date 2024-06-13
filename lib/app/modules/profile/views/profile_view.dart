@@ -102,7 +102,7 @@ class ProfileView extends GetView<ProfileController> {
               padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(18),
+                borderRadius: BorderRadius.circular(20),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,15 +142,21 @@ class ProfileView extends GetView<ProfileController> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
-                  "Customer WeStay",
+                  controller.user.name,
                   style: TextStyles.headerStyleProfile,
                 ),
-                Text(
-                  "Customer@WeStay.com",
-                  style: TextStyles.descriptionStyle,
+                SizedBox(
+                  height: 5,
                 ),
                 Text(
-                  "085608783675",
+                  controller.user.email,
+                  style: TextStyles.descriptionStyle,
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  controller.user.position.title,
                   style: TextStyles.descriptionStyle,
                 ),
               ],
@@ -171,12 +177,12 @@ class ProfileView extends GetView<ProfileController> {
           backgroundColor: AppColor.pcolor,
           elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(10),
           ),
         ),
         child: Text(
           'Lihat Detail',
-          style: TextStyles.buttonTextStyle,
+          style: TextStyles.buttonprofileTextStyle,
         ),
       ),
     );
@@ -205,49 +211,53 @@ class ProfileView extends GetView<ProfileController> {
       //       trailing: const Icon(Icons.chevron_right_rounded),
       //       onTap: () => debugPrint('Item 1'),
       //     ),
-      child: ListTile(
-        visualDensity: VisualDensity.compact,
-        title: Text(
-          'Favorites',
-          style: TextStyles.headerStyleProfile,
-        ),
-        subtitle: Text(
-          'Want to know who likes you?',
-          style: TextStyles.descriptionStyle,
-        ),
-        leading: const Icon(Icons.favorite_border_outlined),
-        trailing: const Icon(
-          Icons.arrow_right_rounded,
-          size: 32,
-        ),
-        onTap: controller.deleteToken,
+      child: Column(
+        children: [
+          ListTile(
+            visualDensity: VisualDensity.compact,
+            title: Text(
+              'Favorites',
+              style: TextStyles.headerStyleProfile,
+            ),
+            subtitle: Text(
+              'Want to know who likes you?',
+              style: TextStyles.descriptionStyle,
+            ),
+            leading: const Icon(Icons.favorite_border_outlined),
+            trailing: const Icon(
+              Icons.arrow_right_rounded,
+              size: 32,
+            ),
+            // onTap: controller.deleteToken,
+          ),
+          ListTile(
+            title: Text(
+              'Privacy Policy',
+              style: TextStyles.headerStyleProfile,
+            ),
+            leading: const Icon(Icons.shield_outlined),
+            trailing: const Icon(Icons.arrow_circle_right_outlined),
+            onTap: () => debugPrint('Item 3'),
+          ),
+          ListTile(
+            title: Text(
+              'Log Out',
+              style: TextStyles.headerStyleProfile,
+            ),
+            leading: Icon(
+              Icons.logout,
+              color: Colors.red,
+            ),
+            trailing: Icon(
+              Icons.chevron_right_rounded,
+              color: Colors.red,
+            ),
+            onTap: controller.deleteToken,
+            tileColor: Colors.red,
+            textColor: Colors.red,
+          ),
+        ],
       ),
-      // ListTile(
-      //   title: Text(
-      //     'Privacy Policy',
-      //     style: TextStyles.headerStyleProfile,
-      //   ),
-      //   leading: const Icon(Icons.shield_outlined),
-      //   trailing: const Icon(Icons.arrow_circle_right_outlined),
-      //   onTap: () => debugPrint('Item 3'),
-      // ),
-      // ListTile(
-      //   title: Text(
-      //     'Log Out',
-      //     style: TextStyles.headerStyleProfile,
-      //   ),
-      //   leading: Icon(
-      //     Icons.logout,
-      //     color: Colors.red,
-      //   ),
-      //   trailing: Icon(
-      //     Icons.chevron_right_rounded,
-      //     color: Colors.red,
-      //   ),
-      //   onTap: controller.deleteToken,
-      //   tileColor: Colors.red,
-      //   textColor: Colors.red,
-      // ),
     );
   }
 }
