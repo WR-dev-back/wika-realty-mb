@@ -18,7 +18,7 @@ class CustomBottomNavigationBar extends GetView<PageIndexController> {
         children: <Widget>[
           Expanded(
             child: InkWell(
-              onTap: () => controller.changePage(0),
+              onTap: () => controller.changePage(1),
               child: SizedBox(
                 height: 65,
                 child: Column(
@@ -49,7 +49,7 @@ class CustomBottomNavigationBar extends GetView<PageIndexController> {
           ),
           Expanded(
             child: InkWell(
-              onTap: () => controller.changePage(2),
+              onTap: () => controller.changePage(1),
               child: SizedBox(
                 height: 65,
                 child: Column(

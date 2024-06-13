@@ -59,7 +59,12 @@ class ApprovalView extends GetView<ApprovalController> {
                                   color: Colors.white,
                                 ),
                                 child: ListTile(
-                                  title: Text(approval.name),
+                                  title: Text(
+                                    approval.name,
+                                    style:
+                                        TextStyles.headerapprovalStyleProfile,
+                                    // maxLines: 1,
+                                  ),
                                   subtitle: Text(approval.property.unitDesc),
                                   onTap: () => Get.toNamed(
                                     Routes.DETAIL_APPROVAL,

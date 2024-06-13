@@ -23,6 +23,11 @@ class TextStyles {
     fontWeight: FontWeight.bold,
   );
 
+  static TextStyle headerapprovalStyleProfile = GoogleFonts.plusJakartaSans(
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+  );
+
   static TextStyle headerFieldStyle = GoogleFonts.plusJakartaSans(
     fontSize: 20,
     fontWeight: FontWeight.w500,

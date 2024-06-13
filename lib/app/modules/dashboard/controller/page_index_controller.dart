@@ -8,12 +8,11 @@ class PageIndexController extends GetxController {
     pageIndex.value = index;
     switch (index) {
       case 1:
-        break;
-      case 2:
         Get.offAllNamed(Routes.PROFILE);
         break;
       default:
         Get.offAllNamed(Routes.HOME);
+        break;
     }
   }
 }
