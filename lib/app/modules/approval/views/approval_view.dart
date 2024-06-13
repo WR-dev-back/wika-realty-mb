@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../routes/app_pages.dart';
 import '../../../utils/constant/style/app_color.dart';
 import '../../../utils/constant/style/text_styles.dart';
@@ -13,7 +12,7 @@ class ApprovalView extends GetView<ApprovalController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(
+        leading: const BackButton(
           color: Colors.white,
         ),
         backgroundColor: AppColor.primary,
@@ -28,31 +27,30 @@ class ApprovalView extends GetView<ApprovalController> {
         child: Column(
           children: [
             TextField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Search Approval',
                 prefixIcon: Icon(Icons.search),
               ),
-              onSubmitted: (value) {
-                // Add search functionality here
+              onChanged: (value) {
+                controller.searchApproval(value);
               },
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Expanded(
               child: Obx(
                 () => RefreshIndicator(
                   onRefresh: controller.refreshData,
                   child: controller.isFetching.value
-                      ? Center(
+                      ? const Center(
                           child: CircularProgressIndicator(),
                         )
                       : ListView.builder(
-                          itemCount: controller.flatApprovals.length,
+                          itemCount: controller.filteredApprovals.length,
                           itemBuilder: (context, index) {
-                            final listElement = controller.flatApprovals[index];
+                            final approval =
+                                controller.filteredApprovals[index];
                             return Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 8,
-                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 8),
                               child: Container(
                                 decoration: BoxDecoration(
                                   border:
@@ -61,10 +59,11 @@ class ApprovalView extends GetView<ApprovalController> {
                                   color: Colors.white,
                                 ),
                                 child: ListTile(
-                                  title: Text(listElement.name),
+                                  title: Text(approval.name),
+                                  subtitle: Text(approval.property.unitDesc),
                                   onTap: () => Get.toNamed(
                                     Routes.DETAIL_APPROVAL,
-                                    arguments: listElement,
+                                    arguments: approval,
                                   ),
                                 ),
                               ),

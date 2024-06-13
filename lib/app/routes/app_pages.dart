@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 
 import '../modules/approval/bindings/approval_binding.dart';
+import '../modules/approval/detail_approval/views/detail_approval_view.dart';
 import '../modules/approval/views/approval_view.dart';
 import '../modules/auth/login/bindings/login_binding.dart';
 import '../modules/auth/login/views/login_view.dart';
@@ -9,7 +10,6 @@ import '../modules/dashboard/home/views/home_view.dart';
 import '../modules/denda/bindings/denda_binding.dart';
 import '../modules/denda/views/denda_view.dart';
 import '../modules/approval/detail_approval/bindings/detail_approval_binding.dart';
-import '../modules/approval/detail_approval/views/detail_approval_view.dart';
 import '../modules/leads/bindings/leads_binding.dart';
 import '../modules/leads/detail_leads/bindings/detail_leads_binding.dart';
 import '../modules/leads/detail_leads/views/detail_leads_view.dart';
@@ -83,7 +83,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.DETAIL_APPROVAL,
-      page: () => const DetailApprovalView(),
+      page: () => DetailApprovalView(),
       binding: DetailApprovalBinding(),
     ),
   ];

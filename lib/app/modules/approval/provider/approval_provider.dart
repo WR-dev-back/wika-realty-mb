@@ -23,7 +23,6 @@ class ApprovalProvider extends GetConnect {
           'Content-Type': 'application/json',
         },
       );
-
       return response;
     } catch (error) {
       return Response(statusCode: 500, statusText: 'Error: $error');

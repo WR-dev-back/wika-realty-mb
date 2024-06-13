@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../common/models/approval.dart';
 import '../provider/approval_provider.dart';
 
@@ -8,14 +6,8 @@ class ApprovalController extends GetxController {
   final ApprovalProvider approvalProvider = Get.find();
   var isFetching = false.obs;
   var approvals = <Approval>[].obs;
-  var flatApprovals = <ListElement>[].obs;
-  var isLoading = false.obs;
-
-  void startFetching() => isFetching(true);
-
-  void stopFetching() => isFetching(false);
-
-  ScrollController scrollController = ScrollController();
+  var flatApprovals = <Approval>[].obs;
+  var filteredApprovals = <Approval>[].obs;
 
   @override
   void onInit() {
@@ -23,28 +15,17 @@ class ApprovalController extends GetxController {
     fetchApproval();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
   Future<void> fetchApproval() async {
     isFetching(true);
     try {
       final response = await approvalProvider.getApproval();
       if (response.statusCode == 200) {
-        final List<dynamic> responseData = response.body;
+        final List<dynamic> responseData =
+            response.body['data']; // No need to decode again
         approvals.value =
             responseData.map((e) => Approval.fromJson(e)).toList();
-        flatApprovals.value =
-            approvals.expand((approval) => approval.list).toList();
-
-        print(approvals);
+        flatApprovals.value = approvals.toList();
+        filteredApprovals.value = flatApprovals;
       } else {
         print('Failed to load approvals: ${response.statusCode}');
       }
@@ -55,11 +36,21 @@ class ApprovalController extends GetxController {
     }
   }
 
-  var isRefreshing = false.obs;
-
   Future<void> refreshData() async {
-    isRefreshing(true);
+    await Future.delayed(
+      Duration(seconds: 3),
+    );
     await fetchApproval();
-    isRefreshing(false);
+  }
+
+  void searchApproval(String query) {
+    if (query.isEmpty) {
+      filteredApprovals.value = flatApprovals;
+    } else {
+      filteredApprovals.value = flatApprovals
+          .where((approval) =>
+              approval.name.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+    }
   }
 }
