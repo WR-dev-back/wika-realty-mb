@@ -42,26 +42,76 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Customer Name: ${approval.property.customerName}',
-                            style: TextStyles.leadsTextStyle,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${approval.property.customerName}',
+                                style: TextStyles.headerStyleProfile,
+                              ),
+                              Text(
+                                'Customer Name:',
+                                style: TextStyles.menuTextStyle,
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: 10),
-                          Text(
-                            'Unit Description: ${approval.property.unitDesc}',
-                            style: TextStyles.leadsTextStyle,
+                          const SizedBox(height: 5),
+                          Divider(
+                            height: 2,
                           ),
-                          const SizedBox(height: 10),
-                          Text(
-                            'Contract Value: ${approval.property.contractValueNetto}',
-                            style: TextStyles.leadsTextStyle,
+                          const SizedBox(height: 5),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${approval.property.unitDesc}',
+                                style: TextStyles.headerStyleProfile,
+                              ),
+                              Text(
+                                'Unit Description :',
+                                style: TextStyles.menuTextStyle,
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: 10),
-                          Text(
-                            'Status Approval: ${approval.status}',
-                            style: TextStyles.leadsTextStyle,
+                          const SizedBox(height: 5),
+                          Divider(
+                            height: 2,
                           ),
-                          // Add more details as needed
+                          const SizedBox(height: 5),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${approval.property.contractValueNetto}',
+                                style: TextStyles.headerStyleProfile,
+                              ),
+                              Text(
+                                'Contract Value:',
+                                style: TextStyles.menuTextStyle,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 5),
+                          Divider(
+                            height: 2,
+                          ),
+                          const SizedBox(height: 5),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${approval.status}',
+                                style: TextStyles.headerStyleProfile,
+                              ),
+                              Text(
+                                'Status Approval',
+                                style: TextStyles.menuTextStyle,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          )
                         ],
                       ),
                     ),
