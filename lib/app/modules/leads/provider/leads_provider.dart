@@ -1,15 +1,16 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get_storage/get_storage.dart';
 
-import '../../../common/model/leads.dart';
+import '../../../common/models/leads.dart';
 import '../../../utils/constant/data/api.dart';
 
 class LeadsProvider extends GetConnect {
   RxList<Datum> filteredLeads = <Datum>[].obs;
   late List<Datum> _leads = [];
   late RxList<Datum> _filteredLeads = RxList<Datum>();
+  final GetStorage storage = GetStorage();
 
   Future<List<Datum>> fetchDataLeads({int page = 1, int limit = 25}) async {
     var apiUrl = ApiEndPoints.baseUrl +
@@ -17,8 +18,7 @@ class LeadsProvider extends GetConnect {
         'page=${page}&limit=${limit}';
 
     try {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final String? token = prefs.getString('token');
+      final String? token = storage.read('token');
       if (token != null) {
         final response = await get(
           apiUrl,
@@ -34,7 +34,6 @@ class LeadsProvider extends GetConnect {
           final Map<String, dynamic> responseData = jsonDecode(responseBody!);
           final leadsData = Leads.fromJson(responseData);
 
-          // Assuming _leads and _filteredLeads are defined elsewhere
           _leads = leadsData.data;
           _filteredLeads.addAll(_leads);
           return _leads;
@@ -58,8 +57,7 @@ class LeadsProvider extends GetConnect {
         '&search=$query');
 
     try {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final String? token = prefs.getString('token');
+      final String? token = storage.read('token');
       if (token != null) {
         var response = await get(
           apiUrl.toString(),
@@ -73,7 +71,6 @@ class LeadsProvider extends GetConnect {
 
           Leads leadsData = leadsFromJson(response.bodyString!);
 
-          // Assuming filteredLeads is a reactive variable or a state management variable
           filteredLeads.value = leadsData.data;
 
           return leadsData.data;
@@ -91,52 +88,49 @@ class LeadsProvider extends GetConnect {
     }
   }
 
-  Future<String?> _getToken() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('token');
-  }
-
   Future<bool> checkDuplicate({
     required String npwp,
     required String phone,
     required String email,
   }) async {
     final apiUrl =
-        '${ApiEndPoints.baseUrl}${ApiEndPoints.checkLeads.checkDuplicate}?&npwp=$npwp&phone=$phone$email=$email';
+        '${ApiEndPoints.baseUrl}${ApiEndPoints.checkLeads.checkDuplicate}?npwp=$npwp&phone=$phone&email=$email';
+
     final data = {
-      // Pass parameters in the body
       'npwp': npwp,
       'phone': phone,
       'email': email,
     };
 
     try {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final String? token = prefs.getString('token');
+      final String? token = storage.read('token');
       if (token != null) {
         var response = await put(
           apiUrl,
           data,
           headers: {
             'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json', // Set content type
           },
         );
 
         if (response.statusCode == 200) {
-          print(response.body);
+          print('Response body type: ${response.body.runtimeType}');
+          print('Response body: ${response.body}');
+
+          // Ensure response body is correctly parsed as a Map
           final Map<String, dynamic> responseBody =
               response.body as Map<String, dynamic>;
+
           final bool isDuplicate = responseBody['status'] ?? true;
-          final String message = responseBody['message'] ?? '';
+
           print(isDuplicate);
+
           if (isDuplicate) {
             // Continue with post if status is true
             return false;
           } else {
             // Do not continue with post if status is false
-            // Show alert
-            Get.snackbar('Duplicate Found', message,
-                snackPosition: SnackPosition.BOTTOM);
             return true;
           }
         } else {
@@ -164,7 +158,7 @@ class LeadsProvider extends GetConnect {
     required String city,
     required String type,
     required int area,
-    required int omzet,
+    required String omzet,
   }) async {
     try {
       // Check duplicate before posting
@@ -191,15 +185,15 @@ class LeadsProvider extends GetConnect {
           'omzet': omzet,
         };
 
-        final token = await _getToken();
+        final String? token = storage.read('token');
 
         if (token != null) {
           var response = await post(
             url,
-            jsonEncode(data), // Encode data as JSON
+            jsonEncode(data),
             headers: {
               'Authorization': 'Bearer $token',
-              'Content-Type': 'application/json', // Set Content-Type header
+              'Content-Type': 'application/json',
             },
           );
 
@@ -208,9 +202,11 @@ class LeadsProvider extends GetConnect {
           if (response.statusCode == 201) {
             // Handle successful response
             print('Data successfully sent');
+            Get.snackbar('Succes', 'Succes Post Data');
           } else {
             // Handle error response
-            print('Error: ${response.body}');
+            print('Error: ${response.statusCode}');
+            Get.snackbar('Error', 'Failed to Post data');
           }
         }
       } else {

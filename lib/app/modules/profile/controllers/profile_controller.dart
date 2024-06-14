@@ -1,15 +1,34 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:wr_project/app/routes/app_pages.dart';
 
+import '../../auth/login/model/auth_model.dart';
+
 class ProfileController extends GetxController {
-  //TODO: Implement ProfileController
+  final GetStorage storage = GetStorage(); // Initialize GetStorage
+
+  late User user;
+  late Ppu ppu;
+
+  @override
+  void onInit() {
+    super.onInit();
+
+    final String userJson = storage.read('user');
+    try {
+      user = User.fromJson(jsonDecode(userJson));
+    } catch (e) {
+      print('Error parsing user data: $e');
+    }
+
+    final String ppuJson = storage.read('ppu');
+    ppu = Ppu.fromJson(jsonDecode(ppuJson));
+  }
 
   void deleteToken() async {
-    final SharedPreferences tkne = await SharedPreferences.getInstance();
-    await tkne.remove('token');
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.clear();
+    await storage.remove('token');
     // Navigate to login screen
     Get.offAllNamed(Routes.LOGIN);
   }

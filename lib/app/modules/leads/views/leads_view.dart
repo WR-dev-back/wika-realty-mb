@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../routes/app_pages.dart';
 import '../../../utils/constant/style/app_color.dart';
@@ -10,16 +11,19 @@ import '../controllers/leads_controller.dart';
 class LeadsView extends GetView<LeadsController> {
   LeadsView({Key? key}) : super(key: key);
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<LeadsController>();
-
     return Scaffold(
       appBar: AppBar(
+        leading: BackButton(
+          color: Colors.white,
+        ),
         backgroundColor: AppColor.primary,
         title: Text(
           'Leads View',
-          style: TextStyles.fieldLabelStyle,
+          style: TextStyles.titleLabelStyle,
         ),
         centerTitle: true,
       ),
@@ -29,7 +33,18 @@ class LeadsView extends GetView<LeadsController> {
           children: [
             TabBar(
               tabs: [
-                Tab(text: 'List Leads'),
+                Tab(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Icon(Icons.list),
+                      Text(
+                        "List Leads",
+                        style: TextStyles.decTextStyle,
+                      ),
+                    ],
+                  ),
+                ),
                 Tab(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -61,148 +76,185 @@ class LeadsView extends GetView<LeadsController> {
                             controller.searchLeads(value);
                           },
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(
+                          height: 10,
+                        ),
                         Expanded(
-                          child: Obx(
-                            () => RefreshIndicator(
-                              onRefresh: controller.refreshData,
-                              child: controller.isFetching.value &&
-                                      controller.currentPage.value == 1
-                                  ? Center(child: CircularProgressIndicator())
-                                  : ListView.builder(
-                                      controller: controller.scrollController,
-                                      itemCount:
-                                          controller.filteredLeads.length,
-                                      itemBuilder: (context, index) {
-                                        final leads =
-                                            controller.filteredLeads[index];
-                                        return Padding(
-                                          padding:
-                                              EdgeInsets.symmetric(vertical: 8),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: Colors.black,
-                                                  width: 1),
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              color: Colors.white,
+                          child: Obx(() {
+                            if (controller.isFetching.value) {
+                              return Center(
+                                child: Lottie.asset(
+                                    'asset/animations/no_network.json'),
+                              );
+                            } else if (controller.hasError.value) {
+                              return Center(
+                                child:
+                                    Lottie.asset('asset/animations/error.json'),
+                              );
+                            } else if (controller.filteredLeads.isEmpty) {
+                              return Center(
+                                child: Lottie.asset(
+                                    'asset/animations/isEmpty.json'),
+                              );
+                            } else {
+                              return RefreshIndicator(
+                                onRefresh: controller.refreshData,
+                                child: controller.isFetching.value &&
+                                        controller.currentPage.value == 1
+                                    ? Center(
+                                        child: CircularProgressIndicator(),
+                                      )
+                                    : ListView.builder(
+                                        controller: controller.scrollController,
+                                        itemCount:
+                                            controller.filteredLeads.length,
+                                        itemBuilder: (context, index) {
+                                          final leads =
+                                              controller.filteredLeads[index];
+                                          return Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 8),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: Colors.black,
+                                                    width: 1),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: Colors.white,
+                                              ),
+                                              child: ListTile(
+                                                title: Text(
+                                                  maxLines: 1,
+                                                  leads.fullName,
+                                                  style: TextStyles.headStyle,
+                                                ),
+                                                subtitle: Text(
+                                                  maxLines: 1,
+                                                  leads.email,
+                                                  style:
+                                                      TextStyles.decTextStyle,
+                                                ),
+                                                trailing: Text(
+                                                  maxLines: 1,
+                                                  leads.phoneNumber,
+                                                  style:
+                                                      TextStyles.decTextStyle,
+                                                ),
+                                                onTap: () => Get.toNamed(
+                                                  Routes.DETAIL_LEADS,
+                                                  arguments: leads,
+                                                ),
+                                              ),
                                             ),
-                                            child: ListTile(
-                                              title: Text(
-                                                leads.fullName,
-                                                style: TextStyles.headStyle,
-                                              ),
-                                              subtitle: Text(
-                                                leads.email,
-                                                style: TextStyles.decTextStyle,
-                                              ),
-                                              trailing: Text(
-                                                leads.phoneNumber,
-                                                style: TextStyles.decTextStyle,
-                                              ),
-                                              onTap: () => Get.toNamed(
-                                                Routes.DETAIL_LEADS,
-                                                arguments: leads,
-                                              ),
-                                            ),
-                                          ),
-                                        );
+                                          );
+                                        },
+                                      ),
+                              );
+                            }
+                          }),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Form(
+                    key: _formKey,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    child: ListView(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: Container(
+                            margin: EdgeInsets.symmetric(horizontal: 20),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("Form Input Leads"),
+                                SizedBox(height: 20),
+                                _buildTextField(
+                                    controller.sumD, "Sumber Digital"),
+                                SizedBox(height: 20),
+                                _buildTextField(
+                                    controller.sumOf, "Sumber Offline"),
+                                SizedBox(height: 20),
+                                _buildTextField(
+                                    controller.lok, "Lokasi Kegiatan"),
+                                SizedBox(height: 20),
+                                _buildTextField(
+                                  controller.fullName,
+                                  "Full Name",
+                                  validator: controller.validateFullName,
+                                ),
+                                SizedBox(height: 20),
+                                _buildTextField(
+                                  controller.phone,
+                                  "Phone Number",
+                                  keyboardType: TextInputType.phone,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    LengthLimitingTextInputFormatter(15),
+                                    PhoneNumberFormatter(),
+                                  ],
+                                  validator: controller.validatePhoneNumber,
+                                ),
+                                SizedBox(height: 20),
+                                _buildTextField(controller.npwpC, "Npwp",
+                                    keyboardType:
+                                        TextInputType.numberWithOptions()),
+                                SizedBox(height: 20),
+                                _buildTextField(controller.email, "Email"),
+                                SizedBox(height: 20),
+                                _buildTextField(controller.cityC, "City"),
+                                SizedBox(height: 20),
+                                _buildTextField(controller.typeC, "Type"),
+                                SizedBox(height: 20),
+                                _buildTextField(controller.areaC, "Area"),
+                                SizedBox(height: 20),
+                                _buildTextField(controller.omzetC, "Omzet"),
+                                SizedBox(height: 10),
+                                Center(
+                                  child: Container(
+                                    height: 50,
+                                    width: 100,
+                                    child: ElevatedButton(
+                                      onPressed: () async {
+                                        if (_formKey.currentState!.validate()) {
+                                          await controller.postDataToBackend(
+                                            email: controller.email.text,
+                                            fullName: controller.fullName.text,
+                                            phone: controller.phone.text,
+                                            npwp: controller.npwpC.text,
+                                            digitalSource: controller.sumD.text,
+                                            offlineSource:
+                                                controller.sumOf.text,
+                                            locationOffline:
+                                                controller.lok.text,
+                                            city: controller.cityC.text,
+                                            type: controller.typeC.text,
+                                            area: int.tryParse(
+                                                    controller.areaC.text) ??
+                                                0,
+                                            omzet: controller.omzetC.text,
+                                          );
+                                        }
                                       },
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: AppColor.primary),
+                                      child: Text(
+                                        "Submit",
+                                        style: TextStyles.inputbuttonTextStyle,
+                                      ),
                                     ),
+                                  ),
+                                ),
+                                SizedBox(height: 20),
+                              ],
                             ),
                           ),
                         ),
                       ],
                     ),
-                  ),
-                  ListView(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 20),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("Form Input Leads"),
-                              SizedBox(height: 20),
-                              _buildTextField(
-                                  controller.sumD, "Sumber Digital"),
-                              SizedBox(height: 20),
-                              _buildTextField(
-                                  controller.sumOf, "Sumber Offline"),
-                              SizedBox(height: 20),
-                              _buildTextField(
-                                  controller.lok, "Lokasi Kegiatan"),
-                              SizedBox(height: 20),
-                              _buildTextField(controller.fullName, "Full Name"),
-                              SizedBox(height: 20),
-                              _buildTextField(
-                                controller.phone,
-                                "Phone Number",
-                                keyboardType: TextInputType.phone,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.digitsOnly,
-                                  LengthLimitingTextInputFormatter(15),
-                                  PhoneNumberFormatter(),
-                                ],
-                              ),
-                              SizedBox(height: 20),
-                              _buildTextField(controller.npwpC, "Npwp",
-                                  keyboardType:
-                                      TextInputType.numberWithOptions()),
-                              SizedBox(height: 20),
-                              _buildTextField(controller.email, "Email"),
-                              SizedBox(height: 20),
-                              _buildTextField(controller.cityC, "City"),
-                              SizedBox(height: 20),
-                              _buildTextField(controller.typeC, "Type"),
-                              SizedBox(height: 20),
-                              _buildTextField(controller.areaC, "Area"),
-                              SizedBox(height: 20),
-                              _buildTextField(controller.omzetC, "Omzet"),
-                              SizedBox(height: 10),
-                              Center(
-                                child: Container(
-                                  height: 50,
-                                  width: 100,
-                                  child: ElevatedButton(
-                                    onPressed: () async {
-                                      await controller.postDataToBackend(
-                                        email: controller.email.text,
-                                        fullName: controller.fullName.text,
-                                        phone: controller.phone.text,
-                                        npwp: controller.npwpC.text,
-                                        digitalSource: controller.sumD.text,
-                                        offlineSource: controller.sumOf.text,
-                                        locationOffline: controller.lok.text,
-                                        city: controller.cityC.text,
-                                        type: controller.typeC.text,
-                                        area: int.tryParse(
-                                                controller.areaC.text) ??
-                                            0,
-                                        omzet: int.tryParse(
-                                                controller.omzetC.text) ??
-                                            0,
-                                      );
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: AppColor.primary),
-                                    child: Text(
-                                      "Submit",
-                                      style: TextStyles.decTextStyle,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 20),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
                   ),
                 ],
               ),
@@ -215,7 +267,8 @@ class LeadsView extends GetView<LeadsController> {
 
   Widget _buildTextField(TextEditingController controller, String labelText,
       {TextInputType keyboardType = TextInputType.text,
-      List<TextInputFormatter>? inputFormatters}) {
+      List<TextInputFormatter>? inputFormatters,
+      String? Function(String?)? validator}) {
     return TextFormField(
       style: TextStyles.decTextStyle,
       controller: controller,
@@ -224,12 +277,13 @@ class LeadsView extends GetView<LeadsController> {
       decoration: InputDecoration(
         label: Text(
           labelText,
-          style: TextStyles.headerStyle,
+          style: TextStyles.fieldLabelStyle,
         ),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         border: OutlineInputBorder(),
         hintText: "",
       ),
+      validator: validator,
     );
   }
 }

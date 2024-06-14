@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wr_project/app/modules/leads/follow_up_leads/provider/follow_up_leads_provider.dart';
+import 'package:wr_project/app/routes/app_pages.dart';
+import '../provider/follow_up_leads_provider.dart';
 
 class FollowupLeadsController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -15,39 +17,36 @@ class FollowupLeadsController extends GetxController
   TextEditingController prospectsController = TextEditingController();
   RxString hintText = "Tanggal :".obs;
   List<String> followUpOptions = ['Cold', 'Reserved', 'Hot Prospek', 'ok'];
-  String? selectedFollowUpOption;
+  RxString selectedFollowUpOption = ''.obs;
 
-  // RxBools to track completion status of follow-ups
   RxBool followUp1Completed = false.obs;
   RxBool followUp2Completed = false.obs;
+  RxBool followUp3Completed = false.obs;
 
-  // Variable to track current follow-up type
+  Map<String, dynamic> followUp1Data = {};
+  Map<String, dynamic> followUp2Data = {};
+  Map<String, dynamic> followUp3Data = {};
+
   int currentFollowUpType = 1;
-
-  // RxBool to track form validity
   RxBool isFormValid = false.obs;
 
   SharedPreferences? _prefs;
 
   @override
   void onInit() async {
+    super.onInit();
     tabController = TabController(length: 3, vsync: this);
+    tabController.addListener(onTabChange);
     _prefs = await SharedPreferences.getInstance();
-    followUp1Completed.value = _prefs?.getBool('followUp1Completed') ?? false;
-    selectedFollowUpOption = _prefs?.getString('followUp1Option');
 
-    if (followUp1Completed.value) {
-      currentFollowUpType = 2; // Set current follow-up type to 2 (Follow-up 2)
-      tabController.index =
-          1; // Move the tab controller to the second tab (Follow-up 2)
-    }
+    final leads = Get.arguments as dynamic;
+    final leadId = leads?.id;
 
-    // Listen to changes in text fields to validate form
+    await loadFollowUpData(leadId);
+
     followUpController.addListener(validateForm);
     prospectsController.addListener(validateForm);
     dateController.addListener(validateForm);
-
-    super.onInit();
   }
 
   @override
@@ -59,7 +58,113 @@ class FollowupLeadsController extends GetxController
     super.onClose();
   }
 
-  // Function to show follow-up dialog
+  void onTabChange() {
+    currentFollowUpType = tabController.index + 1;
+    loadFormData(currentFollowUpType);
+  }
+
+  Future<void> loadFollowUpData(String leadId) async {
+    try {
+      final response = await _followUpLeadsProvider.getFollowUpData();
+
+      if (response.statusCode == 200) {
+        final data = response.body;
+        print(data);
+
+        if (data['data'].isNotEmpty) {
+          final lead = data['data'].firstWhere((lead) => lead['id'] == leadId);
+          final leadFollowUps = lead['LeadFollowUp'];
+
+          if (leadFollowUps.isNotEmpty) {
+            for (var followUp in leadFollowUps) {
+              if (followUp['type'] == 1) {
+                followUp1Completed.value = true;
+                followUp1Data = {
+                  'date': followUp['date'],
+                  'follow_up': followUp['follow_up'],
+                  'prospects': followUp['prospects'],
+                  'status': followUp['status'],
+                };
+              } else if (followUp['type'] == 2) {
+                followUp2Completed.value = true;
+                followUp2Data = {
+                  'date': followUp['date'],
+                  'follow_up': followUp['follow_up'],
+                  'prospects': followUp['prospects'],
+                  'status': followUp['status'],
+                };
+              } else if (followUp['type'] == 3) {
+                followUp3Completed.value = true;
+                followUp3Data = {
+                  'date': followUp['date'],
+                  'follow_up': followUp['follow_up'],
+                  'prospects': followUp['prospects'],
+                  'status': followUp['status'],
+                };
+              }
+            }
+
+            if (followUp1Completed.value && !followUp2Completed.value) {
+              currentFollowUpType = 2;
+              tabController.index = 1;
+            } else if (followUp1Completed.value &&
+                followUp2Completed.value &&
+                !followUp3Completed.value) {
+              currentFollowUpType = 3;
+              tabController.index = 2;
+            }
+            loadFormData(currentFollowUpType);
+          }
+        }
+      } else {
+        Get.snackbar('Error', 'Failed to load follow-up data');
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'An error occurred while loading follow-up data');
+    }
+  }
+
+  void loadFormData(int followUpType) {
+    if (followUpType == 1) {
+      dateController.text = formatDate(followUp1Data['date'] ?? '');
+      followUpController.text = followUp1Data['follow_up'] ?? '';
+      prospectsController.text = followUp1Data['prospects'] ?? '';
+      selectedFollowUpOption.value = followUp1Data['status'] ?? '';
+      hintText.value = "Tanggal : ${followUp1Data['date'] ?? ''}";
+    } else if (followUpType == 2) {
+      dateController.text = formatDate(followUp2Data['date'] ?? '');
+      followUpController.text = followUp2Data['follow_up'] ?? '';
+      prospectsController.text = followUp2Data['prospects'] ?? '';
+      selectedFollowUpOption.value = followUp2Data['status'] ?? '';
+      hintText.value = "Tanggal : ${followUp2Data['date'] ?? ''}";
+    } else if (followUpType == 3) {
+      dateController.text = formatDate(followUp3Data['date'] ?? '');
+      followUpController.text = followUp3Data['follow_up'] ?? '';
+      prospectsController.text = followUp3Data['prospects'] ?? '';
+      selectedFollowUpOption.value = followUp3Data['status'] ?? '';
+      hintText.value = "Tanggal : ${followUp3Data['date'] ?? ''}";
+    } else {
+      dateController.clear();
+      followUpController.clear();
+      prospectsController.clear();
+      hintText.value = "Tanggal :";
+      selectedFollowUpOption.value = ''; // Reset dropdown selection
+    }
+
+    // Check if selected dropdown option is empty, then set default
+    if (selectedFollowUpOption.value.isEmpty && followUpOptions.isNotEmpty) {
+      selectedFollowUpOption.value = followUpOptions.first;
+    }
+
+    validateForm();
+  }
+
+  String formatDate(String isoDate) {
+    DateTime date = DateTime.parse(isoDate);
+    return DateFormat('dd MMMM yyyy')
+        .format(date); // Sesuaikan format tanggal sesuai kebutuhan Anda
+  }
+
   Future<void> showFollowUpDialog() async {
     final DateTime? picked = await showDatePicker(
       context: Get.context!,
@@ -74,19 +179,18 @@ class FollowupLeadsController extends GetxController
     }
   }
 
-  // Function to update leads data
   Future<void> updateFollowUp(String leadId) async {
-    if (selectedFollowUpOption == null) {
+    if (selectedFollowUpOption.value.isEmpty) {
       Get.snackbar('Error', 'Please select a follow-up status');
       return;
     }
 
     final body = {
-      'type': currentFollowUpType, // Use the current follow-up type
+      'type': currentFollowUpType,
       'date': selectedDate.value.toIso8601String(),
       'follow_up': followUpController.text,
       'prospects': prospectsController.text,
-      'status': selectedFollowUpOption!,
+      'status': selectedFollowUpOption.value,
     };
 
     try {
@@ -96,64 +200,63 @@ class FollowupLeadsController extends GetxController
       if (response.statusCode == 201) {
         Get.snackbar('Success', 'Leads data updated successfully');
 
-        await _prefs?.setBool('followUp1Completed', followUp1Completed.value);
-        await _prefs?.setString('followUp1Option', selectedFollowUpOption!);
-
-        // Mark the current follow-up as completed
         if (currentFollowUpType == 1) {
           followUp1Completed.value = true;
+          followUp1Data = body;
         } else if (currentFollowUpType == 2) {
           followUp2Completed.value = true;
+          followUp2Data = body;
+        } else if (currentFollowUpType == 3) {
+          followUp3Completed.value = true;
+          followUp3Data = body;
         }
 
-        // Move to the next follow-up type
+        await _prefs?.setBool('followUp1Completed', followUp1Completed.value);
+        await _prefs?.setBool('followUp2Completed', followUp2Completed.value);
+        await _prefs?.setBool('followUp3Completed', followUp3Completed.value);
+        await _prefs?.setString('followUpOption', selectedFollowUpOption.value);
+
         moveToNextFollowUpType();
       } else {
-        print('Error response updating leads data: ${response.statusText}');
         Get.snackbar('Error', 'Failed to update leads data');
       }
     } catch (e) {
-      print('Error updating leads data: $e');
       Get.snackbar('Error', 'An error occurred while updating leads data');
     }
   }
 
-  // Function to check if next follow-up type is enabled
   bool isNextFollowUpTypeEnabled(int type) {
     if (type == 2) {
-      return followUp1Completed
-          .value; // Follow-up 2 enabled if follow-up 1 is completed
+      return followUp1Completed.value;
     } else if (type == 3) {
-      return followUp2Completed
-          .value; // Follow-up 3 enabled if follow-up 2 is completed
+      return followUp2Completed.value;
+    } else if (type == 4) {
+      return followUp3Completed.value;
     } else {
-      return true; // Follow-up 1 is always enabled
+      return true;
     }
   }
 
-  // Function to move to the next follow-up type
   void moveToNextFollowUpType() {
     if (currentFollowUpType < 3) {
       currentFollowUpType++;
-      tabController.animateTo(currentFollowUpType - 1); // Move to the next tab
+      tabController.animateTo(currentFollowUpType - 1);
 
-      // Clear the text controllers for the new follow-up type
       dateController.clear();
       followUpController.clear();
       prospectsController.clear();
       hintText.value = "Tanggal :";
-      selectedFollowUpOption = null;
+      selectedFollowUpOption.value = '';
 
-      // Revalidate the form
       validateForm();
+      Get.toNamed(Routes.LEADS);
     }
   }
 
-  // Function to validate form
   void validateForm() {
     isFormValid.value = dateController.text.isNotEmpty &&
         followUpController.text.isNotEmpty &&
         prospectsController.text.isNotEmpty &&
-        selectedFollowUpOption != null;
+        selectedFollowUpOption.value.isNotEmpty;
   }
 }

@@ -1,25 +1,25 @@
 // To parse this JSON data, do
 //
-//     final body = bodyFromJson(jsonString);
+//     final leads = leadsFromJson(jsonString);
 
 import 'dart:convert';
 
-Body bodyFromJson(String str) => Body.fromJson(json.decode(str));
+Leads leadsFromJson(String str) => Leads.fromJson(json.decode(str));
 
-String bodyToJson(Body data) => json.encode(data.toJson());
+String leadsToJson(Leads data) => json.encode(data.toJson());
 
-class Body {
+class Leads {
   bool status;
   String message;
   Data data;
 
-  Body({
+  Leads({
     required this.status,
     required this.message,
     required this.data,
   });
 
-  factory Body.fromJson(Map<String, dynamic> json) => Body(
+  factory Leads.fromJson(Map<String, dynamic> json) => Leads(
         status: json["status"],
         message: json["message"],
         data: Data.fromJson(json["data"]),
@@ -33,29 +33,25 @@ class Body {
 }
 
 class Data {
+  User user;
   String token;
-  List<Role> roles;
-  List<dynamic> modules;
   List<Menu> menus;
 
   Data({
+    required this.user,
     required this.token,
-    required this.roles,
-    required this.modules,
     required this.menus,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
+        user: User.fromJson(json["user"]),
         token: json["token"],
-        roles: List<Role>.from(json["roles"].map((x) => Role.fromJson(x))),
-        modules: List<dynamic>.from(json["modules"].map((x) => x)),
         menus: List<Menu>.from(json["menus"].map((x) => Menu.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
+        "user": user.toJson(),
         "token": token,
-        "roles": List<dynamic>.from(roles.map((x) => x.toJson())),
-        "modules": List<dynamic>.from(modules.map((x) => x)),
         "menus": List<dynamic>.from(menus.map((x) => x.toJson())),
       };
 }
@@ -66,7 +62,7 @@ class Menu {
   DateTime createdAt;
   DateTime updatedAt;
   String name;
-  dynamic url;
+  String? url;
   String icon;
   dynamic activityName;
   bool isWeb;
@@ -80,6 +76,7 @@ class Menu {
   dynamic parentClass;
   dynamic aclName;
   dynamic aclParam;
+  List<Menu>? children;
 
   Menu({
     required this.id,
@@ -101,6 +98,7 @@ class Menu {
     required this.parentClass,
     required this.aclName,
     required this.aclParam,
+    this.children,
   });
 
   factory Menu.fromJson(Map<String, dynamic> json) => Menu(
@@ -123,6 +121,9 @@ class Menu {
         parentClass: json["parentClass"],
         aclName: json["aclName"],
         aclParam: json["aclParam"],
+        children: json["children"] == null
+            ? []
+            : List<Menu>.from(json["children"]!.map((x) => Menu.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -145,6 +146,93 @@ class Menu {
         "parentClass": parentClass,
         "aclName": aclName,
         "aclParam": aclParam,
+        "children": children == null
+            ? []
+            : List<dynamic>.from(children!.map((x) => x.toJson())),
+      };
+}
+
+class User {
+  String name;
+  String id;
+  String email;
+  String username;
+  Ppu ppu;
+  List<Role> roles;
+  Position position;
+
+  User({
+    required this.name,
+    required this.id,
+    required this.email,
+    required this.username,
+    required this.ppu,
+    required this.roles,
+    required this.position,
+  });
+
+  factory User.fromJson(Map<String, dynamic> json) => User(
+        name: json["name"],
+        id: json["id"],
+        email: json["email"],
+        username: json["username"],
+        ppu: Ppu.fromJson(json["ppu"]),
+        roles: List<Role>.from(json["roles"].map((x) => Role.fromJson(x))),
+        position: Position.fromJson(json["position"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "id": id,
+        "email": email,
+        "username": username,
+        "ppu": ppu.toJson(),
+        "roles": List<dynamic>.from(roles.map((x) => x.toJson())),
+        "position": position.toJson(),
+      };
+}
+
+class Position {
+  String title;
+  String id;
+
+  Position({
+    required this.title,
+    required this.id,
+  });
+
+  factory Position.fromJson(Map<String, dynamic> json) => Position(
+        title: json["title"],
+        id: json["id"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "title": title,
+        "id": id,
+      };
+}
+
+class Ppu {
+  String code;
+  String name;
+  String id;
+
+  Ppu({
+    required this.code,
+    required this.name,
+    required this.id,
+  });
+
+  factory Ppu.fromJson(Map<String, dynamic> json) => Ppu(
+        code: json["code"],
+        name: json["name"],
+        id: json["id"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "code": code,
+        "name": name,
+        "id": id,
       };
 }
 

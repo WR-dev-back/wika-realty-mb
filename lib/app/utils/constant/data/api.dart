@@ -1,7 +1,10 @@
 class ApiEndPoints {
   static final String baseUrl = 'http://10.103.0.55:3000';
   static _AuthEndPoints authEndpoints = _AuthEndPoints();
+  static _GetDataUser getDataUser = _GetDataUser();
   static _GetDataLeads getDataLeads = _GetDataLeads();
+  static _GetDataApproval getDataApproval = _GetDataApproval();
+  static _GetDataApprova getDataApprova = _GetDataApprova();
   static _PostDataLeads postDataLeads = _PostDataLeads();
   static _CheckNum checkLeads = _CheckNum();
   static _EditLeads puteditLeads = _EditLeads();
@@ -12,8 +15,21 @@ class _AuthEndPoints {
   final String loginEmail = '/api/v1/auth/login';
 }
 
+class _GetDataUser {
+  final String userData = '/api/v1/users/';
+}
+
 class _GetDataLeads {
   final String dataLeads = '/api/v1/leads?orderBy=DSC&';
+}
+
+class _GetDataApproval {
+  final String dataApproval =
+      '/api/v1/master-approval/user-approval?orderBy=ASC&page=1&limit=25';
+}
+
+class _GetDataApprova {
+  final String dataApprova = '/api/v1/master-approval/user-approval/';
 }
 
 class _PostDataLeads {

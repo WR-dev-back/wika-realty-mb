@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_project/app/routes/app_pages.dart';
 
-import '../../../../common/model/leads.dart';
+import '../../../../common/models/leads.dart';
 import '../../controllers/leads_controller.dart';
 import '../provider/edit_detail_leads.dart';
 
@@ -53,7 +53,7 @@ class EditDetailLeadsController extends GetxController {
       leads.city = cityController.text;
       leads.type = typeController.text;
       leads.area = int.tryParse(areaController.text) ?? 0;
-      leads.omzet = int.tryParse(omzetController.text) ?? 0;
+      leads.omzet = omzetController.text;
 
       // Perform the API call to update the leads data
       final response =

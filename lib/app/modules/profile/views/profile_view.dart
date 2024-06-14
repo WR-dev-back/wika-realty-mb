@@ -4,12 +4,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import 'package:wr_project/app/modules/dashboard/view/custom_navigation_bar.dart';
-import 'package:social_design_system/social_design_system.dart';
 
 import '../../dashboard/controller/page_index_controller.dart';
 import '../../../utils/constant/style/app_color.dart';
 import '../controllers/profile_controller.dart';
-import '../../../utils/constant/style/text_styles.dart'; // Import the style definitions
+import '../../../utils/constant/style/text_styles.dart';
 
 class ProfileView extends GetView<ProfileController> {
   final pageC = Get.find<PageIndexController>();
@@ -18,7 +17,7 @@ class ProfileView extends GetView<ProfileController> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      bottomNavigationBar: const CustomBottomNavigationBar(),
+      bottomNavigationBar: CustomBottomNavigationBar(),
       body: Stack(
         children: [
           Container(
@@ -61,15 +60,17 @@ class ProfileView extends GetView<ProfileController> {
 
   Widget _buildLogo() {
     return Container(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: SizedBox(
-        width: 90,
-        height: 28,
-        child: Image.asset(
-          'asset/images/logo.png',
-          fit: BoxFit.cover,
-        ),
+      padding: const EdgeInsets.only(
+        bottom: 20,
+        left: 5,
       ),
+      child: SizedBox(
+          width: 90,
+          height: 28,
+          child: Text(
+            "SiOlife",
+            style: TextStyles.headerhomeStyle,
+          )),
     );
   }
 
@@ -103,7 +104,7 @@ class ProfileView extends GetView<ProfileController> {
               padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(18),
+                borderRadius: BorderRadius.circular(20),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -143,19 +144,22 @@ class ProfileView extends GetView<ProfileController> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
-                  "Customer WeStay",
-                  style:
-                      TextStyles.headerStyleProfile, // Use the predefined style
+                  controller.user.name,
+                  style: TextStyles.headerStyleProfile,
+                ),
+                SizedBox(
+                  height: 5,
                 ),
                 Text(
-                  "Customer@WeStay.com",
-                  style:
-                      TextStyles.descriptionStyle, // Use the predefined style
+                  controller.user.email,
+                  style: TextStyles.descriptionStyle,
+                ),
+                SizedBox(
+                  height: 5,
                 ),
                 Text(
-                  "085608783675",
-                  style:
-                      TextStyles.descriptionStyle, // Use the predefined style
+                  controller.user.position.title,
+                  style: TextStyles.descriptionStyle,
                 ),
               ],
             ),
@@ -175,12 +179,12 @@ class ProfileView extends GetView<ProfileController> {
           backgroundColor: AppColor.pcolor,
           elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(10),
           ),
         ),
         child: Text(
           'Lihat Detail',
-          style: TextStyles.buttonTextStyle, // Use the predefined style
+          style: TextStyles.buttonprofileTextStyle,
         ),
       ),
     );
@@ -192,44 +196,46 @@ class ProfileView extends GetView<ProfileController> {
       margin: const EdgeInsets.symmetric(
         horizontal: 20,
       ),
-      child: Settings(
-        label: 'Settings',
+      // child: Settings(
+      //   label: 'Settings',
+      //   children: [
+      //     ListTile(
+      //       visualDensity: VisualDensity.compact,
+      //       title: Text(
+      //         'Notifications',
+      //         style: TextStyles.headerStyleProfile,
+      //       ),
+      //       subtitle: Text(
+      //         'Receive notifications',
+      //         style: TextStyles.descriptionStyle,
+      //       ),
+      //       leading: const Icon(Icons.notifications_outlined),
+      //       trailing: const Icon(Icons.chevron_right_rounded),
+      //       onTap: () => debugPrint('Item 1'),
+      //     ),
+      child: Column(
         children: [
           ListTile(
             visualDensity: VisualDensity.compact,
             title: Text(
-              'Notifications',
-              style: TextStyles.headerStyleProfile, // Apply predefined style
-            ),
-            subtitle: Text(
-              'Receive notifications',
-              style: TextStyles.descriptionStyle, // Apply predefined style
-            ),
-            leading: const Icon(Icons.notifications_outlined),
-            trailing: const Icon(Icons.chevron_right_rounded),
-            onTap: () => debugPrint('Item 1'),
-          ),
-          ListTile(
-            visualDensity: VisualDensity.compact,
-            title: Text(
               'Favorites',
-              style: TextStyles.headerStyleProfile, // Apply predefined style
+              style: TextStyles.headerStyleProfile,
             ),
             subtitle: Text(
               'Want to know who likes you?',
-              style: TextStyles.descriptionStyle, // Apply predefined style
+              style: TextStyles.descriptionStyle,
             ),
             leading: const Icon(Icons.favorite_border_outlined),
             trailing: const Icon(
               Icons.arrow_right_rounded,
               size: 32,
             ),
-            onTap: () => debugPrint('Item 2'),
+            // onTap: controller.deleteToken,
           ),
           ListTile(
             title: Text(
               'Privacy Policy',
-              style: TextStyles.headerStyleProfile, // Apply predefined style
+              style: TextStyles.headerStyleProfile,
             ),
             leading: const Icon(Icons.shield_outlined),
             trailing: const Icon(Icons.arrow_circle_right_outlined),
@@ -238,19 +244,19 @@ class ProfileView extends GetView<ProfileController> {
           ListTile(
             title: Text(
               'Log Out',
-              style: TextStyles.headerStyleProfile, // Apply predefined style
+              style: TextStyles.headerStyleProfile,
             ),
             leading: Icon(
               Icons.logout,
-              color: Colors.red, // Set icon color to red
+              color: Colors.red,
             ),
             trailing: Icon(
               Icons.chevron_right_rounded,
-              color: Colors.red, // Set icon color to red
+              color: Colors.red,
             ),
             onTap: controller.deleteToken,
-            tileColor: Colors.red, // Set tile color
-            textColor: Colors.red, // Set text color
+            tileColor: Colors.red,
+            textColor: Colors.red,
           ),
         ],
       ),

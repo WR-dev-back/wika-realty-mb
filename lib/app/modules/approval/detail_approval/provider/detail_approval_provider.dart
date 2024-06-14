@@ -1,15 +1,14 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import 'dart:convert';
-
 import '../../../../utils/constant/data/api.dart';
 
-class FollowUpLeadsProvider extends GetConnect {
+class DetailApprovalProvider extends GetConnect {
   final GetStorage storage = GetStorage();
-  // Method to fetch follow-up data
-  Future<Response> getFollowUpData() async {
-    final apiUrl = ApiEndPoints.baseUrl + ApiEndPoints.getDataLeads.dataLeads;
+
+  Future<Response> approve(approvalId) async {
+    final apiUrl =
+        '${ApiEndPoints.baseUrl}${ApiEndPoints.getDataApprova.dataApprova}$approvalId/approve';
 
     final String? token = storage.read('token');
 
@@ -31,28 +30,26 @@ class FollowUpLeadsProvider extends GetConnect {
     }
   }
 
-  // Method to update follow-up data
-  Future<Response> updateFollowUp(
-      String leadId, Map<String, dynamic> body) async {
+  Future<Response> reject(approvalId) async {
     final apiUrl =
-        ApiEndPoints.baseUrl + ApiEndPoints.followUpLeads.follow + leadId;
+        '${ApiEndPoints.baseUrl}${ApiEndPoints.getDataApprova.dataApprova}$approvalId/reject';
+
+    print(apiUrl);
+
+    final String? token = storage.read('token');
+
+    if (token == null) {
+      return Response(statusCode: 401, statusText: 'Unauthorized');
+    }
 
     try {
-      final String? token = storage.read('token');
-
-      if (token == null) {
-        return Response(statusCode: 401, statusText: 'Unauthorized');
-      }
-
-      final response = await post(
+      final response = await get(
         apiUrl,
-        jsonEncode(body),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
         },
       );
-
       return response;
     } catch (error) {
       return Response(statusCode: 500, statusText: 'Error: $error');

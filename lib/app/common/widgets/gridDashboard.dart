@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:wr_project/app/routes/app_pages.dart';
 import 'package:wr_project/app/utils/constant/style/app_color.dart';
 
-import '../../modules/auth/login/model/login_model.dart';
+import '../../modules/auth/login/model/auth_model.dart';
 
 // ignore: must_be_immutable
 class GridDashboard extends StatelessWidget {

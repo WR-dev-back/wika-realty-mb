@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:wr_project/app/modules/dashboard/controller/page_index_controller.dart';
 import 'app/routes/app_pages.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-  final String? token = prefs.getString('token');
+  await GetStorage.init();
+
+  final GetStorage storage = GetStorage();
+
+  final String? token = storage.read('token');
   Get.put(PageIndexController(), permanent: true);
 
   runApp(

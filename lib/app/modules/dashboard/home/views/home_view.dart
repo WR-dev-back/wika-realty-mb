@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wr_project/app/modules/dashboard/home/provider/home_provider.dart';
+import 'package:get_storage/get_storage.dart';
 
 import 'package:wr_project/app/modules/dashboard/view/custom_navigation_bar.dart';
 import '../../controller/page_index_controller.dart';
 import '../../../../utils/constant/style/app_color.dart';
-import '../../../auth/login/model/login_model.dart';
+import '../../../auth/login/model/auth_model.dart';
 import '../controllers/home_controller.dart';
-import '../../../../utils/constant/style/text_styles.dart'; // Import the style definitions
+import '../../../../utils/constant/style/text_styles.dart';
 
 class HomeView extends GetView<HomeController> {
   final PageIndexController pageC = Get.find<PageIndexController>();
+
+  final GetStorage storage = GetStorage();
 
   HomeView({Key? key}) : super(key: key);
 
@@ -45,8 +47,8 @@ class HomeView extends GetView<HomeController> {
                           borderRadius: BorderRadius.circular(20),
                           gradient: LinearGradient(
                             colors: [
-                              Color(0xFF2995FB),
-                              Color(0xFF034B8F),
+                              Color.fromARGB(255, 33, 143, 247),
+                              Color.fromARGB(255, 97, 136, 242),
                             ],
                           ),
                         ),
@@ -59,35 +61,37 @@ class HomeView extends GetView<HomeController> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "081290112333",
-                                    style: TextStyles
-                                        .headerStyle, // Use the predefined style
+                                    controller.user.name,
+                                    style: TextStyles.headerhomeStyle,
                                   ),
-                                  Image.asset("asset/images/logo.png"),
+                                  Text(
+                                    "SiOlife",
+                                    style: TextStyles.headerhomeStyle,
+                                  )
                                 ],
                               ),
                               SizedBox(height: 20),
                               Text(
-                                "Muhammad Dawam",
-                                style: TextStyles
-                                    .descriptionStyle, // Use the predefined style
+                                controller.user.email,
+                                style: TextStyles.buttonauthTextStyle,
                               ),
-                              SizedBox(height: 10),
+                              SizedBox(height: 20),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "Developer",
-                                    style: TextStyles
-                                        .headerStyle, // Use the predefined style
+                                    controller.user.username, //
+                                    style: TextStyles.headerhomeStyle,
                                   ),
                                   ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () async {
+                                      String? token = storage.read('token');
+                                      print(token);
+                                    },
                                     child: Text(
                                       "Profile",
-                                      style: TextStyles
-                                          .buttonTextStyle, // Use the predefined style
+                                      style: TextStyles.cardbuttomTextStyle,
                                     ),
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Color(0xFFF7B731),
@@ -100,19 +104,9 @@ class HomeView extends GetView<HomeController> {
                                 color: Colors.black,
                               ),
                               SizedBox(height: 10),
-                              RichText(
-                                text: TextSpan(
-                                  text: "Berlaku sampai ",
-                                  style: TextStyles
-                                      .descriptionStyle, // Use the predefined style
-                                  children: [
-                                    TextSpan(
-                                      text: "23 Agustus 2024",
-                                      style: TextStyles
-                                          .descriptionStyle, // Use the predefined style
-                                    )
-                                  ],
-                                ),
+                              Text(
+                                controller.ppu.name,
+                                style: TextStyles.cardbuttomTextStyle,
                               ),
                               SizedBox(height: 10),
                             ],
@@ -128,9 +122,7 @@ class HomeView extends GetView<HomeController> {
                   ),
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: ListView(
                         children: [
                           Padding(
@@ -146,7 +138,7 @@ class HomeView extends GetView<HomeController> {
                               children: [
                                 Expanded(
                                   child: FutureBuilder<List<Menu>>(
-                                    future: HomeProvider().retrieveStoredData(
+                                    future: controller.retrieveStoredData(
                                         MediaQuery.of(context)
                                                 .size
                                                 .shortestSide <
@@ -224,9 +216,7 @@ class HomeView extends GetView<HomeController> {
                               ],
                             ),
                           ),
-                          SizedBox(
-                            height: 10,
-                          ),
+                          SizedBox(height: 10),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Row(
@@ -234,8 +224,7 @@ class HomeView extends GetView<HomeController> {
                               children: [
                                 Text(
                                   "Pembayaran Terbaru",
-                                  style: TextStyles
-                                      .fieldLabelStyle, // Use the predefined style
+                                  style: TextStyles.fieldLabelStyle,
                                 ),
                                 TextButton(
                                   onPressed: () {},
@@ -259,8 +248,7 @@ class HomeView extends GetView<HomeController> {
                                       borderRadius: BorderRadius.circular(20),
                                       image: DecorationImage(
                                         image: AssetImage(
-                                          "asset/images/obito.jpeg",
-                                        ),
+                                            "asset/images/obito.jpeg"),
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -273,8 +261,7 @@ class HomeView extends GetView<HomeController> {
                                       borderRadius: BorderRadius.circular(20),
                                       image: DecorationImage(
                                         image: AssetImage(
-                                          "asset/images/obito.jpeg",
-                                        ),
+                                            "asset/images/obito.jpeg"),
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -287,8 +274,7 @@ class HomeView extends GetView<HomeController> {
                                       borderRadius: BorderRadius.circular(20),
                                       image: DecorationImage(
                                         image: AssetImage(
-                                          "asset/images/obito.jpeg",
-                                        ),
+                                            "asset/images/obito.jpeg"),
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -297,9 +283,7 @@ class HomeView extends GetView<HomeController> {
                               ),
                             ),
                           ),
-                          Container(
-                            height: 100,
-                          )
+                          Container(height: 100)
                         ],
                       ),
                     ),
@@ -337,11 +321,7 @@ class ClipPathClass extends CustomClipper<Path> {
     Path path = Path();
     path.lineTo(0, size.height - 60);
     path.quadraticBezierTo(
-      size.width / 2,
-      size.height,
-      size.width,
-      size.height - 60,
-    );
+        size.width / 2, size.height, size.width, size.height - 60);
     path.lineTo(size.width, 0);
     path.close();
 

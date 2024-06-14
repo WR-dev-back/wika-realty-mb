@@ -8,12 +8,23 @@ class TextStyles {
     fontWeight: FontWeight.bold,
   );
 
+  static TextStyle headerhomeStyle = GoogleFonts.plusJakartaSans(
+    fontSize: 25,
+    color: Colors.white,
+    fontWeight: FontWeight.bold,
+  );
+
   static TextStyle headStyle = GoogleFonts.plusJakartaSans(
     fontSize: 20,
   );
 
   static TextStyle headerStyleProfile = GoogleFonts.plusJakartaSans(
     fontSize: 20,
+    fontWeight: FontWeight.bold,
+  );
+
+  static TextStyle headerapprovalStyleProfile = GoogleFonts.plusJakartaSans(
+    fontSize: 16,
     fontWeight: FontWeight.bold,
   );
 
@@ -27,9 +38,26 @@ class TextStyles {
     fontWeight: FontWeight.w400,
   );
 
+  static TextStyle descriptionhomeStyle = GoogleFonts.plusJakartaSans(
+    fontSize: 16,
+    color: Colors.white,
+    fontWeight: FontWeight.w400,
+  );
+
   static TextStyle fieldLabelStyle = GoogleFonts.plusJakartaSans(
     fontSize: 20,
     color: Colors.black,
+  );
+
+  static TextStyle titleLabelStyle = GoogleFonts.plusJakartaSans(
+    fontSize: 20,
+    color: Colors.white,
+  );
+
+  static TextStyle cardbuttomTextStyle = GoogleFonts.plusJakartaSans(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: Colors.white,
   );
 
   static TextStyle buttonTextStyle = GoogleFonts.plusJakartaSans(
@@ -38,9 +66,27 @@ class TextStyles {
     color: Colors.blue,
   );
 
+  static TextStyle buttonprofileTextStyle = GoogleFonts.plusJakartaSans(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: Colors.black,
+  );
+
+  static TextStyle buttonauthTextStyle = GoogleFonts.plusJakartaSans(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: Colors.white,
+  );
+
   static TextStyle leadsTextStyle = GoogleFonts.plusJakartaSans(
     fontSize: 16,
     fontWeight: FontWeight.w500,
+    color: Colors.black,
+  );
+
+  static TextStyle approvalTextStyle = GoogleFonts.plusJakartaSans(
+    fontSize: 16,
+    fontWeight: FontWeight.w300,
     color: Colors.black,
   );
 
@@ -56,7 +102,19 @@ class TextStyles {
     color: Colors.black,
   );
 
+  static TextStyle inputbuttonTextStyle = GoogleFonts.plusJakartaSans(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: Colors.white,
+  );
+
   static TextStyle menuTextStyle = GoogleFonts.plusJakartaSans(
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: Colors.black,
+  );
+
+  static TextStyle menuTextStyleblue = GoogleFonts.plusJakartaSans(
     fontSize: 12,
     fontWeight: FontWeight.w500,
     color: Colors.black,
