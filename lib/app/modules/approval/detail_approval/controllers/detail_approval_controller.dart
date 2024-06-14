@@ -1,8 +1,10 @@
 import 'package:get/get.dart';
+import 'package:wr_project/app/modules/approval/controllers/approval_controller.dart';
 import 'package:wr_project/app/modules/approval/detail_approval/provider/detail_approval_provider.dart';
 
 class DetailApprovalController extends GetxController {
   final DetailApprovalProvider detailApprovalProvider = Get.find();
+  final ApprovalController approvalController = Get.find();
 
   final count = 0.obs;
   @override
@@ -28,6 +30,7 @@ class DetailApprovalController extends GetxController {
         if (responseData['status']) {
           Get.snackbar('Success', responseData['message'],
               snackPosition: SnackPosition.TOP);
+          approvalController.fetchApproval();
         } else {
           Get.snackbar('Error', responseData['message'],
               snackPosition: SnackPosition.TOP);
@@ -50,6 +53,7 @@ class DetailApprovalController extends GetxController {
         if (responseData['status']) {
           Get.snackbar('Success', responseData['message'],
               snackPosition: SnackPosition.TOP);
+          approvalController.fetchApproval();
         } else {
           Get.snackbar('Error', responseData['message'],
               snackPosition: SnackPosition.TOP);

@@ -8,6 +8,7 @@ class ApprovalController extends GetxController {
   var approvals = <Approval>[].obs;
   var flatApprovals = <Approval>[].obs;
   var filteredApprovals = <Approval>[].obs;
+  var hasError = false.obs;
 
   @override
   void onInit() {
@@ -16,8 +17,9 @@ class ApprovalController extends GetxController {
   }
 
   Future<void> fetchApproval() async {
-    isFetching(true);
     try {
+      isFetching(true);
+      hasError(false);
       final response = await approvalProvider.getApproval();
       if (response.statusCode == 200) {
         final List<dynamic> responseData =
@@ -30,6 +32,7 @@ class ApprovalController extends GetxController {
         print('Failed to load approvals: ${response.statusCode}');
       }
     } catch (error) {
+      hasError(true);
       print('Error fetching data: $error');
     } finally {
       isFetching(false);

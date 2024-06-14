@@ -18,7 +18,7 @@ class CustomBottomNavigationBar extends GetView<PageIndexController> {
         children: <Widget>[
           Expanded(
             child: InkWell(
-              onTap: () => controller.changePage(1),
+              onTap: () => controller.changePage(0),
               child: SizedBox(
                 height: 65,
                 child: Column(
@@ -58,12 +58,12 @@ class CustomBottomNavigationBar extends GetView<PageIndexController> {
                     Container(
                       height: 35,
                       margin: const EdgeInsets.only(bottom: 4),
-                      child: (controller.pageIndex.value == 2)
+                      child: (controller.pageIndex.value == 1)
                           ? SvgPicture.asset('asset/icons/profile-1.svg')
                           : SvgPicture.asset('asset/icons/people.svg'),
                     ),
                     Container(
-                      child: (controller.pageIndex.value == 2)
+                      child: (controller.pageIndex.value == 1)
                           ? Text(
                               "Profile",
                               style: TextStyles.menuTextStyleblue,

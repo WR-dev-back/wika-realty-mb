@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:wr_project/app/utils/constant/style/app_color.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wr_project/app/utils/constant/style/text_styles.dart';
-
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {

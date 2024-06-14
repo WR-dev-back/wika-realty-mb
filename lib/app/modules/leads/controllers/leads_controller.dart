@@ -9,6 +9,7 @@ class LeadsController extends GetxController {
   var filteredLeads = List<Datum>.empty().obs;
   TextEditingController searchController = TextEditingController();
   var isFetching = false.obs;
+  var hasError = false.obs;
   final LeadsProvider leadsProvider = Get.find();
   ScrollController scrollController = ScrollController();
 
@@ -120,8 +121,9 @@ class LeadsController extends GetxController {
   }
 
   Future<void> fetchDataLeads({int page = 1}) async {
-    startFetching();
     try {
+      isFetching(true);
+      hasError(false);
       final response = await leadsProvider.fetchDataLeads(page: page);
       if (page == 1) {
         filteredLeads.value = response;
@@ -132,9 +134,10 @@ class LeadsController extends GetxController {
 
       totalPages.value = (response.length / 25).ceil();
     } catch (error) {
+      hasError(true);
       // print('Error fetching data: $error');
     } finally {
-      stopFetching();
+      isFetching(false);
     }
   }
 

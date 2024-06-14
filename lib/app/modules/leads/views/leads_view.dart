@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../routes/app_pages.dart';
 import '../../../utils/constant/style/app_color.dart';
@@ -79,60 +80,79 @@ class LeadsView extends GetView<LeadsController> {
                           height: 10,
                         ),
                         Expanded(
-                          child: Obx(
-                            () => RefreshIndicator(
-                              onRefresh: controller.refreshData,
-                              child: controller.isFetching.value &&
-                                      controller.currentPage.value == 1
-                                  ? Center(
-                                      child: CircularProgressIndicator(),
-                                    )
-                                  : ListView.builder(
-                                      controller: controller.scrollController,
-                                      itemCount:
-                                          controller.filteredLeads.length,
-                                      itemBuilder: (context, index) {
-                                        final leads =
-                                            controller.filteredLeads[index];
-                                        return Padding(
-                                          padding:
-                                              EdgeInsets.symmetric(vertical: 8),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: Colors.black,
-                                                  width: 1),
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              color: Colors.white,
+                          child: Obx(() {
+                            if (controller.isFetching.value) {
+                              return Center(
+                                child: Lottie.asset(
+                                    'asset/animations/no_network.json'),
+                              );
+                            } else if (controller.hasError.value) {
+                              return Center(
+                                child:
+                                    Lottie.asset('asset/animations/error.json'),
+                              );
+                            } else if (controller.filteredLeads.isEmpty) {
+                              return Center(
+                                child: Lottie.asset(
+                                    'asset/animations/isEmpty.json'),
+                              );
+                            } else {
+                              return RefreshIndicator(
+                                onRefresh: controller.refreshData,
+                                child: controller.isFetching.value &&
+                                        controller.currentPage.value == 1
+                                    ? Center(
+                                        child: CircularProgressIndicator(),
+                                      )
+                                    : ListView.builder(
+                                        controller: controller.scrollController,
+                                        itemCount:
+                                            controller.filteredLeads.length,
+                                        itemBuilder: (context, index) {
+                                          final leads =
+                                              controller.filteredLeads[index];
+                                          return Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 8),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: Colors.black,
+                                                    width: 1),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: Colors.white,
+                                              ),
+                                              child: ListTile(
+                                                title: Text(
+                                                  maxLines: 1,
+                                                  leads.fullName,
+                                                  style: TextStyles.headStyle,
+                                                ),
+                                                subtitle: Text(
+                                                  maxLines: 1,
+                                                  leads.email,
+                                                  style:
+                                                      TextStyles.decTextStyle,
+                                                ),
+                                                trailing: Text(
+                                                  maxLines: 1,
+                                                  leads.phoneNumber,
+                                                  style:
+                                                      TextStyles.decTextStyle,
+                                                ),
+                                                onTap: () => Get.toNamed(
+                                                  Routes.DETAIL_LEADS,
+                                                  arguments: leads,
+                                                ),
+                                              ),
                                             ),
-                                            child: ListTile(
-                                              title: Text(
-                                                maxLines: 1,
-                                                leads.fullName,
-                                                style: TextStyles.headStyle,
-                                              ),
-                                              subtitle: Text(
-                                                maxLines: 1,
-                                                leads.email,
-                                                style: TextStyles.decTextStyle,
-                                              ),
-                                              trailing: Text(
-                                                maxLines: 1,
-                                                leads.phoneNumber,
-                                                style: TextStyles.decTextStyle,
-                                              ),
-                                              onTap: () => Get.toNamed(
-                                                Routes.DETAIL_LEADS,
-                                                arguments: leads,
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                            ),
-                          ),
+                                          );
+                                        },
+                                      ),
+                              );
+                            }
+                          }),
                         ),
                       ],
                     ),
