@@ -60,15 +60,17 @@ class ProfileView extends GetView<ProfileController> {
 
   Widget _buildLogo() {
     return Container(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: SizedBox(
-        width: 90,
-        height: 28,
-        child: Image.asset(
-          'asset/images/logo.png',
-          fit: BoxFit.cover,
-        ),
+      padding: const EdgeInsets.only(
+        bottom: 20,
+        left: 5,
       ),
+      child: SizedBox(
+          width: 90,
+          height: 28,
+          child: Text(
+            "SiOlife",
+            style: TextStyles.headerhomeStyle,
+          )),
     );
   }
 

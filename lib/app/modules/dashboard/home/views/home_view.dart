@@ -64,7 +64,10 @@ class HomeView extends GetView<HomeController> {
                                     controller.user.name,
                                     style: TextStyles.headerhomeStyle,
                                   ),
-                                  Image.asset("asset/images/logo.png"),
+                                  Text(
+                                    "SiOlife",
+                                    style: TextStyles.headerhomeStyle,
+                                  )
                                 ],
                               ),
                               SizedBox(height: 20),

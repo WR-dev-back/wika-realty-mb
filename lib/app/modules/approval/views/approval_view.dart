@@ -59,6 +59,20 @@ class ApprovalView extends GetView<ApprovalController> {
                         itemCount: controller.filteredApprovals.length,
                         itemBuilder: (context, index) {
                           final approval = controller.filteredApprovals[index];
+                          IconData trailingIcon;
+                          switch (approval.status) {
+                            case 'pending':
+                              trailingIcon = Icons.hourglass_empty;
+                              break;
+                            case 'accept':
+                              trailingIcon = Icons.check;
+                              break;
+                            case 'reject':
+                              trailingIcon = Icons.close;
+                              break;
+                            default:
+                              trailingIcon = Icons.help;
+                          }
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8),
                             child: Container(
@@ -74,6 +88,7 @@ class ApprovalView extends GetView<ApprovalController> {
                                   style: TextStyles.headerapprovalStyleProfile,
                                 ),
                                 subtitle: Text(approval.property.unitDesc),
+                                trailing: Icon(trailingIcon),
                                 onTap: () => Get.toNamed(
                                   Routes.DETAIL_APPROVAL,
                                   arguments: approval,

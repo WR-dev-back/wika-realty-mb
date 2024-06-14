@@ -138,7 +138,6 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
                           ],
                         ),
                         const SizedBox(height: 10),
-
                         // Add more details as needed
                       ],
                     ),
