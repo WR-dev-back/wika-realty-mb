@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:wr_project/app/routes/app_pages.dart';
 
-import '../../auth/login/model/login_model.dart';
+import '../../auth/login/model/auth_model.dart';
 
 class ProfileController extends GetxController {
   final GetStorage storage = GetStorage(); // Initialize GetStorage

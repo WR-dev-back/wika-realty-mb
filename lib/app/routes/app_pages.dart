@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
+import 'package:wr_project/app/modules/auth/login/bindings/login_binding.dart';
 
 import '../modules/approval/bindings/approval_binding.dart';
 import '../modules/approval/detail_approval/views/detail_approval_view.dart';
 import '../modules/approval/views/approval_view.dart';
-import '../modules/auth/login/bindings/login_binding.dart';
 import '../modules/auth/login/views/login_view.dart';
 import '../modules/dashboard/home/bindings/home_binding.dart';
 import '../modules/dashboard/home/views/home_view.dart';

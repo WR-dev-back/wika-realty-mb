@@ -84,6 +84,12 @@ class TextStyles {
     color: Colors.black,
   );
 
+  static TextStyle approvalTextStyle = GoogleFonts.plusJakartaSans(
+    fontSize: 16,
+    fontWeight: FontWeight.w300,
+    color: Colors.black,
+  );
+
   static TextStyle leadsdecTextStyle = GoogleFonts.plusJakartaSans(
     fontSize: 14,
     fontWeight: FontWeight.w500,

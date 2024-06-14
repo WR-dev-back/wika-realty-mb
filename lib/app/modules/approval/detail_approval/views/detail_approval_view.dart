@@ -33,87 +33,114 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
               padding: const EdgeInsets.only(top: 10),
               child: Column(
                 children: [
-                  Card(
-                    color: Colors.white,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 15),
-                      width: MediaQuery.of(context).size.width,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${approval.property.customerName}',
-                                style: TextStyles.headerStyleProfile,
-                              ),
-                              Text(
-                                'Customer Name:',
-                                style: TextStyles.menuTextStyle,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 5),
-                          Divider(
-                            height: 2,
-                          ),
-                          const SizedBox(height: 5),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${approval.property.unitDesc}',
-                                style: TextStyles.headerStyleProfile,
-                              ),
-                              Text(
-                                'Unit Description :',
-                                style: TextStyles.menuTextStyle,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 5),
-                          Divider(
-                            height: 2,
-                          ),
-                          const SizedBox(height: 5),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${approval.property.contractValueNetto}',
-                                style: TextStyles.headerStyleProfile,
-                              ),
-                              Text(
-                                'Contract Value:',
-                                style: TextStyles.menuTextStyle,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 5),
-                          Divider(
-                            height: 2,
-                          ),
-                          const SizedBox(height: 5),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${approval.status}',
-                                style: TextStyles.headerStyleProfile,
-                              ),
-                              Text(
-                                'Status Approval',
-                                style: TextStyles.menuTextStyle,
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10,
-                          )
-                        ],
-                      ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 15),
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Approval Name',
+                              style: TextStyles.headerStyleProfile,
+                            ),
+                            Text(
+                              '${approval.name}',
+                              style: TextStyles.approvalTextStyle,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Contract Nomor',
+                              style: TextStyles.headerStyleProfile,
+                            ),
+                            Text(
+                              '${approval.property.contractNo}',
+                              style: TextStyles.approvalTextStyle,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Customer Code',
+                              style: TextStyles.headerStyleProfile,
+                            ),
+                            Text(
+                              '${approval.property.customerCode}',
+                              style: TextStyles.approvalTextStyle,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Customer Name',
+                              style: TextStyles.headerStyleProfile,
+                            ),
+                            Text(
+                              '${approval.property.customerName}',
+                              style: TextStyles.approvalTextStyle,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Unit Description',
+                              style: TextStyles.headerStyleProfile,
+                            ),
+                            Text(
+                              '${approval.property.unitDesc}',
+                              style: TextStyles.approvalTextStyle,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Contract Value',
+                              style: TextStyles.headerStyleProfile,
+                            ),
+                            Text(
+                              '${approval.property.contractValueBrutto}',
+                              style: TextStyles.approvalTextStyle,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Progress Count',
+                              style: TextStyles.headerStyleProfile,
+                            ),
+                            Text(
+                              '${approval.property.progressConst}',
+                              style: TextStyles.approvalTextStyle,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+
+                        // Add more details as needed
+                      ],
                     ),
                   ),
                 ],

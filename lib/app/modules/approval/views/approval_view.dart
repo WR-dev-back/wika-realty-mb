@@ -23,39 +23,39 @@ class ApprovalView extends GetView<ApprovalController> {
         ),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          children: [
-            TextField(
-              decoration: const InputDecoration(
-                labelText: 'Search Approval',
-                prefixIcon: Icon(Icons.search),
+      body: RefreshIndicator(
+        onRefresh: controller.refreshData,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            children: [
+              TextField(
+                decoration: const InputDecoration(
+                  labelText: 'Search Approval',
+                  prefixIcon: Icon(Icons.search),
+                ),
+                onChanged: (value) {
+                  controller.searchApproval(value);
+                },
               ),
-              onChanged: (value) {
-                controller.searchApproval(value);
-              },
-            ),
-            const SizedBox(height: 10),
-            Expanded(
-              child: Obx(
-                () {
-                  if (controller.isFetching.value) {
-                    return Center(
-                      child: Lottie.asset('asset/animations/no_network.json'),
-                    );
-                  } else if (controller.hasError.value) {
-                    return Center(
-                      child: Lottie.asset('asset/animations/error.json'),
-                    );
-                  } else if (controller.filteredApprovals.isEmpty) {
-                    return Center(
-                      child: Lottie.asset('asset/animations/isEmpty.json'),
-                    );
-                  } else {
-                    return RefreshIndicator(
-                      onRefresh: controller.refreshData,
-                      child: ListView.builder(
+              const SizedBox(height: 10),
+              Expanded(
+                child: Obx(
+                  () {
+                    if (controller.isFetching.value) {
+                      return Center(
+                        child: Lottie.asset('asset/animations/loading.json'),
+                      );
+                    } else if (controller.hasError.value) {
+                      return Center(
+                        child: Lottie.asset('asset/animations/error.json'),
+                      );
+                    } else if (controller.filteredApprovals.isEmpty) {
+                      return Center(
+                        child: Lottie.asset('asset/animations/isEmpty.json'),
+                      );
+                    } else {
+                      return ListView.builder(
                         itemCount: controller.filteredApprovals.length,
                         itemBuilder: (context, index) {
                           final approval = controller.filteredApprovals[index];
@@ -82,13 +82,13 @@ class ApprovalView extends GetView<ApprovalController> {
                             ),
                           );
                         },
-                      ),
-                    );
-                  }
-                },
+                      );
+                    }
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import '../../../auth/login/model/login_model.dart';
+import '../../../auth/login/model/auth_model.dart';
 
 class HomeController extends GetxController {
   var isRefreshing = false.obs; // Reactive variable for ppu

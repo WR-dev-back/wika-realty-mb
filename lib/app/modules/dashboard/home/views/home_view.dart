@@ -5,7 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:wr_project/app/modules/dashboard/view/custom_navigation_bar.dart';
 import '../../controller/page_index_controller.dart';
 import '../../../../utils/constant/style/app_color.dart';
-import '../../../auth/login/model/login_model.dart';
+import '../../../auth/login/model/auth_model.dart';
 import '../controllers/home_controller.dart';
 import '../../../../utils/constant/style/text_styles.dart';
 
