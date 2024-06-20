@@ -25,7 +25,7 @@ class _GetDataLeads {
 
 class _GetDataApproval {
   final String dataApproval =
-      '/api/v1/master-approval/user-approval?orderBy=ASC&page=1&limit=25';
+      '/api/v1/master-approval/user-approval?orderBy=DSC&page=1&limit=25';
 }
 
 class _GetDataApprova {

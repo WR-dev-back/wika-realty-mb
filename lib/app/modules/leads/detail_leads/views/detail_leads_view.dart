@@ -26,128 +26,263 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
         ),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ElevatedButton(
-                  onPressed: () async {
-                    Get.toNamed(
-                      Routes.EDIT_DETAIL_LEADS,
-                      arguments: leads,
-                    );
-                  },
-                  child: Row(
-                    children: [
-                      Icon(Icons.edit),
-                      Text(
-                        "Edit",
-                      ),
-                    ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  ElevatedButton(
+                    onPressed: () async {
+                      Get.toNamed(
+                        Routes.EDIT_DETAIL_LEADS,
+                        arguments: leads,
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        Icon(Icons.edit),
+                        Text(
+                          "Edit",
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Get.toNamed(
-                      Routes.FOLLOWUP_LEADS,
-                      arguments: leads,
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColor.primary,
+                  SizedBox(
+                    width: 5,
                   ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.follow_the_signs,
-                        color: Colors.white,
-                      ),
-                      Text(
-                        "Follow Up",
-                        style: TextStyle(
+                  ElevatedButton(
+                    onPressed: () {
+                      Get.toNamed(
+                        Routes.FOLLOWUP_LEADS,
+                        arguments: leads,
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColor.primary,
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.follow_the_signs,
                           color: Colors.white,
                         ),
+                        Text(
+                          "Follow Up",
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 10,
+                ),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Nama Panjang',
+                            style: TextStyles.headerStyleProfile,
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            '${leads?.fullName}',
+                            style: TextStyles.leadsTextStyle,
+                          ),
+                        ],
                       ),
+                      SizedBox(height: 15),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Email',
+                            style: TextStyles.headerStyleProfile,
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            '${leads?.email}',
+                            style: TextStyles.leadsTextStyle,
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 15),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Nomor Telepon',
+                            style: TextStyles.headerStyleProfile,
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            '${leads?.phoneNumber}',
+                            style: TextStyles.leadsTextStyle,
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 15),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Sumber Digital',
+                            style: TextStyles.headerStyleProfile,
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            '${leads?.digitalSource}',
+                            style: TextStyles.leadsTextStyle,
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 15),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Sumber Offline',
+                            style: TextStyles.headerStyleProfile,
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            '${leads.offlineSource}',
+                            style: TextStyles.leadsTextStyle,
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 15),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Lokasi Kegiatan',
+                            style: TextStyles.headerStyleProfile,
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            '${leads?.locationOffline}',
+                            style: TextStyles.leadsTextStyle,
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 15),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'NPWP',
+                            style: TextStyles.headerStyleProfile,
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            '${leads?.npwp}',
+                            style: TextStyles.leadsTextStyle,
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 15),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Kota',
+                            style: TextStyles.headerStyleProfile,
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            '${leads?.city}',
+                            style: TextStyles.leadsTextStyle,
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 15),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Type',
+                            style: TextStyles.headerStyleProfile,
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            '${leads?.type}',
+                            style: TextStyles.leadsTextStyle,
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 15),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Area',
+                            style: TextStyles.headerStyleProfile,
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            '${leads?.area}',
+                            style: TextStyles.leadsTextStyle,
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 15),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Omzet',
+                            style: TextStyles.headerStyleProfile,
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            '${leads?.omzet}',
+                            style: TextStyles.leadsTextStyle,
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 15),
                     ],
                   ),
-                )
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 10,
-              ),
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Full Name: ${leads?.fullName}',
-                      style: TextStyles.leadsTextStyle,
-                    ),
-                    SizedBox(height: 15),
-                    Text(
-                      'Email: ${leads?.email}',
-                      style: TextStyles.leadsTextStyle,
-                    ),
-                    SizedBox(height: 15),
-                    Text(
-                      'Phone Number: ${leads?.phoneNumber}',
-                      style: TextStyles.leadsTextStyle,
-                    ),
-                    SizedBox(height: 15),
-                    Text(
-                      'Sumber Digital: ${leads?.digitalSource}',
-                      style: TextStyles.leadsTextStyle,
-                    ),
-                    SizedBox(height: 15),
-                    Text(
-                      'Sumber Offline: ${leads?.offlineSource}',
-                      style: TextStyles.leadsTextStyle,
-                    ),
-                    SizedBox(height: 15),
-                    Text(
-                      'Lokasi Kegiatan: ${leads?.locationOffline}',
-                      style: TextStyles.leadsTextStyle,
-                    ),
-                    SizedBox(height: 15),
-                    Text(
-                      'Npwp: ${leads?.npwp}',
-                      style: TextStyles.leadsTextStyle,
-                    ),
-                    SizedBox(height: 15),
-                    Text(
-                      'City: ${leads?.city}',
-                      style: TextStyles.leadsTextStyle,
-                    ),
-                    SizedBox(height: 15),
-                    Text(
-                      'Type: ${leads?.type}',
-                      style: TextStyles.leadsTextStyle,
-                    ),
-                    SizedBox(height: 15),
-                    Text(
-                      'Area: ${leads?.area}',
-                      style: TextStyles.leadsTextStyle,
-                    ),
-                    SizedBox(height: 15),
-                    Text(
-                      'Omzet: ${leads?.omzet}',
-                      style: TextStyles.leadsTextStyle,
-                    ),
-                  ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

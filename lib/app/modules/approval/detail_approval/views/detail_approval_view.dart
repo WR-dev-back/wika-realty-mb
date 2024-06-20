@@ -13,37 +13,6 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
   Widget build(BuildContext context) {
     final Approval approval = Get.arguments;
 
-    Future<bool> showConfirmationDialog(
-        BuildContext context, String action) async {
-      return await showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              title: Text('Confirm $action'),
-              content: Text('Are you sure you want to $action this item?'),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(false),
-                  child: Text('Cancel'),
-                ),
-                TextButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                        AppColor.primary), // Set the background color here
-                  ),
-                  onPressed: () => Navigator.of(context).pop(true),
-                  child: Text(
-                    'Confirm',
-                    style: TextStyle(
-                        color: Colors
-                            .white), // Optionally set the text color to ensure readability
-                  ),
-                )
-              ],
-            ),
-          ) ??
-          false;
-    }
-
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(
@@ -247,48 +216,82 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
                   ],
                 ),
               ),
-              if (approval.status ==
-                  'pending') // Check if the status is pending
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () async {
-                          if (await showConfirmationDialog(
-                              context, 'approve')) {
-                            await controller.approve(approval.id);
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColor.primary,
+              Obx(
+                () => controller.approvalStatus.value == 'pending'
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 30),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () async {
+                                _showConfirmationDialog(
+                                  context,
+                                  "Are you sure you want to approve this item?",
+                                  () async {
+                                    await controller.approve(approval.id);
+                                    Get.back();
+                                  },
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColor.primary,
+                              ),
+                              child: Text(
+                                "Accept",
+                                style: TextStyles.cardbuttomTextStyle,
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: () async {
+                                _showConfirmationDialog(
+                                  context,
+                                  "Are you sure you want to reject this item?",
+                                  () async {
+                                    await controller.reject(approval.id);
+                                    Get.back();
+                                  },
+                                );
+                              },
+                              child: const Text("Reject"),
+                            ),
+                          ],
                         ),
-                        child: Text(
-                          "Accept",
-                          style: TextStyles.cardbuttomTextStyle,
-                        ),
-                      ),
-                      ElevatedButton(
-                        onPressed: () async {
-                          if (await showConfirmationDialog(context, 'reject')) {
-                            await controller.reject(approval.id);
-                          }
-                        },
-                        child: const Text("Reject"),
-                      ),
-                    ],
-                  ),
-                )
-              else
-                Container(height: 0),
+                      )
+                    : Container(height: 0),
+              ),
               SizedBox(
                 height: 20,
-              ),
+              )
             ],
           ),
         ),
       ),
+    );
+  }
+
+  void _showConfirmationDialog(
+      BuildContext context, String message, VoidCallback onConfirm) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Confirmation"),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Get.back();
+              },
+              child: const Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: onConfirm,
+              child: const Text("Confirm"),
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -11,6 +11,8 @@ class EditDetailLeadsProvider extends GetConnect {
     final apiUrl =
         ApiEndPoints.baseUrl + ApiEndPoints.puteditLeads.editLeads + leadId;
 
+    print(apiUrl);
+
     try {
       final String? token = storage.read('token');
 

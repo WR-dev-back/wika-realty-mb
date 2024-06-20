@@ -7,9 +7,13 @@ class DetailApprovalController extends GetxController {
   final ApprovalController approvalController = Get.find();
 
   final count = 0.obs;
+  final RxString approvalStatus = ''.obs;
+
   @override
   void onInit() {
     super.onInit();
+    final approval = Get.arguments;
+    approvalStatus.value = approval.status;
   }
 
   @override
@@ -30,6 +34,7 @@ class DetailApprovalController extends GetxController {
         if (responseData['status']) {
           Get.snackbar('Success', responseData['message'],
               snackPosition: SnackPosition.TOP);
+          approvalStatus.value = 'accepted';
           approvalController.fetchApproval();
         } else {
           Get.snackbar('Error', responseData['message'],
@@ -47,23 +52,24 @@ class DetailApprovalController extends GetxController {
 
   Future<void> reject(String approvalId) async {
     try {
-      final response = await detailApprovalProvider.approve(approvalId);
+      final response = await detailApprovalProvider.reject(approvalId);
       if (response.statusCode == 200) {
         final responseData = response.body;
         if (responseData['status']) {
           Get.snackbar('Success', responseData['message'],
               snackPosition: SnackPosition.TOP);
+          approvalStatus.value = 'rejected';
           approvalController.fetchApproval();
         } else {
           Get.snackbar('Error', responseData['message'],
               snackPosition: SnackPosition.TOP);
         }
       } else {
-        Get.snackbar('Error', 'Failed to approve: ${response.statusText}',
+        Get.snackbar('Error', 'Failed to reject: ${response.statusText}',
             snackPosition: SnackPosition.TOP);
       }
     } catch (error) {
-      Get.snackbar('Error', 'Error approving: $error',
+      Get.snackbar('Error', 'Error rejecting: $error',
           snackPosition: SnackPosition.TOP);
     }
   }
