@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wr_project/app/modules/auth/login/provider/login_provider.dart';
+
+import '../../../../routes/app_pages.dart';
 
 class LoginController extends GetxController {
   final LoginProvider _loginProvider = LoginProvider();
@@ -10,6 +15,8 @@ class LoginController extends GetxController {
   final RxBool isLoading = false.obs;
   final RxBool obsecureText = true.obs;
   final RxBool isFormValid = false.obs;
+
+  final GetStorage storage = GetStorage();
 
   @override
   void onInit() {
@@ -47,7 +54,29 @@ class LoginController extends GetxController {
     }
 
     try {
-      await _loginProvider.login(emailC.text, passC.text);
+      var response = await _loginProvider.login(emailC.text, passC.text);
+      if (response.statusCode == 201) {
+        Map<String, dynamic> jsonData = response.body as Map<String, dynamic>;
+
+        var token = jsonData['data']['token'];
+        await storage.write('token', token);
+
+        var userJson = jsonData['data']['user'];
+        await storage.write('user', jsonEncode(userJson));
+
+        var ppuJson = jsonData['data']['user']['ppu'];
+        await storage.write('ppu', jsonEncode(ppuJson));
+
+        print(ppuJson);
+        print(userJson);
+
+        List<dynamic> menuJsonList = jsonData['data']['menus'];
+        await storage.write('menuList', jsonEncode(menuJsonList));
+
+        Get.offAllNamed(Routes.HOME);
+      } else {
+        throw jsonDecode(response.body)["Message"] ?? "Unknown Error Occurred";
+      }
     } catch (error) {
       _showDialog('Error', 'Wrong Email And Password');
     }
