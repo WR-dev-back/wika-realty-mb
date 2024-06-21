@@ -46,53 +46,11 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
                             children: [
                               Text(
                                 'Approval Name',
-                                style: TextStyles.headerStyleProfile,
+                                style: TextStyles.approvalTextStyle,
                               ),
                               Text(
                                 '${approval.name}',
-                                style: TextStyles.approvalTextStyle,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Contract Number',
-                                style: TextStyles.headerStyleProfile,
-                              ),
-                              Text(
-                                '${approval.property.contractNo}',
-                                style: TextStyles.approvalTextStyle,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Customer Code',
-                                style: TextStyles.headerStyleProfile,
-                              ),
-                              Text(
-                                '${approval.property.customerCode}',
-                                style: TextStyles.approvalTextStyle,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Customer Name',
-                                style: TextStyles.headerStyleProfile,
-                              ),
-                              Text(
-                                '${approval.property.customerName}',
-                                style: TextStyles.approvalTextStyle,
+                                style: TextStyles.buttonprofileTextStyle,
                               ),
                             ],
                           ),
@@ -102,11 +60,44 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
                             children: [
                               Text(
                                 'Unit Description',
-                                style: TextStyles.headerStyleProfile,
+                                style: TextStyles.approvalTextStyle,
                               ),
                               Text(
                                 '${approval.property.unitDesc}',
+                                style: TextStyles.buttonprofileTextStyle,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          Row(
+                            children: [
+                              // Text(
+                              //   "Property Details",
+                              //   style: TextStyles.approvalTextStyle,
+                              // ),
+                              // SizedBox(
+                              //   height: 5,
+                              // ),
+                            ],
+                          ),
+                          Divider(
+                            color: Colors.grey,
+                            height: 1,
+                            thickness: 2,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Contract Number',
                                 style: TextStyles.approvalTextStyle,
+                              ),
+                              Text(
+                                '${approval.property.contractNo}',
+                                style: TextStyles.buttonprofileTextStyle,
                               ),
                             ],
                           ),
@@ -115,12 +106,41 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
+                                'Customer Code',
+                                style: TextStyles.approvalTextStyle,
+                              ),
+                              Text(
+                                '${approval.property.customerCode}',
+                                style: TextStyles.buttonprofileTextStyle,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Customer Name',
+                                style: TextStyles.approvalTextStyle,
+                              ),
+                              Text(
+                                '${approval.property.customerName}',
+                                style: TextStyles.buttonprofileTextStyle,
+                              ),
+                            ],
+                          ),
+
+                          const SizedBox(height: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
                                 'Unit Code',
-                                style: TextStyles.headerStyleProfile,
+                                style: TextStyles.approvalTextStyle,
                               ),
                               Text(
                                 '${approval.property.unitCode}',
-                                style: TextStyles.approvalTextStyle,
+                                style: TextStyles.buttonprofileTextStyle,
                               ),
                             ],
                           ),
@@ -130,11 +150,11 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
                             children: [
                               Text(
                                 'Contract Value Netto',
-                                style: TextStyles.headerStyleProfile,
+                                style: TextStyles.approvalTextStyle,
                               ),
                               Text(
-                                '${approval.property.contractValueNetto}',
-                                style: TextStyles.approvalTextStyle,
+                                'Rp.${approval.property.contractValueNetto}',
+                                style: TextStyles.buttonprofileTextStyle,
                               ),
                             ],
                           ),
@@ -144,11 +164,11 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
                             children: [
                               Text(
                                 'Contract Value Brutto',
-                                style: TextStyles.headerStyleProfile,
+                                style: TextStyles.approvalTextStyle,
                               ),
                               Text(
-                                '${approval.property.contractValueBrutto}',
-                                style: TextStyles.approvalTextStyle,
+                                'Rp.${approval.property.contractValueBrutto}',
+                                style: TextStyles.buttonprofileTextStyle,
                               ),
                             ],
                           ),
@@ -158,11 +178,11 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
                             children: [
                               Text(
                                 'Booking Fee Brutto',
-                                style: TextStyles.headerStyleProfile,
+                                style: TextStyles.approvalTextStyle,
                               ),
                               Text(
-                                '${approval.property.bookingFeeBruto}',
-                                style: TextStyles.approvalTextStyle,
+                                'Rp.${approval.property.bookingFeeBruto}',
+                                style: TextStyles.buttonprofileTextStyle,
                               ),
                             ],
                           ),
@@ -172,11 +192,11 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
                             children: [
                               Text(
                                 'Booking Fee Netto',
-                                style: TextStyles.headerStyleProfile,
+                                style: TextStyles.approvalTextStyle,
                               ),
                               Text(
-                                '${approval.property.bookingFeeNetto}',
-                                style: TextStyles.approvalTextStyle,
+                                'Rp.${approval.property.bookingFeeNetto}',
+                                style: TextStyles.buttonprofileTextStyle,
                               ),
                             ],
                           ),
@@ -187,11 +207,11 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
                             children: [
                               Text(
                                 'Progress Count',
-                                style: TextStyles.headerStyleProfile,
+                                style: TextStyles.approvalTextStyle,
                               ),
                               Text(
                                 '${approval.property.progressConst}',
-                                style: TextStyles.approvalTextStyle,
+                                style: TextStyles.buttonprofileTextStyle,
                               ),
                             ],
                           ),
@@ -201,11 +221,53 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
                             children: [
                               Text(
                                 'Cancel Date',
-                                style: TextStyles.headerStyleProfile,
+                                style: TextStyles.approvalTextStyle,
                               ),
                               Text(
                                 '${approval.property.cancelDate}',
+                                style: TextStyles.buttonprofileTextStyle,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Refund Recomendation',
                                 style: TextStyles.approvalTextStyle,
+                              ),
+                              Text(
+                                '${approval.property.refundRecommendation ?? '-'}',
+                                style: TextStyles.buttonprofileTextStyle,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Ri Refund',
+                                style: TextStyles.approvalTextStyle,
+                              ),
+                              Text(
+                                '${approval.property.riRefound}',
+                                style: TextStyles.buttonprofileTextStyle,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Recommendation Value',
+                                style: TextStyles.approvalTextStyle,
+                              ),
+                              Text(
+                                '${approval.property.recommendationValue ?? '-'}',
+                                style: TextStyles.buttonprofileTextStyle,
                               ),
                             ],
                           ),
@@ -223,37 +285,77 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            ElevatedButton(
-                              onPressed: () async {
-                                _showConfirmationDialog(
-                                  context,
-                                  "Are you sure you want to approve this item?",
-                                  () async {
-                                    await controller.approve(approval.id);
-                                    Get.back();
-                                  },
-                                );
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColor.primary,
-                              ),
-                              child: Text(
-                                "Accept",
-                                style: TextStyles.cardbuttomTextStyle,
+                            Container(
+                              width: 130,
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  _showConfirmationDialog(
+                                    context,
+                                    "Are you sure you want to Reject this item?",
+                                    () async {
+                                      await controller.reject(approval.id);
+                                      Get.back();
+                                    },
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColor.error,
+                                ),
+                                child: Center(
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.cancel,
+                                        color: Colors.white,
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        "Reject",
+                                        style: TextStyles.cardbuttomTextStyle,
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
                             ),
-                            ElevatedButton(
-                              onPressed: () async {
-                                _showConfirmationDialog(
-                                  context,
-                                  "Are you sure you want to reject this item?",
-                                  () async {
-                                    await controller.reject(approval.id);
-                                    Get.back();
-                                  },
-                                );
-                              },
-                              child: const Text("Reject"),
+                            Container(
+                              width: 140,
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  _showConfirmationDialog(
+                                    context,
+                                    "Are you sure you want to Approve this item?",
+                                    () async {
+                                      await controller.approve(approval.id);
+                                      Get.back();
+                                    },
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.green,
+                                ),
+                                child: Center(
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.check_circle,
+                                        color: Colors.white,
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        "Approve",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
                             ),
                           ],
                         ),

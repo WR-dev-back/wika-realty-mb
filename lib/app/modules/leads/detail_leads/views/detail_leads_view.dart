@@ -32,50 +32,49 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
           child: Column(
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  ElevatedButton(
-                    onPressed: () async {
-                      Get.toNamed(
-                        Routes.EDIT_DETAIL_LEADS,
-                        arguments: leads,
-                      );
-                    },
-                    child: Row(
-                      children: [
-                        Icon(Icons.edit),
-                        Text(
+                  Container(
+                    width: 150,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        Get.toNamed(
+                          Routes.EDIT_DETAIL_LEADS,
+                          arguments: leads,
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFF4B70F5),
+                      ),
+                      child: Center(
+                        child: Text(
                           "Edit",
+                          style: TextStyles.btnLabelStyle,
                         ),
-                      ],
+                      ),
                     ),
                   ),
                   SizedBox(
                     width: 5,
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Get.toNamed(
-                        Routes.FOLLOWUP_LEADS,
-                        arguments: leads,
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColor.primary,
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.follow_the_signs,
-                          color: Colors.white,
-                        ),
-                        Text(
+                  Container(
+                    width: 150,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Get.toNamed(
+                          Routes.FOLLOWUP_LEADS,
+                          arguments: leads,
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFF4B70F5),
+                      ),
+                      child: Center(
+                        child: Text(
                           "Follow Up",
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
+                          style: TextStyles.btnLabelStyle,
                         ),
-                      ],
+                      ),
                     ),
                   )
                 ],
@@ -95,14 +94,14 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                         children: [
                           Text(
                             'Nama Panjang',
-                            style: TextStyles.headerStyleProfile,
+                            style: TextStyles.approvalTextStyle,
                           ),
                           SizedBox(
                             height: 5,
                           ),
                           Text(
-                            '${leads?.fullName}',
-                            style: TextStyles.leadsTextStyle,
+                            '${leads.fullName ?? "-"}',
+                            style: TextStyles.buttonprofileTextStyle,
                           ),
                         ],
                       ),
@@ -112,14 +111,14 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                         children: [
                           Text(
                             'Email',
-                            style: TextStyles.headerStyleProfile,
+                            style: TextStyles.approvalTextStyle,
                           ),
                           SizedBox(
                             height: 5,
                           ),
                           Text(
                             '${leads?.email}',
-                            style: TextStyles.leadsTextStyle,
+                            style: TextStyles.buttonprofileTextStyle,
                           ),
                         ],
                       ),
@@ -129,14 +128,14 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                         children: [
                           Text(
                             'Nomor Telepon',
-                            style: TextStyles.headerStyleProfile,
+                            style: TextStyles.approvalTextStyle,
                           ),
                           SizedBox(
                             height: 5,
                           ),
                           Text(
                             '${leads?.phoneNumber}',
-                            style: TextStyles.leadsTextStyle,
+                            style: TextStyles.buttonprofileTextStyle,
                           ),
                         ],
                       ),
@@ -146,14 +145,14 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                         children: [
                           Text(
                             'Sumber Digital',
-                            style: TextStyles.headerStyleProfile,
+                            style: TextStyles.approvalTextStyle,
                           ),
                           SizedBox(
                             height: 5,
                           ),
                           Text(
                             '${leads?.digitalSource}',
-                            style: TextStyles.leadsTextStyle,
+                            style: TextStyles.buttonprofileTextStyle,
                           ),
                         ],
                       ),
@@ -163,14 +162,14 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                         children: [
                           Text(
                             'Sumber Offline',
-                            style: TextStyles.headerStyleProfile,
+                            style: TextStyles.approvalTextStyle,
                           ),
                           SizedBox(
                             height: 5,
                           ),
                           Text(
                             '${leads.offlineSource}',
-                            style: TextStyles.leadsTextStyle,
+                            style: TextStyles.buttonprofileTextStyle,
                           ),
                         ],
                       ),
@@ -180,14 +179,14 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                         children: [
                           Text(
                             'Lokasi Kegiatan',
-                            style: TextStyles.headerStyleProfile,
+                            style: TextStyles.approvalTextStyle,
                           ),
                           SizedBox(
                             height: 5,
                           ),
                           Text(
                             '${leads?.locationOffline}',
-                            style: TextStyles.leadsTextStyle,
+                            style: TextStyles.buttonprofileTextStyle,
                           ),
                         ],
                       ),
@@ -197,14 +196,14 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                         children: [
                           Text(
                             'NPWP',
-                            style: TextStyles.headerStyleProfile,
+                            style: TextStyles.approvalTextStyle,
                           ),
                           SizedBox(
                             height: 5,
                           ),
                           Text(
                             '${leads?.npwp}',
-                            style: TextStyles.leadsTextStyle,
+                            style: TextStyles.buttonprofileTextStyle,
                           ),
                         ],
                       ),
@@ -214,14 +213,14 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                         children: [
                           Text(
                             'Kota',
-                            style: TextStyles.headerStyleProfile,
+                            style: TextStyles.approvalTextStyle,
                           ),
                           SizedBox(
                             height: 5,
                           ),
                           Text(
                             '${leads?.city}',
-                            style: TextStyles.leadsTextStyle,
+                            style: TextStyles.buttonprofileTextStyle,
                           ),
                         ],
                       ),
@@ -231,14 +230,14 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                         children: [
                           Text(
                             'Type',
-                            style: TextStyles.headerStyleProfile,
+                            style: TextStyles.approvalTextStyle,
                           ),
                           SizedBox(
                             height: 5,
                           ),
                           Text(
                             '${leads?.type}',
-                            style: TextStyles.leadsTextStyle,
+                            style: TextStyles.buttonprofileTextStyle,
                           ),
                         ],
                       ),
@@ -248,14 +247,14 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                         children: [
                           Text(
                             'Area',
-                            style: TextStyles.headerStyleProfile,
+                            style: TextStyles.approvalTextStyle,
                           ),
                           SizedBox(
                             height: 5,
                           ),
                           Text(
                             '${leads?.area}',
-                            style: TextStyles.leadsTextStyle,
+                            style: TextStyles.buttonprofileTextStyle,
                           ),
                         ],
                       ),
@@ -265,14 +264,14 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                         children: [
                           Text(
                             'Omzet',
-                            style: TextStyles.headerStyleProfile,
+                            style: TextStyles.approvalTextStyle,
                           ),
                           SizedBox(
                             height: 5,
                           ),
                           Text(
                             '${leads?.omzet}',
-                            style: TextStyles.leadsTextStyle,
+                            style: TextStyles.buttonprofileTextStyle,
                           ),
                         ],
                       ),
@@ -284,6 +283,12 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
             ],
           ),
         ),
+//          floatingActionButton: FloatingActionButton(
+//           backgroundColor: const Color.fromRGBO(82, 170, 94, 1.0),
+//           onPressed: (){},
+//           mini: true,
+//           child: const Icon(Icons.add, color: Colors.white, size: 25),
+//  ),
       ),
     );
   }

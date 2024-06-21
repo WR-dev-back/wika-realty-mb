@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:wr_project/app/modules/approval/controllers/approval_controller.dart';
 import 'package:wr_project/app/modules/approval/detail_approval/provider/detail_approval_provider.dart';
+import 'package:wr_project/app/routes/app_pages.dart';
 
 class DetailApprovalController extends GetxController {
   final DetailApprovalProvider detailApprovalProvider = Get.find();
@@ -31,11 +32,13 @@ class DetailApprovalController extends GetxController {
       final response = await detailApprovalProvider.approve(approvalId);
       if (response.statusCode == 200) {
         final responseData = response.body;
+        print(responseData);
         if (responseData['status']) {
           Get.snackbar('Success', responseData['message'],
               snackPosition: SnackPosition.TOP);
           approvalStatus.value = 'accepted';
           approvalController.fetchApproval();
+          Get.toNamed(Routes.APPROVAL);
         } else {
           Get.snackbar('Error', responseData['message'],
               snackPosition: SnackPosition.TOP);
@@ -55,11 +58,13 @@ class DetailApprovalController extends GetxController {
       final response = await detailApprovalProvider.reject(approvalId);
       if (response.statusCode == 200) {
         final responseData = response.body;
+        print(responseData);
         if (responseData['status']) {
           Get.snackbar('Success', responseData['message'],
               snackPosition: SnackPosition.TOP);
           approvalStatus.value = 'rejected';
           approvalController.fetchApproval();
+          Get.toNamed(Routes.APPROVAL);
         } else {
           Get.snackbar('Error', responseData['message'],
               snackPosition: SnackPosition.TOP);
