@@ -167,7 +167,9 @@ class LoginView extends GetView<LoginController> {
             ),
             child: Text(
               (controller.isLoading.isFalse) ? 'Log in' : 'Loading...',
-              style: TextStyles.buttonTextStyle, // Use the predefined style
+              style: controller.isFormValid.value
+                  ? TextStyles.buttonTextStyle.copyWith(color: Colors.white)
+                  : TextStyles.buttonTextStyle.copyWith(color: Colors.blue),
             ),
           ),
         ),

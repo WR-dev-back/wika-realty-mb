@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:wr_project/app/routes/app_pages.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../provider/follow_up_leads_provider.dart';
 
 class FollowupLeadsController extends GetxController
@@ -16,7 +15,8 @@ class FollowupLeadsController extends GetxController
   TextEditingController followUpController = TextEditingController();
   TextEditingController prospectsController = TextEditingController();
   RxString hintText = "Tanggal :".obs;
-  List<String> followUpOptions = ['Cold', 'Reserved', 'Hot Prospek', 'ok'];
+  final followUpOptions = ['cold', 'reserved', 'hot prospek', 'ok'];
+
   RxString selectedFollowUpOption = ''.obs;
 
   RxBool followUp1Completed = false.obs;
@@ -30,13 +30,14 @@ class FollowupLeadsController extends GetxController
   int currentFollowUpType = 1;
   RxBool isFormValid = false.obs;
 
-  final GetStorage _storage = GetStorage();
+  SharedPreferences? _prefs;
 
   @override
   void onInit() async {
     super.onInit();
     tabController = TabController(length: 3, vsync: this);
     tabController.addListener(onTabChange);
+    _prefs = await SharedPreferences.getInstance();
 
     final leads = Get.arguments as dynamic;
     final leadId = leads?.id;
@@ -119,7 +120,7 @@ class FollowupLeadsController extends GetxController
         Get.snackbar('Error', 'Failed to load follow-up data');
       }
     } catch (e) {
-      Get.snackbar('Error', 'An error occurred while loading follow-up data');
+      Get.snackbar('Error', 'Selesaikan Semua Follow Up Terlebih Dahulu');
     }
   }
 
@@ -150,8 +151,8 @@ class FollowupLeadsController extends GetxController
       selectedFollowUpOption.value = ''; // Reset dropdown selection
     }
 
-    // Check if selected dropdown option is empty, then set default
-    if (selectedFollowUpOption.value.isEmpty && followUpOptions.isNotEmpty) {
+    // Ensure the selected option exists in the follow-up options
+    if (!followUpOptions.contains(selectedFollowUpOption.value)) {
       selectedFollowUpOption.value = followUpOptions.first;
     }
 
@@ -210,10 +211,10 @@ class FollowupLeadsController extends GetxController
           followUp3Data = body;
         }
 
-        _storage.write('followUp1Completed', followUp1Completed.value);
-        _storage.write('followUp2Completed', followUp2Completed.value);
-        _storage.write('followUp3Completed', followUp3Completed.value);
-        _storage.write('followUpOption', selectedFollowUpOption.value);
+        await _prefs?.setBool('followUp1Completed', followUp1Completed.value);
+        await _prefs?.setBool('followUp2Completed', followUp2Completed.value);
+        await _prefs?.setBool('followUp3Completed', followUp3Completed.value);
+        await _prefs?.setString('followUpOption', selectedFollowUpOption.value);
 
         moveToNextFollowUpType();
       } else {
@@ -248,7 +249,6 @@ class FollowupLeadsController extends GetxController
       selectedFollowUpOption.value = '';
 
       validateForm();
-      Get.toNamed(Routes.LEADS);
     }
   }
 
@@ -256,6 +256,13 @@ class FollowupLeadsController extends GetxController
     isFormValid.value = dateController.text.isNotEmpty &&
         followUpController.text.isNotEmpty &&
         prospectsController.text.isNotEmpty &&
-        selectedFollowUpOption.value.isNotEmpty;
+        selectedFollowUpOption.value.isNotEmpty &&
+        !isAllFollowUpsCompleted();
+  }
+
+  bool isAllFollowUpsCompleted() {
+    return followUp1Completed.value &&
+        followUp2Completed.value &&
+        followUp3Completed.value;
   }
 }

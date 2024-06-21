@@ -26,269 +26,272 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
                 children: [
-                  Container(
-                    width: 150,
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        Get.toNamed(
-                          Routes.EDIT_DETAIL_LEADS,
-                          arguments: leads,
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF4B70F5),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Edit",
-                          style: TextStyles.btnLabelStyle,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 15),
+                          width: MediaQuery.of(context).size.width,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Nama Panjang',
+                                    style: TextStyles.approvalTextStyle,
+                                  ),
+                                  Text(
+                                    '${leads?.fullName}',
+                                    style: TextStyles.buttonprofileTextStyle,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Email',
+                                    style: TextStyles.approvalTextStyle,
+                                  ),
+                                  Text(
+                                    '${leads.email}',
+                                    style: TextStyles.buttonprofileTextStyle,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 15),
+                              Row(
+                                children: [
+                                  // Text(
+                                  //   "Property Details",
+                                  //   style: TextStyles.approvalTextStyle,
+                                  // ),
+                                  // SizedBox(
+                                  //   height: 5,
+                                  // ),
+                                ],
+                              ),
+                              Divider(
+                                color: Colors.grey,
+                                height: 1,
+                                thickness: 2,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Nomor Telepon',
+                                    style: TextStyles.approvalTextStyle,
+                                  ),
+                                  Text(
+                                    '${leads.phoneNumber}',
+                                    style: TextStyles.buttonprofileTextStyle,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Sumber Digital',
+                                    style: TextStyles.approvalTextStyle,
+                                  ),
+                                  Text(
+                                    '${leads.digitalSource}',
+                                    style: TextStyles.buttonprofileTextStyle,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Sumber Offlane',
+                                    style: TextStyles.approvalTextStyle,
+                                  ),
+                                  Text(
+                                    '${leads.offlineSource}',
+                                    style: TextStyles.buttonprofileTextStyle,
+                                  ),
+                                ],
+                              ),
+
+                              const SizedBox(height: 10),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Lokasi Kegiatan',
+                                    style: TextStyles.approvalTextStyle,
+                                  ),
+                                  Text(
+                                    '${leads.locationOffline}',
+                                    style: TextStyles.buttonprofileTextStyle,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'NPWP',
+                                    style: TextStyles.approvalTextStyle,
+                                  ),
+                                  Text(
+                                    '${leads.npwp}',
+                                    style: TextStyles.buttonprofileTextStyle,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Kota',
+                                    style: TextStyles.approvalTextStyle,
+                                  ),
+                                  Text(
+                                    '${leads.city}',
+                                    style: TextStyles.buttonprofileTextStyle,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Type',
+                                    style: TextStyles.approvalTextStyle,
+                                  ),
+                                  Text(
+                                    '${leads.type ?? '-'}',
+                                    style: TextStyles.buttonprofileTextStyle,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Area',
+                                    style: TextStyles.approvalTextStyle,
+                                  ),
+                                  Text(
+                                    '${leads.area}',
+                                    style: TextStyles.buttonprofileTextStyle,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Omzet',
+                                    style: TextStyles.approvalTextStyle,
+                                  ),
+                                  Text(
+                                    'Rp.${leads.omzet ?? '0'}',
+                                    style: TextStyles.buttonprofileTextStyle,
+                                  ),
+                                ],
+                              ),
+
+                              SizedBox(
+                                height: 70,
+                              ),
+                              // Add more details as needed
+                            ],
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Container(
-                    width: 150,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Get.toNamed(
-                          Routes.FOLLOWUP_LEADS,
-                          arguments: leads,
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF4B70F5),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Follow Up",
-                          style: TextStyles.btnLabelStyle,
-                        ),
-                      ),
-                    ),
-                  )
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 10,
-                ),
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Nama Panjang',
-                            style: TextStyles.approvalTextStyle,
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            '${leads.fullName ?? "-"}',
-                            style: TextStyles.buttonprofileTextStyle,
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 15),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Email',
-                            style: TextStyles.approvalTextStyle,
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            '${leads?.email}',
-                            style: TextStyles.buttonprofileTextStyle,
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 15),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Nomor Telepon',
-                            style: TextStyles.approvalTextStyle,
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            '${leads?.phoneNumber}',
-                            style: TextStyles.buttonprofileTextStyle,
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 15),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Sumber Digital',
-                            style: TextStyles.approvalTextStyle,
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            '${leads?.digitalSource}',
-                            style: TextStyles.buttonprofileTextStyle,
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 15),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Sumber Offline',
-                            style: TextStyles.approvalTextStyle,
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            '${leads.offlineSource}',
-                            style: TextStyles.buttonprofileTextStyle,
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 15),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Lokasi Kegiatan',
-                            style: TextStyles.approvalTextStyle,
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            '${leads?.locationOffline}',
-                            style: TextStyles.buttonprofileTextStyle,
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 15),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'NPWP',
-                            style: TextStyles.approvalTextStyle,
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            '${leads?.npwp}',
-                            style: TextStyles.buttonprofileTextStyle,
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 15),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Kota',
-                            style: TextStyles.approvalTextStyle,
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            '${leads?.city}',
-                            style: TextStyles.buttonprofileTextStyle,
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 15),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Type',
-                            style: TextStyles.approvalTextStyle,
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            '${leads?.type}',
-                            style: TextStyles.buttonprofileTextStyle,
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 15),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Area',
-                            style: TextStyles.approvalTextStyle,
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            '${leads?.area}',
-                            style: TextStyles.buttonprofileTextStyle,
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 15),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Omzet',
-                            style: TextStyles.approvalTextStyle,
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            '${leads?.omzet}',
-                            style: TextStyles.buttonprofileTextStyle,
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 15),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
-//          floatingActionButton: FloatingActionButton(
-//           backgroundColor: const Color.fromRGBO(82, 170, 94, 1.0),
-//           onPressed: (){},
-//           mini: true,
-//           child: const Icon(Icons.add, color: Colors.white, size: 25),
-//  ),
+          Positioned(
+              top: 630,
+              left: 5,
+              right: 5,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      width: 150,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Get.toNamed(
+                            Routes.EDIT_DETAIL_LEADS,
+                            arguments: leads,
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColor.error,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Edit",
+                              style: TextStyles.cardbuttomTextStyle,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: 150,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Get.toNamed(
+                            Routes.FOLLOWUP_LEADS,
+                            arguments: leads,
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Follow Up",
+                              style: TextStyles.cardbuttomTextStyle,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )),
+        ],
       ),
     );
   }

@@ -7,7 +7,7 @@ class FollowupLeadsView extends GetView<FollowupLeadsController> {
 
   @override
   Widget build(BuildContext context) {
-    final leads = Get.arguments;
+    final leads = Get.arguments as dynamic;
 
     return DefaultTabController(
       length: 3,

@@ -41,56 +41,109 @@ class EditDetailLeadsView extends GetView<EditDetailLeadsController> {
           children: [
             TextField(
               controller: controller.fullNameController,
-              decoration: InputDecoration(labelText: 'Full Name'),
+              decoration: InputDecoration(
+                labelText: 'Full Name',
+                labelStyle: TextStyles.approvalTextStyle,
+              ),
+              style: TextStyles.buttonprofileTextStyle,
             ),
             TextField(
               controller: controller.emailController,
-              decoration: InputDecoration(labelText: 'Email'),
+              decoration: InputDecoration(
+                labelText: 'Email',
+                labelStyle: TextStyles.approvalTextStyle,
+              ),
+              style: TextStyles.buttonprofileTextStyle,
             ),
             TextField(
               controller: controller.phoneNumController,
-              decoration: InputDecoration(labelText: 'Phone Number'),
+              decoration: InputDecoration(
+                labelText: 'Phone Number',
+                labelStyle: TextStyles.approvalTextStyle,
+              ),
+              style: TextStyles.buttonprofileTextStyle,
             ),
             TextField(
               controller: controller.sumDController,
-              decoration: InputDecoration(labelText: 'Sumber Digital'),
+              decoration: InputDecoration(
+                labelText: 'Sumber Digital',
+                labelStyle: TextStyles.approvalTextStyle,
+              ),
+              style: TextStyles.buttonprofileTextStyle,
             ),
             TextField(
               controller: controller.sumOfController,
-              decoration: InputDecoration(labelText: 'Sumber Offline'),
+              decoration: InputDecoration(
+                labelText: 'Sumber Offline',
+                labelStyle: TextStyles.approvalTextStyle,
+              ),
+              style: TextStyles.buttonprofileTextStyle,
             ),
             TextField(
               controller: controller.lokController,
-              decoration: InputDecoration(labelText: 'Lokasi'),
+              decoration: InputDecoration(
+                labelText: 'Lokasi',
+                labelStyle: TextStyles.approvalTextStyle,
+              ),
+              style: TextStyles.buttonprofileTextStyle,
             ),
             TextField(
               controller: controller.npwpController,
-              decoration: InputDecoration(labelText: 'Npwp'),
+              decoration: InputDecoration(
+                labelText: 'Npwp',
+                labelStyle: TextStyles.approvalTextStyle,
+              ),
+              style: TextStyles.buttonprofileTextStyle,
             ),
             TextField(
               controller: controller.cityController,
-              decoration: InputDecoration(labelText: 'City'),
+              decoration: InputDecoration(
+                labelText: 'City',
+                labelStyle: TextStyles.approvalTextStyle,
+              ),
+              style: TextStyles.buttonprofileTextStyle,
             ),
             TextField(
               controller: controller.typeController,
-              decoration: InputDecoration(labelText: 'Type'),
+              decoration: InputDecoration(
+                labelText: 'Type',
+                labelStyle: TextStyles.approvalTextStyle,
+              ),
+              style: TextStyles.buttonprofileTextStyle,
             ),
             TextField(
               controller: controller.areaController,
-              decoration: InputDecoration(labelText: 'Area'),
+              decoration: InputDecoration(
+                labelText: 'Area',
+                labelStyle: TextStyles.approvalTextStyle,
+              ),
+              style: TextStyles.buttonprofileTextStyle,
             ),
             TextField(
               controller: controller.omzetController,
-              decoration: InputDecoration(labelText: 'Omzet'),
+              decoration: InputDecoration(
+                labelText: 'Omzet',
+                labelStyle: TextStyles.approvalTextStyle,
+              ),
+              style: TextStyles.buttonprofileTextStyle,
             ),
             // Add input fields for other lead properties
             SizedBox(height: 20),
             Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  controller.updateLeadsData(leads.id, leads);
-                },
-                child: Text('Save'),
+              child: Container(
+                width: 140,
+                child: ElevatedButton(
+                  onPressed: () {
+                    controller.updateLeadsData(leads.id, leads);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFF4B70F5),
+                  ),
+                  child: Text(
+                    'Save',
+                    style: TextStyles.btnLabelStyle,
+                  ),
+                ),
               ),
             ),
           ],
