@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart'; // Import the intl package
 import 'package:wr_project/app/utils/constant/style/app_color.dart';
 
 import '../../../../common/models/approval.dart';
@@ -13,6 +15,11 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
   @override
   Widget build(BuildContext context) {
     final Approval approval = Get.arguments;
+    final NumberFormat currencyFormat = NumberFormat.currency(
+      locale: 'id_ID', // Indonesian locale
+      symbol: 'Rp.', // Currency symbol
+      decimalDigits: 0, // Number of decimal digits
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -72,24 +79,22 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
                                 ],
                               ),
                               const SizedBox(height: 15),
-                              Row(
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  Divider(
+                                    color: Colors.grey,
+                                    height: 1,
+                                    thickness: 2,
+                                  ),
                                   // Text(
                                   //   "Property Details",
                                   //   style: TextStyles.approvalTextStyle,
                                   // ),
-                                  // SizedBox(
-                                  //   height: 5,
-                                  // ),
                                 ],
                               ),
-                              Divider(
-                                color: Colors.grey,
-                                height: 1,
-                                thickness: 2,
-                              ),
                               SizedBox(
-                                height: 10,
+                                height: 15,
                               ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -156,7 +161,8 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
                                     style: TextStyles.approvalTextStyle,
                                   ),
                                   Text(
-                                    'Rp.${approval.property.contractValueNetto}',
+                                    currencyFormat.format(double.parse(
+                                        approval.property.contractValueNetto)),
                                     style: TextStyles.buttonprofileTextStyle,
                                   ),
                                 ],
@@ -170,7 +176,8 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
                                     style: TextStyles.approvalTextStyle,
                                   ),
                                   Text(
-                                    'Rp.${approval.property.contractValueBrutto}',
+                                    currencyFormat.format(double.parse(
+                                        approval.property.contractValueBrutto)),
                                     style: TextStyles.buttonprofileTextStyle,
                                   ),
                                 ],
@@ -184,7 +191,8 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
                                     style: TextStyles.approvalTextStyle,
                                   ),
                                   Text(
-                                    'Rp.${approval.property.bookingFeeBruto}',
+                                    currencyFormat.format(double.parse(
+                                        approval.property.bookingFeeBruto)),
                                     style: TextStyles.buttonprofileTextStyle,
                                   ),
                                 ],
@@ -198,7 +206,8 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
                                     style: TextStyles.approvalTextStyle,
                                   ),
                                   Text(
-                                    'Rp.${approval.property.bookingFeeNetto}',
+                                    currencyFormat.format(double.parse(
+                                        approval.property.bookingFeeNetto)),
                                     style: TextStyles.buttonprofileTextStyle,
                                   ),
                                 ],

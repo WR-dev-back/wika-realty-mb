@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:wr_project/app/routes/app_pages.dart';
 import 'package:wr_project/app/utils/constant/style/app_color.dart';
 
@@ -13,6 +14,11 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
   @override
   Widget build(BuildContext context) {
     final leads = Get.arguments;
+    final NumberFormat currencyFormat = NumberFormat.currency(
+      locale: 'id_ID', // Indonesian locale
+      symbol: 'Rp.', // Currency symbol
+      decimalDigits: 0, // Number of decimal digits
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -213,7 +219,9 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                                     style: TextStyles.approvalTextStyle,
                                   ),
                                   Text(
-                                    'Rp.${leads.omzet ?? '0'}',
+                                    currencyFormat.format(
+                                      double.parse(leads.omzet),
+                                    ),
                                     style: TextStyles.buttonprofileTextStyle,
                                   ),
                                 ],
