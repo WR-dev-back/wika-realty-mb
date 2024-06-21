@@ -316,7 +316,6 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
                                   "Are you sure you want to Reject this item?",
                                   () async {
                                     await controller.reject(approval.id);
-                                    Get.back();
                                   },
                                 );
                               },
@@ -350,7 +349,6 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
                                   "Are you sure you want to Approve this item?",
                                   () async {
                                     await controller.approve(approval.id);
-                                    Get.back();
                                   },
                                 );
                               },
