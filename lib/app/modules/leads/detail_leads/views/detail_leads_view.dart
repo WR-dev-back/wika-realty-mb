@@ -220,7 +220,9 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                                   ),
                                   Text(
                                     currencyFormat.format(
-                                      double.parse(leads.omzet),
+                                      leads?.omzet != null
+                                          ? double.parse(leads!.omzet!)
+                                          : 0.0,
                                     ),
                                     style: TextStyles.buttonprofileTextStyle,
                                   ),

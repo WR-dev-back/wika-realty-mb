@@ -160,9 +160,15 @@ class FollowupLeadsController extends GetxController
   }
 
   String formatDate(String isoDate) {
-    DateTime date = DateTime.parse(isoDate);
-    return DateFormat('dd MMMM yyyy')
-        .format(date); // Sesuaikan format tanggal sesuai kebutuhan Anda
+    try {
+      DateTime date = DateTime.parse(isoDate);
+      return DateFormat('dd MMMM yyyy')
+          .format(date); // Adjust the date format as needed
+    } catch (e) {
+      // Handle the FormatException
+      print('Error parsing date: $e');
+      return isoDate; // Return the original string if parsing fails
+    }
   }
 
   Future<void> showFollowUpDialog() async {
