@@ -12,7 +12,6 @@ class LoginProvider extends GetConnect {
           '${ApiEndPoints.baseUrl}${ApiEndPoints.authEndpoints.loginEmail}';
       var body = jsonEncode({'identifier': email.trim(), 'password': password});
       var response = await post(url, body, headers: headers);
-
       return response;
     } catch (error) {
       // Handle network errors specifically

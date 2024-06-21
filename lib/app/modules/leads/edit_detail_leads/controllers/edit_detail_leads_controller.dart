@@ -58,7 +58,6 @@ class EditDetailLeadsController extends GetxController {
       // Perform the API call to update the leads data
       final response =
           await _editDetailLeadsProvider.updateLeadsData(leadId, leads);
-      print(leadId);
 
       // Check the response status code
       if (response.statusCode == 200) {

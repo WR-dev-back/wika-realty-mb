@@ -170,8 +170,15 @@ class LeadsView extends GetView<LeadsController> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("Form Input Leads"),
-                                SizedBox(height: 20),
+                                Text(
+                                  "Form Input Leads",
+                                  style: TextStyles.approvalTextStyle,
+                                ),
+                                Divider(
+                                  height: 10,
+                                  thickness: 1,
+                                ),
+                                // SizedBox(height: 20),
                                 _buildTextField(
                                     controller.sumD, "Sumber Digital"),
                                 SizedBox(height: 20),
@@ -215,8 +222,7 @@ class LeadsView extends GetView<LeadsController> {
                                 SizedBox(height: 10),
                                 Center(
                                   child: Container(
-                                    height: 50,
-                                    width: 100,
+                                    width: 150,
                                     child: ElevatedButton(
                                       onPressed: () async {
                                         if (_formKey.currentState!.validate()) {
@@ -270,17 +276,16 @@ class LeadsView extends GetView<LeadsController> {
       List<TextInputFormatter>? inputFormatters,
       String? Function(String?)? validator}) {
     return TextFormField(
-      style: TextStyles.decTextStyle,
+      style: TextStyles.buttonprofileTextStyle,
       controller: controller,
       keyboardType: keyboardType,
       inputFormatters: inputFormatters,
       decoration: InputDecoration(
         label: Text(
           labelText,
-          style: TextStyles.fieldLabelStyle,
+          style: TextStyles.approvalTextStyle,
         ),
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        border: OutlineInputBorder(),
         hintText: "",
       ),
       validator: validator,

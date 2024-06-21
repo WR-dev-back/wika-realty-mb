@@ -54,6 +54,11 @@ class TextStyles {
     color: Colors.white,
   );
 
+  static TextStyle btnLabelStyle = GoogleFonts.plusJakartaSans(
+    fontSize: 16,
+    color: Colors.white,
+  );
+
   static TextStyle cardbuttomTextStyle = GoogleFonts.plusJakartaSans(
     fontSize: 16,
     fontWeight: FontWeight.w500,
@@ -86,13 +91,13 @@ class TextStyles {
 
   static TextStyle approvalTextStyle = GoogleFonts.plusJakartaSans(
     fontSize: 16,
-    fontWeight: FontWeight.w300,
-    color: Colors.black,
+    fontWeight: FontWeight.w500,
+    color: Colors.blue,
   );
 
   static TextStyle leadsdecTextStyle = GoogleFonts.plusJakartaSans(
-    fontSize: 14,
-    fontWeight: FontWeight.w500,
+    fontSize: 16,
+    fontWeight: FontWeight.w300,
     color: Colors.black,
   );
 

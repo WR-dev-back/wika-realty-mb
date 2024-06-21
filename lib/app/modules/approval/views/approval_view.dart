@@ -60,35 +60,80 @@ class ApprovalView extends GetView<ApprovalController> {
                         itemBuilder: (context, index) {
                           final approval = controller.filteredApprovals[index];
                           IconData trailingIcon;
-                          switch (approval.status) {
-                            case 'pending':
-                              trailingIcon = Icons.hourglass_empty;
-                              break;
-                            case 'accept':
+                          Color trailingIconColor = Colors.grey;
+                          IconData statusIcon;
+                          Color statusIconColor = Colors.grey;
+                          Color textColor = Colors.black;
+
+                          // Define trailing icon and color based on approvalStatus
+                          switch (approval.property.approvalStatus) {
+                            case 'approved':
                               trailingIcon = Icons.check;
+                              trailingIconColor = Colors.green;
+                              textColor = Colors.green;
                               break;
                             case 'reject':
                               trailingIcon = Icons.close;
+                              trailingIconColor = Colors.redAccent;
+                              textColor = Colors.redAccent;
                               break;
                             default:
-                              trailingIcon = Icons.help;
+                              trailingIcon = Icons.hourglass_empty;
+                              trailingIconColor = Colors.blue;
+                              textColor = Colors.grey;
                           }
+
+                          // Define status icon and color based on status
+                          switch (approval.status) {
+                            case 'pending':
+                              statusIcon = Icons.autorenew;
+                              statusIconColor = Colors.grey;
+                              break;
+                            case 'approved':
+                              statusIcon = Icons.done_all;
+                              statusIconColor = Colors.green;
+                              break;
+                            case 'reject':
+                              statusIcon = Icons.error;
+                              statusIconColor = Colors.red;
+                              break;
+                            default:
+                              statusIcon = Icons.help;
+                              statusIconColor = Colors.blue;
+                          }
+
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8),
                             child: Container(
                               decoration: BoxDecoration(
-                                border:
-                                    Border.all(color: Colors.black, width: 1),
+                                border: Border.all(
+                                  color: Colors.black,
+                                  width: 1,
+                                ),
                                 borderRadius: BorderRadius.circular(10),
                                 color: Colors.white,
                               ),
                               child: ListTile(
                                 title: Text(
                                   approval.name,
-                                  style: TextStyles.headerapprovalStyleProfile,
+                                  style: TextStyles.headerapprovalStyleProfile
+                                      .copyWith(color: textColor),
                                 ),
                                 subtitle: Text(approval.property.unitDesc),
-                                trailing: Icon(trailingIcon),
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      trailingIcon,
+                                      color: trailingIconColor,
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Icon(
+                                      statusIcon,
+                                      color: statusIconColor,
+                                    ),
+                                  ],
+                                ),
                                 onTap: () => Get.toNamed(
                                   Routes.DETAIL_APPROVAL,
                                   arguments: approval,
