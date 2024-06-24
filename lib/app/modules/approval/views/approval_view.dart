@@ -65,7 +65,6 @@ class ApprovalView extends GetView<ApprovalController> {
                           Color statusIconColor = Colors.grey;
                           Color textColor = Colors.black;
 
-                          // Define trailing icon and color based on approvalStatus
                           switch (approval.property.approvalStatus) {
                             case 'approved':
                               trailingIcon = Icons.check;
@@ -83,7 +82,6 @@ class ApprovalView extends GetView<ApprovalController> {
                               textColor = Colors.grey;
                           }
 
-                          // Define status icon and color based on status
                           switch (approval.status) {
                             case 'pending':
                               statusIcon = Icons.autorenew;

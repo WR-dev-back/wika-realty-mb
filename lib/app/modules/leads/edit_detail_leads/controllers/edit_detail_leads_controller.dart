@@ -24,6 +24,23 @@ class EditDetailLeadsController extends GetxController {
 
   // Add controllers for other fields as needed
 
+  var fullNameCount = 0.obs;
+  var emailCount = 0.obs;
+  var phoneCount = 0.obs;
+  var digitalSourceCount = 0.obs;
+  var offlineSourceCount = 0.obs;
+  var locationCount = 0.obs;
+  var npwpCount = 0.obs;
+  var cityCount = 0.obs;
+  var typeCount = 0.obs;
+  var areaCount = 0.obs;
+  var omzetCount = 0.obs;
+
+  // Method to update character count
+  void updateCount(RxInt counter, String text) {
+    counter.value = text.length;
+  }
+
   @override
   void onClose() {
     fullNameController.dispose();

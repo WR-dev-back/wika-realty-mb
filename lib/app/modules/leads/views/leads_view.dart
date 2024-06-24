@@ -125,21 +125,21 @@ class LeadsView extends GetView<LeadsController> {
                                               ),
                                               child: ListTile(
                                                 title: Text(
-                                                  maxLines: 1,
                                                   leads.fullName,
                                                   style: TextStyles.headStyle,
+                                                  maxLines: 1,
                                                 ),
                                                 subtitle: Text(
-                                                  maxLines: 1,
                                                   leads.email,
                                                   style:
                                                       TextStyles.decTextStyle,
+                                                  maxLines: 1,
                                                 ),
                                                 trailing: Text(
-                                                  maxLines: 1,
                                                   leads.phoneNumber,
                                                   style:
                                                       TextStyles.decTextStyle,
+                                                  maxLines: 1,
                                                 ),
                                                 onTap: () => Get.toNamed(
                                                   Routes.DETAIL_LEADS,
@@ -178,47 +178,96 @@ class LeadsView extends GetView<LeadsController> {
                                   height: 10,
                                   thickness: 1,
                                 ),
-                                // SizedBox(height: 20),
-                                _buildTextField(
-                                    controller.sumD, "Sumber Digital"),
                                 SizedBox(height: 20),
-                                _buildTextField(
-                                    controller.sumOf, "Sumber Offline"),
+                                _buildTextFieldWithCounter(
+                                  controller.sumD,
+                                  "Sumber Digital",
+                                  50,
+                                  controller.digitalSourceCount,
+                                ),
                                 SizedBox(height: 20),
-                                _buildTextField(
-                                    controller.lok, "Lokasi Kegiatan"),
+                                _buildTextFieldWithCounter(
+                                  controller.sumOf,
+                                  "Sumber Offline",
+                                  50,
+                                  controller.offlineSourceCount,
+                                ),
                                 SizedBox(height: 20),
-                                _buildTextField(
+                                _buildTextFieldWithCounter(
+                                  controller.lok,
+                                  "Lokasi Kegiatan",
+                                  100,
+                                  controller.locationCount,
+                                ),
+                                SizedBox(height: 20),
+                                _buildTextFieldWithCounter(
                                   controller.fullName,
                                   "Full Name",
+                                  100,
+                                  controller.fullNameCount,
                                   validator: controller.validateFullName,
                                 ),
                                 SizedBox(height: 20),
-                                _buildTextField(
+                                _buildTextFieldWithCounter(
                                   controller.phone,
                                   "Phone Number",
+                                  15,
+                                  controller.phoneCount,
                                   keyboardType: TextInputType.phone,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.digitsOnly,
-                                    LengthLimitingTextInputFormatter(15),
                                     PhoneNumberFormatter(),
                                   ],
                                   validator: controller.validatePhoneNumber,
                                 ),
                                 SizedBox(height: 20),
-                                _buildTextField(controller.npwpC, "Npwp",
-                                    keyboardType:
-                                        TextInputType.numberWithOptions()),
+                                _buildTextFieldWithCounter(
+                                  controller.npwpC,
+                                  "Npwp",
+                                  20,
+                                  controller.npwpCount,
+                                  keyboardType:
+                                      TextInputType.numberWithOptions(),
+                                ),
                                 SizedBox(height: 20),
-                                _buildTextField(controller.email, "Email"),
+                                _buildTextFieldWithCounter(
+                                  controller.email,
+                                  "Email",
+                                  100,
+                                  controller.emailCount,
+                                ),
                                 SizedBox(height: 20),
-                                _buildTextField(controller.cityC, "City"),
+                                _buildTextFieldWithCounter(
+                                  controller.cityC,
+                                  "City",
+                                  50,
+                                  controller.cityCount,
+                                ),
                                 SizedBox(height: 20),
-                                _buildTextField(controller.typeC, "Type"),
+                                _buildTextFieldWithCounter(
+                                  controller.typeC,
+                                  "Type",
+                                  50,
+                                  controller.typeCount,
+                                ),
                                 SizedBox(height: 20),
-                                _buildTextField(controller.areaC, "Area"),
+                                _buildTextFieldWithCounter(
+                                  controller.areaC,
+                                  "Area",
+                                  10,
+                                  controller.areaCount,
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly,
+                                  ],
+                                ),
                                 SizedBox(height: 20),
-                                _buildTextField(controller.omzetC, "Omzet"),
+                                _buildTextFieldWithCounter(
+                                  controller.omzetC,
+                                  "Omzet",
+                                  20,
+                                  controller.omzetCount,
+                                ),
                                 SizedBox(height: 10),
                                 Center(
                                   child: Container(
@@ -271,24 +320,42 @@ class LeadsView extends GetView<LeadsController> {
     );
   }
 
-  Widget _buildTextField(TextEditingController controller, String labelText,
+  Widget _buildTextFieldWithCounter(TextEditingController controller,
+      String labelText, int maxLength, RxInt counter,
       {TextInputType keyboardType = TextInputType.text,
       List<TextInputFormatter>? inputFormatters,
       String? Function(String?)? validator}) {
-    return TextFormField(
-      style: TextStyles.buttonprofileTextStyle,
-      controller: controller,
-      keyboardType: keyboardType,
-      inputFormatters: inputFormatters,
-      decoration: InputDecoration(
-        label: Text(
-          labelText,
-          style: TextStyles.approvalTextStyle,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextFormField(
+          style: TextStyles.buttonprofileTextStyle,
+          controller: controller,
+          keyboardType: keyboardType,
+          inputFormatters: [
+            ...?inputFormatters,
+            LengthLimitingTextInputFormatter(maxLength),
+          ],
+          decoration: InputDecoration(
+            label: Text(
+              labelText,
+              style: TextStyles.approvalTextStyle,
+            ),
+            floatingLabelBehavior: FloatingLabelBehavior.always,
+            hintText: "",
+          ),
+          validator: validator,
+          onChanged: (value) {
+            // update character count in controller
+            this.controller.updateCount(counter, value);
+          },
         ),
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        hintText: "",
-      ),
-      validator: validator,
+        SizedBox(height: 5),
+        Obx(() => Text(
+              '${counter.value}/$maxLength',
+              style: TextStyle(color: Colors.grey, fontSize: 12),
+            )),
+      ],
     );
   }
 }

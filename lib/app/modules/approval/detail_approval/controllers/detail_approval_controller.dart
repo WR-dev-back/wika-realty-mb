@@ -38,6 +38,7 @@ class DetailApprovalController extends GetxController {
               snackPosition: SnackPosition.TOP);
           approvalStatus.value = 'accepted';
           approvalController.fetchApproval();
+          Get.offAllNamed(Routes.HOME);
           Get.toNamed(Routes.APPROVAL);
         } else {
           Get.snackbar('Error', responseData['message'],
@@ -64,6 +65,7 @@ class DetailApprovalController extends GetxController {
               snackPosition: SnackPosition.TOP);
           approvalStatus.value = 'rejected';
           approvalController.fetchApproval();
+          Get.offAllNamed(Routes.HOME);
           Get.toNamed(Routes.APPROVAL);
         } else {
           Get.snackbar('Error', responseData['message'],

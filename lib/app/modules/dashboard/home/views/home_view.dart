@@ -248,7 +248,7 @@ class HomeView extends GetView<HomeController> {
                                       borderRadius: BorderRadius.circular(20),
                                       image: DecorationImage(
                                         image: AssetImage(
-                                            "asset/images/obito.jpeg"),
+                                            "asset/images/Frame 52.png"),
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -261,7 +261,7 @@ class HomeView extends GetView<HomeController> {
                                       borderRadius: BorderRadius.circular(20),
                                       image: DecorationImage(
                                         image: AssetImage(
-                                            "asset/images/obito.jpeg"),
+                                            "asset/images/Frame 52.png"),
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -274,7 +274,7 @@ class HomeView extends GetView<HomeController> {
                                       borderRadius: BorderRadius.circular(20),
                                       image: DecorationImage(
                                         image: AssetImage(
-                                            "asset/images/obito.jpeg"),
+                                            "asset/images/Frame 52.png"),
                                         fit: BoxFit.cover,
                                       ),
                                     ),

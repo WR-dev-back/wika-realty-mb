@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import '../../../../utils/constant/style/text_styles.dart';
 import '../controllers/followup_leads_controller.dart';
 
 class FollowupLeadsView extends GetView<FollowupLeadsController> {
@@ -8,6 +10,11 @@ class FollowupLeadsView extends GetView<FollowupLeadsController> {
   @override
   Widget build(BuildContext context) {
     final leads = Get.arguments as dynamic;
+
+    // Initialize character counters with existing text length
+    controller.followUpCount.value = controller.followUpController.text.length;
+    controller.prospectsCount.value =
+        controller.prospectsController.text.length;
 
     return DefaultTabController(
       length: 3,
@@ -64,32 +71,76 @@ class FollowupLeadsView extends GetView<FollowupLeadsController> {
 
   Widget buildFollowUpTab(
       FollowupLeadsController controller, dynamic leads, int followUpNumber) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(height: 20),
-        Text(
-          'Follow Up $followUpNumber ${leads?.fullName}',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: 10),
-        Obx(() => TextFormField(
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 20),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Nama",
+                style: TextStyles.approvalTextStyle,
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                '${leads?.fullName}',
+                style: TextStyles.headStyle,
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Obx(
+            () => TextFormField(
               readOnly: true,
               controller: controller.dateController,
               decoration: InputDecoration(
+                label: Text(
+                  "Tanggal",
+                  style: TextStyles.approvalTextStyle,
+                ),
+                floatingLabelBehavior: FloatingLabelBehavior.always,
                 hintText: controller.hintText.value,
+                hintStyle: TextStyles.approvalTextStyle,
               ),
               onTap: () => controller.showFollowUpDialog(),
-            )),
-        TextField(
-          controller: controller.followUpController,
-          decoration: InputDecoration(hintText: "Follow Up"),
-        ),
-        TextField(
-          controller: controller.prospectsController,
-          decoration: InputDecoration(hintText: "Prospects"),
-        ),
-        Obx(() => DropdownButtonFormField(
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Date is required';
+                }
+                // Additional validation if needed
+                return null;
+              },
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          _buildTextFieldWithCounter(
+            controller.followUpController,
+            'Follow Up',
+            241,
+            controller.followUpCount,
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          _buildTextFieldWithCounter(
+            controller.prospectsController,
+            'Prospects',
+            241,
+            controller.prospectsCount,
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Obx(
+            () => DropdownButtonFormField(
               value: controller.selectedFollowUpOption.value.isEmpty
                   ? null
                   : controller.selectedFollowUpOption.value,
@@ -104,22 +155,91 @@ class FollowupLeadsView extends GetView<FollowupLeadsController> {
                 controller.validateForm();
               },
               decoration: InputDecoration(
-                hintText: 'Status Leads',
+                label: Text(
+                  "Status Leads",
+                  style: TextStyles.approvalTextStyle,
+                ),
+                floatingLabelBehavior: FloatingLabelBehavior.always,
+                hintText: "",
               ),
-            )),
-        SizedBox(height: 20),
-        Center(
-          child: Obx(() => ElevatedButton(
-                onPressed: controller.isFormValid.value
-                    ? () {
-                        controller.updateFollowUp(
-                          leads?.id ?? '', // Ensure leads.id is not null
-                        );
-                      }
-                    : null,
-                child: Text('Save'),
-              )),
+            ),
+          ),
+          SizedBox(height: 20),
+          Center(
+            child: Container(
+              width: 150,
+              child: Obx(
+                () => ElevatedButton(
+                  onPressed: controller.isFormValid.value
+                      ? () {
+                          controller.updateFollowUp(
+                            leads?.id ?? '', // Ensure leads.id is not null
+                          );
+                        }
+                      : null,
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                      (Set<MaterialState> states) {
+                        if (controller.isFormValid.value) {
+                          return Colors.blue; // Color when the form is valid
+                        }
+                        return Colors.grey; // Color when the form is not valid
+                      },
+                    ),
+                    foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                      (Set<MaterialState> states) {
+                        if (controller.isFormValid.value) {
+                          return Colors
+                              .white; // Text color when the form is valid
+                        }
+                        return Colors
+                            .black; // Text color when the form is not valid
+                      },
+                    ),
+                  ),
+                  child: Text('Save'),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTextFieldWithCounter(TextEditingController controller,
+      String labelText, int maxLength, RxInt counter,
+      {TextInputType keyboardType = TextInputType.text,
+      List<TextInputFormatter>? inputFormatters}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextField(
+          style: TextStyles.headStyle,
+          controller: controller,
+          keyboardType: keyboardType,
+          inputFormatters: [
+            ...?inputFormatters,
+            LengthLimitingTextInputFormatter(maxLength),
+          ],
+          decoration: InputDecoration(
+            label: Text(
+              labelText,
+              style: TextStyles.approvalTextStyle,
+            ),
+            floatingLabelBehavior: FloatingLabelBehavior.always,
+            hintText: "",
+          ),
+          onChanged: (value) {
+            // update character count in controller
+            this.controller.updateCount(counter, value);
+          },
         ),
+        SizedBox(height: 5),
+        Obx(() => Text(
+              '${counter.value}/$maxLength',
+              style: TextStyle(color: Colors.grey, fontSize: 12),
+            )),
       ],
     );
   }
