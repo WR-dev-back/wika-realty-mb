@@ -139,12 +139,12 @@ class LeadsView extends GetView<LeadsController> {
                             if (controller.isFetching.value) {
                               return Center(
                                 child: Lottie.asset(
-                                    'asset/animations/no_network.json'),
+                                    'asset/animations/loading.json'),
                               );
                             } else if (controller.hasError.value) {
                               return Center(
-                                child:
-                                    Lottie.asset('asset/animations/error.json'),
+                                child: Lottie.asset(
+                                    'asset/animations/no_network.json'),
                               );
                             } else if (controller.filteredLeads.isEmpty) {
                               return Center(
