@@ -236,10 +236,12 @@ class FollowupLeadsView extends GetView<FollowupLeadsController> {
           },
         ),
         SizedBox(height: 5),
-        Obx(() => Text(
-              '${counter.value}/$maxLength',
-              style: TextStyle(color: Colors.grey, fontSize: 12),
-            )),
+        Obx(
+          () => Text(
+            '${counter.value}/$maxLength',
+            style: TextStyle(color: Colors.grey, fontSize: 12),
+          ),
+        ),
       ],
     );
   }

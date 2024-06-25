@@ -18,24 +18,24 @@ class ApprovalController extends GetxController {
 
   Future<void> fetchApproval() async {
     try {
-      isFetching(true);
-      hasError(false);
-      final response = await approvalProvider.getApproval();
+      isFetching.value = true;
+      hasError.value = false;
+      final Response response = await approvalProvider.getApproval();
       if (response.statusCode == 200) {
-        final List<dynamic> responseData =
-            response.body['data']; // No need to decode again
-        approvals.value =
-            responseData.map((e) => Approval.fromJson(e)).toList();
-        flatApprovals.value = approvals.toList();
+        final List<dynamic> responseData = response.body['data'];
+        final List<Approval> approvalList =
+            responseData.map((dynamic e) => Approval.fromJson(e)).toList();
+        approvals.value = approvalList;
+        flatApprovals.value = approvalList.toList();
         filteredApprovals.value = flatApprovals;
       } else {
         print('Failed to load approvals: ${response.statusCode}');
       }
     } catch (error) {
-      hasError(true);
+      hasError.value = true;
       print('Error fetching data: $error');
     } finally {
-      isFetching(false);
+      isFetching.value = false;
     }
   }
 

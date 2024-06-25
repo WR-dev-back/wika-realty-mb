@@ -91,7 +91,7 @@ class TextStyles {
 
   static TextStyle approvalTextStyle = GoogleFonts.plusJakartaSans(
     fontSize: 16,
-    fontStyle: FontStyle.italic,
+    // fontStyle: FontStyle.italic,
     fontWeight: FontWeight.w500,
     color: Colors.blue,
   );

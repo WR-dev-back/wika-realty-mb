@@ -18,6 +18,7 @@ class HomeController extends GetxController {
     await Future.delayed(
       Duration(seconds: 2),
     );
+    retrieveStoredData(true);
 
     isRefreshing(false);
   }

@@ -12,6 +12,7 @@ class LeadsController extends GetxController {
   var hasError = false.obs;
   final LeadsProvider leadsProvider = Get.find();
   ScrollController scrollController = ScrollController();
+  var searchType = 'Full Name'.obs;
 
   late TextEditingController email;
   late TextEditingController fullName;
@@ -160,7 +161,8 @@ class LeadsController extends GetxController {
   Future<void> searchLeads(String query) async {
     startFetching();
     try {
-      filteredLeads.value = await leadsProvider.searchLeads(query);
+      filteredLeads.value =
+          await leadsProvider.searchLeads(query, searchType.value);
     } catch (error) {
       print('Error searching data: $error');
     } finally {

@@ -63,18 +63,73 @@ class LeadsView extends GetView<LeadsController> {
               child: TabBarView(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 15,
+                    ),
                     child: Column(
                       children: [
-                        TextField(
-                          controller: controller.searchController,
-                          decoration: InputDecoration(
-                            labelText: 'Search Leads',
-                            prefixIcon: Icon(Icons.search),
-                          ),
-                          onSubmitted: (value) {
-                            controller.searchLeads(value);
-                          },
+                        Row(
+                          children: [
+                            Obx(() {
+                              List<DropdownMenuItem<String>> dropdownItems = [
+                                DropdownMenuItem(
+                                  value: 'fullname',
+                                  child: Text('Full Name'),
+                                ),
+                                DropdownMenuItem(
+                                  value: 'code',
+                                  child: Text('Code'),
+                                ),
+                                DropdownMenuItem(
+                                  value: 'phonenumber',
+                                  child: Text('Phone Number'),
+                                ),
+                                DropdownMenuItem(
+                                  value: 'email',
+                                  child: Text('Email'),
+                                ),
+                                DropdownMenuItem(
+                                  value: 'npwp',
+                                  child: Text('Npwp'),
+                                ),
+                                DropdownMenuItem(
+                                  value: 'city',
+                                  child: Text('Kota'),
+                                ),
+                              ];
+
+                              return DropdownButton<String>(
+                                value: dropdownItems
+                                    .firstWhere(
+                                        (item) =>
+                                            item.value ==
+                                            controller.searchType.value,
+                                        orElse: () => dropdownItems.first)
+                                    .value,
+                                items: dropdownItems,
+                                onChanged: (value) {
+                                  if (value != null) {
+                                    controller.searchType.value = value;
+                                  }
+                                },
+                              );
+                            }),
+                            SizedBox(width: 20),
+                            Expanded(
+                              child: TextField(
+                                controller: controller.searchController,
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  labelText: 'Search Leads',
+                                  prefixIcon: Icon(Icons.search),
+                                ),
+                                onSubmitted: (value) {
+                                  controller.searchLeads(value);
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                         SizedBox(
                           height: 10,
