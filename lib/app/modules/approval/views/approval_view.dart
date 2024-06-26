@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import '../../../common/models/approval.dart';
 import '../../../routes/app_pages.dart';
 import '../../../utils/constant/style/app_color.dart';
 import '../../../utils/constant/style/text_styles.dart';
@@ -29,120 +30,10 @@ class ApprovalView extends GetView<ApprovalController> {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
-              TextField(
-                decoration: const InputDecoration(
-                  labelText: 'Search Approval',
-                  prefixIcon: Icon(Icons.search),
-                ),
-                onChanged: (value) {
-                  controller.searchApproval(value);
-                },
-              ),
-              const SizedBox(height: 10),
+              _buildSearchField(),
               Expanded(
                 child: Obx(
-                  () {
-                    if (controller.isFetching.value) {
-                      return Center(
-                        child: Lottie.asset('asset/animations/loading.json'),
-                      );
-                    } else if (controller.hasError.value) {
-                      return Center(
-                        child: Lottie.asset('asset/animations/error.json'),
-                      );
-                    } else if (controller.filteredApprovals.isEmpty) {
-                      return Center(
-                        child: Lottie.asset('asset/animations/isEmpty.json'),
-                      );
-                    } else {
-                      return ListView.builder(
-                        itemCount: controller.filteredApprovals.length,
-                        itemBuilder: (context, index) {
-                          final approval = controller.filteredApprovals[index];
-                          IconData trailingIcon;
-                          Color trailingIconColor = Colors.grey;
-                          IconData statusIcon;
-                          Color statusIconColor = Colors.grey;
-                          Color textColor = Colors.black;
-
-                          switch (approval.property.approvalStatus) {
-                            case 'approved':
-                              trailingIcon = Icons.check;
-                              trailingIconColor = Colors.green;
-                              textColor = Colors.green;
-                              break;
-                            case 'reject':
-                              trailingIcon = Icons.close;
-                              trailingIconColor = Colors.redAccent;
-                              textColor = Colors.redAccent;
-                              break;
-                            default:
-                              trailingIcon = Icons.hourglass_empty;
-                              trailingIconColor = Colors.blue;
-                              textColor = Colors.grey;
-                          }
-
-                          switch (approval.status) {
-                            case 'pending':
-                              statusIcon = Icons.autorenew;
-                              statusIconColor = Colors.grey;
-                              break;
-                            case 'approved':
-                              statusIcon = Icons.done_all;
-                              statusIconColor = Colors.green;
-                              break;
-                            case 'reject':
-                              statusIcon = Icons.error;
-                              statusIconColor = Colors.red;
-                              break;
-                            default:
-                              statusIcon = Icons.help;
-                              statusIconColor = Colors.blue;
-                          }
-
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.black,
-                                  width: 1,
-                                ),
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.white,
-                              ),
-                              child: ListTile(
-                                title: Text(
-                                  approval.name,
-                                  style: TextStyles.headerapprovalStyleProfile
-                                      .copyWith(color: textColor),
-                                ),
-                                subtitle: Text(approval.property.unitDesc),
-                                trailing: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(
-                                      trailingIcon,
-                                      color: trailingIconColor,
-                                    ),
-                                    const SizedBox(width: 10),
-                                    Icon(
-                                      statusIcon,
-                                      color: statusIconColor,
-                                    ),
-                                  ],
-                                ),
-                                onTap: () => Get.toNamed(
-                                  Routes.DETAIL_APPROVAL,
-                                  arguments: approval,
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    }
-                  },
+                  () => _buildApprovalList(controller.filteredApprovals),
                 ),
               ),
             ],
@@ -150,5 +41,146 @@ class ApprovalView extends GetView<ApprovalController> {
         ),
       ),
     );
+  }
+
+  Widget _buildSearchField() {
+    return TextField(
+      decoration: const InputDecoration(
+        labelText: 'Search Approval',
+        prefixIcon: Icon(Icons.search),
+      ),
+      onChanged: controller.searchApproval,
+    );
+  }
+
+  Widget _buildApprovalList(List<Approval> approvals) {
+    if (controller.isFetching.value) {
+      return _buildLoadingIndicator();
+    } else if (controller.hasError.value) {
+      return _buildErrorIndicator();
+    } else if (approvals.isEmpty) {
+      return _buildEmptyIndicator();
+    } else {
+      return ListView.builder(
+        itemCount: approvals.length,
+        itemBuilder: (context, index) {
+          final approval = approvals[index];
+          final icon = _getTrailingIcon(approval.property.approvalStatus);
+          final iconColor =
+              _getTrailingIconColor(approval.property.approvalStatus);
+          final statusIcon = _getStatusIcon(approval.status);
+          final statusIconColor = _getStatusIconColor(approval.status);
+          return _buildApprovalItem(
+              approval, icon, iconColor, statusIcon, statusIconColor);
+        },
+      );
+    }
+  }
+
+  Widget _buildLoadingIndicator() {
+    return Center(child: Lottie.asset('asset/animations/loading.json'));
+  }
+
+  Widget _buildErrorIndicator() {
+    return Center(child: Lottie.asset('asset/animations/error.json'));
+  }
+
+  Widget _buildEmptyIndicator() {
+    return Center(child: Lottie.asset('asset/animations/isEmpty.json'));
+  }
+
+  IconData _getTrailingIcon(String status) {
+    switch (status) {
+      case 'approved':
+        return Icons.check;
+      case 'reject':
+        return Icons.close;
+      default:
+        return Icons.hourglass_empty;
+    }
+  }
+
+  Color _getTrailingIconColor(String status) {
+    switch (status) {
+      case 'approved':
+        return Colors.green;
+      case 'reject':
+        return Colors.redAccent;
+      default:
+        return Colors.blue;
+    }
+  }
+
+  IconData _getStatusIcon(String status) {
+    switch (status) {
+      case 'pending':
+        return Icons.autorenew;
+      case 'approved':
+        return Icons.done_all;
+      case 'reject':
+        return Icons.error;
+      default:
+        return Icons.help;
+    }
+  }
+
+  Color _getStatusIconColor(String status) {
+    switch (status) {
+      case 'pending':
+        return Colors.grey;
+      case 'approved':
+        return Colors.green;
+      case 'reject':
+        return Colors.red;
+      default:
+        return Colors.blue;
+    }
+  }
+
+  Widget _buildApprovalItem(Approval approval, IconData icon, Color iconColor,
+      IconData statusIcon, Color statusIconColor) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.black,
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.white,
+        ),
+        child: ListTile(
+          title: Text(
+            approval.name,
+            style: TextStyles.headerapprovalStyleProfile
+                .copyWith(color: _getTextColor(statusIconColor)),
+          ),
+          subtitle: Text(approval.property.unitDesc),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(icon, color: iconColor),
+              const SizedBox(width: 10),
+              Icon(statusIcon, color: statusIconColor),
+            ],
+          ),
+          onTap: () => Get.toNamed(
+            Routes.DETAIL_APPROVAL,
+            arguments: approval,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Color _getTextColor(Color statusIconColor) {
+    if (statusIconColor == Colors.green) {
+      return Colors.green;
+    } else if (statusIconColor == Colors.red) {
+      return Colors.redAccent;
+    } else {
+      return Colors.black;
+    }
   }
 }
