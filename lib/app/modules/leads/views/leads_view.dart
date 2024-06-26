@@ -71,51 +71,6 @@ class LeadsView extends GetView<LeadsController> {
                       children: [
                         Row(
                           children: [
-                            Obx(() {
-                              List<DropdownMenuItem<String>> dropdownItems = [
-                                DropdownMenuItem(
-                                  value: 'fullname',
-                                  child: Text('Full Name'),
-                                ),
-                                DropdownMenuItem(
-                                  value: 'code',
-                                  child: Text('Code'),
-                                ),
-                                DropdownMenuItem(
-                                  value: 'phonenumber',
-                                  child: Text('Phone Number'),
-                                ),
-                                DropdownMenuItem(
-                                  value: 'email',
-                                  child: Text('Email'),
-                                ),
-                                DropdownMenuItem(
-                                  value: 'npwp',
-                                  child: Text('Npwp'),
-                                ),
-                                DropdownMenuItem(
-                                  value: 'city',
-                                  child: Text('Kota'),
-                                ),
-                              ];
-
-                              return DropdownButton<String>(
-                                value: dropdownItems
-                                    .firstWhere(
-                                        (item) =>
-                                            item.value ==
-                                            controller.searchType.value,
-                                        orElse: () => dropdownItems.first)
-                                    .value,
-                                items: dropdownItems,
-                                onChanged: (value) {
-                                  if (value != null) {
-                                    controller.searchType.value = value;
-                                  }
-                                },
-                              );
-                            }),
-                            SizedBox(width: 20),
                             Expanded(
                               child: TextField(
                                 controller: controller.searchController,
@@ -128,6 +83,110 @@ class LeadsView extends GetView<LeadsController> {
                                   controller.searchLeads(value);
                                 },
                               ),
+                            ),
+                            SizedBox(width: 20),
+                            Obx(
+                              () {
+                                return IconButton(
+                                  icon: Icon(
+                                    Icons.filter_list,
+                                    color: controller.searchType.value != 'none'
+                                        ? Colors.blue
+                                        : Colors.grey,
+                                  ),
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text('Filter by'),
+                                          content: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              FilterTile(
+                                                title: 'Full Name',
+                                                isSelected: controller
+                                                        .searchType.value ==
+                                                    'fullname',
+                                                onTap: () {
+                                                  controller.searchType.value =
+                                                      'fullname';
+                                                  Get.back();
+                                                },
+                                              ),
+                                              FilterTile(
+                                                title: 'Code',
+                                                isSelected: controller
+                                                        .searchType.value ==
+                                                    'code',
+                                                onTap: () {
+                                                  controller.searchType.value =
+                                                      'code';
+                                                  Get.back();
+                                                },
+                                              ),
+                                              FilterTile(
+                                                title: 'Phone Number',
+                                                isSelected: controller
+                                                        .searchType.value ==
+                                                    'phonenumber',
+                                                onTap: () {
+                                                  controller.searchType.value =
+                                                      'phonenumber';
+                                                  Get.back();
+                                                },
+                                              ),
+                                              FilterTile(
+                                                title: 'Email',
+                                                isSelected: controller
+                                                        .searchType.value ==
+                                                    'email',
+                                                onTap: () {
+                                                  controller.searchType.value =
+                                                      'email';
+                                                  Get.back();
+                                                },
+                                              ),
+                                              FilterTile(
+                                                title: 'Npwp',
+                                                isSelected: controller
+                                                        .searchType.value ==
+                                                    'npwp',
+                                                onTap: () {
+                                                  controller.searchType.value =
+                                                      'npwp';
+                                                  Get.back();
+                                                },
+                                              ),
+                                              FilterTile(
+                                                title: 'Kota',
+                                                isSelected: controller
+                                                        .searchType.value ==
+                                                    'city',
+                                                onTap: () {
+                                                  controller.searchType.value =
+                                                      'city';
+                                                  Get.back();
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                controller.searchType.value =
+                                                    'none'; // Clear the filter
+                                                Get.back();
+                                              },
+                                              child: Text('Clear Filter'),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                );
+                              },
                             ),
                           ],
                         ),
@@ -428,6 +487,24 @@ class PhoneNumberFormatter extends TextInputFormatter {
     return TextEditingValue(
       text: newText,
       selection: TextSelection.collapsed(offset: newText.length),
+    );
+  }
+}
+
+class FilterTile extends StatelessWidget {
+  final String title;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  FilterTile(
+      {required this.title, required this.isSelected, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(title),
+      trailing: isSelected ? Icon(Icons.check, color: Colors.blue) : null,
+      onTap: onTap,
     );
   }
 }

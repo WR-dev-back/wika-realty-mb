@@ -12,7 +12,7 @@ class LeadsController extends GetxController {
   var hasError = false.obs;
   final LeadsProvider leadsProvider = Get.find();
   ScrollController scrollController = ScrollController();
-  var searchType = 'Full Name'.obs;
+  var searchType = 'none'.obs;
 
   late TextEditingController email;
   late TextEditingController fullName;
