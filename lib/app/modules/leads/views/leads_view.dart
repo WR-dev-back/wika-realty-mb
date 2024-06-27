@@ -65,7 +65,7 @@ class LeadsView extends GetView<LeadsController> {
                   Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 20,
-                      vertical: 15,
+                      vertical: 10,
                     ),
                     child: Column(
                       children: [
@@ -234,7 +234,7 @@ class LeadsView extends GetView<LeadsController> {
                                                     color: Colors.black,
                                                     width: 1),
                                                 borderRadius:
-                                                    BorderRadius.circular(10),
+                                                    BorderRadius.circular(18),
                                                 color: Colors.white,
                                               ),
                                               child: ListTile(

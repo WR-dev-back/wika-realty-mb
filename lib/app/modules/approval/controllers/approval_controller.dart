@@ -5,10 +5,13 @@ import '../provider/approval_provider.dart';
 class ApprovalController extends GetxController {
   final ApprovalProvider approvalProvider = Get.find();
   var isFetching = false.obs;
+  var filteredApprovals = List<Datum>.empty().obs;
   var approvals = <Approval>[].obs;
-  var flatApprovals = <Approval>[].obs;
-  var filteredApprovals = <Approval>[].obs;
+  var flatApprovals = <Datum>[].obs;
   var hasError = false.obs;
+  var currentPage = 1.obs;
+  var totalPages = 1.obs;
+  var page = 1;
 
   @override
   void onInit() {
@@ -18,24 +21,22 @@ class ApprovalController extends GetxController {
 
   Future<void> fetchApproval() async {
     try {
-      isFetching.value = true;
-      hasError.value = false;
-      final Response response = await approvalProvider.getApproval();
-      if (response.statusCode == 200) {
-        final List<dynamic> responseData = response.body['data'];
-        final List<Approval> approvalList =
-            responseData.map((dynamic e) => Approval.fromJson(e)).toList();
-        approvals.value = approvalList;
-        flatApprovals.value = approvalList.toList();
-        filteredApprovals.value = flatApprovals;
+      isFetching(true);
+      hasError(false);
+      final response = await approvalProvider.getApproval();
+      if (page == 1) {
+        filteredApprovals.value = response;
       } else {
-        print('Failed to load approvals: ${response.statusCode}');
+        filteredApprovals.addAll(response);
       }
+      currentPage.value = page;
+
+      totalPages.value = (response.length / 25).ceil();
     } catch (error) {
-      hasError.value = true;
-      print('Error fetching data: $error');
+      hasError(true);
+      // print('Error fetching data: $error');
     } finally {
-      isFetching.value = false;
+      isFetching(false);
     }
   }
 

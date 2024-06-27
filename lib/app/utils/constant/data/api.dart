@@ -4,7 +4,7 @@ class ApiEndPoints {
   static _GetDataUser getDataUser = _GetDataUser();
   static _GetDataLeads getDataLeads = _GetDataLeads();
   static _GetDataApproval getDataApproval = _GetDataApproval();
-  static _GetDataApprova getDataApprova = _GetDataApprova();
+  static _GetDetailApproval getDetailApproval = _GetDetailApproval();
   static _PostDataLeads postDataLeads = _PostDataLeads();
   static _CheckNum checkLeads = _CheckNum();
   static _EditLeads puteditLeads = _EditLeads();
@@ -28,8 +28,8 @@ class _GetDataApproval {
       '/api/v1/master-approval/user-approval?orderBy=DSC&page=1&limit=25';
 }
 
-class _GetDataApprova {
-  final String dataApprova = '/api/v1/master-approval/user-approval/';
+class _GetDetailApproval {
+  final String detailApproval = '/api/v1/master-approval/user-approval/';
 }
 
 class _PostDataLeads {

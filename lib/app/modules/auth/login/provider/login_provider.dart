@@ -14,7 +14,6 @@ class LoginProvider extends GetConnect {
       var response = await post(url, body, headers: headers);
       return response;
     } catch (error) {
-      // Handle network errors specifically
       if (error is GetHttpException) {
         showErrorDialog("No internet connection");
       } else {

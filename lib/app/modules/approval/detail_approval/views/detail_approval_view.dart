@@ -1,10 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart'; // Import the intl package
 import 'package:wr_project/app/utils/constant/style/app_color.dart';
-
 import '../../../../common/models/approval.dart';
 import '../../../../utils/constant/style/text_styles.dart';
 import '../controllers/detail_approval_controller.dart';
@@ -14,7 +11,7 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
 
   @override
   Widget build(BuildContext context) {
-    final Approval approval = Get.arguments;
+    final Datum approval = Get.arguments;
     final NumberFormat currencyFormat = NumberFormat.currency(
       locale: 'id_ID', // Indonesian locale
       symbol: 'Rp.', // Currency symbol
@@ -51,241 +48,61 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Approval Name',
-                                    style: TextStyles.approvalTextStyle,
-                                  ),
-                                  Text(
-                                    '${approval.name}',
-                                    style: TextStyles.buttonprofileTextStyle,
-                                  ),
-                                ],
-                              ),
+                              buildTextColumn('Approval Name', approval.name),
                               const SizedBox(height: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Unit Description',
-                                    style: TextStyles.approvalTextStyle,
-                                  ),
-                                  Text(
-                                    '${approval.property.unitDesc}',
-                                    style: TextStyles.buttonprofileTextStyle,
-                                  ),
-                                ],
-                              ),
+                              buildTextColumn('Unit Description',
+                                  approval.property?.unitDesc),
                               const SizedBox(height: 15),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Divider(
-                                    color: Colors.grey,
-                                    height: 1,
-                                    thickness: 2,
-                                  ),
-                                  // Text(
-                                  //   "Property Details",
-                                  //   style: TextStyles.approvalTextStyle,
-                                  // ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Contract Number',
-                                    style: TextStyles.approvalTextStyle,
-                                  ),
-                                  Text(
-                                    '${approval.property.contractNo}',
-                                    style: TextStyles.buttonprofileTextStyle,
-                                  ),
-                                ],
-                              ),
+                              Divider(
+                                  color: Colors.grey, height: 1, thickness: 2),
+                              const SizedBox(height: 15),
+                              buildTextColumn('Contract Number',
+                                  approval.property?.contractNo),
                               const SizedBox(height: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Customer Code',
-                                    style: TextStyles.approvalTextStyle,
-                                  ),
-                                  Text(
-                                    '${approval.property.customerCode}',
-                                    style: TextStyles.buttonprofileTextStyle,
-                                  ),
-                                ],
-                              ),
+                              buildTextColumn('Customer Code',
+                                  approval.property?.customerCode),
                               const SizedBox(height: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Customer Name',
-                                    style: TextStyles.approvalTextStyle,
-                                  ),
-                                  Text(
-                                    '${approval.property.customerName}',
-                                    style: TextStyles.buttonprofileTextStyle,
-                                  ),
-                                ],
-                              ),
-
+                              buildTextColumn('Customer Name',
+                                  approval.property?.customerName),
                               const SizedBox(height: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Unit Code',
-                                    style: TextStyles.approvalTextStyle,
-                                  ),
-                                  Text(
-                                    '${approval.property.unitCode}',
-                                    style: TextStyles.buttonprofileTextStyle,
-                                  ),
-                                ],
-                              ),
+                              buildTextColumn(
+                                  'Unit Code', approval.property?.unitCode),
                               const SizedBox(height: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Contract Value Netto',
-                                    style: TextStyles.approvalTextStyle,
-                                  ),
-                                  Text(
-                                    currencyFormat.format(double.parse(
-                                        approval.property.contractValueNetto)),
-                                    style: TextStyles.buttonprofileTextStyle,
-                                  ),
-                                ],
-                              ),
+                              buildCurrencyColumn(
+                                  'Contract Value Netto',
+                                  approval.property?.contractValueNetto,
+                                  currencyFormat),
                               const SizedBox(height: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Contract Value Brutto',
-                                    style: TextStyles.approvalTextStyle,
-                                  ),
-                                  Text(
-                                    currencyFormat.format(double.parse(
-                                        approval.property.contractValueBrutto)),
-                                    style: TextStyles.buttonprofileTextStyle,
-                                  ),
-                                ],
-                              ),
+                              buildCurrencyColumn(
+                                  'Contract Value Brutto',
+                                  approval.property?.contractValueBrutto,
+                                  currencyFormat),
                               const SizedBox(height: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Booking Fee Brutto',
-                                    style: TextStyles.approvalTextStyle,
-                                  ),
-                                  Text(
-                                    currencyFormat.format(double.parse(
-                                        approval.property.bookingFeeBruto)),
-                                    style: TextStyles.buttonprofileTextStyle,
-                                  ),
-                                ],
-                              ),
+                              buildCurrencyColumn(
+                                  'Booking Fee Brutto',
+                                  approval.property?.bookingFeeBruto,
+                                  currencyFormat),
                               const SizedBox(height: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Booking Fee Netto',
-                                    style: TextStyles.approvalTextStyle,
-                                  ),
-                                  Text(
-                                    currencyFormat.format(double.parse(
-                                        approval.property.bookingFeeNetto)),
-                                    style: TextStyles.buttonprofileTextStyle,
-                                  ),
-                                ],
-                              ),
+                              buildCurrencyColumn(
+                                  'Booking Fee Netto',
+                                  approval.property?.bookingFeeNetto,
+                                  currencyFormat),
                               const SizedBox(height: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Progress Count',
-                                    style: TextStyles.approvalTextStyle,
-                                  ),
-                                  Text(
-                                    '${approval.property.progressConst}',
-                                    style: TextStyles.buttonprofileTextStyle,
-                                  ),
-                                ],
-                              ),
+                              buildTextColumn('Progress Count',
+                                  approval.property?.progressConst),
                               const SizedBox(height: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Cancel Date',
-                                    style: TextStyles.approvalTextStyle,
-                                  ),
-                                  Text(
-                                    '${approval.property.cancelDate}',
-                                    style: TextStyles.buttonprofileTextStyle,
-                                  ),
-                                ],
-                              ),
+                              buildTextColumn(
+                                  'Cancel Date', approval.property?.cancelDate),
                               const SizedBox(height: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Refund Recomendation',
-                                    style: TextStyles.approvalTextStyle,
-                                  ),
-                                  Text(
-                                    '${approval.property.refundRecommendation ?? '-'}',
-                                    style: TextStyles.buttonprofileTextStyle,
-                                  ),
-                                ],
-                              ),
+                              buildTextColumn('Refund Recommendation',
+                                  approval.property?.refundRecommendation),
                               const SizedBox(height: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Ri Refund',
-                                    style: TextStyles.approvalTextStyle,
-                                  ),
-                                  Text(
-                                    '${approval.property.riRefound}',
-                                    style: TextStyles.buttonprofileTextStyle,
-                                  ),
-                                ],
-                              ),
+                              buildTextColumn(
+                                  'Ri Refund', approval.property?.riRefound),
                               const SizedBox(height: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Recommendation Value',
-                                    style: TextStyles.approvalTextStyle,
-                                  ),
-                                  Text(
-                                    '${approval.property.recommendationValue ?? '-'}',
-                                    style: TextStyles.buttonprofileTextStyle,
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 70,
-                              ),
-                              // Add more details as needed
+                              buildTextColumn('Recommendation Value',
+                                  approval.property?.recommendationValue),
+                              const SizedBox(height: 70),
                             ],
                           ),
                         ),
@@ -307,82 +124,77 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            width: 150,
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                _showConfirmationDialog(
-                                  context,
-                                  "Are you sure you want to Reject this item?",
-                                  () async {
-                                    await controller.reject(approval.id);
-                                  },
-                                );
+                          buildActionButton(
+                              context, "Reject", Icons.cancel, AppColor.error,
+                              () async {
+                            _showConfirmationDialog(
+                              context,
+                              "Are you sure you want to Reject this item?",
+                              () async {
+                                await controller.reject(approval.id);
                               },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColor.error,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.cancel,
-                                    color: Colors.white,
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    "Reject",
-                                    style: TextStyles.cardbuttomTextStyle,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: 150,
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                _showConfirmationDialog(
-                                  context,
-                                  "Are you sure you want to Approve this item?",
-                                  () async {
-                                    await controller.approve(approval.id);
-                                  },
-                                );
+                            );
+                          }),
+                          buildActionButton(context, "Approve",
+                              Icons.check_circle, Colors.green, () async {
+                            _showConfirmationDialog(
+                              context,
+                              "Are you sure you want to Approve this item?",
+                              () async {
+                                await controller.approve(approval.id);
                               },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.check_circle,
-                                    color: Colors.white,
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    "Approve",
-                                    style: TextStyles.cardbuttomTextStyle,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+                            );
+                          }),
                         ],
                       ),
                     )
                   : Container(height: 0),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           )
         ],
+      ),
+    );
+  }
+
+  Widget buildTextColumn(String label, String? value) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label, style: TextStyles.approvalTextStyle),
+        Text(value ?? '-', style: TextStyles.buttonprofileTextStyle),
+      ],
+    );
+  }
+
+  Widget buildCurrencyColumn(String label, String? value, NumberFormat format) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label, style: TextStyles.approvalTextStyle),
+        Text(format.format(double.tryParse(value ?? "0") ?? 0),
+            style: TextStyles.buttonprofileTextStyle),
+      ],
+    );
+  }
+
+  Widget buildActionButton(BuildContext context, String text, IconData icon,
+      Color color, VoidCallback onPressed) {
+    return Container(
+      width: 150,
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(backgroundColor: color),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: Colors.white),
+            const SizedBox(width: 5),
+            Text(text, style: TextStyles.cardbuttomTextStyle),
+          ],
+        ),
       ),
     );
   }
