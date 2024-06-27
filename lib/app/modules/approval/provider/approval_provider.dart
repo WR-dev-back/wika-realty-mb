@@ -50,4 +50,44 @@ class ApprovalProvider extends GetConnect {
       return [];
     }
   }
+
+  Future<List<Datum>> searchApproval(String query) async {
+    var apiUrl = ApiEndPoints.baseUrl +
+        ApiEndPoints.getDataApproval.dataApproval +
+        // '&searchBy=$searchType' +
+        '&search=$query';
+
+    print(apiUrl);
+
+    try {
+      final String? token = storage.read('token');
+      if (token != null) {
+        var response = await get(
+          apiUrl.toString(),
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        );
+
+        if (response.statusCode == 200) {
+          print('Response Body: ${response.bodyString}'); // Debugging line
+
+          Approval approvalData = approvalFromJson(response.bodyString!);
+
+          filteredApproval.value = approvalData.data;
+
+          return approvalData.data;
+        } else {
+          print('Failed to search data: ${response.statusCode}');
+          return [];
+        }
+      } else {
+        print('Token not found');
+        return [];
+      }
+    } catch (e) {
+      print('Error searching data: $e');
+      return [];
+    }
+  }
 }

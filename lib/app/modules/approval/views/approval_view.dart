@@ -35,7 +35,7 @@ class ApprovalView extends GetView<ApprovalController> {
                   prefixIcon: Icon(Icons.search),
                 ),
                 onChanged: (value) {
-                  // Implement the search functionality here
+                  controller.searchApproval(value);
                 },
               ),
               const SizedBox(height: 10),

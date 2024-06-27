@@ -6,7 +6,6 @@ class ApprovalController extends GetxController {
   final ApprovalProvider approvalProvider = Get.find();
   var isFetching = false.obs;
   var filteredApprovals = List<Datum>.empty().obs;
-  var approvals = <Approval>[].obs;
   var flatApprovals = <Datum>[].obs;
   var hasError = false.obs;
   var currentPage = 1.obs;
@@ -47,14 +46,11 @@ class ApprovalController extends GetxController {
     await fetchApproval();
   }
 
-  void searchApproval(String query) {
-    if (query.isEmpty) {
-      filteredApprovals.value = flatApprovals;
-    } else {
-      filteredApprovals.value = flatApprovals
-          .where((approval) =>
-              approval.name.toLowerCase().contains(query.toLowerCase()))
-          .toList();
-    }
+  Future<void> searchApproval(String query) async {
+    try {
+      filteredApprovals.value = await approvalProvider.searchApproval(query);
+    } catch (error) {
+      print('Error searching data: $error');
+    } finally {}
   }
 }
