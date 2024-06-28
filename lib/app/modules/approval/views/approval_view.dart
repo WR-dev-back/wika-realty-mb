@@ -48,8 +48,8 @@ class ApprovalView extends GetView<ApprovalController> {
                       );
                     } else if (controller.hasError.value) {
                       return Center(
-                          // child: Lottie.asset('asset/animations/error.json'),
-                          );
+                        child: Lottie.asset('asset/animations/error.json'),
+                      );
                     } else if (controller.filteredApprovals.isEmpty) {
                       return Center(
                         child: Lottie.asset('asset/animations/isEmpty.json'),
@@ -111,82 +111,100 @@ class ApprovalView extends GetView<ApprovalController> {
                                 borderRadius: BorderRadius.circular(18),
                                 color: Colors.white,
                               ),
-                              child: ListTile(
-                                title: Text(
-                                  approval.name,
-                                  style: TextStyles.headerapprovalStyleProfile
-                                      .copyWith(color: textColor),
-                                ),
-                                subtitle: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(approval.property?.unitDesc ?? "-"),
-                                    const SizedBox(
-                                      height: 10,
+                              child: Column(
+                                children: [
+                                  ListTile(
+                                    title: Text(
+                                      approval.name,
+                                      style: TextStyles
+                                          .headerapprovalStyleProfile
+                                          .copyWith(color: textColor),
                                     ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                    subtitle: Padding(
+                                      padding: const EdgeInsets.only(
+                                        top: 8,
+                                      ),
+                                      child: Text(
+                                        approval.property?.unitDesc ??
+                                            approval.purchaseOrder!.typeDesc,
+                                        style: TextStyles
+                                            .headerapprovalStyleProfile
+                                            .copyWith(color: textColor),
+                                      ),
+                                    ),
+                                    trailing: Row(
+                                      mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        ElevatedButton(
-                                          onPressed: () => Get.toNamed(
-                                            Routes.DETAIL_APPROVAL,
-                                            arguments: approval,
-                                          ),
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: AppColor.error,
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                "Detail",
-                                                style: TextStyles
-                                                    .cardbuttomTextStyle,
-                                              ),
-                                            ],
+                                        Icon(
+                                          trailingIcon,
+                                          color: trailingIconColor,
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Icon(
+                                          statusIcon,
+                                          color: statusIconColor,
+                                        ),
+                                      ],
+                                    ),
+                                    onTap: () => Get.toNamed(
+                                      Routes.DETAIL_APPROVAL,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 15,
+                                      vertical: 10,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Container(
+                                          width: 150,
+                                          child: ElevatedButton(
+                                            onPressed: () => Get.toNamed(
+                                              Routes.DETAIL_APPROVAL,
+                                            ),
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: AppColor.error,
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  "Detail",
+                                                  style: TextStyles
+                                                      .cardbuttomTextStyle,
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                        ElevatedButton(
-                                          onPressed: () {},
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.green,
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                "Negosiasi",
-                                                style: TextStyles
-                                                    .cardbuttomTextStyle,
-                                              ),
-                                            ],
+                                        Container(
+                                          width: 150,
+                                          child: ElevatedButton(
+                                            onPressed: () {},
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.green,
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  "Negosiasi",
+                                                  style: TextStyles
+                                                      .cardbuttomTextStyle,
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ],
-                                    )
-                                  ],
-                                ),
-                                trailing: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(
-                                      trailingIcon,
-                                      color: trailingIconColor,
                                     ),
-                                    const SizedBox(width: 10),
-                                    Icon(
-                                      statusIcon,
-                                      color: statusIconColor,
-                                    ),
-                                  ],
-                                ),
-                                onTap: () => Get.toNamed(
-                                  Routes.DETAIL_APPROVAL,
-                                  arguments: approval,
-                                ),
+                                  )
+                                ],
                               ),
                             ),
                           );

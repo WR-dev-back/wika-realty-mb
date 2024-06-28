@@ -6,6 +6,31 @@ import '../../../../utils/constant/data/api.dart';
 class DetailApprovalProvider extends GetConnect {
   final GetStorage storage = GetStorage();
 
+  Future<Response> fetchApprovalDetail(approvalId) async {
+    final apiUrl =
+        '${ApiEndPoints.baseUrl}${ApiEndPoints.getDetailApproval.detailApproval}$approvalId';
+
+    final String? token = storage.read('token');
+
+    if (token == null) {
+      return Response(statusCode: 401, statusText: 'Unauthorized');
+    }
+
+    try {
+      final response = await get(
+        apiUrl,
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+      print(response.body);
+      return response;
+    } catch (error) {
+      return Response(statusCode: 500, statusText: 'Error: $error');
+    }
+  }
+
   Future<Response> approve(approvalId) async {
     final apiUrl =
         '${ApiEndPoints.baseUrl}${ApiEndPoints.getDetailApproval.detailApproval}$approvalId/approve';

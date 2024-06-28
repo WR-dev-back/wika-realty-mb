@@ -8,14 +8,12 @@ import '../../../utils/constant/data/api.dart';
 
 class ApprovalProvider extends GetConnect {
   final GetStorage storage = GetStorage();
-  RxList<Datum> filteredApproval = <Datum>[].obs;
   late List<Datum> _approval = [];
   late RxList<Datum> _filteredApproval = RxList<Datum>();
 
   Future<List<Datum>> getApproval({int page = 1, int limit = 25}) async {
     var apiUrl =
         ApiEndPoints.baseUrl + ApiEndPoints.getDataApproval.dataApproval;
-    print(apiUrl);
 
     try {
       final String? token = storage.read('token');
@@ -29,7 +27,7 @@ class ApprovalProvider extends GetConnect {
 
         if (response.statusCode == 200) {
           final responseBody = response.bodyString;
-          print('Response Body: $responseBody'); // Debugging line
+          // Debugging line
 
           final Map<String, dynamic> responseData = jsonDecode(responseBody!);
           final leadsData = Approval.fromJson(responseData);
@@ -74,7 +72,7 @@ class ApprovalProvider extends GetConnect {
 
           Approval approvalData = approvalFromJson(response.bodyString!);
 
-          filteredApproval.value = approvalData.data;
+          _filteredApproval.value = approvalData.data;
 
           return approvalData.data;
         } else {

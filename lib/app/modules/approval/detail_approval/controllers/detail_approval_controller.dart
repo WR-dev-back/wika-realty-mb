@@ -1,20 +1,19 @@
+import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:wr_project/app/modules/approval/controllers/approval_controller.dart';
 import 'package:wr_project/app/modules/approval/detail_approval/provider/detail_approval_provider.dart';
 import 'package:wr_project/app/routes/app_pages.dart';
+import '../../../../common/models/approval_details.dart';
 
 class DetailApprovalController extends GetxController {
   final DetailApprovalProvider detailApprovalProvider = Get.find();
   final ApprovalController approvalController = Get.find();
-
-  final count = 0.obs;
   final RxString approvalStatus = ''.obs;
+  var approvalDetail = ApprovalDetail().obs;
 
   @override
   void onInit() {
     super.onInit();
-    final approval = Get.arguments;
-    approvalStatus.value = approval.status;
   }
 
   @override
@@ -32,7 +31,6 @@ class DetailApprovalController extends GetxController {
       final response = await detailApprovalProvider.approve(approvalId);
       if (response.statusCode == 200) {
         final responseData = response.body;
-        print(responseData);
         if (responseData['status']) {
           Get.snackbar('Success', responseData['message'],
               snackPosition: SnackPosition.TOP);
@@ -59,7 +57,6 @@ class DetailApprovalController extends GetxController {
       final response = await detailApprovalProvider.reject(approvalId);
       if (response.statusCode == 200) {
         final responseData = response.body;
-        print(responseData);
         if (responseData['status']) {
           Get.snackbar('Success', responseData['message'],
               snackPosition: SnackPosition.TOP);
@@ -78,6 +75,23 @@ class DetailApprovalController extends GetxController {
     } catch (error) {
       Get.snackbar('Error', 'Error rejecting: $error',
           snackPosition: SnackPosition.TOP);
+    }
+  }
+
+  Future<void> fetchApprovalDetail(String approvalId) async {
+    try {
+      final response =
+          await DetailApprovalProvider().fetchApprovalDetail(approvalId);
+
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        approvalDetail.value = ApprovalDetail.fromJson(responseData['data']);
+        approvalStatus.value = approvalDetail.value.data?.status ?? '';
+      } else {
+        print('Request failed: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Error fetching data: $error');
     }
   }
 }
