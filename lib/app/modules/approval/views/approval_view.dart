@@ -124,12 +124,25 @@ class ApprovalView extends GetView<ApprovalController> {
                                       padding: const EdgeInsets.only(
                                         top: 8,
                                       ),
-                                      child: Text(
-                                        approval.property?.unitDesc ??
-                                            approval.purchaseOrder!.typeDesc,
-                                        style: TextStyles
-                                            .headerapprovalStyleProfile
-                                            .copyWith(color: textColor),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Divider(
+                                            height: 5,
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                            approval.property?.unitDesc ??
+                                                approval
+                                                    .purchaseOrder!.typeDesc,
+                                            style: TextStyles
+                                                .headerapprovalStyleProfile
+                                                .copyWith(color: textColor),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                     trailing: Row(
@@ -148,6 +161,7 @@ class ApprovalView extends GetView<ApprovalController> {
                                     ),
                                     onTap: () => Get.toNamed(
                                       Routes.DETAIL_APPROVAL,
+                                      parameters: {'approvalId': approval.id},
                                     ),
                                   ),
                                   Padding(
@@ -164,6 +178,9 @@ class ApprovalView extends GetView<ApprovalController> {
                                           child: ElevatedButton(
                                             onPressed: () => Get.toNamed(
                                               Routes.DETAIL_APPROVAL,
+                                              parameters: {
+                                                'approvalId': approval.id
+                                              },
                                             ),
                                             style: ElevatedButton.styleFrom(
                                               backgroundColor: AppColor.error,
@@ -181,26 +198,27 @@ class ApprovalView extends GetView<ApprovalController> {
                                             ),
                                           ),
                                         ),
-                                        Container(
-                                          width: 150,
-                                          child: ElevatedButton(
-                                            onPressed: () {},
-                                            style: ElevatedButton.styleFrom(
-                                              backgroundColor: Colors.green,
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  "Negosiasi",
-                                                  style: TextStyles
-                                                      .cardbuttomTextStyle,
-                                                ),
-                                              ],
+                                        if (approval.property != null)
+                                          Container(
+                                            width: 150,
+                                            child: ElevatedButton(
+                                              onPressed: () {},
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: Colors.green,
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    "Negosiasi",
+                                                    style: TextStyles
+                                                        .cardbuttomTextStyle,
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
                                       ],
                                     ),
                                   )

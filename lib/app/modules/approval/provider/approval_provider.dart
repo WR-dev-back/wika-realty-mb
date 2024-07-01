@@ -55,7 +55,7 @@ class ApprovalProvider extends GetConnect {
         // '&searchBy=$searchType' +
         '&search=$query';
 
-    print(apiUrl);
+    // print(apiUrl);
 
     try {
       final String? token = storage.read('token');

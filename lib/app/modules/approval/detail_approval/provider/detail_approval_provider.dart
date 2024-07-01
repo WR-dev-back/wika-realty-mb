@@ -24,7 +24,6 @@ class DetailApprovalProvider extends GetConnect {
           'Content-Type': 'application/json',
         },
       );
-      print(response.body);
       return response;
     } catch (error) {
       return Response(statusCode: 500, statusText: 'Error: $error');

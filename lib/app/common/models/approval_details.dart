@@ -1,23 +1,12 @@
-// To parse this JSON data, do
-//
-//     final approvalDetail = approvalDetailFromJson(jsonString);
-
-import 'dart:convert';
-
-ApprovalDetail approvalDetailFromJson(String str) =>
-    ApprovalDetail.fromJson(json.decode(str));
-
-String approvalDetailToJson(ApprovalDetail data) => json.encode(data.toJson());
-
 class ApprovalDetail {
-  bool? status;
-  String? message;
-  Data? data;
+  bool status;
+  String message;
+  Data data;
 
   ApprovalDetail({
-    this.status,
-    this.message,
-    this.data,
+    required this.status,
+    required this.message,
+    required this.data,
   });
 
   factory ApprovalDetail.fromJson(Map<String, dynamic> json) => ApprovalDetail(
@@ -29,7 +18,7 @@ class ApprovalDetail {
   Map<String, dynamic> toJson() => {
         "status": status,
         "message": message,
-        "data": data!.toJson(),
+        "data": data.toJson(),
       };
 }
 
@@ -40,11 +29,11 @@ class Data {
   DateTime updatedAt;
   String status;
   String name;
-  String approvalPositionName;
-  String code;
+  dynamic approvalPositionName;
+  dynamic code;
   String group;
-  dynamic property;
-  PurchaseOrder purchaseOrder;
+  Property? property;
+  PurchaseOrder? purchaseOrder;
 
   Data({
     required this.id,
@@ -56,8 +45,8 @@ class Data {
     required this.approvalPositionName,
     required this.code,
     required this.group,
-    required this.property,
-    required this.purchaseOrder,
+    this.property,
+    this.purchaseOrder,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
@@ -70,8 +59,12 @@ class Data {
         approvalPositionName: json["approval_position_name"],
         code: json["code"],
         group: json["group"],
-        property: json["property"],
-        purchaseOrder: PurchaseOrder.fromJson(json["purchaseOrder"]),
+        property: json["property"] == null
+            ? null
+            : Property.fromJson(json["property"]),
+        purchaseOrder: json["purchaseOrder"] == null
+            ? null
+            : PurchaseOrder.fromJson(json["purchaseOrder"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -84,8 +77,120 @@ class Data {
         "approval_position_name": approvalPositionName,
         "code": code,
         "group": group,
-        "property": property,
-        "purchaseOrder": purchaseOrder.toJson(),
+        "property": property!.toJson(),
+        "purchaseOrder": purchaseOrder!.toJson(),
+      };
+}
+
+class Property {
+  String id;
+  bool isActive;
+  DateTime createdAt;
+  DateTime updatedAt;
+  String contractNo;
+  String itemNo;
+  String ppuCode;
+  String customerCode;
+  String customerName;
+  String unitCode;
+  String? unitDesc;
+  String contractValueNetto;
+  String contractValueBrutto;
+  String bookingFeeNetto;
+  String bookingFeeBruto;
+  String total;
+  String progressConst;
+  String cancelDate;
+  dynamic refundRecommendation;
+  String approvalStatus;
+  String riRefound;
+  String recommendationValue;
+  String costCenter;
+  bool isRead;
+  bool isSend;
+
+  Property({
+    required this.id,
+    required this.isActive,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.contractNo,
+    required this.itemNo,
+    required this.ppuCode,
+    required this.customerCode,
+    required this.customerName,
+    required this.unitCode,
+    this.unitDesc,
+    required this.contractValueNetto,
+    required this.contractValueBrutto,
+    required this.bookingFeeNetto,
+    required this.bookingFeeBruto,
+    required this.total,
+    required this.progressConst,
+    required this.cancelDate,
+    required this.refundRecommendation,
+    required this.approvalStatus,
+    required this.riRefound,
+    required this.recommendationValue,
+    required this.costCenter,
+    required this.isRead,
+    required this.isSend,
+  });
+
+  factory Property.fromJson(Map<String, dynamic> json) => Property(
+        id: json["id"],
+        isActive: json["isActive"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+        contractNo: json["contract_no"],
+        itemNo: json["item_no"],
+        ppuCode: json["ppu_code"],
+        customerCode: json["customer_code"],
+        customerName: json["customer_name"],
+        unitCode: json["unit_code"],
+        unitDesc: json["unit_desc"],
+        contractValueNetto: json["contract_value_netto"],
+        contractValueBrutto: json["contract_value_brutto"],
+        bookingFeeNetto: json["booking_fee_netto"],
+        bookingFeeBruto: json["booking_fee_bruto"],
+        total: json["total"],
+        progressConst: json["progress_const"],
+        cancelDate: json["cancel_date"],
+        refundRecommendation: json["refund_recommendation"],
+        approvalStatus: json["approval_status"],
+        riRefound: json["ri_refound"],
+        recommendationValue: json["recommendation_value"],
+        costCenter: json["cost_center"],
+        isRead: json["isRead"],
+        isSend: json["isSend"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "isActive": isActive,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
+        "contract_no": contractNo,
+        "item_no": itemNo,
+        "ppu_code": ppuCode,
+        "customer_code": customerCode,
+        "customer_name": customerName,
+        "unit_code": unitCode,
+        "unit_desc": unitDesc,
+        "contract_value_netto": contractValueNetto,
+        "contract_value_brutto": contractValueBrutto,
+        "booking_fee_netto": bookingFeeNetto,
+        "booking_fee_bruto": bookingFeeBruto,
+        "total": total,
+        "progress_const": progressConst,
+        "cancel_date": cancelDate,
+        "refund_recommendation": refundRecommendation,
+        "approval_status": approvalStatus,
+        "ri_refound": riRefound,
+        "recommendation_value": recommendationValue,
+        "cost_center": costCenter,
+        "isRead": isRead,
+        "isSend": isSend,
       };
 }
 

@@ -19,203 +19,107 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: const BackButton(
-          color: Colors.white,
-        ),
-        title: Text(
-          'Detail Approval',
-          style: TextStyles.titleLabelStyle,
-        ),
+        leading: const BackButton(color: Colors.white),
+        title: Text('Detail Approval', style: TextStyles.titleLabelStyle),
         centerTitle: true,
         backgroundColor: AppColor.primary,
       ),
       body: Stack(
         children: [
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Column(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 15),
-                          width: MediaQuery.of(context).size.width,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: buildDynamicWidgets(
-                                controller.approvalDetail.value,
-                                currencyFormat),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+          Obx(() {
+            if (controller.approvalDetail.value.data.id.isEmpty) {
+              return Center(child: CircularProgressIndicator());
+            }
+
+            Data approval = controller.approvalDetail.value.data;
+
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: ApprovalDetails(
+                    approval: approval, currencyFormat: currencyFormat),
               ),
-            ),
-          ),
-          Positioned(
-            top: 630,
-            left: 5,
-            right: 5,
-            child: Obx(
-              () => controller.approvalStatus.value == 'pending'
-                  ? Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          buildActionButton(
-                              context, "Reject", Icons.cancel, AppColor.error,
-                              () async {
-                            _showConfirmationDialog(
-                              context,
-                              "Are you sure you want to Reject this item?",
-                              () async {
-                                await controller.reject(
-                                    controller.approvalDetail.value.data!.id);
-                              },
-                            );
-                          }),
-                          buildActionButton(context, "Approve",
-                              Icons.check_circle, Colors.green, () async {
-                            _showConfirmationDialog(
-                              context,
-                              "Are you sure you want to Approve this item?",
-                              () async {
-                                await controller.approve(
-                                    controller.approvalDetail.value.data!.id);
-                              },
-                            );
-                          }),
-                        ],
-                      ),
-                    )
-                  : Container(height: 0),
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          )
+            );
+          }),
+          Obx(() => controller.approvalStatus.value == 'pending'
+              ? Positioned(
+                  top: 630,
+                  left: 5,
+                  right: 5,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    child: ApprovalActions(controller: controller),
+                  ),
+                )
+              : Container()),
         ],
       ),
     );
   }
+}
 
-  List<Widget> buildDynamicWidgets(
-      ApprovalDetail approvalDetail, NumberFormat currencyFormat) {
-    List<Widget> widgets = [];
+class ApprovalDetails extends StatelessWidget {
+  final Data approval;
+  final NumberFormat currencyFormat;
 
-    widgets.add(buildTextColumn('Approval Name', approvalDetail.data?.name));
+  const ApprovalDetails({
+    Key? key,
+    required this.approval,
+    required this.currencyFormat,
+  }) : super(key: key);
 
-    if (approvalDetail.data?.property != null) {
-      widgets.addAll([
-        const SizedBox(height: 10),
-        buildTextColumn(
-            'Unit Description', approvalDetail.data?.property!.unitDesc),
-        const SizedBox(height: 15),
-        Divider(color: Colors.grey, height: 1, thickness: 2),
-        const SizedBox(height: 15),
-        buildTextColumn(
-            'Contract Number', approvalDetail.data?.property!.contractNo),
-        const SizedBox(height: 10),
-        buildTextColumn(
-            'Customer Code', approvalDetail.data?.property!.customerCode),
-        const SizedBox(height: 10),
-        buildTextColumn(
-            'Customer Name', approvalDetail.data?.property!.customerName),
-        const SizedBox(height: 10),
-        buildTextColumn('Unit Code', approvalDetail.data?.property!.unitCode),
-        const SizedBox(height: 10),
-        buildCurrencyColumn('Contract Value Netto',
-            approvalDetail.data?.property!.contractValueNetto, currencyFormat),
-        const SizedBox(height: 10),
-        buildCurrencyColumn('Contract Value Brutto',
-            approvalDetail.data?.property!.contractValueBrutto, currencyFormat),
-        const SizedBox(height: 10),
-        buildCurrencyColumn('Booking Fee Brutto',
-            approvalDetail.data?.property!.bookingFeeBruto, currencyFormat),
-        const SizedBox(height: 10),
-        buildCurrencyColumn('Booking Fee Netto',
-            approvalDetail.data?.property!.bookingFeeNetto, currencyFormat),
-        const SizedBox(height: 10),
-        buildTextColumn(
-            'Progress Count', approvalDetail.data?.property!.progressConst),
-        const SizedBox(height: 10),
-        buildTextColumn(
-            'Cancel Date', approvalDetail.data?.property!.cancelDate),
-        const SizedBox(height: 10),
-        buildTextColumn('Refund Recommendation',
-            approvalDetail.data?.property!.refundRecommendation),
-        const SizedBox(height: 10),
-        buildTextColumn('Ri Refund', approvalDetail.data?.property!.riRefound),
-        const SizedBox(height: 10),
-        buildTextColumn('Recommendation Value',
-            approvalDetail.data?.property!.recommendationValue),
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        buildTextColumn('Approval Name', approval.name),
+        if (approval.property != null) ...[
+          buildTextColumn('Unit Description', approval.property?.unitDesc),
+          const Divider(color: Colors.grey, height: 1, thickness: 2),
+          buildTextColumn('Contract Number', approval.property!.contractNo),
+          buildTextColumn('Customer Code', approval.property!.customerCode),
+          buildTextColumn('Customer Name', approval.property!.customerName),
+          buildTextColumn('Unit Code', approval.property!.unitCode),
+          buildCurrencyColumn('Contract Value Netto',
+              approval.property!.contractValueNetto, currencyFormat),
+          buildCurrencyColumn('Contract Value Brutto',
+              approval.property!.contractValueBrutto, currencyFormat),
+          buildCurrencyColumn('Booking Fee Brutto',
+              approval.property!.bookingFeeBruto, currencyFormat),
+          buildCurrencyColumn('Booking Fee Netto',
+              approval.property!.bookingFeeNetto, currencyFormat),
+          buildTextColumn('Progress Count', approval.property!.progressConst),
+          buildTextColumn('Cancel Date', approval.property!.cancelDate),
+          buildTextColumn(
+              'Refund Recommendation', approval.property!.refundRecommendation),
+          buildTextColumn('Ri Refund', approval.property!.riRefound),
+          buildTextColumn(
+              'Recommendation Value', approval.property!.recommendationValue),
+        ],
+        if (approval.purchaseOrder != null) ...[
+          buildTextColumn(
+              'Vendor Description', approval.purchaseOrder!.vendorDesc),
+          const Divider(color: Colors.grey, height: 1, thickness: 2),
+          buildTextColumn('PO Type', approval.purchaseOrder!.poType),
+          buildTextColumn('Type Description', approval.purchaseOrder!.typeDesc),
+          buildTextColumn('Vendor', approval.purchaseOrder!.vendor),
+          buildTextColumn('Document Date', approval.purchaseOrder!.docDate),
+          buildCurrencyColumn('Total Price', approval.purchaseOrder!.totalPrice,
+              currencyFormat),
+          buildTextColumn('PO Organization', approval.purchaseOrder!.poOrg),
+          buildTextColumn('PO Group', approval.purchaseOrder!.poGroup),
+          buildTextColumn('Company Code', approval.purchaseOrder!.companyCode),
+          buildTextColumn(
+              'Release Group', approval.purchaseOrder!.releaseGroup),
+          buildTextColumn('Release Group Description',
+              approval.purchaseOrder!.releaseGroupDesc),
+          buildTextColumn('Release Code', approval.purchaseOrder!.releaseCode),
+          buildTextColumn('PO Number', approval.purchaseOrder!.poNumber),
+        ],
         const SizedBox(height: 70),
-      ]);
-    }
-
-    if (approvalDetail.data?.purchaseOrder != null) {
-      widgets.addAll([
-        const SizedBox(height: 10),
-        buildTextColumn('PO Type', approvalDetail.data?.purchaseOrder.poType),
-        const SizedBox(height: 10),
-        buildTextColumn('Vendor', approvalDetail.data?.purchaseOrder.vendor),
-        const SizedBox(height: 10),
-        buildTextColumn('Vendor Description',
-            approvalDetail.data?.purchaseOrder.vendorDesc),
-        const SizedBox(height: 10),
-        buildTextColumn(
-            'Document Date', approvalDetail.data?.purchaseOrder.docDate),
-        const SizedBox(height: 10),
-        buildTextColumn(
-            'Total Price',
-            currencyFormat.format(double.tryParse(
-                    approvalDetail.data!.purchaseOrder.totalPrice) ??
-                0)),
-        const SizedBox(height: 10),
-        buildTextColumn('PO Org', approvalDetail.data!.purchaseOrder.poOrg),
-        const SizedBox(height: 10),
-        buildTextColumn(
-            'PO Group', approvalDetail.data!.purchaseOrder.poGroup ?? '-'),
-        const SizedBox(height: 10),
-        buildTextColumn(
-            'Release Group', approvalDetail.data?.purchaseOrder.releaseGroup),
-        const SizedBox(height: 10),
-        buildTextColumn('Release Group Description',
-            approvalDetail.data?.purchaseOrder.releaseGroupDesc),
-        const SizedBox(height: 10),
-        buildTextColumn(
-            'PO Number', approvalDetail.data?.purchaseOrder.poNumber),
-        const SizedBox(height: 10),
-        buildTextColumn('Approval Status',
-            approvalDetail.data?.purchaseOrder.approvalStatus),
-        const SizedBox(height: 10),
-        Text("Purchase Order Items", style: TextStyles.approvalTextStyle),
-        const SizedBox(height: 10),
-      ]);
-
-      for (var item in approvalDetail.data!.purchaseOrder.items) {
-        widgets.addAll([
-          buildTextColumn("PO Item", item.poItem),
-          buildTextColumn("Material Description", item.materialDesc),
-          buildTextColumn("Quantity", item.poQuantity),
-          buildTextColumn("Unit", item.poUnit),
-          buildTextColumn("Delivery Date", item.deliveryDate),
-          buildTextColumn("Unit Price",
-              currencyFormat.format(double.tryParse(item.unitPrice) ?? 0)),
-          buildTextColumn("Item Total Price",
-              currencyFormat.format(double.tryParse(item.itemTotalPrice) ?? 0)),
-          const SizedBox(height: 10),
-        ]);
-      }
-    }
-    return widgets;
+      ],
+    );
   }
 
   Widget buildTextColumn(String label, String? value) {
@@ -238,44 +142,84 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
       ],
     );
   }
+}
 
-  Widget buildActionButton(BuildContext context, String text, IconData icon,
-      Color color, VoidCallback onPressed) {
-    return Container(
-      width: 150,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(backgroundColor: color),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, color: Colors.white),
-            const SizedBox(width: 5),
-            Text(text, style: TextStyles.cardbuttomTextStyle),
-          ],
+class ApprovalActions extends StatelessWidget {
+  final DetailApprovalController controller;
+
+  const ApprovalActions({
+    Key? key,
+    required this.controller,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Data approval = controller.approvalDetail.value.data;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        buildActionButton(context, "Reject", Icons.cancel, AppColor.error,
+            () async {
+          _showConfirmationDialog(context, "reject", () {
+            controller.reject(approval.id);
+          });
+        }),
+        SizedBox(width: 20), // Add space between the buttons
+        buildActionButton(
+            context, "Approve", Icons.check_circle, AppColor.succes, () async {
+          _showConfirmationDialog(context, "approve", () {
+            controller.approve(approval.id);
+          });
+        }),
+      ],
+    );
+  }
+
+  Widget buildActionButton(
+    BuildContext context,
+    String label,
+    IconData icon,
+    Color color,
+    VoidCallback onPressed,
+  ) {
+    return Flexible(
+      child: SizedBox(
+        height: 40,
+        width: 300,
+        child: ElevatedButton.icon(
+          onPressed: onPressed,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: color,
+          ),
+          icon: Icon(icon, color: Colors.white),
+          label: Text(label, style: TextStyle(color: Colors.white)),
         ),
       ),
     );
   }
 
   void _showConfirmationDialog(
-      BuildContext context, String message, VoidCallback onConfirm) {
+      BuildContext context, String action, VoidCallback onConfirm) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Confirmation"),
-          content: Text(message),
+          title: Text('Confirm $action'),
+          content: Text('Are you sure you want to $action this approval?'),
           actions: <Widget>[
             TextButton(
+              child: const Text('Cancel'),
               onPressed: () {
-                Get.back();
+                Navigator.of(context).pop();
               },
-              child: const Text("Cancel"),
             ),
             TextButton(
-              onPressed: onConfirm,
-              child: const Text("Confirm"),
+              child: const Text('Confirm'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                onConfirm();
+              },
             ),
           ],
         );
