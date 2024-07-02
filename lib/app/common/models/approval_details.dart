@@ -434,11 +434,11 @@ class Detail {
   String orderDesc;
   String latestGrDate;
   String serviceLineItem;
-  String serviceNo;
-  String serviceDesc;
-  String serviceQuantity;
-  String serviceUnit;
-  String servicePrice;
+  String? serviceNo;
+  String? serviceDesc;
+  String? serviceQuantity;
+  String? serviceUnit;
+  String? servicePrice;
   dynamic serviceTotalPrice;
   String procurementName;
 

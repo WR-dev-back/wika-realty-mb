@@ -1,13 +1,15 @@
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../../../routes/app_pages.dart';
 import '../../../utils/constant/style/app_color.dart';
 import '../../../utils/constant/style/text_styles.dart';
 import '../controllers/approval_controller.dart';
 
 class ApprovalView extends GetView<ApprovalController> {
-  const ApprovalView({Key? key}) : super(key: key);
+  ApprovalView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -202,7 +204,147 @@ class ApprovalView extends GetView<ApprovalController> {
                                           Container(
                                             width: 150,
                                             child: ElevatedButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    TextEditingController
+                                                        riRecommendationController =
+                                                        TextEditingController();
+                                                    TextEditingController
+                                                        riRefundController =
+                                                        TextEditingController();
+
+                                                    return Dialog(
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20),
+                                                      ),
+                                                      child: Container(
+                                                        width: Get.width * 0.8,
+                                                        // height: MediaQuery.of(
+                                                        //             context)
+                                                        //         .size
+                                                        //         .height *
+                                                        //     0.8, // Set dialog width to 80% of screen width
+                                                        padding:
+                                                            EdgeInsets.all(20),
+                                                        child: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: [
+                                                            Text(
+                                                              'Negosiasi',
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              style: TextStyles
+                                                                  .headerFieldStyle
+                                                                  .copyWith(
+                                                                color:
+                                                                    Colors.blue,
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                                height: 20),
+                                                            TextField(
+                                                              controller:
+                                                                  riRecommendationController,
+                                                              keyboardType:
+                                                                  TextInputType
+                                                                      .number,
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                labelText:
+                                                                    'RI Recommendation',
+                                                                labelStyle:
+                                                                    TextStyles
+                                                                        .approvalTextStyle,
+                                                                prefixText:
+                                                                    'Rp. ',
+                                                              ),
+                                                              inputFormatters: [
+                                                                FilteringTextInputFormatter
+                                                                    .digitsOnly,
+                                                                CurrencyInputFormatter(),
+                                                              ],
+                                                            ),
+                                                            const SizedBox(
+                                                                height: 10),
+                                                            TextField(
+                                                              controller:
+                                                                  riRefundController,
+                                                              keyboardType:
+                                                                  TextInputType
+                                                                      .number,
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                labelText:
+                                                                    'RI Refund',
+                                                                labelStyle:
+                                                                    TextStyles
+                                                                        .approvalTextStyle,
+                                                                prefixText:
+                                                                    'Rp. ',
+                                                              ),
+                                                              inputFormatters: [
+                                                                FilteringTextInputFormatter
+                                                                    .digitsOnly,
+                                                                CurrencyInputFormatter(),
+                                                              ],
+                                                            ),
+                                                            const SizedBox(
+                                                                height: 20),
+                                                            Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .end,
+                                                              children: [
+                                                                TextButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    Get.back();
+                                                                  },
+                                                                  child: Text(
+                                                                      'Back'),
+                                                                ),
+                                                                ElevatedButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    controller
+                                                                        .submitNegotiation(
+                                                                      approval
+                                                                          .id,
+                                                                      riRecommendationController
+                                                                          .text,
+                                                                      riRefundController
+                                                                          .text,
+                                                                    );
+                                                                    Get.back();
+                                                                  },
+                                                                  style: ElevatedButton
+                                                                      .styleFrom(
+                                                                    backgroundColor:
+                                                                        Colors
+                                                                            .green,
+                                                                  ),
+                                                                  child: Text(
+                                                                    'Submit',
+                                                                    style: TextStyles
+                                                                        .cardbuttomTextStyle,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                );
+                                              },
                                               style: ElevatedButton.styleFrom(
                                                 backgroundColor: Colors.green,
                                               ),
@@ -236,6 +378,25 @@ class ApprovalView extends GetView<ApprovalController> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class CurrencyInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.selection.baseOffset == 0) {
+      return newValue;
+    }
+
+    final int value = int.parse(newValue.text.replaceAll('.', ''));
+    final formatter = NumberFormat('#,###');
+    final newText = formatter.format(value);
+
+    return newValue.copyWith(
+      text: newText,
+      selection: TextSelection.collapsed(offset: newText.length),
     );
   }
 }

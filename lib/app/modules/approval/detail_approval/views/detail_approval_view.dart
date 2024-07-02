@@ -5,6 +5,7 @@ import 'package:wr_project/app/utils/constant/style/app_color.dart';
 import '../../../../common/models/approval_details.dart';
 import '../../../../utils/constant/style/text_styles.dart';
 import '../controllers/detail_approval_controller.dart';
+// replace with the actual path
 
 class DetailApprovalView extends GetView<DetailApprovalController> {
   const DetailApprovalView({Key? key}) : super(key: key);
@@ -73,9 +74,13 @@ class ApprovalDetails extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        buildTextColumn('Approval Name', approval.name),
+        SizedBox(
+          height: 10,
+        ),
+        buildTextHeaderColumn('Name', approval.name),
         if (approval.property != null) ...[
-          buildTextColumn('Unit Description', approval.property?.unitDesc),
+          buildTextHeaderColumn(
+              'Unit Description', approval.property?.unitDesc),
           const Divider(color: Colors.grey, height: 1, thickness: 2),
           buildTextColumn('Contract Number', approval.property!.contractNo),
           buildTextColumn('Customer Code', approval.property!.customerCode),
@@ -98,26 +103,47 @@ class ApprovalDetails extends StatelessWidget {
               'Recommendation Value', approval.property!.recommendationValue),
         ],
         if (approval.purchaseOrder != null) ...[
+          buildTextHeaderColumn(
+              'Type Description', approval.purchaseOrder!.typeDesc),
+          SizedBox(height: 30),
+          const Divider(color: Colors.grey, height: 1, thickness: 2),
+          buildTextHeaderColumn('Purchase Order Details', ""),
+          buildTextColumn('PO Type', approval.purchaseOrder!.poType),
+          buildTextColumn('Vendor', approval.purchaseOrder!.vendor),
           buildTextColumn(
               'Vendor Description', approval.purchaseOrder!.vendorDesc),
-          const Divider(color: Colors.grey, height: 1, thickness: 2),
-          buildTextColumn('PO Type', approval.purchaseOrder!.poType),
-          buildTextColumn('Type Description', approval.purchaseOrder!.typeDesc),
-          buildTextColumn('Vendor', approval.purchaseOrder!.vendor),
           buildTextColumn('Document Date', approval.purchaseOrder!.docDate),
           buildCurrencyColumn('Total Price', approval.purchaseOrder!.totalPrice,
               currencyFormat),
           buildTextColumn('PO Organization', approval.purchaseOrder!.poOrg),
-          buildTextColumn('PO Group', approval.purchaseOrder!.poGroup),
-          buildTextColumn('Company Code', approval.purchaseOrder!.companyCode),
           buildTextColumn(
               'Release Group', approval.purchaseOrder!.releaseGroup),
           buildTextColumn('Release Group Description',
               approval.purchaseOrder!.releaseGroupDesc),
-          buildTextColumn('Release Code', approval.purchaseOrder!.releaseCode),
           buildTextColumn('PO Number', approval.purchaseOrder!.poNumber),
+          buildTextColumn(
+              'Approval Status', approval.purchaseOrder!.approvalStatus),
+          SizedBox(height: 20),
+          const Divider(color: Colors.grey, height: 1, thickness: 2),
+          buildTextHeaderColumn('Purchase Order Items', ""),
+          for (var i = 0; i < approval.purchaseOrder!.items.length; i++)
+            buildItemDetails(
+                i + 1, approval.purchaseOrder!.items[i], currencyFormat),
         ],
         const SizedBox(height: 70),
+      ],
+    );
+  }
+
+  Widget buildTextHeaderColumn(String label, String? value) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyles.headerFieldStyle.copyWith(color: Colors.blue),
+        ),
+        Text(value ?? '-', style: TextStyles.buttonprofileTextStyle),
       ],
     );
   }
@@ -128,6 +154,61 @@ class ApprovalDetails extends StatelessWidget {
       children: [
         Text(label, style: TextStyles.approvalTextStyle),
         Text(value ?? '-', style: TextStyles.buttonprofileTextStyle),
+      ],
+    );
+  }
+
+  Widget buildItemDetails(int itemNumber, Item item, NumberFormat format) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Item $itemNumber',
+          style: TextStyles.headerFieldStyle.copyWith(color: Colors.blue),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        buildTextColumn('PO Item', item.poItem),
+        buildTextColumn('Material Code', item.materialCode),
+        buildTextColumn('Material Description', item.materialDesc),
+        buildTextColumn('Quantity', item.poQuantity),
+        buildTextColumn('Unit', item.poUnit),
+        buildCurrencyColumn('Unit Price', item.unitPrice, format),
+        buildCurrencyColumn('Item Total Price', item.itemTotalPrice, format),
+        buildTextColumn('Delivery Date', item.deliveryDate),
+        SizedBox(
+          height: 20,
+        ),
+        const Divider(color: Colors.grey, height: 1, thickness: 2),
+        buildTextHeaderColumn('Service Details', ''),
+        for (var j = 0; j < item.details.length; j++)
+          buildServiceDetails(j + 1, item.details[j], format),
+      ],
+    );
+  }
+
+  Widget buildServiceDetails(
+      int serviceNumber, Detail detail, NumberFormat format) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Service $serviceNumber',
+          style: TextStyles.headerFieldStyle.copyWith(color: Colors.blue),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        buildTextColumn('Service No', detail.serviceNo ?? '-'),
+        buildTextColumn('Service Description', detail.serviceDesc ?? '-'),
+        buildTextColumn('Service Quantity', detail.serviceQuantity ?? '-'),
+        buildTextColumn('Service Unit', detail.serviceUnit ?? '-'),
+        buildCurrencyColumn('Service Price', detail.servicePrice, format),
+        SizedBox(
+          height: 20,
+        ),
+        const Divider(color: Colors.grey, height: 1, thickness: 2),
       ],
     );
   }

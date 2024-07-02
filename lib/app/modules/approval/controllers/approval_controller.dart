@@ -18,6 +18,15 @@ class ApprovalController extends GetxController {
     fetchApproval();
   }
 
+  void submitNegotiation(
+      String approvalId, String riRecommendation, String riRefund) {
+    // Implement the submit logic here
+    // Example:
+    print('Approval ID: $approvalId');
+    print('RI Recommendation: $riRecommendation');
+    print('RI Refund: $riRefund');
+  }
+
   Future<void> fetchApproval() async {
     try {
       isFetching(true);
