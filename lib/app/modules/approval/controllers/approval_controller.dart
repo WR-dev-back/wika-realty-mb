@@ -57,7 +57,7 @@ class ApprovalController extends GetxController {
 
   Future<void> searchApproval(String query) async {
     try {
-      filteredApprovals.value = await approvalProvider.searchApproval(query);
+      filteredApprovals.value = (await approvalProvider.searchApproval(query))!;
     } catch (error) {
       print('Error searching data: $error');
     } finally {}

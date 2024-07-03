@@ -5,7 +5,6 @@ import 'package:wr_project/app/utils/constant/style/app_color.dart';
 import '../../../../common/models/approval_details.dart';
 import '../../../../utils/constant/style/text_styles.dart';
 import '../controllers/detail_approval_controller.dart';
-// replace with the actual path
 
 class DetailApprovalView extends GetView<DetailApprovalController> {
   const DetailApprovalView({Key? key}) : super(key: key);
@@ -81,7 +80,9 @@ class ApprovalDetails extends StatelessWidget {
         if (approval.property != null) ...[
           buildTextHeaderColumn(
               'Unit Description', approval.property?.unitDesc),
+          SizedBox(height: 30),
           const Divider(color: Colors.grey, height: 1, thickness: 2),
+          buildTextHeaderColumn('Property Details', ""),
           buildTextColumn('Contract Number', approval.property!.contractNo),
           buildTextColumn('Customer Code', approval.property!.customerCode),
           buildTextColumn('Customer Name', approval.property!.customerName),
@@ -126,39 +127,48 @@ class ApprovalDetails extends StatelessWidget {
           SizedBox(height: 20),
           const Divider(color: Colors.grey, height: 1, thickness: 2),
           buildTextHeaderColumn('Purchase Order Items', ""),
-          for (var i = 0; i < approval.purchaseOrder!.items.length; i++)
+          for (var i = 0; i < approval.purchaseOrder!.itemsPo!.length; i++)
             buildItemDetails(
-                i + 1, approval.purchaseOrder!.items[i], currencyFormat),
+                i + 1, approval.purchaseOrder!.itemsPo![i], currencyFormat),
+        ],
+        if (approval.purchaseRequisition != null) ...[
+          buildTextHeaderColumn('Type Description',
+              approval.purchaseRequisition!.procurementItemName),
+          SizedBox(height: 30),
+          Divider(color: Colors.grey, height: 1, thickness: 2),
+          buildTextHeaderColumn('Purchase Requisition Details', ""),
+          buildTextColumn('PR Type', approval.purchaseRequisition!.prType),
+          buildTextColumn(
+              'Vendor 1', approval.purchaseRequisition!.newVendorName1 ?? '-'),
+          buildTextColumn('Vendor 1 Description',
+              approval.purchaseRequisition!.newVendorLocation1 ?? '-'),
+          buildTextColumn(
+              'Description', approval.purchaseRequisition!.typeDesc),
+          buildCurrencyColumn('Budget Value',
+              approval.purchaseRequisition!.budgetValue, currencyFormat),
+          buildTextColumn('Grand Total Value',
+              approval.purchaseRequisition!.grandTotalValue, currencyFormat),
+          buildTextColumn('Release Group Code',
+              approval.purchaseRequisition!.releaseGroupCode),
+          buildTextColumn('Release Group Description',
+              approval.purchaseRequisition!.releaseGroupDesc),
+          buildTextColumn('Release Code Description',
+              approval.purchaseRequisition!.releaseCodeDesc),
+          SizedBox(height: 20),
+          Divider(color: Colors.grey, height: 1, thickness: 2),
+          buildTextHeaderColumn('Purchase Requisition Items', ""),
+          for (var i = 0;
+              i < (approval.purchaseRequisition!.itemspr?.length ?? 0);
+              i++)
+            buildItemPrDetails(i + 1, approval.purchaseRequisition!.itemspr![i],
+                currencyFormat),
         ],
         const SizedBox(height: 70),
       ],
     );
   }
 
-  Widget buildTextHeaderColumn(String label, String? value) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: TextStyles.headerFieldStyle.copyWith(color: Colors.blue),
-        ),
-        Text(value ?? '-', style: TextStyles.buttonprofileTextStyle),
-      ],
-    );
-  }
-
-  Widget buildTextColumn(String label, String? value) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style: TextStyles.approvalTextStyle),
-        Text(value ?? '-', style: TextStyles.buttonprofileTextStyle),
-      ],
-    );
-  }
-
-  Widget buildItemDetails(int itemNumber, Item item, NumberFormat format) {
+  Widget buildItemDetails(int itemNumber, ItemPo item, NumberFormat format) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -183,19 +193,19 @@ class ApprovalDetails extends StatelessWidget {
         const Divider(color: Colors.grey, height: 1, thickness: 2),
         buildTextHeaderColumn('Service Details', ''),
         for (var j = 0; j < item.details.length; j++)
-          buildServiceDetails(j + 1, item.details[j], format),
+          buildServiceDetails(itemNumber, j + 1, item.details[j], format),
       ],
     );
   }
 
   Widget buildServiceDetails(
-      int serviceNumber, Detail detail, NumberFormat format) {
+      int itemNumber, int serviceNumber, DetailPo detail, NumberFormat format) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Service $serviceNumber',
-          style: TextStyles.headerFieldStyle.copyWith(color: Colors.blue),
+          'Service $serviceNumber Item ke $itemNumber',
+          style: TextStyles.approvalTextStyle,
         ),
         SizedBox(
           height: 20,
@@ -209,6 +219,86 @@ class ApprovalDetails extends StatelessWidget {
           height: 20,
         ),
         const Divider(color: Colors.grey, height: 1, thickness: 2),
+      ],
+    );
+  }
+
+  Widget buildItemPrDetails(
+      int itemNumber, ItemPr itemspr, NumberFormat format) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Item $itemNumber',
+          style: TextStyles.headerFieldStyle.copyWith(color: Colors.blue),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        buildTextColumn('PR Item', itemspr.prItem),
+        buildTextColumn('Material Code', itemspr.materialCode),
+        buildTextColumn('Material Description', itemspr.materialDesc),
+        buildTextColumn('Quantity', itemspr.prQuantity),
+        buildTextColumn('Unit', itemspr.prOrderUnit),
+        buildCurrencyColumn('Unit Price', itemspr.unitPrice, format),
+        buildCurrencyColumn('Item Total Price', itemspr.priceUnit, format),
+        buildTextColumn('Delivery Date', itemspr.deliveryDate),
+        SizedBox(
+          height: 20,
+        ),
+        const Divider(color: Colors.grey, height: 1, thickness: 2),
+        buildTextHeaderColumn('Service Details', ''),
+        for (var j = 0; j < (itemspr.details?.length ?? 0); j++)
+          buildServicePrDetails(itemNumber, j + 1, itemspr.details![j], format),
+      ],
+    );
+  }
+
+  Widget buildServicePrDetails(
+      int itemNumber, int serviceNumber, DetailPr detail, NumberFormat format) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Service $serviceNumber Item ke $itemNumber',
+          style: TextStyles.approvalTextStyle,
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        buildTextColumn('Service No', detail.serviceNo ?? '-'),
+        buildTextColumn('Service Description', detail.serviceDesc ?? '-'),
+        buildTextColumn('Service Quantity', detail.serviceQuantity ?? '-'),
+        buildTextColumn('Service Unit', detail.serviceUnit ?? '-'),
+        buildCurrencyColumn('Service Price', detail.servicePrice, format),
+        SizedBox(
+          height: 20,
+        ),
+        const Divider(color: Colors.grey, height: 1, thickness: 2),
+      ],
+    );
+  }
+
+  Widget buildTextHeaderColumn(String label, String? value) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyles.headerFieldStyle.copyWith(color: Colors.blue),
+        ),
+        Text(value ?? '-', style: TextStyles.buttonprofileTextStyle),
+      ],
+    );
+  }
+
+  Widget buildTextColumn(String label, String? value,
+      [NumberFormat? currencyFormat]) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label, style: TextStyles.approvalTextStyle),
+        Text(value ?? '-', style: TextStyles.buttonprofileTextStyle),
       ],
     );
   }

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../../common/models/approval.dart';
 import '../../../routes/app_pages.dart';
 import '../../../utils/constant/style/app_color.dart';
 import '../../../utils/constant/style/text_styles.dart';
@@ -61,19 +62,24 @@ class ApprovalView extends GetView<ApprovalController> {
                         itemCount: controller.filteredApprovals.length,
                         itemBuilder: (context, index) {
                           final approval = controller.filteredApprovals[index];
-                          IconData trailingIcon;
-                          Color trailingIconColor = Colors.grey;
-                          IconData statusIcon;
-                          Color statusIconColor = Colors.grey;
-                          Color textColor = Colors.black;
+                          final status = approval.status ??
+                              Status.PENDING; // Default ke PENDING jika null
+                          final approvalStatus = approval
+                                  .property?.approvalStatus ??
+                              Status.PENDING; // Default ke PENDING jika null
 
-                          switch (approval.property?.approvalStatus) {
-                            case 'approved':
+// Mengatur trailing icon, trailing icon color, dan text color berdasarkan approvalStatus
+                          IconData trailingIcon;
+                          Color trailingIconColor;
+                          Color textColor;
+
+                          switch (approvalStatus) {
+                            case Status.APPROVED:
                               trailingIcon = Icons.check;
                               trailingIconColor = Colors.green;
                               textColor = Colors.green;
                               break;
-                            case 'reject':
+                            case Status.REJECT:
                               trailingIcon = Icons.close;
                               trailingIconColor = Colors.redAccent;
                               textColor = Colors.redAccent;
@@ -84,16 +90,20 @@ class ApprovalView extends GetView<ApprovalController> {
                               textColor = Colors.grey;
                           }
 
-                          switch (approval.status) {
-                            case 'pending':
+// Mengatur status icon dan status icon color berdasarkan status
+                          IconData statusIcon;
+                          Color statusIconColor;
+
+                          switch (status) {
+                            case Status.PENDING:
                               statusIcon = Icons.autorenew;
                               statusIconColor = Colors.grey;
                               break;
-                            case 'approved':
+                            case Status.APPROVED:
                               statusIcon = Icons.done_all;
                               statusIconColor = Colors.green;
                               break;
-                            case 'reject':
+                            case Status.REJECT:
                               statusIcon = Icons.error;
                               statusIconColor = Colors.red;
                               break;
@@ -101,7 +111,6 @@ class ApprovalView extends GetView<ApprovalController> {
                               statusIcon = Icons.help;
                               statusIconColor = Colors.blue;
                           }
-
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8),
                             child: Container(
@@ -117,7 +126,7 @@ class ApprovalView extends GetView<ApprovalController> {
                                 children: [
                                   ListTile(
                                     title: Text(
-                                      approval.name,
+                                      approval.name ?? '',
                                       style: TextStyles
                                           .headerapprovalStyleProfile
                                           .copyWith(color: textColor),
@@ -130,16 +139,19 @@ class ApprovalView extends GetView<ApprovalController> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Divider(
+                                          const Divider(
                                             height: 5,
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             height: 5,
                                           ),
                                           Text(
                                             approval.property?.unitDesc ??
                                                 approval
-                                                    .purchaseOrder!.typeDesc,
+                                                    .purchaseOrder?.vendor ??
+                                                approval.purchaseRequisition
+                                                    ?.prType ??
+                                                '',
                                             style: TextStyles
                                                 .headerapprovalStyleProfile
                                                 .copyWith(color: textColor),
@@ -163,11 +175,13 @@ class ApprovalView extends GetView<ApprovalController> {
                                     ),
                                     onTap: () => Get.toNamed(
                                       Routes.DETAIL_APPROVAL,
-                                      parameters: {'approvalId': approval.id},
+                                      parameters: {
+                                        'approvalId': approval.id.toString()
+                                      },
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                       horizontal: 15,
                                       vertical: 10,
                                     ),
@@ -181,7 +195,8 @@ class ApprovalView extends GetView<ApprovalController> {
                                             onPressed: () => Get.toNamed(
                                               Routes.DETAIL_APPROVAL,
                                               parameters: {
-                                                'approvalId': approval.id
+                                                'approvalId':
+                                                    approval.id.toString()
                                               },
                                             ),
                                             style: ElevatedButton.styleFrom(
@@ -224,13 +239,9 @@ class ApprovalView extends GetView<ApprovalController> {
                                                       ),
                                                       child: Container(
                                                         width: Get.width * 0.8,
-                                                        // height: MediaQuery.of(
-                                                        //             context)
-                                                        //         .size
-                                                        //         .height *
-                                                        //     0.8, // Set dialog width to 80% of screen width
                                                         padding:
-                                                            EdgeInsets.all(20),
+                                                            const EdgeInsets
+                                                                .all(20),
                                                         child: Column(
                                                           mainAxisSize:
                                                               MainAxisSize.min,
@@ -307,16 +318,17 @@ class ApprovalView extends GetView<ApprovalController> {
                                                                       () {
                                                                     Get.back();
                                                                   },
-                                                                  child: Text(
-                                                                      'Back'),
+                                                                  child:
+                                                                      const Text(
+                                                                          'Back'),
                                                                 ),
                                                                 ElevatedButton(
                                                                   onPressed:
                                                                       () {
                                                                     controller
                                                                         .submitNegotiation(
-                                                                      approval
-                                                                          .id,
+                                                                      approval.id ??
+                                                                          "",
                                                                       riRecommendationController
                                                                           .text,
                                                                       riRefundController

@@ -123,46 +123,60 @@ class ProfileView extends GetView<ProfileController> {
   Widget _buildProfileInfo() {
     return Container(
       padding: const EdgeInsets.only(bottom: 20),
-      child: Row(
+      child: Column(
         children: [
-          ClipOval(
-            child: FittedBox(
-              fit: BoxFit.cover,
-              child: SizedBox(
-                width: 56,
-                height: 56,
-                child: Image.asset(
-                  'asset/images/Rectangle.png',
+          Row(
+            children: [
+              ClipOval(
+                child: FittedBox(
+                  fit: BoxFit.cover,
+                  child: SizedBox(
+                    width: 56,
+                    height: 56,
+                    child: Image.asset(
+                      'asset/images/Rectangle.png',
+                    ),
+                  ),
                 ),
               ),
-            ),
+              const SizedBox(width: 20),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      controller.user.name,
+                      style: TextStyles.headerStyleProfile,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      controller.user.email,
+                      style: TextStyles.descriptionStyle,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-          const SizedBox(width: 20),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  controller.user.name,
-                  style: TextStyles.headerStyleProfile,
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  controller.user.email,
-                  style: TextStyles.descriptionStyle,
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  controller.user.position.title,
-                  style: TextStyles.descriptionStyle,
-                ),
-              ],
-            ),
+          SizedBox(
+            height: 10,
+          ),
+          Divider(
+            height: 5,
+            thickness: 2,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            controller.user.position.title,
+            style: TextStyles.descriptionStyle,
           ),
         ],
       ),

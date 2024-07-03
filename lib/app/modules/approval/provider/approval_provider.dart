@@ -32,7 +32,7 @@ class ApprovalProvider extends GetConnect {
           final Map<String, dynamic> responseData = jsonDecode(responseBody!);
           final leadsData = Approval.fromJson(responseData);
 
-          _approval = leadsData.data;
+          _approval = leadsData.data!;
           _filteredApproval.addAll(_approval);
           return _approval;
         } else {
@@ -49,7 +49,7 @@ class ApprovalProvider extends GetConnect {
     }
   }
 
-  Future<List<Datum>> searchApproval(String query) async {
+  Future<List<Datum>?> searchApproval(String query) async {
     var apiUrl = ApiEndPoints.baseUrl +
         ApiEndPoints.getDataApproval.dataApproval +
         // '&searchBy=$searchType' +
@@ -72,7 +72,7 @@ class ApprovalProvider extends GetConnect {
 
           Approval approvalData = approvalFromJson(response.bodyString!);
 
-          _filteredApproval.value = approvalData.data;
+          _filteredApproval.value = approvalData.data!;
 
           return approvalData.data;
         } else {
