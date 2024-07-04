@@ -24,36 +24,31 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
         centerTitle: true,
         backgroundColor: AppColor.primary,
       ),
-      body: Stack(
-        children: [
-          Obx(() {
-            if (controller.approvalDetail.value.data.id.isEmpty) {
-              return Center(child: CircularProgressIndicator());
-            }
+      body: Obx(() {
+        if (controller.approvalDetail.value.data.id.isEmpty) {
+          return Center(child: CircularProgressIndicator());
+        }
 
-            Data approval = controller.approvalDetail.value.data;
+        Data approval = controller.approvalDetail.value.data;
 
-            return SingleChildScrollView(
-              child: Padding(
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: ApprovalDetails(
                     approval: approval, currencyFormat: currencyFormat),
               ),
-            );
-          }),
-          Obx(() => controller.approvalStatus.value == 'pending'
-              ? Positioned(
-                  top: 630,
-                  left: 5,
-                  right: 5,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30),
-                    child: ApprovalActions(controller: controller),
-                  ),
-                )
-              : Container()),
-        ],
-      ),
+            ),
+            if (controller.approvalStatus.value == 'pending')
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: ApprovalActions(controller: controller),
+              ),
+          ],
+        );
+      }),
     );
   }
 }
@@ -186,7 +181,6 @@ class ApprovalDetails extends StatelessWidget {
             buildItemPrDetails(i + 1, approval.purchaseRequisition!.itemspr![i],
                 currencyFormat),
         ],
-        const SizedBox(height: 70),
       ],
     );
   }

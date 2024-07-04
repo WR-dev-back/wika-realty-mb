@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:wr_project/app/routes/app_pages.dart';
 import 'package:wr_project/app/utils/constant/style/app_color.dart';
+import 'package:wr_project/app/utils/constant/style/text_styles.dart';
 
-import '../../../../utils/constant/style/text_styles.dart';
 import '../controllers/detail_leads_controller.dart';
 
 class DetailLeadsView extends GetView<DetailLeadsController> {
@@ -33,10 +32,10 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
         ),
         centerTitle: true,
       ),
-      body: Stack(
+      body: Column(
         children: [
-          SingleChildScrollView(
-            child: Padding(
+          Expanded(
+            child: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
@@ -79,25 +78,12 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                                 ],
                               ),
                               const SizedBox(height: 15),
-                              Row(
-                                children: [
-                                  // Text(
-                                  //   "Property Details",
-                                  //   style: TextStyles.approvalTextStyle,
-                                  // ),
-                                  // SizedBox(
-                                  //   height: 5,
-                                  // ),
-                                ],
-                              ),
                               Divider(
                                 color: Colors.grey,
                                 height: 1,
                                 thickness: 2,
                               ),
-                              SizedBox(
-                                height: 15,
-                              ),
+                              const SizedBox(height: 15),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -139,7 +125,6 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                                   ),
                                 ],
                               ),
-
                               const SizedBox(height: 15),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -211,7 +196,6 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                                 ],
                               ),
                               const SizedBox(height: 15),
-
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -229,11 +213,6 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                                   ),
                                 ],
                               ),
-
-                              SizedBox(
-                                height: 70,
-                              ),
-                              // Add more details as needed
                             ],
                           ),
                         ),
@@ -244,64 +223,53 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
               ),
             ),
           ),
-          Positioned(
-              top: 630,
-              left: 5,
-              right: 5,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      width: 150,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Get.toNamed(
-                            Routes.EDIT_DETAIL_LEADS,
-                            arguments: leads,
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColor.error,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Edit",
-                              style: TextStyles.cardbuttomTextStyle,
-                            ),
-                          ],
-                        ),
+          Container(
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    width: 140,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Get.toNamed(
+                          Routes.EDIT_DETAIL_LEADS,
+                          arguments: leads,
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColor.error,
+                      ),
+                      child: Text(
+                        "Edit",
+                        style: TextStyles.cardbuttomTextStyle,
                       ),
                     ),
-                    Container(
-                      width: 150,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Get.toNamed(
-                            Routes.FOLLOWUP_LEADS,
-                            arguments: leads,
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Follow Up",
-                              style: TextStyles.cardbuttomTextStyle,
-                            ),
-                          ],
-                        ),
+                  ),
+                  Container(
+                    width: 140,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Get.toNamed(
+                          Routes.FOLLOWUP_LEADS,
+                          arguments: leads,
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                      ),
+                      child: Text(
+                        "Follow Up",
+                        style: TextStyles.cardbuttomTextStyle,
                       ),
                     ),
-                  ],
-                ),
-              )),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );

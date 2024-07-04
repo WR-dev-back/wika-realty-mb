@@ -63,7 +63,7 @@ class LoginView extends GetView<LoginController> {
     return Container(
       margin: EdgeInsets.only(bottom: 20),
       child: Text(
-        'Lengkapi data dibawah untuk masuk ke akunmu yang sudah terdaftar di Olife Mobile.',
+        'Lengkapi data dibawah untuk masuk ke akunmu yang sudah terdaftar di Olif Mobile.',
         style: TextStyles.descriptionStyle,
       ),
     );

@@ -65,7 +65,7 @@ class HomeView extends GetView<HomeController> {
                                     style: TextStyles.headerhomeStyle,
                                   ),
                                   Text(
-                                    "SiOlife",
+                                    "SiOlif",
                                     style: TextStyles.headerhomeStyle,
                                   )
                                 ],
