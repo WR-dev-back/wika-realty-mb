@@ -80,9 +80,13 @@ class ApprovalDetails extends StatelessWidget {
         if (approval.property != null) ...[
           buildTextHeaderColumn(
               'Unit Description', approval.property?.unitDesc),
-          SizedBox(height: 30),
+          SizedBox(height: 15),
           const Divider(color: Colors.grey, height: 1, thickness: 2),
-          buildTextHeaderColumn('Property Details', ""),
+          Text(
+            'Property Details',
+            style: TextStyles.headerFieldStyle.copyWith(color: Colors.blue),
+          ),
+          SizedBox(height: 15),
           buildTextColumn('Contract Number', approval.property!.contractNo),
           buildTextColumn('Customer Code', approval.property!.customerCode),
           buildTextColumn('Customer Name', approval.property!.customerName),
@@ -97,18 +101,23 @@ class ApprovalDetails extends StatelessWidget {
               approval.property!.bookingFeeNetto, currencyFormat),
           buildTextColumn('Progress Count', approval.property!.progressConst),
           buildTextColumn('Cancel Date', approval.property!.cancelDate),
+          buildTextColumn('Refund Recommendation',
+              approval.property!.refundRecommendation, currencyFormat),
           buildTextColumn(
-              'Refund Recommendation', approval.property!.refundRecommendation),
-          buildTextColumn('Ri Refund', approval.property!.riRefound),
-          buildTextColumn(
-              'Recommendation Value', approval.property!.recommendationValue),
+              'Ri Refund', approval.property!.riRefound, currencyFormat),
+          buildTextColumn('Recommendation Value',
+              approval.property!.recommendationValue, currencyFormat),
         ],
         if (approval.purchaseOrder != null) ...[
           buildTextHeaderColumn(
               'Type Description', approval.purchaseOrder!.typeDesc),
-          SizedBox(height: 30),
+          SizedBox(height: 15),
           const Divider(color: Colors.grey, height: 1, thickness: 2),
-          buildTextHeaderColumn('Purchase Order Details', ""),
+          Text(
+            'Purchase Order Details',
+            style: TextStyles.headerFieldStyle.copyWith(color: Colors.blue),
+          ),
+          SizedBox(height: 15),
           buildTextColumn('PO Type', approval.purchaseOrder!.poType),
           buildTextColumn('Vendor', approval.purchaseOrder!.vendor),
           buildTextColumn(
@@ -126,7 +135,11 @@ class ApprovalDetails extends StatelessWidget {
               'Approval Status', approval.purchaseOrder!.approvalStatus),
           SizedBox(height: 20),
           const Divider(color: Colors.grey, height: 1, thickness: 2),
-          buildTextHeaderColumn('Purchase Order Items', ""),
+          Text(
+            'Purchase Order Items',
+            style: TextStyles.headerFieldStyle.copyWith(color: Colors.blue),
+          ),
+          SizedBox(height: 15),
           for (var i = 0; i < approval.purchaseOrder!.itemsPo!.length; i++)
             buildItemDetails(
                 i + 1, approval.purchaseOrder!.itemsPo![i], currencyFormat),
@@ -134,9 +147,13 @@ class ApprovalDetails extends StatelessWidget {
         if (approval.purchaseRequisition != null) ...[
           buildTextHeaderColumn('Type Description',
               approval.purchaseRequisition!.procurementItemName),
-          SizedBox(height: 30),
+          SizedBox(height: 15),
           Divider(color: Colors.grey, height: 1, thickness: 2),
-          buildTextHeaderColumn('Purchase Requisition Details', ""),
+          Text(
+            'Property Details',
+            style: TextStyles.headerFieldStyle.copyWith(color: Colors.blue),
+          ),
+          SizedBox(height: 15),
           buildTextColumn('PR Type', approval.purchaseRequisition!.prType),
           buildTextColumn(
               'Vendor 1', approval.purchaseRequisition!.newVendorName1 ?? '-'),
@@ -146,8 +163,10 @@ class ApprovalDetails extends StatelessWidget {
               'Description', approval.purchaseRequisition!.typeDesc),
           buildCurrencyColumn('Budget Value',
               approval.purchaseRequisition!.budgetValue, currencyFormat),
-          buildTextColumn('Grand Total Value',
-              approval.purchaseRequisition!.grandTotalValue, currencyFormat),
+          buildCurrencyColumn(
+              'Grand Total Value',
+              approval.purchaseRequisition!.grandTotalValue,
+              currencyFormat), // Corrected line
           buildTextColumn('Release Group Code',
               approval.purchaseRequisition!.releaseGroupCode),
           buildTextColumn('Release Group Description',
@@ -156,7 +175,11 @@ class ApprovalDetails extends StatelessWidget {
               approval.purchaseRequisition!.releaseCodeDesc),
           SizedBox(height: 20),
           Divider(color: Colors.grey, height: 1, thickness: 2),
-          buildTextHeaderColumn('Purchase Requisition Items', ""),
+          Text(
+            'Purchase Requisition Items',
+            style: TextStyles.headerFieldStyle.copyWith(color: Colors.blue),
+          ),
+          SizedBox(height: 15),
           for (var i = 0;
               i < (approval.purchaseRequisition!.itemspr?.length ?? 0);
               i++)
@@ -191,7 +214,11 @@ class ApprovalDetails extends StatelessWidget {
           height: 20,
         ),
         const Divider(color: Colors.grey, height: 1, thickness: 2),
-        buildTextHeaderColumn('Service Details', ''),
+        Text(
+          'Service Details',
+          style: TextStyles.headerFieldStyle.copyWith(color: Colors.blue),
+        ),
+        SizedBox(height: 15),
         for (var j = 0; j < item.details.length; j++)
           buildServiceDetails(itemNumber, j + 1, item.details[j], format),
       ],
@@ -236,18 +263,35 @@ class ApprovalDetails extends StatelessWidget {
           height: 10,
         ),
         buildTextColumn('PR Item', itemspr.prItem),
+        buildTextColumn('Account Assignment', itemspr.accountAssignment),
+        buildTextColumn('Item Category', itemspr.itemCategory),
         buildTextColumn('Material Code', itemspr.materialCode),
         buildTextColumn('Material Description', itemspr.materialDesc),
         buildTextColumn('Quantity', itemspr.prQuantity),
         buildTextColumn('Unit', itemspr.prOrderUnit),
         buildCurrencyColumn('Unit Price', itemspr.unitPrice, format),
-        buildCurrencyColumn('Item Total Price', itemspr.priceUnit, format),
+        buildCurrencyColumn('Total Price Unit', itemspr.priceUnit, format),
+        buildCurrencyColumn('Total Value', itemspr.totalValue, format),
+        buildTextColumn('Currency', itemspr.currency),
+        buildTextColumn('Plant', itemspr.plant),
+        buildTextColumn('Plant Description', itemspr.plantDesc),
+        buildTextColumn('Storage Location', itemspr.storageLocation),
+        buildTextColumn(
+            'Storage Location Description', itemspr.storageLocationDesc),
+        buildTextColumn('Requisitioner', itemspr.requisitioner),
+        buildTextColumn('Cost Center', itemspr.costCenter),
+        buildTextColumn('Cost Center Description', itemspr.costCenterDesc),
+        buildTextColumn('User Id', itemspr.userId),
         buildTextColumn('Delivery Date', itemspr.deliveryDate),
         SizedBox(
           height: 20,
         ),
         const Divider(color: Colors.grey, height: 1, thickness: 2),
-        buildTextHeaderColumn('Service Details', ''),
+        Text(
+          'Service Details',
+          style: TextStyles.headerFieldStyle.copyWith(color: Colors.blue),
+        ),
+        SizedBox(height: 15),
         for (var j = 0; j < (itemspr.details?.length ?? 0); j++)
           buildServicePrDetails(itemNumber, j + 1, itemspr.details![j], format),
       ],
@@ -287,7 +331,7 @@ class ApprovalDetails extends StatelessWidget {
           label,
           style: TextStyles.headerFieldStyle.copyWith(color: Colors.blue),
         ),
-        Text(value ?? '-', style: TextStyles.buttonprofileTextStyle),
+        Text(emptyToDash(value), style: TextStyles.buttonprofileTextStyle),
       ],
     );
   }
@@ -298,7 +342,7 @@ class ApprovalDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(label, style: TextStyles.approvalTextStyle),
-        Text(value ?? '-', style: TextStyles.buttonprofileTextStyle),
+        Text(emptyToDash(value), style: TextStyles.buttonprofileTextStyle),
       ],
     );
   }
@@ -308,8 +352,14 @@ class ApprovalDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(label, style: TextStyles.approvalTextStyle),
-        Text(format.format(double.tryParse(value ?? "0") ?? 0),
-            style: TextStyles.buttonprofileTextStyle),
+        Text(
+          value == null || value.isEmpty
+              ? '-'
+              : format.format(
+                  double.tryParse(value.replaceAll('.', '')) ?? 0,
+                ),
+          style: TextStyles.buttonprofileTextStyle,
+        ),
       ],
     );
   }
@@ -397,4 +447,8 @@ class ApprovalActions extends StatelessWidget {
       },
     );
   }
+}
+
+String emptyToDash(String? value) {
+  return (value == null || value.isEmpty) ? '-' : value;
 }

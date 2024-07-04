@@ -36,6 +36,10 @@ class EditDetailLeadsController extends GetxController {
   var areaCount = 0.obs;
   var omzetCount = 0.obs;
 
+  late String originalNpwp;
+  late String originalEmail;
+  late String originalPhoneNum;
+
   void updateCount(RxInt counter, String text) {
     counter.value = text.length;
   }
@@ -56,13 +60,27 @@ class EditDetailLeadsController extends GetxController {
     super.onClose();
   }
 
+  void setOriginalValues(String npwp, String email, String phoneNum) {
+    originalNpwp = npwp;
+    originalEmail = email;
+    originalPhoneNum = phoneNum;
+  }
+
   Future<void> updateLeadsData(String leadId, Datum leads) async {
     try {
-      bool isDuplicate = await leadsProvider.checkDuplicate(
-        email: emailController.text,
-        phone: phoneNumController.text,
-        npwp: npwpController.text,
-      );
+      bool isNpwpChanged = npwpController.text != originalNpwp;
+      bool isEmailChanged = emailController.text != originalEmail;
+      bool isPhoneNumChanged = phoneNumController.text != originalPhoneNum;
+
+      bool isDuplicate = false;
+
+      if (isNpwpChanged || isEmailChanged || isPhoneNumChanged) {
+        isDuplicate = await leadsProvider.checkDuplicate(
+          email: emailController.text,
+          phone: phoneNumController.text,
+          npwp: npwpController.text,
+        );
+      }
 
       if (isDuplicate) {
         Get.snackbar('Error', 'Npwp, Email, Nomor Handphone telah Dipakai');

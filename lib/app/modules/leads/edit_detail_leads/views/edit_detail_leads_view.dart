@@ -23,6 +23,8 @@ class EditDetailLeadsView extends GetView<EditDetailLeadsController> {
     controller.areaController.text = leads.area.toString();
     controller.omzetController.text = leads.omzet ?? '';
 
+    controller.setOriginalValues(leads.npwp, leads.email, leads.phoneNumber);
+
     // Update counters based on the initial text in the controllers
     controller.updateCount(
         controller.fullNameCount, controller.fullNameController.text);
