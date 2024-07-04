@@ -12,6 +12,7 @@ class LeadsController extends GetxController {
   var hasError = false.obs;
   final LeadsProvider leadsProvider = Get.find();
   ScrollController scrollController = ScrollController();
+  var searchType = 'none'.obs;
 
   late TextEditingController email;
   late TextEditingController fullName;
@@ -33,6 +34,22 @@ class LeadsController extends GetxController {
   void startFetching() => isFetching(true);
 
   void stopFetching() => isFetching(false);
+
+  var digitalSourceCount = 0.obs;
+  var offlineSourceCount = 0.obs;
+  var locationCount = 0.obs;
+  var fullNameCount = 0.obs;
+  var phoneCount = 0.obs;
+  var npwpCount = 0.obs;
+  var emailCount = 0.obs;
+  var cityCount = 0.obs;
+  var typeCount = 0.obs;
+  var areaCount = 0.obs;
+  var omzetCount = 0.obs;
+
+  void updateCount(RxInt counter, String text) {
+    counter.value = text.length;
+  }
 
   @override
   void onInit() {
@@ -144,7 +161,8 @@ class LeadsController extends GetxController {
   Future<void> searchLeads(String query) async {
     startFetching();
     try {
-      filteredLeads.value = await leadsProvider.searchLeads(query);
+      filteredLeads.value =
+          await leadsProvider.searchLeads(query, searchType.value);
     } catch (error) {
       print('Error searching data: $error');
     } finally {

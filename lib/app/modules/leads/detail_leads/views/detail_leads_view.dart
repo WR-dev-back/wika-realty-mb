@@ -14,10 +14,11 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
   @override
   Widget build(BuildContext context) {
     final leads = Get.arguments;
+
     final NumberFormat currencyFormat = NumberFormat.currency(
-      locale: 'id_ID', // Indonesian locale
-      symbol: 'Rp.', // Currency symbol
-      decimalDigits: 0, // Number of decimal digits
+      locale: 'id_ID',
+      symbol: 'Rp.',
+      decimalDigits: 0,
     );
 
     return Scaffold(
@@ -58,12 +59,12 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                                     style: TextStyles.approvalTextStyle,
                                   ),
                                   Text(
-                                    '${leads?.fullName}',
+                                    '${leads?.fullName ?? '-'}',
                                     style: TextStyles.buttonprofileTextStyle,
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 10),
+                              const SizedBox(height: 15),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -72,7 +73,7 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                                     style: TextStyles.approvalTextStyle,
                                   ),
                                   Text(
-                                    '${leads.email}',
+                                    '${leads?.email ?? '-'}',
                                     style: TextStyles.buttonprofileTextStyle,
                                   ),
                                 ],
@@ -95,7 +96,7 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                                 thickness: 2,
                               ),
                               SizedBox(
-                                height: 10,
+                                height: 15,
                               ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,12 +106,12 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                                     style: TextStyles.approvalTextStyle,
                                   ),
                                   Text(
-                                    '${leads.phoneNumber}',
+                                    '${leads?.phoneNumber ?? '-'}',
                                     style: TextStyles.buttonprofileTextStyle,
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 10),
+                              const SizedBox(height: 15),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -119,12 +120,12 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                                     style: TextStyles.approvalTextStyle,
                                   ),
                                   Text(
-                                    '${leads.digitalSource}',
+                                    '${leads?.digitalSource ?? '-'}',
                                     style: TextStyles.buttonprofileTextStyle,
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 10),
+                              const SizedBox(height: 15),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -133,13 +134,13 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                                     style: TextStyles.approvalTextStyle,
                                   ),
                                   Text(
-                                    '${leads.offlineSource}',
+                                    '${leads?.offlineSource ?? '-'}',
                                     style: TextStyles.buttonprofileTextStyle,
                                   ),
                                 ],
                               ),
 
-                              const SizedBox(height: 10),
+                              const SizedBox(height: 15),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -148,12 +149,12 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                                     style: TextStyles.approvalTextStyle,
                                   ),
                                   Text(
-                                    '${leads.locationOffline}',
+                                    '${leads?.locationOffline ?? '-'}',
                                     style: TextStyles.buttonprofileTextStyle,
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 10),
+                              const SizedBox(height: 15),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -162,12 +163,12 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                                     style: TextStyles.approvalTextStyle,
                                   ),
                                   Text(
-                                    '${leads.npwp}',
+                                    '${leads?.npwp ?? '-'}',
                                     style: TextStyles.buttonprofileTextStyle,
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 10),
+                              const SizedBox(height: 15),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -176,12 +177,12 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                                     style: TextStyles.approvalTextStyle,
                                   ),
                                   Text(
-                                    '${leads.city}',
+                                    '${leads?.city ?? '-'}',
                                     style: TextStyles.buttonprofileTextStyle,
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 10),
+                              const SizedBox(height: 15),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -190,12 +191,12 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                                     style: TextStyles.approvalTextStyle,
                                   ),
                                   Text(
-                                    '${leads.type ?? '-'}',
+                                    '${leads?.type ?? '-'}',
                                     style: TextStyles.buttonprofileTextStyle,
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 10),
+                              const SizedBox(height: 15),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -204,12 +205,12 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                                     style: TextStyles.approvalTextStyle,
                                   ),
                                   Text(
-                                    '${leads.area}',
+                                    '${leads?.area ?? '-'}',
                                     style: TextStyles.buttonprofileTextStyle,
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 10),
+                              const SizedBox(height: 15),
 
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -219,11 +220,19 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                                     style: TextStyles.approvalTextStyle,
                                   ),
                                   Text(
+<<<<<<< HEAD
                                     currencyFormat.format(
                                       leads?.omzet != null
                                           ? double.parse(leads!.omzet!)
                                           : 0.0,
                                     ),
+=======
+                                    leads?.omzet != null
+                                        ? currencyFormat.format(
+                                            double.parse(leads.omzet),
+                                          )
+                                        : '-',
+>>>>>>> a2f0f05658bbf3ef1d1d8508a574b7a65a350f7c
                                     style: TextStyles.buttonprofileTextStyle,
                                   ),
                                 ],

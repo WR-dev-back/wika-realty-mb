@@ -7,5 +7,6 @@ class AppColor {
   static Color pcolor = const Color(0xFFBFDFFE);
   static Color cblight = const Color(0xFFEAF4FF);
   static Color text = const Color(0xFF979797);
+  static Color succes = Color.fromARGB(195, 0, 208, 3);
   static Color error = const Color(0xFFD00E0E);
 }

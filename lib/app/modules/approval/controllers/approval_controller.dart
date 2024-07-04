@@ -5,10 +5,12 @@ import '../provider/approval_provider.dart';
 class ApprovalController extends GetxController {
   final ApprovalProvider approvalProvider = Get.find();
   var isFetching = false.obs;
-  var approvals = <Approval>[].obs;
-  var flatApprovals = <Approval>[].obs;
-  var filteredApprovals = <Approval>[].obs;
+  var filteredApprovals = List<Datum>.empty().obs;
+  var flatApprovals = <Datum>[].obs;
   var hasError = false.obs;
+  var currentPage = 1.obs;
+  var totalPages = 1.obs;
+  var page = 1;
 
   @override
   void onInit() {
@@ -16,24 +18,31 @@ class ApprovalController extends GetxController {
     fetchApproval();
   }
 
+  void submitNegotiation(
+      String approvalId, String riRecommendation, String riRefund) {
+    // Implement the submit logic here
+    // Example:
+    print('Approval ID: $approvalId');
+    print('RI Recommendation: $riRecommendation');
+    print('RI Refund: $riRefund');
+  }
+
   Future<void> fetchApproval() async {
     try {
       isFetching(true);
       hasError(false);
       final response = await approvalProvider.getApproval();
-      if (response.statusCode == 200) {
-        final List<dynamic> responseData =
-            response.body['data']; // No need to decode again
-        approvals.value =
-            responseData.map((e) => Approval.fromJson(e)).toList();
-        flatApprovals.value = approvals.toList();
-        filteredApprovals.value = flatApprovals;
+      if (page == 1) {
+        filteredApprovals.value = response;
       } else {
-        print('Failed to load approvals: ${response.statusCode}');
+        filteredApprovals.addAll(response);
       }
+      currentPage.value = page;
+
+      totalPages.value = (response.length / 25).ceil();
     } catch (error) {
       hasError(true);
-      print('Error fetching data: $error');
+      // print('Error fetching data: $error');
     } finally {
       isFetching(false);
     }
@@ -46,14 +55,11 @@ class ApprovalController extends GetxController {
     await fetchApproval();
   }
 
-  void searchApproval(String query) {
-    if (query.isEmpty) {
-      filteredApprovals.value = flatApprovals;
-    } else {
-      filteredApprovals.value = flatApprovals
-          .where((approval) =>
-              approval.name.toLowerCase().contains(query.toLowerCase()))
-          .toList();
-    }
+  Future<void> searchApproval(String query) async {
+    try {
+      filteredApprovals.value = (await approvalProvider.searchApproval(query))!;
+    } catch (error) {
+      print('Error searching data: $error');
+    } finally {}
   }
 }

@@ -10,11 +10,14 @@ class FollowupLeadsController extends GetxController
 
   late TabController tabController;
 
+  var followUpCount = 0.obs;
+  var prospectsCount = 0.obs;
+
   TextEditingController dateController = TextEditingController();
   Rx<DateTime> selectedDate = DateTime.now().obs;
   TextEditingController followUpController = TextEditingController();
   TextEditingController prospectsController = TextEditingController();
-  RxString hintText = "Tanggal :".obs;
+  RxString hintText = "".obs;
   final followUpOptions = ['cold', 'reserved', 'hot prospek', 'ok'];
 
   RxString selectedFollowUpOption = ''.obs;
@@ -44,8 +47,13 @@ class FollowupLeadsController extends GetxController
 
     await loadFollowUpData(leadId);
 
-    followUpController.addListener(validateForm);
-    prospectsController.addListener(validateForm);
+    followUpController.addListener(() {
+      followUpCount.value = followUpController.text.length;
+    });
+
+    prospectsController.addListener(() {
+      prospectsCount.value = prospectsController.text.length;
+    });
     dateController.addListener(validateForm);
   }
 
@@ -56,6 +64,10 @@ class FollowupLeadsController extends GetxController
     prospectsController.dispose();
     dateController.dispose();
     super.onClose();
+  }
+
+  void updateCount(RxInt counter, String value) {
+    counter.value = value.length;
   }
 
   void onTabChange() {
@@ -129,37 +141,41 @@ class FollowupLeadsController extends GetxController
       dateController.text = formatDate(followUp1Data['date'] ?? '');
       followUpController.text = followUp1Data['follow_up'] ?? '';
       prospectsController.text = followUp1Data['prospects'] ?? '';
-      selectedFollowUpOption.value = followUp1Data['status'] ?? '';
-      hintText.value = "Tanggal : ${followUp1Data['date'] ?? ''}";
+      selectedFollowUpOption.value =
+          followUp1Data['status'] ?? ''; // Set to empty if null
+      hintText.value = " ${followUp1Data['date'] ?? ''}";
     } else if (followUpType == 2) {
       dateController.text = formatDate(followUp2Data['date'] ?? '');
       followUpController.text = followUp2Data['follow_up'] ?? '';
       prospectsController.text = followUp2Data['prospects'] ?? '';
-      selectedFollowUpOption.value = followUp2Data['status'] ?? '';
-      hintText.value = "Tanggal : ${followUp2Data['date'] ?? ''}";
+      selectedFollowUpOption.value =
+          followUp2Data['status'] ?? ''; // Set to empty if null
+      hintText.value = "${followUp2Data['date'] ?? ''}";
     } else if (followUpType == 3) {
       dateController.text = formatDate(followUp3Data['date'] ?? '');
       followUpController.text = followUp3Data['follow_up'] ?? '';
       prospectsController.text = followUp3Data['prospects'] ?? '';
-      selectedFollowUpOption.value = followUp3Data['status'] ?? '';
-      hintText.value = "Tanggal : ${followUp3Data['date'] ?? ''}";
+      selectedFollowUpOption.value =
+          followUp3Data['status'] ?? ''; // Set to empty if null
+      hintText.value = "${followUp3Data['date'] ?? ''}";
     } else {
       dateController.clear();
       followUpController.clear();
       prospectsController.clear();
-      hintText.value = "Tanggal :";
-      selectedFollowUpOption.value = ''; // Reset dropdown selection
+      hintText.value = "";
+      selectedFollowUpOption.value = ''; // Set to empty for no input
     }
 
     // Ensure the selected option exists in the follow-up options
     if (!followUpOptions.contains(selectedFollowUpOption.value)) {
-      selectedFollowUpOption.value = followUpOptions.first;
+      selectedFollowUpOption.value = ''; // Set to empty if it's not in options
     }
 
     validateForm();
   }
 
   String formatDate(String isoDate) {
+<<<<<<< HEAD
     try {
       DateTime date = DateTime.parse(isoDate);
       return DateFormat('dd MMMM yyyy')
@@ -168,6 +184,19 @@ class FollowupLeadsController extends GetxController
       // Handle the FormatException
       print('Error parsing date: $e');
       return isoDate; // Return the original string if parsing fails
+=======
+    if (isoDate.isEmpty) {
+      return ''; // Handle empty date string as needed
+    }
+
+    try {
+      DateTime date = DateTime.parse(isoDate);
+      return DateFormat('dd MMMM yyyy')
+          .format(date); // Adjust date format as needed
+    } catch (e) {
+      print('Error parsing date: $e');
+      return ''; // Handle error in date parsing
+>>>>>>> a2f0f05658bbf3ef1d1d8508a574b7a65a350f7c
     }
   }
 

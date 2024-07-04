@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wr_project/app/routes/app_pages.dart';
+import 'package:wr_project/app/common/models/leads.dart';
+import 'package:wr_project/app/modules/leads/controllers/leads_controller.dart';
+import 'package:wr_project/app/modules/leads/edit_detail_leads/provider/edit_detail_leads.dart';
+import 'package:wr_project/app/modules/leads/provider/leads_provider.dart';
 
-import '../../../../common/models/leads.dart';
-import '../../controllers/leads_controller.dart';
-import '../provider/edit_detail_leads.dart';
+import '../../../../routes/app_pages.dart';
 
 class EditDetailLeadsController extends GetxController {
   final EditDetailLeadsProvider _editDetailLeadsProvider =
       EditDetailLeadsProvider();
+  final LeadsProvider leadsProvider = Get.find<LeadsProvider>();
 
   TextEditingController fullNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -22,7 +24,25 @@ class EditDetailLeadsController extends GetxController {
   TextEditingController areaController = TextEditingController();
   TextEditingController omzetController = TextEditingController();
 
-  // Add controllers for other fields as needed
+  var fullNameCount = 0.obs;
+  var emailCount = 0.obs;
+  var phoneCount = 0.obs;
+  var digitalSourceCount = 0.obs;
+  var offlineSourceCount = 0.obs;
+  var locationCount = 0.obs;
+  var npwpCount = 0.obs;
+  var cityCount = 0.obs;
+  var typeCount = 0.obs;
+  var areaCount = 0.obs;
+  var omzetCount = 0.obs;
+
+  late String originalNpwp;
+  late String originalEmail;
+  late String originalPhoneNum;
+
+  void updateCount(RxInt counter, String text) {
+    counter.value = text.length;
+  }
 
   @override
   void onClose() {
@@ -40,9 +60,33 @@ class EditDetailLeadsController extends GetxController {
     super.onClose();
   }
 
-  // Function to update leads data
+  void setOriginalValues(String npwp, String email, String phoneNum) {
+    originalNpwp = npwp;
+    originalEmail = email;
+    originalPhoneNum = phoneNum;
+  }
+
   Future<void> updateLeadsData(String leadId, Datum leads) async {
     try {
+      bool isNpwpChanged = npwpController.text != originalNpwp;
+      bool isEmailChanged = emailController.text != originalEmail;
+      bool isPhoneNumChanged = phoneNumController.text != originalPhoneNum;
+
+      bool isDuplicate = false;
+
+      if (isNpwpChanged || isEmailChanged || isPhoneNumChanged) {
+        isDuplicate = await leadsProvider.checkDuplicate(
+          email: emailController.text,
+          phone: phoneNumController.text,
+          npwp: npwpController.text,
+        );
+      }
+
+      if (isDuplicate) {
+        Get.snackbar('Error', 'Npwp, Email, Nomor Handphone telah Dipakai');
+        return;
+      }
+
       leads.fullName = fullNameController.text;
       leads.email = emailController.text;
       leads.phoneNumber = phoneNumController.text;
@@ -55,23 +99,18 @@ class EditDetailLeadsController extends GetxController {
       leads.area = int.tryParse(areaController.text) ?? 0;
       leads.omzet = omzetController.text;
 
-      // Perform the API call to update the leads data
       final response =
           await _editDetailLeadsProvider.updateLeadsData(leadId, leads);
 
-      // Check the response status code
       if (response.statusCode == 200) {
-        // Data updated successfully
         final LeadsController leadsController = Get.find<LeadsController>();
         await leadsController.fetchDataLeads();
         Get.offAllNamed(Routes.HOME);
         Get.toNamed(Routes.LEADS);
       } else {
-        // Error handling
         print('Error response updating leads data: ${response.statusText}');
       }
     } catch (error) {
-      // Handle errors
       print('Error updating leads data: $error');
     }
   }

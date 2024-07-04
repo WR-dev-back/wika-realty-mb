@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/exceptions/exceptions.dart';
@@ -10,11 +9,11 @@ class LoginProvider extends GetConnect {
     try {
       var url =
           '${ApiEndPoints.baseUrl}${ApiEndPoints.authEndpoints.loginEmail}';
-      var body = jsonEncode({'identifier': email.trim(), 'password': password});
-      var response = await post(url, body, headers: headers);
+      var response = await post(
+          url, {'identifier': email.trim(), 'password': password},
+          headers: headers);
       return response;
     } catch (error) {
-      // Handle network errors specifically
       if (error is GetHttpException) {
         showErrorDialog("No internet connection");
       } else {

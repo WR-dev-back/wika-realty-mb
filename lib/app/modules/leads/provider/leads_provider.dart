@@ -16,6 +16,7 @@ class LeadsProvider extends GetConnect {
     var apiUrl = ApiEndPoints.baseUrl +
         ApiEndPoints.getDataLeads.dataLeads +
         'page=${page}&limit=${limit}';
+    print(apiUrl);
 
     try {
       final String? token = storage.read('token');
@@ -51,10 +52,13 @@ class LeadsProvider extends GetConnect {
     }
   }
 
-  Future<List<Datum>> searchLeads(String query) async {
+  Future<List<Datum>> searchLeads(String query, String searchType) async {
     var apiUrl = Uri.parse(ApiEndPoints.baseUrl +
         ApiEndPoints.getDataLeads.dataLeads +
+        '&searchBy=$searchType' +
         '&search=$query');
+
+    print(apiUrl);
 
     try {
       final String? token = storage.read('token');

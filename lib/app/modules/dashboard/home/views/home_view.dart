@@ -70,12 +70,12 @@ class HomeView extends GetView<HomeController> {
                                   )
                                 ],
                               ),
-                              SizedBox(height: 20),
+                              SizedBox(height: 10),
                               Text(
                                 controller.user.email,
                                 style: TextStyles.buttonauthTextStyle,
                               ),
-                              SizedBox(height: 20),
+                              SizedBox(height: 10),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -248,7 +248,7 @@ class HomeView extends GetView<HomeController> {
                                       borderRadius: BorderRadius.circular(20),
                                       image: DecorationImage(
                                         image: AssetImage(
-                                            "asset/images/obito.jpeg"),
+                                            "asset/images/Frame 52.png"),
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -261,7 +261,7 @@ class HomeView extends GetView<HomeController> {
                                       borderRadius: BorderRadius.circular(20),
                                       image: DecorationImage(
                                         image: AssetImage(
-                                            "asset/images/obito.jpeg"),
+                                            "asset/images/Frame 52.png"),
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -274,7 +274,7 @@ class HomeView extends GetView<HomeController> {
                                       borderRadius: BorderRadius.circular(20),
                                       image: DecorationImage(
                                         image: AssetImage(
-                                            "asset/images/obito.jpeg"),
+                                            "asset/images/Frame 52.png"),
                                         fit: BoxFit.cover,
                                       ),
                                     ),

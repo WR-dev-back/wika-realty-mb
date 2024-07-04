@@ -9,48 +9,81 @@ import '../../../../routes/app_pages.dart';
 
 class LoginController extends GetxController {
   final LoginProvider _loginProvider = LoginProvider();
-  final TextEditingController emailC = TextEditingController();
-  final TextEditingController passC = TextEditingController();
-  final RxBool isLoading = false.obs;
-  final RxBool obsecureText = true.obs;
-  final RxBool isFormValid = false.obs;
+  var emailC = TextEditingController();
+  var passC = TextEditingController();
+  var obsecureText = true.obs;
+  var isFormValid = false.obs;
+  var isLoading = false.obs;
+  var emailError = ''.obs;
+  var passwordError = ''.obs;
+
+  var emailFocusNode = FocusNode();
+  var passwordFocusNode = FocusNode();
 
   final GetStorage storage = GetStorage();
 
   @override
   void onInit() {
     super.onInit();
-    emailC.addListener(updateFormValidity);
-    passC.addListener(updateFormValidity);
+    emailC.addListener(validateForm);
+    passC.addListener(validateForm);
+
+    emailFocusNode.addListener(() {
+      if (!emailFocusNode.hasFocus) {
+        validateEmail();
+      }
+    });
+
+    passwordFocusNode.addListener(() {
+      if (!passwordFocusNode.hasFocus) {
+        validatePassword();
+      }
+    });
   }
 
-  @override
-  void onClose() {
-    emailC.removeListener(updateFormValidity);
-    passC.removeListener(updateFormValidity);
-    super.onClose();
+  void validateForm() {
+    validateEmail();
+    validatePassword();
+
+    isFormValid.value = emailError.isEmpty && passwordError.isEmpty;
   }
 
-  void updateFormValidity() {
-    isFormValid.value = emailC.text.isNotEmpty && passC.text.isNotEmpty;
+  void validateEmail() {
+    if (emailC.text.isEmpty) {
+      emailError.value = 'Email harus diisi';
+    } else if (!GetUtils.isEmail(emailC.text)) {
+      emailError.value = 'Email tidak valid';
+    } else {
+      emailError.value = '';
+    }
+  }
+
+  void validatePassword() {
+    if (passC.text.isEmpty) {
+      passwordError.value = 'Password harus diisi';
+    } else if (passC.text.length < 6) {
+      passwordError.value = 'Password minimal 6 karakter';
+    } else {
+      passwordError.value = '';
+    }
   }
 
   Future<void> login() async {
-    if (emailC.text.isEmpty || passC.text.isEmpty) {
-      _showDialog('Perhatian', 'Isi Email & Password Terlebih dahulu');
-      return;
-    }
+    // if (emailC.text.isEmpty || passC.text.isEmpty) {
+    //   _showDialog('Perhatian', 'Isi Email & Password Terlebih dahulu');
+    //   return;
+    // }
 
-    if (!isValidEmail(emailC.text)) {
-      _showDialog('Perhatian', 'Masukkan alamat email yang valid');
-      return;
-    }
+    // if (!isValidEmail(emailC.text)) {
+    //   _showDialog('Perhatian', 'Masukkan alamat email yang valid');
+    //   return;
+    // }
 
-    if (passC.text.length < 6) {
-      _showDialog(
-          'Perhatian', 'Password harus terdiri dari minimal 6 karakter');
-      return;
-    }
+    // if (passC.text.length < 6) {
+    //   _showDialog(
+    //       'Perhatian', 'Password harus terdiri dari minimal 6 karakter');
+    //   return;
+    // }
 
     try {
       var response = await _loginProvider.login(emailC.text, passC.text);
@@ -93,5 +126,14 @@ class LoginController extends GetxController {
 
   bool isValidEmail(String email) {
     return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
+  }
+
+  @override
+  void dispose() {
+    emailC.dispose();
+    passC.dispose();
+    emailFocusNode.dispose();
+    passwordFocusNode.dispose();
+    super.dispose();
   }
 }

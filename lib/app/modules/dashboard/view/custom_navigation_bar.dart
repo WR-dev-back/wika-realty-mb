@@ -16,69 +16,60 @@ class CustomBottomNavigationBar extends GetView<PageIndexController> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          Expanded(
-            child: InkWell(
-              onTap: () => controller.changePage(0),
-              child: SizedBox(
-                height: 65,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: 35,
-                      margin: const EdgeInsets.only(bottom: 4),
-                      child: (controller.pageIndex.value == 0)
-                          ? SvgPicture.asset('asset/icons/home-active.svg')
-                          : SvgPicture.asset('asset/icons/home.svg'),
-                    ),
-                    Container(
-                      child: (controller.pageIndex.value == 0)
-                          ? Text(
-                              "Home",
-                              style: TextStyles.menuTextStyleblue,
-                            )
-                          : Text(
-                              "Home",
-                              style: TextStyles.menuTextStyle,
-                            ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+          _buildBottomNavigationButton(
+            0,
+            controller.pageIndex.value == 0
+                ? SvgPicture.asset('asset/icons/home-active.svg')
+                : SvgPicture.asset('asset/icons/home.svg'),
+            TextStyles.menuTextStyleblue,
+            'Home',
+            TextStyles.menuTextStyleblue,
           ),
-          Expanded(
-            child: InkWell(
-              onTap: () => controller.changePage(1),
-              child: SizedBox(
-                height: 65,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: 35,
-                      margin: const EdgeInsets.only(bottom: 4),
-                      child: (controller.pageIndex.value == 1)
-                          ? SvgPicture.asset('asset/icons/profile-1.svg')
-                          : SvgPicture.asset('asset/icons/people.svg'),
-                    ),
-                    Container(
-                      child: (controller.pageIndex.value == 1)
-                          ? Text(
-                              "Profile",
-                              style: TextStyles.menuTextStyleblue,
-                            )
-                          : Text(
-                              "Profile",
-                              style: TextStyles.menuTextStyle,
-                            ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+          _buildBottomNavigationButton(
+            1,
+            controller.pageIndex.value == 1
+                ? SvgPicture.asset('asset/icons/profile-1.svg')
+                : SvgPicture.asset('asset/icons/people.svg'),
+            TextStyles.menuTextStyleblue,
+            'Profile',
+            TextStyles.menuTextStyle,
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildBottomNavigationButton(
+    int pageIndex,
+    Widget icon,
+    TextStyle activeTextStyle,
+    String label,
+    TextStyle inactiveTextStyle,
+  ) {
+    return Expanded(
+      child: InkWell(
+        onTap: () => controller.changePage(pageIndex),
+        child: SizedBox(
+          height: 65,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                height: 35,
+                margin: const EdgeInsets.only(bottom: 4),
+                child: icon,
+              ),
+              Container(
+                child: Text(
+                  label,
+                  style: controller.pageIndex.value == pageIndex
+                      ? activeTextStyle
+                      : inactiveTextStyle,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

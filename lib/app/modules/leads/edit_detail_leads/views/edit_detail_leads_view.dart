@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:wr_project/app/utils/constant/style/app_color.dart';
 import 'package:wr_project/app/utils/constant/style/text_styles.dart';
@@ -22,6 +23,32 @@ class EditDetailLeadsView extends GetView<EditDetailLeadsController> {
     controller.areaController.text = leads.area.toString();
     controller.omzetController.text = leads.omzet ?? '';
 
+    controller.setOriginalValues(leads.npwp, leads.email, leads.phoneNumber);
+
+    // Update counters based on the initial text in the controllers
+    controller.updateCount(
+        controller.fullNameCount, controller.fullNameController.text);
+    controller.updateCount(
+        controller.emailCount, controller.emailController.text);
+    controller.updateCount(
+        controller.phoneCount, controller.phoneNumController.text);
+    controller.updateCount(
+        controller.digitalSourceCount, controller.sumDController.text);
+    controller.updateCount(
+        controller.offlineSourceCount, controller.sumOfController.text);
+    controller.updateCount(
+        controller.locationCount, controller.lokController.text);
+    controller.updateCount(
+        controller.npwpCount, controller.npwpController.text);
+    controller.updateCount(
+        controller.cityCount, controller.cityController.text);
+    controller.updateCount(
+        controller.typeCount, controller.typeController.text);
+    controller.updateCount(
+        controller.areaCount, controller.areaController.text);
+    controller.updateCount(
+        controller.omzetCount, controller.omzetController.text);
+
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(
@@ -39,93 +66,82 @@ class EditDetailLeadsView extends GetView<EditDetailLeadsController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextField(
-              controller: controller.fullNameController,
-              decoration: InputDecoration(
-                labelText: 'Full Name',
-                labelStyle: TextStyles.approvalTextStyle,
-              ),
-              style: TextStyles.buttonprofileTextStyle,
+            SizedBox(height: 20),
+            _buildTextFieldWithCounter(
+              controller.fullNameController,
+              'Nama Panjang',
+              30,
+              controller.fullNameCount,
             ),
-            TextField(
-              controller: controller.emailController,
-              decoration: InputDecoration(
-                labelText: 'Email',
-                labelStyle: TextStyles.approvalTextStyle,
-              ),
-              style: TextStyles.buttonprofileTextStyle,
+            SizedBox(height: 20),
+            _buildTextFieldWithCounter(
+              controller.emailController,
+              'Email',
+              241,
+              controller.emailCount,
             ),
-            TextField(
-              controller: controller.phoneNumController,
-              decoration: InputDecoration(
-                labelText: 'Phone Number',
-                labelStyle: TextStyles.approvalTextStyle,
-              ),
-              style: TextStyles.buttonprofileTextStyle,
+            SizedBox(height: 20),
+            _buildTextFieldWithCounter(
+              controller.phoneNumController,
+              'Nomor Telepon',
+              30,
+              controller.phoneCount,
             ),
-            TextField(
-              controller: controller.sumDController,
-              decoration: InputDecoration(
-                labelText: 'Sumber Digital',
-                labelStyle: TextStyles.approvalTextStyle,
-              ),
-              style: TextStyles.buttonprofileTextStyle,
+            SizedBox(height: 20),
+            _buildTextFieldWithCounter(
+              controller.sumDController,
+              'Sumber Digital',
+              30,
+              controller.digitalSourceCount,
             ),
-            TextField(
-              controller: controller.sumOfController,
-              decoration: InputDecoration(
-                labelText: 'Sumber Offline',
-                labelStyle: TextStyles.approvalTextStyle,
-              ),
-              style: TextStyles.buttonprofileTextStyle,
+            SizedBox(height: 20),
+            _buildTextFieldWithCounter(
+              controller.sumOfController,
+              'Sumber Offline',
+              30,
+              controller.offlineSourceCount,
             ),
-            TextField(
-              controller: controller.lokController,
-              decoration: InputDecoration(
-                labelText: 'Lokasi',
-                labelStyle: TextStyles.approvalTextStyle,
-              ),
-              style: TextStyles.buttonprofileTextStyle,
+            SizedBox(height: 20),
+            _buildTextFieldWithCounter(
+              controller.lokController,
+              'Lokasi',
+              30,
+              controller.locationCount,
             ),
-            TextField(
-              controller: controller.npwpController,
-              decoration: InputDecoration(
-                labelText: 'Npwp',
-                labelStyle: TextStyles.approvalTextStyle,
-              ),
-              style: TextStyles.buttonprofileTextStyle,
+            SizedBox(height: 20),
+            _buildTextFieldWithCounter(
+              controller.npwpController,
+              'Npwp',
+              60,
+              controller.npwpCount,
             ),
-            TextField(
-              controller: controller.cityController,
-              decoration: InputDecoration(
-                labelText: 'City',
-                labelStyle: TextStyles.approvalTextStyle,
-              ),
-              style: TextStyles.buttonprofileTextStyle,
+            SizedBox(height: 20),
+            _buildTextFieldWithCounter(
+              controller.cityController,
+              'Kota',
+              10,
+              controller.cityCount,
             ),
-            TextField(
-              controller: controller.typeController,
-              decoration: InputDecoration(
-                labelText: 'Type',
-                labelStyle: TextStyles.approvalTextStyle,
-              ),
-              style: TextStyles.buttonprofileTextStyle,
+            SizedBox(height: 20),
+            _buildTextFieldWithCounter(
+              controller.typeController,
+              'Type',
+              10,
+              controller.typeCount,
             ),
-            TextField(
-              controller: controller.areaController,
-              decoration: InputDecoration(
-                labelText: 'Area',
-                labelStyle: TextStyles.approvalTextStyle,
-              ),
-              style: TextStyles.buttonprofileTextStyle,
+            SizedBox(height: 20),
+            _buildTextFieldWithCounter(
+              controller.areaController,
+              'Area',
+              15,
+              controller.areaCount,
             ),
-            TextField(
-              controller: controller.omzetController,
-              decoration: InputDecoration(
-                labelText: 'Omzet',
-                labelStyle: TextStyles.approvalTextStyle,
-              ),
-              style: TextStyles.buttonprofileTextStyle,
+            SizedBox(height: 20),
+            _buildTextFieldWithCounter(
+              controller.omzetController,
+              'Omzet',
+              15,
+              controller.omzetCount,
             ),
             // Add input fields for other lead properties
             SizedBox(height: 20),
@@ -149,6 +165,62 @@ class EditDetailLeadsView extends GetView<EditDetailLeadsController> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildTextFieldWithCounter(TextEditingController controller,
+      String labelText, int maxLength, RxInt counter,
+      {TextInputType keyboardType = TextInputType.text,
+      List<TextInputFormatter>? inputFormatters,
+      String? Function(String?)? validator}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextFormField(
+          style: TextStyles.buttonprofileTextStyle,
+          controller: controller,
+          keyboardType: keyboardType,
+          inputFormatters: [
+            ...?inputFormatters,
+            LengthLimitingTextInputFormatter(maxLength),
+          ],
+          decoration: InputDecoration(
+            label: Text(
+              labelText,
+              style: TextStyles.approvalTextStyle,
+            ),
+            floatingLabelBehavior: FloatingLabelBehavior.always,
+            hintText: "",
+          ),
+          validator: validator,
+          onChanged: (value) {
+            // update character count in controller
+            this.controller.updateCount(counter, value);
+          },
+        ),
+        SizedBox(height: 5),
+        Obx(() => Text(
+              '${counter.value}/$maxLength',
+              style: TextStyle(color: Colors.grey, fontSize: 12),
+            )),
+      ],
+    );
+  }
+}
+
+class PhoneNumberFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.text.isEmpty) {
+      return newValue;
+    }
+
+    String newText =
+        newValue.text.startsWith('+') ? newValue.text : '+${newValue.text}';
+    return TextEditingValue(
+      text: newText,
+      selection: TextSelection.collapsed(offset: newText.length),
     );
   }
 }

@@ -63,18 +63,132 @@ class LeadsView extends GetView<LeadsController> {
               child: TabBarView(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 10,
+                    ),
                     child: Column(
                       children: [
-                        TextField(
-                          controller: controller.searchController,
-                          decoration: InputDecoration(
-                            labelText: 'Search Leads',
-                            prefixIcon: Icon(Icons.search),
-                          ),
-                          onSubmitted: (value) {
-                            controller.searchLeads(value);
-                          },
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextField(
+                                controller: controller.searchController,
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  labelText: 'Search Leads',
+                                  prefixIcon: Icon(Icons.search),
+                                ),
+                                onSubmitted: (value) {
+                                  controller.searchLeads(value);
+                                },
+                              ),
+                            ),
+                            SizedBox(width: 20),
+                            Obx(
+                              () {
+                                return IconButton(
+                                  icon: Icon(
+                                    Icons.filter_list,
+                                    color: controller.searchType.value != 'none'
+                                        ? Colors.blue
+                                        : Colors.grey,
+                                  ),
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text('Filter by'),
+                                          content: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              FilterTile(
+                                                title: 'Full Name',
+                                                isSelected: controller
+                                                        .searchType.value ==
+                                                    'fullname',
+                                                onTap: () {
+                                                  controller.searchType.value =
+                                                      'fullname';
+                                                  Get.back();
+                                                },
+                                              ),
+                                              FilterTile(
+                                                title: 'Code',
+                                                isSelected: controller
+                                                        .searchType.value ==
+                                                    'code',
+                                                onTap: () {
+                                                  controller.searchType.value =
+                                                      'code';
+                                                  Get.back();
+                                                },
+                                              ),
+                                              FilterTile(
+                                                title: 'Phone Number',
+                                                isSelected: controller
+                                                        .searchType.value ==
+                                                    'phonenumber',
+                                                onTap: () {
+                                                  controller.searchType.value =
+                                                      'phonenumber';
+                                                  Get.back();
+                                                },
+                                              ),
+                                              FilterTile(
+                                                title: 'Email',
+                                                isSelected: controller
+                                                        .searchType.value ==
+                                                    'email',
+                                                onTap: () {
+                                                  controller.searchType.value =
+                                                      'email';
+                                                  Get.back();
+                                                },
+                                              ),
+                                              FilterTile(
+                                                title: 'Npwp',
+                                                isSelected: controller
+                                                        .searchType.value ==
+                                                    'npwp',
+                                                onTap: () {
+                                                  controller.searchType.value =
+                                                      'npwp';
+                                                  Get.back();
+                                                },
+                                              ),
+                                              FilterTile(
+                                                title: 'Kota',
+                                                isSelected: controller
+                                                        .searchType.value ==
+                                                    'city',
+                                                onTap: () {
+                                                  controller.searchType.value =
+                                                      'city';
+                                                  Get.back();
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                controller.searchType.value =
+                                                    'none'; // Clear the filter
+                                                Get.back();
+                                              },
+                                              child: Text('Clear Filter'),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                          ],
                         ),
                         SizedBox(
                           height: 10,
@@ -84,12 +198,12 @@ class LeadsView extends GetView<LeadsController> {
                             if (controller.isFetching.value) {
                               return Center(
                                 child: Lottie.asset(
-                                    'asset/animations/no_network.json'),
+                                    'asset/animations/loading.json'),
                               );
                             } else if (controller.hasError.value) {
                               return Center(
-                                child:
-                                    Lottie.asset('asset/animations/error.json'),
+                                child: Lottie.asset(
+                                    'asset/animations/no_network.json'),
                               );
                             } else if (controller.filteredLeads.isEmpty) {
                               return Center(
@@ -120,26 +234,26 @@ class LeadsView extends GetView<LeadsController> {
                                                     color: Colors.black,
                                                     width: 1),
                                                 borderRadius:
-                                                    BorderRadius.circular(10),
+                                                    BorderRadius.circular(18),
                                                 color: Colors.white,
                                               ),
                                               child: ListTile(
                                                 title: Text(
-                                                  maxLines: 1,
                                                   leads.fullName,
                                                   style: TextStyles.headStyle,
+                                                  maxLines: 1,
                                                 ),
                                                 subtitle: Text(
-                                                  maxLines: 1,
                                                   leads.email,
                                                   style:
                                                       TextStyles.decTextStyle,
+                                                  maxLines: 1,
                                                 ),
                                                 trailing: Text(
-                                                  maxLines: 1,
                                                   leads.phoneNumber,
                                                   style:
                                                       TextStyles.decTextStyle,
+                                                  maxLines: 1,
                                                 ),
                                                 onTap: () => Get.toNamed(
                                                   Routes.DETAIL_LEADS,
@@ -178,47 +292,96 @@ class LeadsView extends GetView<LeadsController> {
                                   height: 10,
                                   thickness: 1,
                                 ),
-                                // SizedBox(height: 20),
-                                _buildTextField(
-                                    controller.sumD, "Sumber Digital"),
                                 SizedBox(height: 20),
-                                _buildTextField(
-                                    controller.sumOf, "Sumber Offline"),
+                                _buildTextFieldWithCounter(
+                                  controller.sumD,
+                                  "Sumber Digital",
+                                  50,
+                                  controller.digitalSourceCount,
+                                ),
                                 SizedBox(height: 20),
-                                _buildTextField(
-                                    controller.lok, "Lokasi Kegiatan"),
+                                _buildTextFieldWithCounter(
+                                  controller.sumOf,
+                                  "Sumber Offline",
+                                  50,
+                                  controller.offlineSourceCount,
+                                ),
                                 SizedBox(height: 20),
-                                _buildTextField(
+                                _buildTextFieldWithCounter(
+                                  controller.lok,
+                                  "Lokasi Kegiatan",
+                                  100,
+                                  controller.locationCount,
+                                ),
+                                SizedBox(height: 20),
+                                _buildTextFieldWithCounter(
                                   controller.fullName,
                                   "Full Name",
+                                  100,
+                                  controller.fullNameCount,
                                   validator: controller.validateFullName,
                                 ),
                                 SizedBox(height: 20),
-                                _buildTextField(
+                                _buildTextFieldWithCounter(
                                   controller.phone,
                                   "Phone Number",
+                                  15,
+                                  controller.phoneCount,
                                   keyboardType: TextInputType.phone,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.digitsOnly,
-                                    LengthLimitingTextInputFormatter(15),
                                     PhoneNumberFormatter(),
                                   ],
                                   validator: controller.validatePhoneNumber,
                                 ),
                                 SizedBox(height: 20),
-                                _buildTextField(controller.npwpC, "Npwp",
-                                    keyboardType:
-                                        TextInputType.numberWithOptions()),
+                                _buildTextFieldWithCounter(
+                                  controller.npwpC,
+                                  "Npwp",
+                                  20,
+                                  controller.npwpCount,
+                                  keyboardType:
+                                      TextInputType.numberWithOptions(),
+                                ),
                                 SizedBox(height: 20),
-                                _buildTextField(controller.email, "Email"),
+                                _buildTextFieldWithCounter(
+                                  controller.email,
+                                  "Email",
+                                  100,
+                                  controller.emailCount,
+                                ),
                                 SizedBox(height: 20),
-                                _buildTextField(controller.cityC, "City"),
+                                _buildTextFieldWithCounter(
+                                  controller.cityC,
+                                  "City",
+                                  50,
+                                  controller.cityCount,
+                                ),
                                 SizedBox(height: 20),
-                                _buildTextField(controller.typeC, "Type"),
+                                _buildTextFieldWithCounter(
+                                  controller.typeC,
+                                  "Type",
+                                  50,
+                                  controller.typeCount,
+                                ),
                                 SizedBox(height: 20),
-                                _buildTextField(controller.areaC, "Area"),
+                                _buildTextFieldWithCounter(
+                                  controller.areaC,
+                                  "Area",
+                                  10,
+                                  controller.areaCount,
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly,
+                                  ],
+                                ),
                                 SizedBox(height: 20),
-                                _buildTextField(controller.omzetC, "Omzet"),
+                                _buildTextFieldWithCounter(
+                                  controller.omzetC,
+                                  "Omzet",
+                                  20,
+                                  controller.omzetCount,
+                                ),
                                 SizedBox(height: 10),
                                 Center(
                                   child: Container(
@@ -271,24 +434,42 @@ class LeadsView extends GetView<LeadsController> {
     );
   }
 
-  Widget _buildTextField(TextEditingController controller, String labelText,
+  Widget _buildTextFieldWithCounter(TextEditingController controller,
+      String labelText, int maxLength, RxInt counter,
       {TextInputType keyboardType = TextInputType.text,
       List<TextInputFormatter>? inputFormatters,
       String? Function(String?)? validator}) {
-    return TextFormField(
-      style: TextStyles.buttonprofileTextStyle,
-      controller: controller,
-      keyboardType: keyboardType,
-      inputFormatters: inputFormatters,
-      decoration: InputDecoration(
-        label: Text(
-          labelText,
-          style: TextStyles.approvalTextStyle,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextFormField(
+          style: TextStyles.buttonprofileTextStyle,
+          controller: controller,
+          keyboardType: keyboardType,
+          inputFormatters: [
+            ...?inputFormatters,
+            LengthLimitingTextInputFormatter(maxLength),
+          ],
+          decoration: InputDecoration(
+            label: Text(
+              labelText,
+              style: TextStyles.approvalTextStyle,
+            ),
+            floatingLabelBehavior: FloatingLabelBehavior.always,
+            hintText: "",
+          ),
+          validator: validator,
+          onChanged: (value) {
+            // update character count in controller
+            this.controller.updateCount(counter, value);
+          },
         ),
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        hintText: "",
-      ),
-      validator: validator,
+        SizedBox(height: 5),
+        Obx(() => Text(
+              '${counter.value}/$maxLength',
+              style: TextStyle(color: Colors.grey, fontSize: 12),
+            )),
+      ],
     );
   }
 }
@@ -306,6 +487,24 @@ class PhoneNumberFormatter extends TextInputFormatter {
     return TextEditingValue(
       text: newText,
       selection: TextSelection.collapsed(offset: newText.length),
+    );
+  }
+}
+
+class FilterTile extends StatelessWidget {
+  final String title;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  FilterTile(
+      {required this.title, required this.isSelected, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(title),
+      trailing: isSelected ? Icon(Icons.check, color: Colors.blue) : null,
+      onTap: onTap,
     );
   }
 }
