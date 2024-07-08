@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../routes/app_pages.dart';
@@ -12,6 +13,28 @@ class LeadsView extends GetView<LeadsController> {
   LeadsView({Key? key}) : super(key: key);
 
   final _formKey = GlobalKey<FormState>();
+
+  String formatDateTime(DateTime dateTime) {
+    final DateFormat formatter = DateFormat('MMM d, h:mm a');
+    return formatter.format(dateTime);
+  }
+
+  String formatOmzet(double omzet) {
+    if (omzet >= 1000000000) {
+      double omzetMiliar = omzet / 1000000000;
+      return 'Rp. ${omzetMiliar.toStringAsFixed(0)} Miliar';
+    } else if (omzet >= 1000000) {
+      double omzetJuta = omzet / 1000000;
+      return 'Rp. ${omzetJuta.toStringAsFixed(0)} Juta';
+    } else {
+      final NumberFormat currencyFormat = NumberFormat.currency(
+        locale: 'id_ID',
+        symbol: 'Rp.',
+        decimalDigits: 0,
+      );
+      return currencyFormat.format(omzet);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +88,7 @@ class LeadsView extends GetView<LeadsController> {
                   Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 20,
-                      vertical: 10,
+                      vertical: 5,
                     ),
                     child: Column(
                       children: [
@@ -84,13 +107,14 @@ class LeadsView extends GetView<LeadsController> {
                                 },
                               ),
                             ),
-                            SizedBox(width: 20),
+                            SizedBox(width: 10),
                             Obx(
                               () {
                                 return IconButton(
                                   icon: Icon(
                                     Icons.filter_list,
-                                    color: controller.searchType.value != 'none'
+                                    color: controller.searchType.value !=
+                                            'fullname'
                                         ? Colors.blue
                                         : Colors.grey,
                                   ),
@@ -191,7 +215,7 @@ class LeadsView extends GetView<LeadsController> {
                           ],
                         ),
                         SizedBox(
-                          height: 10,
+                          height: 5,
                         ),
                         Expanded(
                           child: Obx(() {
@@ -225,39 +249,163 @@ class LeadsView extends GetView<LeadsController> {
                                         itemBuilder: (context, index) {
                                           final leads =
                                               controller.filteredLeads[index];
+                                          Color statusColor = leads.omzet ==
+                                                  'Rp.0'
+                                              ? Colors.red
+                                              : Colors
+                                                  .green; // Ubah warna berdasarkan omzet
+
                                           return Padding(
                                             padding: EdgeInsets.symmetric(
                                                 vertical: 8),
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                    color: Colors.black,
-                                                    width: 1),
-                                                borderRadius:
-                                                    BorderRadius.circular(18),
-                                                color: Colors.white,
+                                            child: InkWell(
+                                              onTap: () => Get.toNamed(
+                                                Routes.DETAIL_LEADS,
+                                                arguments: leads,
                                               ),
-                                              child: ListTile(
-                                                title: Text(
-                                                  leads.fullName,
-                                                  style: TextStyles.headStyle,
-                                                  maxLines: 1,
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: Colors.grey,
+                                                      width: 0.5),
+                                                  borderRadius:
+                                                      BorderRadius.circular(18),
+                                                  color: Colors.white,
                                                 ),
-                                                subtitle: Text(
-                                                  leads.email,
-                                                  style:
-                                                      TextStyles.decTextStyle,
-                                                  maxLines: 1,
-                                                ),
-                                                trailing: Text(
-                                                  leads.phoneNumber,
-                                                  style:
-                                                      TextStyles.decTextStyle,
-                                                  maxLines: 1,
-                                                ),
-                                                onTap: () => Get.toNamed(
-                                                  Routes.DETAIL_LEADS,
-                                                  arguments: leads,
+                                                child: Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 15,
+                                                      vertical: 10),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                            '${leads.createdAt != null ? formatDateTime(leads.createdAt!) : 'Unknown'}',
+                                                            style: TextStyles
+                                                                .decTextStyle,
+                                                          ),
+                                                          Container(
+                                                            height: 25,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10),
+                                                              color:
+                                                                  statusColor,
+                                                            ),
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                          5),
+                                                              child: Center(
+                                                                child: Text(
+                                                                  leads.leadsCode ??
+                                                                      '-',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      SizedBox(height: 5),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                            leads.email ?? '-',
+                                                            style: TextStyles
+                                                                .approvalTextStyle,
+                                                            maxLines: 1,
+                                                          ),
+                                                          Text(
+                                                            leads.omzet != null
+                                                                ? formatOmzet(double
+                                                                    .parse(leads
+                                                                        .omzet!))
+                                                                : '-',
+                                                            style: TextStyles
+                                                                .buttonprofileTextStyle,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      SizedBox(height: 10),
+                                                      Divider(
+                                                          height: 2,
+                                                          thickness: 1),
+                                                      SizedBox(height: 10),
+                                                      Row(
+                                                        children: [
+                                                          ClipOval(
+                                                            child: SizedBox(
+                                                              width: 50,
+                                                              height: 50,
+                                                              child: Center(
+                                                                child: Image.network(
+                                                                    "https://ui-avatars.com/api/?name=${leads.fullName}",
+                                                                    fit: BoxFit
+                                                                        .contain),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(width: 10),
+                                                          Text(
+                                                            leads.fullName ??
+                                                                '-',
+                                                            style: TextStyles
+                                                                .leadsTextStyle,
+                                                            maxLines: 1,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      SizedBox(height: 10),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                          horizontal: 10,
+                                                        ),
+                                                        child: Row(
+                                                          children: [
+                                                            Icon(
+                                                              Icons
+                                                                  .location_city,
+                                                              color:
+                                                                  Colors.green,
+                                                            ),
+                                                            SizedBox(width: 10),
+                                                            Text(
+                                                              leads.city ?? '-',
+                                                              style: TextStyles
+                                                                  .leadsTextStyle,
+                                                              maxLines: 1,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             ),

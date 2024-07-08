@@ -12,7 +12,7 @@ class LeadsController extends GetxController {
   var hasError = false.obs;
   final LeadsProvider leadsProvider = Get.find();
   ScrollController scrollController = ScrollController();
-  var searchType = 'none'.obs;
+  var searchType = 'fullname'.obs;
 
   late TextEditingController email;
   late TextEditingController fullName;
@@ -162,7 +162,7 @@ class LeadsController extends GetxController {
     startFetching();
     try {
       filteredLeads.value =
-          await leadsProvider.searchLeads(query, searchType.value);
+          (await leadsProvider.searchLeads(query, searchType.value))!;
     } catch (error) {
       print('Error searching data: $error');
     } finally {

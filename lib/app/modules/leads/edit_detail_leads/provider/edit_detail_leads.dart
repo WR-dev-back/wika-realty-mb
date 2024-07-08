@@ -70,8 +70,6 @@ class EditDetailLeadsProvider extends GetConnect {
     final apiUrl =
         ApiEndPoints.baseUrl + ApiEndPoints.puteditLeads.editLeads + leadId;
 
-    print(apiUrl);
-
     try {
       final String? token = storage.read('token');
 
@@ -95,7 +93,7 @@ class EditDetailLeadsProvider extends GetConnect {
             'Content-Type': 'application/json',
           },
         );
-        print(response.body);
+        // print(response.body);
         return response;
       } else {
         // Handle case where token is null

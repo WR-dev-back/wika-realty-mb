@@ -375,10 +375,12 @@ enum ReleaseGroupDesc { PO_WIRA_100_JT }
 final releaseGroupDescValues =
     EnumValues({"PO WIRA > 100 JT": ReleaseGroupDesc.PO_WIRA_100_JT});
 
-enum TypeDesc { PRODUKSI_REGIONAL }
+enum TypeDesc { PRODUKSI_REGIONAL, PROD_REGIONAL_SCM }
 
-final typeDescValues =
-    EnumValues({"Produksi Regional": TypeDesc.PRODUKSI_REGIONAL});
+final typeDescValues = EnumValues({
+  "Produksi Regional": TypeDesc.PRODUKSI_REGIONAL,
+  "Prod Regional SCM": TypeDesc.PROD_REGIONAL_SCM
+});
 
 class PurchaseRequisition {
   String? id;

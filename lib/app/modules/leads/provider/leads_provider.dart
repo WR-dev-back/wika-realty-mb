@@ -35,7 +35,7 @@ class LeadsProvider extends GetConnect {
           final Map<String, dynamic> responseData = jsonDecode(responseBody!);
           final leadsData = Leads.fromJson(responseData);
 
-          _leads = leadsData.data;
+          _leads = leadsData.data!;
           _filteredLeads.addAll(_leads);
           return _leads;
         } else {
@@ -52,7 +52,7 @@ class LeadsProvider extends GetConnect {
     }
   }
 
-  Future<List<Datum>> searchLeads(String query, String searchType) async {
+  Future<List<Datum>?> searchLeads(String query, String searchType) async {
     var apiUrl = Uri.parse(ApiEndPoints.baseUrl +
         ApiEndPoints.getDataLeads.dataLeads +
         '&searchBy=$searchType' +
@@ -75,7 +75,7 @@ class LeadsProvider extends GetConnect {
 
           Leads leadsData = leadsFromJson(response.bodyString!);
 
-          filteredLeads.value = leadsData.data;
+          filteredLeads.value = leadsData.data!;
 
           return leadsData.data;
         } else {

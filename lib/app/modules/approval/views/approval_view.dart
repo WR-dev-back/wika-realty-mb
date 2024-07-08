@@ -116,8 +116,8 @@ class ApprovalView extends GetView<ApprovalController> {
                             child: Container(
                               decoration: BoxDecoration(
                                 border: Border.all(
-                                  color: Colors.black,
-                                  width: 1,
+                                  color: Colors.grey,
+                                  width: 0.5,
                                 ),
                                 borderRadius: BorderRadius.circular(18),
                                 color: Colors.white,
