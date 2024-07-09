@@ -54,6 +54,8 @@ class Datum {
   String? approvalPositionName;
   String? code;
   String? group;
+  bool? isNegotiate;
+  bool? isApprover;
   Property? property;
   PurchaseOrder? purchaseOrder;
   PurchaseRequisition? purchaseRequisition;
@@ -68,6 +70,8 @@ class Datum {
     this.approvalPositionName,
     this.code,
     this.group,
+    this.isNegotiate,
+    this.isApprover,
     this.property,
     this.purchaseOrder,
     this.purchaseRequisition,
@@ -87,6 +91,8 @@ class Datum {
         approvalPositionName: json["approval_position_name"],
         code: json["code"],
         group: json["group"],
+        isNegotiate: json["isNegotiate"],
+        isApprover: json["isApprover"],
         property: json["property"] == null
             ? null
             : Property.fromJson(json["property"]),
@@ -108,6 +114,8 @@ class Datum {
         "approval_position_name": approvalPositionName,
         "code": code,
         "group": group,
+        "isNegotiate": isNegotiate,
+        "isApprover": isApprover,
         "property": property?.toJson(),
         "purchaseOrder": purchaseOrder?.toJson(),
         "purchaseRequisition": purchaseRequisition?.toJson(),
@@ -115,10 +123,12 @@ class Datum {
 }
 
 class Property {
+  final bool isNegotiation;
   String? id;
   bool? isActive;
   DateTime? createdAt;
   DateTime? updatedAt;
+  dynamic ppcCode;
   String? contractNo;
   String? itemNo;
   String? ppuCode;
@@ -142,10 +152,12 @@ class Property {
   bool? isSend;
 
   Property({
+    required this.isNegotiation,
     this.id,
     this.isActive,
     this.createdAt,
     this.updatedAt,
+    this.ppcCode,
     this.contractNo,
     this.itemNo,
     this.ppuCode,
@@ -178,6 +190,7 @@ class Property {
         updatedAt: json["updatedAt"] == null
             ? null
             : DateTime.parse(json["updatedAt"]),
+        ppcCode: json["ppc_code"],
         contractNo: json["contract_no"],
         itemNo: json["item_no"],
         ppuCode: json["ppu_code"],
@@ -199,6 +212,7 @@ class Property {
         costCenter: json["cost_center"],
         isRead: json["isRead"],
         isSend: json["isSend"],
+        isNegotiation: true,
       );
 
   Map<String, dynamic> toJson() => {
@@ -206,6 +220,7 @@ class Property {
         "isActive": isActive,
         "createdAt": createdAt?.toIso8601String(),
         "updatedAt": updatedAt?.toIso8601String(),
+        "ppc_code": ppcCode,
         "contract_no": contractNo,
         "item_no": itemNo,
         "ppu_code": ppuCode,

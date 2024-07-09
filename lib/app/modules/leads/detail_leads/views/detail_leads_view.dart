@@ -32,245 +32,353 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
         ),
         centerTitle: true,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Column(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 15),
-                          width: MediaQuery.of(context).size.width,
-                          child: Column(
+      body: Container(
+        color: Colors.grey[200],
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                ),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Card(
+                        color: Colors.white,
+                        child: Column(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 10),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        width: 30,
+                                        height: 30,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.grey[
+                                              300], // Warna latar belakang lingkaran
+                                        ),
+                                        child: Icon(
+                                          Icons.person_outline,
+                                          size: 25,
+                                          color: Colors.blue, // Warna ikon
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        '${leads?.fullName ?? '-'}',
+                                        style: TextStyles.headStyle.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Divider(
+                                  height: 5,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 10),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Email',
+                                        style: TextStyles.descriptionStyle
+                                            .copyWith(
+                                                fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        '${leads?.email ?? '-'}',
+                                        style: TextStyles.descriptionStyle,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Card(
+                      color: Colors.white,
+                      child: Column(
+                        children: [
+                          Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Nama Panjang',
-                                    style: TextStyles.approvalTextStyle,
-                                  ),
-                                  Text(
-                                    '${leads?.fullName ?? '-'}',
-                                    style: TextStyles.buttonprofileTextStyle,
-                                  ),
-                                ],
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'NPWP',
+                                      style: TextStyles.descriptionStyle
+                                          .copyWith(
+                                              fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      '${leads?.npwp ?? '-'}',
+                                      style: TextStyles.descriptionStyle,
+                                    ),
+                                  ],
+                                ),
                               ),
-                              const SizedBox(height: 15),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Email',
-                                    style: TextStyles.approvalTextStyle,
-                                  ),
-                                  Text(
-                                    '${leads?.email ?? '-'}',
-                                    style: TextStyles.buttonprofileTextStyle,
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 15),
                               Divider(
-                                color: Colors.grey,
-                                height: 1,
-                                thickness: 2,
+                                height: 5,
                               ),
-                              const SizedBox(height: 15),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Nomor Telepon',
-                                    style: TextStyles.approvalTextStyle,
-                                  ),
-                                  Text(
-                                    '${leads?.phoneNumber ?? '-'}',
-                                    style: TextStyles.buttonprofileTextStyle,
-                                  ),
-                                ],
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Nomor Telepon',
+                                      style: TextStyles.descriptionStyle
+                                          .copyWith(
+                                              fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      '${leads?.phoneNumber ?? '-'}',
+                                      style: TextStyles.descriptionStyle,
+                                    ),
+                                  ],
+                                ),
                               ),
-                              const SizedBox(height: 15),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Sumber Digital',
-                                    style: TextStyles.approvalTextStyle,
-                                  ),
-                                  Text(
-                                    '${leads?.digitalSource ?? '-'}',
-                                    style: TextStyles.buttonprofileTextStyle,
-                                  ),
-                                ],
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Sumber Digital',
+                                      style: TextStyles.descriptionStyle
+                                          .copyWith(
+                                              fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      '${leads?.digitalSource ?? '-'}',
+                                      style: TextStyles.descriptionStyle,
+                                    ),
+                                  ],
+                                ),
                               ),
-                              const SizedBox(height: 15),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Sumber Offlane',
-                                    style: TextStyles.approvalTextStyle,
-                                  ),
-                                  Text(
-                                    '${leads?.offlineSource ?? '-'}',
-                                    style: TextStyles.buttonprofileTextStyle,
-                                  ),
-                                ],
+                              Divider(
+                                height: 5,
                               ),
-                              const SizedBox(height: 15),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Lokasi Kegiatan',
-                                    style: TextStyles.approvalTextStyle,
-                                  ),
-                                  Text(
-                                    '${leads?.locationOffline ?? '-'}',
-                                    style: TextStyles.buttonprofileTextStyle,
-                                  ),
-                                ],
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Sumber Offline',
+                                      style: TextStyles.descriptionStyle
+                                          .copyWith(
+                                              fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      '${leads?.offlineSource ?? '-'}',
+                                      style: TextStyles.descriptionStyle,
+                                    ),
+                                  ],
+                                ),
                               ),
-                              const SizedBox(height: 15),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'NPWP',
-                                    style: TextStyles.approvalTextStyle,
-                                  ),
-                                  Text(
-                                    '${leads?.npwp ?? '-'}',
-                                    style: TextStyles.buttonprofileTextStyle,
-                                  ),
-                                ],
+                              Divider(
+                                height: 5,
                               ),
-                              const SizedBox(height: 15),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Kota',
-                                    style: TextStyles.approvalTextStyle,
-                                  ),
-                                  Text(
-                                    '${leads?.city ?? '-'}',
-                                    style: TextStyles.buttonprofileTextStyle,
-                                  ),
-                                ],
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Lokasi Kegiatan',
+                                      style: TextStyles.descriptionStyle
+                                          .copyWith(
+                                              fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      '${leads?.locationOffline ?? '-'}',
+                                      style: TextStyles.descriptionStyle,
+                                    ),
+                                  ],
+                                ),
                               ),
-                              const SizedBox(height: 15),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Type',
-                                    style: TextStyles.approvalTextStyle,
-                                  ),
-                                  Text(
-                                    '${leads?.type ?? '-'}',
-                                    style: TextStyles.buttonprofileTextStyle,
-                                  ),
-                                ],
+                              Divider(
+                                height: 5,
                               ),
-                              const SizedBox(height: 15),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Area',
-                                    style: TextStyles.approvalTextStyle,
-                                  ),
-                                  Text(
-                                    '${leads?.area ?? '-'}',
-                                    style: TextStyles.buttonprofileTextStyle,
-                                  ),
-                                ],
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Lokasi Kegiatan',
+                                      style: TextStyles.descriptionStyle
+                                          .copyWith(
+                                              fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      '${leads?.locationOffline ?? '-'}',
+                                      style: TextStyles.descriptionStyle,
+                                    ),
+                                  ],
+                                ),
                               ),
-                              const SizedBox(height: 15),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Omzet',
-                                    style: TextStyles.approvalTextStyle,
-                                  ),
-                                  Text(
-                                    leads?.omzet != null
-                                        ? currencyFormat.format(
-                                            double.parse(leads.omzet),
-                                          )
-                                        : '-',
-                                    style: TextStyles.buttonprofileTextStyle,
-                                  ),
-                                ],
+                              Divider(
+                                height: 5,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Type',
+                                      style: TextStyles.descriptionStyle
+                                          .copyWith(
+                                              fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      '${leads?.type ?? '-'}',
+                                      style: TextStyles.descriptionStyle,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Divider(
+                                height: 5,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Area',
+                                      style: TextStyles.descriptionStyle
+                                          .copyWith(
+                                              fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      '${leads?.area ?? '-'}',
+                                      style: TextStyles.descriptionStyle,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Divider(
+                                height: 5,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Omzet',
+                                      style: TextStyles.descriptionStyle
+                                          .copyWith(
+                                              fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      leads?.omzet != null
+                                          ? currencyFormat.format(
+                                              double.parse(leads.omzet),
+                                            )
+                                          : '-',
+                                      style: TextStyles.descriptionStyle,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              color: Colors.transparent,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      width: 140,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Get.toNamed(
+                            Routes.EDIT_DETAIL_LEADS,
+                            arguments: leads,
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColor.error,
                         ),
-                      ],
+                        child: Text(
+                          "Edit",
+                          style: TextStyles.cardbuttomTextStyle,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
+                    Container(
+                      width: 140,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Get.toNamed(
+                            Routes.FOLLOWUP_LEADS,
+                            arguments: leads,
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green,
+                        ),
+                        child: Text(
+                          "Follow Up",
+                          style: TextStyles.cardbuttomTextStyle,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          Container(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    width: 140,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Get.toNamed(
-                          Routes.EDIT_DETAIL_LEADS,
-                          arguments: leads,
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColor.error,
-                      ),
-                      child: Text(
-                        "Edit",
-                        style: TextStyles.cardbuttomTextStyle,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: 140,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Get.toNamed(
-                          Routes.FOLLOWUP_LEADS,
-                          arguments: leads,
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green,
-                      ),
-                      child: Text(
-                        "Follow Up",
-                        style: TextStyles.cardbuttomTextStyle,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

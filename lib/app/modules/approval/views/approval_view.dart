@@ -68,7 +68,7 @@ class ApprovalView extends GetView<ApprovalController> {
                                   .property?.approvalStatus ??
                               Status.PENDING; // Default ke PENDING jika null
 
-// Mengatur trailing icon, trailing icon color, dan text color berdasarkan approvalStatus
+                          // Mengatur trailing icon, trailing icon color, dan text color berdasarkan approvalStatus
                           IconData trailingIcon;
                           Color trailingIconColor;
                           Color textColor;
@@ -90,7 +90,7 @@ class ApprovalView extends GetView<ApprovalController> {
                               textColor = Colors.grey;
                           }
 
-// Mengatur status icon dan status icon color berdasarkan status
+                          // Mengatur status icon dan status icon color berdasarkan status
                           IconData statusIcon;
                           Color statusIconColor;
 
@@ -132,9 +132,7 @@ class ApprovalView extends GetView<ApprovalController> {
                                           .copyWith(color: textColor),
                                     ),
                                     subtitle: Padding(
-                                      padding: const EdgeInsets.only(
-                                        top: 8,
-                                      ),
+                                      padding: const EdgeInsets.only(top: 8),
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -215,7 +213,8 @@ class ApprovalView extends GetView<ApprovalController> {
                                             ),
                                           ),
                                         ),
-                                        if (approval.property != null)
+                                        if (approval.property != null &&
+                                            approval.property!.isNegotiation)
                                           Container(
                                             width: 150,
                                             child: ElevatedButton(
@@ -226,9 +225,29 @@ class ApprovalView extends GetView<ApprovalController> {
                                                     TextEditingController
                                                         riRecommendationController =
                                                         TextEditingController();
-                                                    TextEditingController
-                                                        riRefundController =
-                                                        TextEditingController();
+                                                    // TextEditingController riRefundController = TextEditingController();
+
+                                                    // Add listener to update formatted text
+                                                    riRecommendationController
+                                                        .addListener(() {
+                                                      final text =
+                                                          riRecommendationController
+                                                              .text;
+                                                      riRecommendationController
+                                                              .value =
+                                                          riRecommendationController
+                                                              .value
+                                                              .copyWith(
+                                                        text:
+                                                            _formatNumber(text),
+                                                        selection: TextSelection
+                                                            .collapsed(
+                                                                offset:
+                                                                    _formatNumber(
+                                                                            text)
+                                                                        .length),
+                                                      );
+                                                    });
 
                                                     return Dialog(
                                                       shape:
@@ -284,28 +303,19 @@ class ApprovalView extends GetView<ApprovalController> {
                                                             ),
                                                             const SizedBox(
                                                                 height: 10),
-                                                            TextField(
-                                                              controller:
-                                                                  riRefundController,
-                                                              keyboardType:
-                                                                  TextInputType
-                                                                      .number,
-                                                              decoration:
-                                                                  InputDecoration(
-                                                                labelText:
-                                                                    'RI Refund',
-                                                                labelStyle:
-                                                                    TextStyles
-                                                                        .approvalTextStyle,
-                                                                prefixText:
-                                                                    'Rp. ',
-                                                              ),
-                                                              inputFormatters: [
-                                                                FilteringTextInputFormatter
-                                                                    .digitsOnly,
-                                                                CurrencyInputFormatter(),
-                                                              ],
-                                                            ),
+                                                            // TextField(
+                                                            //   controller: riRefundController,
+                                                            //   keyboardType: TextInputType.number,
+                                                            //   decoration: InputDecoration(
+                                                            //     labelText: 'RI Refund',
+                                                            //     labelStyle: TextStyles.approvalTextStyle,
+                                                            //     prefixText: 'Rp. ',
+                                                            //   ),
+                                                            //   inputFormatters: [
+                                                            //     FilteringTextInputFormatter.digitsOnly,
+                                                            //     CurrencyInputFormatter(),
+                                                            //   ],
+                                                            // ),
                                                             const SizedBox(
                                                                 height: 20),
                                                             Row(
@@ -325,15 +335,29 @@ class ApprovalView extends GetView<ApprovalController> {
                                                                 ElevatedButton(
                                                                   onPressed:
                                                                       () {
-                                                                    controller
-                                                                        .submitNegotiation(
-                                                                      approval.id ??
-                                                                          "",
+                                                                    // Parse the input to integer
+                                                                    int? value =
+                                                                        int.tryParse(
                                                                       riRecommendationController
-                                                                          .text,
-                                                                      riRefundController
-                                                                          .text,
+                                                                          .text
+                                                                          .replaceAll(
+                                                                              '.',
+                                                                              ''),
                                                                     );
+                                                                    if (value !=
+                                                                        null) {
+                                                                      controller
+                                                                          .submitNegotiation(
+                                                                        approval.id ??
+                                                                            "",
+                                                                        value,
+                                                                      );
+                                                                    } else {
+                                                                      // Show an error if the value is not valid
+                                                                      Get.snackbar(
+                                                                          'Error',
+                                                                          'Invalid input value');
+                                                                    }
                                                                     Get.back();
                                                                   },
                                                                   style: ElevatedButton
@@ -391,6 +415,15 @@ class ApprovalView extends GetView<ApprovalController> {
         ),
       ),
     );
+  }
+
+  String _formatNumber(String number) {
+    if (number.isEmpty) {
+      return '';
+    }
+    final int value = int.parse(number.replaceAll('.', ''));
+    final formatter = NumberFormat('#,###');
+    return formatter.format(value);
   }
 }
 

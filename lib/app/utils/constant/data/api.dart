@@ -9,6 +9,7 @@ class ApiEndPoints {
   static _CheckNum checkLeads = _CheckNum();
   static _EditLeads puteditLeads = _EditLeads();
   static _FollowUpLeads followUpLeads = _FollowUpLeads();
+  static _Negotiation nego = _Negotiation();
 }
 
 class _AuthEndPoints {
@@ -46,4 +47,8 @@ class _EditLeads {
 
 class _FollowUpLeads {
   final String follow = '/api/v1/leads/follow-up/';
+}
+
+class _Negotiation {
+  final String nego = '/api/v1/master-approval/user-negotiation';
 }

@@ -88,4 +88,33 @@ class ApprovalProvider extends GetConnect {
       return [];
     }
   }
+
+  Future<Response> submitNegotiation(String propertyId, int value) async {
+    var apiUrl = ApiEndPoints.baseUrl + ApiEndPoints.nego.nego;
+
+    final String? token = storage.read('token');
+
+    final body = jsonEncode({
+      'propertyId': propertyId,
+      'value': value,
+    });
+
+    if (token == null) {
+      return Response(statusCode: 401, statusText: 'Unauthorized');
+    }
+
+    try {
+      final response = await put(
+        apiUrl,
+        body,
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+      return response;
+    } catch (error) {
+      return Response(statusCode: 500, statusText: 'Error: $error');
+    }
+  }
 }

@@ -6,11 +6,9 @@ class ApprovalController extends GetxController {
   final ApprovalProvider approvalProvider = Get.find();
   var isFetching = false.obs;
   var filteredApprovals = List<Datum>.empty().obs;
-  var flatApprovals = <Datum>[].obs;
   var hasError = false.obs;
   var currentPage = 1.obs;
   var totalPages = 1.obs;
-  var page = 1;
 
   @override
   void onInit() {
@@ -18,13 +16,19 @@ class ApprovalController extends GetxController {
     fetchApproval();
   }
 
-  void submitNegotiation(
-      String approvalId, String riRecommendation, String riRefund) {
-    // Implement the submit logic here
-    // Example:
-    print('Approval ID: $approvalId');
-    print('RI Recommendation: $riRecommendation');
-    print('RI Refund: $riRefund');
+  Future<void> submitNegotiation(
+    String propertyId,
+    int value,
+  ) async {
+    final response =
+        await approvalProvider.submitNegotiation(propertyId, value);
+    if (response.statusCode == 200) {
+      // Handle success
+      print('Negotiation submitted successfully');
+    } else {
+      // Handle error
+      print('Failed to submit negotiation: ${response.statusText}');
+    }
   }
 
   Future<void> fetchApproval() async {
@@ -32,13 +36,8 @@ class ApprovalController extends GetxController {
       isFetching(true);
       hasError(false);
       final response = await approvalProvider.getApproval();
-      if (page == 1) {
-        filteredApprovals.value = response;
-      } else {
-        filteredApprovals.addAll(response);
-      }
-      currentPage.value = page;
-
+      filteredApprovals.value = response;
+      currentPage.value = 1;
       totalPages.value = (response.length / 25).ceil();
     } catch (error) {
       hasError(true);
@@ -49,10 +48,20 @@ class ApprovalController extends GetxController {
   }
 
   Future<void> refreshData() async {
-    await Future.delayed(
-      Duration(seconds: 3),
-    );
-    await fetchApproval();
+    try {
+      isFetching(true);
+      hasError(false);
+      await Future.delayed(Duration(seconds: 3));
+      final response = await approvalProvider.getApproval();
+      filteredApprovals.value = response;
+      currentPage.value = 1;
+      totalPages.value = (response.length / 25).ceil();
+    } catch (error) {
+      hasError(true);
+      // print('Error fetching data: $error');
+    } finally {
+      isFetching(false);
+    }
   }
 
   Future<void> searchApproval(String query) async {
@@ -60,6 +69,6 @@ class ApprovalController extends GetxController {
       filteredApprovals.value = (await approvalProvider.searchApproval(query))!;
     } catch (error) {
       print('Error searching data: $error');
-    } finally {}
+    }
   }
 }

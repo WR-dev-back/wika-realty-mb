@@ -249,11 +249,6 @@ class LeadsView extends GetView<LeadsController> {
                                         itemBuilder: (context, index) {
                                           final leads =
                                               controller.filteredLeads[index];
-                                          Color statusColor = leads.omzet ==
-                                                  'Rp.0'
-                                              ? Colors.red
-                                              : Colors
-                                                  .green; // Ubah warna berdasarkan omzet
 
                                           return Padding(
                                             padding: EdgeInsets.symmetric(
@@ -287,10 +282,27 @@ class LeadsView extends GetView<LeadsController> {
                                                             MainAxisAlignment
                                                                 .spaceBetween,
                                                         children: [
-                                                          Text(
-                                                            '${leads.createdAt != null ? formatDateTime(leads.createdAt!) : 'Unknown'}',
-                                                            style: TextStyles
-                                                                .decTextStyle,
+                                                          Row(
+                                                            children: [
+                                                              Icon(
+                                                                size: 18,
+                                                                Icons.qr_code_2,
+                                                                color: Colors
+                                                                    .green,
+                                                              ),
+                                                              SizedBox(
+                                                                width: 15,
+                                                              ),
+                                                              Text(
+                                                                leads.leadsCode ??
+                                                                    '-',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                ),
+                                                              ),
+                                                            ],
                                                           ),
                                                           Container(
                                                             height: 25,
@@ -300,54 +312,45 @@ class LeadsView extends GetView<LeadsController> {
                                                                   BorderRadius
                                                                       .circular(
                                                                           10),
-                                                              color:
-                                                                  statusColor,
                                                             ),
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .symmetric(
-                                                                      horizontal:
-                                                                          5),
-                                                              child: Center(
-                                                                child: Text(
-                                                                  leads.leadsCode ??
-                                                                      '-',
-                                                                  style:
-                                                                      TextStyle(
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                  ),
-                                                                ),
-                                                              ),
+                                                            child: Text(
+                                                              '${leads.createdAt != null ? formatDateTime(leads.createdAt!) : 'Unknown'}',
+                                                              style: TextStyles
+                                                                  .decTextStyle,
                                                             ),
                                                           ),
                                                         ],
                                                       ),
                                                       SizedBox(height: 5),
                                                       Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
                                                         children: [
+                                                          Icon(
+                                                            size: 20,
+                                                            Icons.person,
+                                                            color: Colors.green,
+                                                          ),
+                                                          SizedBox(width: 10),
                                                           Text(
-                                                            leads.email ?? '-',
+                                                            leads.fullName ??
+                                                                '-',
                                                             style: TextStyles
-                                                                .approvalTextStyle,
+                                                                .nameStyle
+                                                                .copyWith(
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
                                                             maxLines: 1,
                                                           ),
-                                                          Text(
-                                                            leads.omzet != null
-                                                                ? formatOmzet(double
-                                                                    .parse(leads
-                                                                        .omzet!))
-                                                                : '-',
-                                                            style: TextStyles
-                                                                .buttonprofileTextStyle,
-                                                          ),
+
+                                                          // Text(
+                                                          //   leads.omzet != null
+                                                          //       ? formatOmzet(double
+                                                          //           .parse(leads
+                                                          //               .omzet!))
+                                                          //       : '-',
+                                                          //   style: TextStyles
+                                                          //       .buttonprofileTextStyle,
+                                                          // ),
                                                         ],
                                                       ),
                                                       SizedBox(height: 10),
@@ -357,21 +360,44 @@ class LeadsView extends GetView<LeadsController> {
                                                       SizedBox(height: 10),
                                                       Row(
                                                         children: [
-                                                          ClipOval(
-                                                            child: SizedBox(
-                                                              width: 50,
-                                                              height: 50,
-                                                              child: Center(
-                                                                child: Image.network(
-                                                                    "https://ui-avatars.com/api/?name=${leads.fullName}",
-                                                                    fit: BoxFit
-                                                                        .contain),
-                                                              ),
-                                                            ),
+                                                          // ClipOval(
+                                                          //   child: SizedBox(
+                                                          //     width: 40,
+                                                          //     height: 40,
+                                                          //     child: Center(
+                                                          //       child: Image.network(
+                                                          //           "https://ui-avatars.com/api/?name=${leads.fullName}",
+                                                          //           fit: BoxFit
+                                                          //               .contain),
+                                                          //     ),
+                                                          //   ),
+                                                          // ),
+                                                          // SizedBox(width: 10),
+                                                          Icon(
+                                                            size: 20,
+                                                            Icons.email,
+                                                            color: Colors.green,
                                                           ),
                                                           SizedBox(width: 10),
                                                           Text(
-                                                            leads.fullName ??
+                                                            leads.email ?? '-',
+                                                            style: TextStyles
+                                                                .leadsTextStyle,
+                                                            maxLines: 1,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      SizedBox(height: 10),
+                                                      Row(
+                                                        children: [
+                                                          Icon(
+                                                            size: 20,
+                                                            Icons.phone,
+                                                            color: Colors.green,
+                                                          ),
+                                                          SizedBox(width: 10),
+                                                          Text(
+                                                            leads.phoneNumber ??
                                                                 '-',
                                                             style: TextStyles
                                                                 .leadsTextStyle,
@@ -380,29 +406,21 @@ class LeadsView extends GetView<LeadsController> {
                                                         ],
                                                       ),
                                                       SizedBox(height: 10),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                          horizontal: 10,
-                                                        ),
-                                                        child: Row(
-                                                          children: [
-                                                            Icon(
-                                                              Icons
-                                                                  .location_city,
-                                                              color:
-                                                                  Colors.green,
-                                                            ),
-                                                            SizedBox(width: 10),
-                                                            Text(
-                                                              leads.city ?? '-',
-                                                              style: TextStyles
-                                                                  .leadsTextStyle,
-                                                              maxLines: 1,
-                                                            ),
-                                                          ],
-                                                        ),
+                                                      Row(
+                                                        children: [
+                                                          Icon(
+                                                            size: 20,
+                                                            Icons.location_city,
+                                                            color: Colors.green,
+                                                          ),
+                                                          SizedBox(width: 10),
+                                                          Text(
+                                                            leads.city ?? '-',
+                                                            style: TextStyles
+                                                                .leadsTextStyle,
+                                                            maxLines: 1,
+                                                          ),
+                                                        ],
                                                       ),
                                                     ],
                                                   ),
