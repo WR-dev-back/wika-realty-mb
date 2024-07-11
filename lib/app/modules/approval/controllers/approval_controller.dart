@@ -5,6 +5,7 @@ import '../provider/approval_provider.dart';
 class ApprovalController extends GetxController {
   final ApprovalProvider approvalProvider = Get.find();
   var isFetching = false.obs;
+  var isSearching = false.obs;
   var filteredApprovals = List<Datum>.empty().obs;
   var hasError = false.obs;
   var currentPage = 1.obs;

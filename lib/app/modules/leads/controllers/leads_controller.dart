@@ -9,6 +9,7 @@ class LeadsController extends GetxController {
   var filteredLeads = List<Datum>.empty().obs;
   TextEditingController searchController = TextEditingController();
   var isFetching = false.obs;
+  var isSearching = false.obs;
   var hasError = false.obs;
   final LeadsProvider leadsProvider = Get.find();
   ScrollController scrollController = ScrollController();

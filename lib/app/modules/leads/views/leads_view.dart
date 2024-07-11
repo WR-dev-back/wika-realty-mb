@@ -39,16 +39,154 @@ class LeadsView extends GetView<LeadsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: BackButton(
-          color: Colors.white,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(56.0),
+        child: Obx(
+          () => AnimatedCrossFade(
+            duration: const Duration(milliseconds: 300),
+            crossFadeState: controller.isSearching.value
+                ? CrossFadeState.showSecond
+                : CrossFadeState.showFirst,
+            firstChild: AppBar(
+              leading: const BackButton(
+                color: Colors.white,
+              ),
+              backgroundColor: AppColor.primary,
+              title: Text(
+                'Leads View',
+                style: TextStyles.titleLabelStyle,
+              ),
+              centerTitle: true,
+              actions: [
+                IconButton(
+                  icon: Icon(
+                    Icons.search,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    controller.isSearching.value = true;
+                  },
+                ),
+              ],
+            ),
+            secondChild: AppBar(
+              backgroundColor: AppColor.primary,
+              title: TextField(
+                decoration: InputDecoration(
+                  hintText: 'Search Leads',
+                  hintStyle: TextStyle(color: Colors.white),
+                  border: InputBorder.none,
+                ),
+                style: TextStyle(color: Colors.white),
+                autofocus: true,
+                onChanged: (value) {
+                  controller.searchLeads(value);
+                },
+              ),
+              leading: IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  controller.isSearching.value = false;
+                },
+              ),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.filter_list,
+                      color: controller.searchType.value != 'fullname'
+                          ? Colors.grey
+                          : Colors.white,
+                    ),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Filter by'),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                FilterTile(
+                                  title: 'Full Name',
+                                  isSelected:
+                                      controller.searchType.value == 'fullname',
+                                  onTap: () {
+                                    controller.searchType.value = 'fullname';
+                                    Get.back();
+                                  },
+                                ),
+                                FilterTile(
+                                  title: 'Code',
+                                  isSelected:
+                                      controller.searchType.value == 'code',
+                                  onTap: () {
+                                    controller.searchType.value = 'code';
+                                    Get.back();
+                                  },
+                                ),
+                                FilterTile(
+                                  title: 'Phone Number',
+                                  isSelected: controller.searchType.value ==
+                                      'phonenumber',
+                                  onTap: () {
+                                    controller.searchType.value = 'phonenumber';
+                                    Get.back();
+                                  },
+                                ),
+                                FilterTile(
+                                  title: 'Email',
+                                  isSelected:
+                                      controller.searchType.value == 'email',
+                                  onTap: () {
+                                    controller.searchType.value = 'email';
+                                    Get.back();
+                                  },
+                                ),
+                                FilterTile(
+                                  title: 'Npwp',
+                                  isSelected:
+                                      controller.searchType.value == 'npwp',
+                                  onTap: () {
+                                    controller.searchType.value = 'npwp';
+                                    Get.back();
+                                  },
+                                ),
+                                FilterTile(
+                                  title: 'Kota',
+                                  isSelected:
+                                      controller.searchType.value == 'city',
+                                  onTap: () {
+                                    controller.searchType.value = 'city';
+                                    Get.back();
+                                  },
+                                ),
+                              ],
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  controller.searchType.value =
+                                      'fullname'; // Clear the filter
+                                  Get.back();
+                                },
+                                child: Text('Clear Filter'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  ),
+                )
+              ],
+            ),
+          ),
         ),
-        backgroundColor: AppColor.primary,
-        title: Text(
-          'Leads View',
-          style: TextStyles.titleLabelStyle,
-        ),
-        centerTitle: true,
       ),
       body: DefaultTabController(
         length: 2,
@@ -92,131 +230,7 @@ class LeadsView extends GetView<LeadsController> {
                     ),
                     child: Column(
                       children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              child: TextField(
-                                controller: controller.searchController,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  labelText: 'Search Leads',
-                                  prefixIcon: Icon(Icons.search),
-                                ),
-                                onSubmitted: (value) {
-                                  controller.searchLeads(value);
-                                },
-                              ),
-                            ),
-                            SizedBox(width: 10),
-                            Obx(
-                              () {
-                                return IconButton(
-                                  icon: Icon(
-                                    Icons.filter_list,
-                                    color: controller.searchType.value !=
-                                            'fullname'
-                                        ? Colors.blue
-                                        : Colors.grey,
-                                  ),
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: Text('Filter by'),
-                                          content: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              FilterTile(
-                                                title: 'Full Name',
-                                                isSelected: controller
-                                                        .searchType.value ==
-                                                    'fullname',
-                                                onTap: () {
-                                                  controller.searchType.value =
-                                                      'fullname';
-                                                  Get.back();
-                                                },
-                                              ),
-                                              FilterTile(
-                                                title: 'Code',
-                                                isSelected: controller
-                                                        .searchType.value ==
-                                                    'code',
-                                                onTap: () {
-                                                  controller.searchType.value =
-                                                      'code';
-                                                  Get.back();
-                                                },
-                                              ),
-                                              FilterTile(
-                                                title: 'Phone Number',
-                                                isSelected: controller
-                                                        .searchType.value ==
-                                                    'phonenumber',
-                                                onTap: () {
-                                                  controller.searchType.value =
-                                                      'phonenumber';
-                                                  Get.back();
-                                                },
-                                              ),
-                                              FilterTile(
-                                                title: 'Email',
-                                                isSelected: controller
-                                                        .searchType.value ==
-                                                    'email',
-                                                onTap: () {
-                                                  controller.searchType.value =
-                                                      'email';
-                                                  Get.back();
-                                                },
-                                              ),
-                                              FilterTile(
-                                                title: 'Npwp',
-                                                isSelected: controller
-                                                        .searchType.value ==
-                                                    'npwp',
-                                                onTap: () {
-                                                  controller.searchType.value =
-                                                      'npwp';
-                                                  Get.back();
-                                                },
-                                              ),
-                                              FilterTile(
-                                                title: 'Kota',
-                                                isSelected: controller
-                                                        .searchType.value ==
-                                                    'city',
-                                                onTap: () {
-                                                  controller.searchType.value =
-                                                      'city';
-                                                  Get.back();
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () {
-                                                controller.searchType.value =
-                                                    'none'; // Clear the filter
-                                                Get.back();
-                                              },
-                                              child: Text('Clear Filter'),
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
-                                  },
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
+                        SizedBox(height: 5),
                         Expanded(
                           child: Obx(() {
                             if (controller.isFetching.value) {
@@ -287,8 +301,8 @@ class LeadsView extends GetView<LeadsController> {
                                                               Icon(
                                                                 size: 18,
                                                                 Icons.qr_code_2,
-                                                                color: Colors
-                                                                    .green,
+                                                                color: AppColor
+                                                                    .primary,
                                                               ),
                                                               SizedBox(
                                                                 width: 15,
@@ -327,7 +341,8 @@ class LeadsView extends GetView<LeadsController> {
                                                           Icon(
                                                             size: 20,
                                                             Icons.person,
-                                                            color: Colors.green,
+                                                            color: AppColor
+                                                                .primary,
                                                           ),
                                                           SizedBox(width: 10),
                                                           Text(
@@ -376,7 +391,8 @@ class LeadsView extends GetView<LeadsController> {
                                                           Icon(
                                                             size: 20,
                                                             Icons.email,
-                                                            color: Colors.green,
+                                                            color: AppColor
+                                                                .primary,
                                                           ),
                                                           SizedBox(width: 10),
                                                           Text(
@@ -393,7 +409,8 @@ class LeadsView extends GetView<LeadsController> {
                                                           Icon(
                                                             size: 20,
                                                             Icons.phone,
-                                                            color: Colors.green,
+                                                            color: AppColor
+                                                                .primary,
                                                           ),
                                                           SizedBox(width: 10),
                                                           Text(
@@ -411,7 +428,8 @@ class LeadsView extends GetView<LeadsController> {
                                                           Icon(
                                                             size: 20,
                                                             Icons.location_city,
-                                                            color: Colors.green,
+                                                            color: AppColor
+                                                                .primary,
                                                           ),
                                                           SizedBox(width: 10),
                                                           Text(
@@ -644,13 +662,15 @@ class PhoneNumberFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {
-    if (newValue.text.isEmpty) {
+    if (newValue.selection.baseOffset == 0) {
       return newValue;
     }
 
-    String newText =
-        newValue.text.startsWith('+') ? newValue.text : '+${newValue.text}';
-    return TextEditingValue(
+    final int value = int.parse(newValue.text.replaceAll('.', ''));
+    final formatter = NumberFormat('#,###');
+    final newText = formatter.format(value);
+
+    return newValue.copyWith(
       text: newText,
       selection: TextSelection.collapsed(offset: newText.length),
     );
@@ -662,8 +682,11 @@ class FilterTile extends StatelessWidget {
   final bool isSelected;
   final VoidCallback onTap;
 
-  FilterTile(
-      {required this.title, required this.isSelected, required this.onTap});
+  const FilterTile({
+    required this.title,
+    required this.isSelected,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {

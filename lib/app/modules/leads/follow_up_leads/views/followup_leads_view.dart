@@ -81,7 +81,8 @@ class FollowupLeadsView extends GetView<FollowupLeadsController> {
             children: [
               Text(
                 "Nama",
-                style: TextStyles.approvalTextStyle,
+                style: TextStyles.descriptionStyle
+                    .copyWith(fontWeight: FontWeight.bold),
               ),
               SizedBox(
                 height: 5,
@@ -102,7 +103,8 @@ class FollowupLeadsView extends GetView<FollowupLeadsController> {
               decoration: InputDecoration(
                 label: Text(
                   "Tanggal",
-                  style: TextStyles.approvalTextStyle,
+                  style: TextStyles.descriptionStyle
+                      .copyWith(fontWeight: FontWeight.bold),
                 ),
                 floatingLabelBehavior: FloatingLabelBehavior.always,
                 hintText: controller.hintText.value,
@@ -157,7 +159,8 @@ class FollowupLeadsView extends GetView<FollowupLeadsController> {
               decoration: InputDecoration(
                 label: Text(
                   "Status Leads",
-                  style: TextStyles.approvalTextStyle,
+                  style: TextStyles.descriptionStyle
+                      .copyWith(fontWeight: FontWeight.bold),
                 ),
                 floatingLabelBehavior: FloatingLabelBehavior.always,
                 hintText: "",
@@ -215,7 +218,7 @@ class FollowupLeadsView extends GetView<FollowupLeadsController> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextField(
-          style: TextStyles.headStyle,
+          style: TextStyles.descriptionStyle,
           controller: controller,
           keyboardType: keyboardType,
           inputFormatters: [
@@ -225,7 +228,7 @@ class FollowupLeadsView extends GetView<FollowupLeadsController> {
           decoration: InputDecoration(
             label: Text(
               labelText,
-              style: TextStyles.approvalTextStyle,
+              style: TextStyles.headStyle,
             ),
             floatingLabelBehavior: FloatingLabelBehavior.always,
             hintText: "",

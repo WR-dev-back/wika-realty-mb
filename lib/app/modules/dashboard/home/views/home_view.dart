@@ -47,8 +47,8 @@ class HomeView extends GetView<HomeController> {
                           borderRadius: BorderRadius.circular(20),
                           gradient: LinearGradient(
                             colors: [
-                              Color.fromARGB(255, 33, 143, 247),
-                              Color.fromARGB(255, 97, 136, 242),
+                              Color(0XFF07c8f9),
+                              Color(0XFF0974F1),
                             ],
                           ),
                         ),
@@ -94,14 +94,14 @@ class HomeView extends GetView<HomeController> {
                                       style: TextStyles.cardbuttomTextStyle,
                                     ),
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: Color(0xFFF7B731),
+                                      backgroundColor: Color(0xFFFB8500),
                                     ),
                                   ),
                                 ],
                               ),
                               SizedBox(height: 10),
                               Divider(
-                                color: Colors.black,
+                                color: Color(0xFFFB8500),
                               ),
                               SizedBox(height: 10),
                               Text(
