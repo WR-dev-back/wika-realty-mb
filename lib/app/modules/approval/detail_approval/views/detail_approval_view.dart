@@ -128,6 +128,8 @@ class ApprovalDetails extends StatelessWidget {
           buildTextColumn('PO Number', approval.purchaseOrder!.poNumber),
           buildTextColumn(
               'Approval Status', approval.purchaseOrder!.approvalStatus),
+          buildTextColumn(
+              'Attachment Link', approval.purchaseOrder!.attachmentLink),
           SizedBox(height: 20),
           const Divider(color: Colors.grey, height: 1, thickness: 2),
           Text(

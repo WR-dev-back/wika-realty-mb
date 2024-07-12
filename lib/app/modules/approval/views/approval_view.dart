@@ -249,17 +249,17 @@ class ApprovalView extends GetView<ApprovalController> {
                                                       context: context,
                                                       builder: (context) {
                                                         TextEditingController
-                                                            riRefundController =
+                                                            valueController =
                                                             TextEditingController();
 
-                                                        riRefundController
+                                                        valueController
                                                             .addListener(() {
                                                           final text =
-                                                              riRefundController
+                                                              valueController
                                                                   .text;
-                                                          riRefundController
+                                                          valueController
                                                                   .value =
-                                                              riRefundController
+                                                              valueController
                                                                   .value
                                                                   .copyWith(
                                                             text: _formatNumber(
@@ -329,14 +329,14 @@ class ApprovalView extends GetView<ApprovalController> {
                                                                     height: 20),
                                                                 TextField(
                                                                   controller:
-                                                                      riRefundController,
+                                                                      valueController,
                                                                   keyboardType:
                                                                       TextInputType
                                                                           .number,
                                                                   decoration:
                                                                       InputDecoration(
                                                                     labelText:
-                                                                        'RI Refund',
+                                                                        'Value',
                                                                     labelStyle:
                                                                         TextStyles
                                                                             .approvalTextStyle,
@@ -367,26 +367,19 @@ class ApprovalView extends GetView<ApprovalController> {
                                                                     ElevatedButton(
                                                                       onPressed:
                                                                           () {
-                                                                        print(
-                                                                            'Submit button pressed'); // Debug print
-
                                                                         // Remove commas from the string before parsing
-                                                                        final text = riRefundController.text.replaceAll(
+                                                                        final text = valueController.text.replaceAll(
                                                                             '.',
                                                                             '');
-                                                                        int? riRefund = int.tryParse(text.replaceAll(
+                                                                        int? value = int.tryParse(text.replaceAll(
                                                                             ',',
                                                                             ''));
-                                                                        if (riRefund !=
+                                                                        if (value !=
                                                                             null) {
-                                                                          print(
-                                                                              'Submitting negotiation with ID: ${approval.id} and RI Refund: $riRefund'); // Debug print
                                                                           controller.submitNegotiation(
-                                                                              approval.id ?? "",
-                                                                              riRefund);
+                                                                              approval.property?.id ?? "",
+                                                                              value);
                                                                         } else {
-                                                                          print(
-                                                                              'Invalid input value: $text'); // Debug print
                                                                           Get.snackbar(
                                                                               'Error',
                                                                               'Invalid input value');

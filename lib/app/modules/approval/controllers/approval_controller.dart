@@ -25,9 +25,11 @@ class ApprovalController extends GetxController {
         await approvalProvider.submitNegotiation(propertyId, value);
     if (response.statusCode == 200) {
       // Handle success
+      Get.snackbar('Succes', 'Negotiation submitted successfully');
       print('Negotiation submitted successfully');
     } else {
       // Handle error
+      Get.snackbar('Error', 'Failed to submit negotiation');
       print('Failed to submit negotiation: ${response.statusText}');
     }
   }
