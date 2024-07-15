@@ -112,8 +112,8 @@ class Property {
   String? riRefound;
   String? recommendationValue;
   String? costCenter;
-  bool isRead;
-  bool isSend;
+  bool? isRead;
+  bool? isSend;
 
   Property({
     required this.id,
@@ -139,8 +139,8 @@ class Property {
     this.riRefound,
     this.recommendationValue,
     this.costCenter,
-    required this.isRead,
-    required this.isSend,
+    this.isRead,
+    this.isSend,
   });
 
   factory Property.fromJson(Map<String, dynamic> json) => Property(
@@ -221,8 +221,8 @@ class PurchaseOrder {
   dynamic userId;
   dynamic userEmail;
   dynamic attachmentLink;
-  String approvalStatus;
-  bool isSend;
+  String? approvalStatus;
+  bool? isSend;
   List<ItemPo>? itemsPo;
 
   PurchaseOrder({
@@ -246,8 +246,8 @@ class PurchaseOrder {
     this.userId,
     this.userEmail,
     this.attachmentLink,
-    required this.approvalStatus,
-    required this.isSend,
+    this.approvalStatus,
+    this.isSend,
     this.itemsPo,
   });
 
