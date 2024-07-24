@@ -238,201 +238,201 @@ class ApprovalView extends GetView<ApprovalController> {
                                         ],
                                       ),
                                       SizedBox(height: 10),
-                                      // if (approvalStatus == Status.PENDING)
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          // if (approval.property != null &&
-                                          // approval
-                                          // .property!.isNegotiation)
-                                          // Container(
-                                          //   width: 150,
-                                          //   child: ElevatedButton(
-                                          //     onPressed: () {
-                                          //       showDialog(
-                                          //         context: context,
-                                          //         builder: (context) {
-                                          //           TextEditingController
-                                          //               valueController =
-                                          //               TextEditingController();
+                                      if (approvalStatus == Status.PENDING)
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            if (approval.property != null &&
+                                                approval
+                                                    .property!.isNegotiation)
+                                              Container(
+                                                width: 150,
+                                                child: ElevatedButton(
+                                                  onPressed: () {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (context) {
+                                                        TextEditingController
+                                                            valueController =
+                                                            TextEditingController();
 
-                                          //           valueController
-                                          //               .addListener(() {
-                                          //             final text =
-                                          //                 valueController
-                                          //                     .text;
-                                          //             valueController
-                                          //                     .value =
-                                          //                 valueController
-                                          //                     .value
-                                          //                     .copyWith(
-                                          //               text: _formatNumber(
-                                          //                   text),
-                                          //               selection: TextSelection
-                                          //                   .collapsed(
-                                          //                       offset: _formatNumber(
-                                          //                               text)
-                                          //                           .length),
-                                          //             );
-                                          //           });
+                                                        valueController
+                                                            .addListener(() {
+                                                          final text =
+                                                              valueController
+                                                                  .text;
+                                                          valueController
+                                                                  .value =
+                                                              valueController
+                                                                  .value
+                                                                  .copyWith(
+                                                            text: _formatNumber(
+                                                                text),
+                                                            selection: TextSelection
+                                                                .collapsed(
+                                                                    offset: _formatNumber(
+                                                                            text)
+                                                                        .length),
+                                                          );
+                                                        });
 
-                                          //           return Dialog(
-                                          //             shape:
-                                          //                 RoundedRectangleBorder(
-                                          //               borderRadius:
-                                          //                   BorderRadius
-                                          //                       .circular(
-                                          //                           20),
-                                          //             ),
-                                          //             child: Container(
-                                          //               width:
-                                          //                   Get.width * 0.8,
-                                          //               padding:
-                                          //                   const EdgeInsets
-                                          //                       .all(20),
-                                          //               child: Column(
-                                          //                 mainAxisSize:
-                                          //                     MainAxisSize
-                                          //                         .min,
-                                          //                 children: [
-                                          //                   Text(
-                                          //                     'Negosiasi',
-                                          //                     textAlign:
-                                          //                         TextAlign
-                                          //                             .center,
-                                          //                     style: TextStyles
-                                          //                         .headerFieldStyle
-                                          //                         .copyWith(
-                                          //                       color: Colors
-                                          //                           .blue,
-                                          //                     ),
-                                          //                   ),
-                                          //                   const SizedBox(
-                                          //                       height: 20),
-                                          //                   TextField(
-                                          //                     controller: TextEditingController(
-                                          //                         text: _formatNumber(approval
-                                          //                                 .property
-                                          //                                 ?.contractValueNetto
-                                          //                                 ?.toString() ??
-                                          //                             '0')),
-                                          //                     enabled:
-                                          //                         false,
-                                          //                     decoration:
-                                          //                         InputDecoration(
-                                          //                       labelText:
-                                          //                           'Contract Value Netto',
-                                          //                       labelStyle:
-                                          //                           TextStyles
-                                          //                               .approvalTextStyle,
-                                          //                       prefixText:
-                                          //                           'Rp. ',
-                                          //                     ),
-                                          //                   ),
-                                          //                   const SizedBox(
-                                          //                       height: 20),
-                                          //                   TextField(
-                                          //                     controller:
-                                          //                         valueController,
-                                          //                     keyboardType:
-                                          //                         TextInputType
-                                          //                             .number,
-                                          //                     decoration:
-                                          //                         InputDecoration(
-                                          //                       labelText:
-                                          //                           'Value',
-                                          //                       labelStyle:
-                                          //                           TextStyles
-                                          //                               .approvalTextStyle,
-                                          //                       prefixText:
-                                          //                           'Rp. ',
-                                          //                     ),
-                                          //                     inputFormatters: [
-                                          //                       FilteringTextInputFormatter
-                                          //                           .digitsOnly,
-                                          //                       CurrencyInputFormatter(),
-                                          //                     ],
-                                          //                   ),
-                                          //                   const SizedBox(
-                                          //                       height: 20),
-                                          //                   Row(
-                                          //                     mainAxisAlignment:
-                                          //                         MainAxisAlignment
-                                          //                             .end,
-                                          //                     children: [
-                                          //                       TextButton(
-                                          //                         onPressed:
-                                          //                             () {
-                                          //                           Get.back();
-                                          //                         },
-                                          //                         child: const Text(
-                                          //                             'Back'),
-                                          //                       ),
-                                          //                       ElevatedButton(
-                                          //                         onPressed:
-                                          //                             () {
-                                          //                           // Remove commas from the string before parsing
-                                          //                           final text = valueController.text.replaceAll(
-                                          //                               '.',
-                                          //                               '');
-                                          //                           int? value = int.tryParse(text.replaceAll(
-                                          //                               ',',
-                                          //                               ''));
-                                          //                           if (value !=
-                                          //                               null) {
-                                          //                             controller.submitNegotiation(
-                                          //                                 approval.property?.id ?? "",
-                                          //                                 value);
-                                          //                           } else {
-                                          //                             Get.snackbar(
-                                          //                                 'Error',
-                                          //                                 'Invalid input value');
-                                          //                           }
-                                          //                           Get.back();
-                                          //                         },
-                                          //                         style: ElevatedButton
-                                          //                             .styleFrom(
-                                          //                           backgroundColor:
-                                          //                               Colors.blue,
-                                          //                         ),
-                                          //                         child:
-                                          //                             Text(
-                                          //                           'Submit',
-                                          //                           style: TextStyles
-                                          //                               .cardbuttomTextStyle,
-                                          //                         ),
-                                          //                       ),
-                                          //                     ],
-                                          //                   )
-                                          //                 ],
-                                          //               ),
-                                          //             ),
-                                          //           );
-                                          //         },
-                                          //       );
-                                          //     },
-                                          //     style:
-                                          //         ElevatedButton.styleFrom(
-                                          //       backgroundColor:
-                                          //           Colors.green,
-                                          //     ),
-                                          //     child: Row(
-                                          //       mainAxisAlignment:
-                                          //           MainAxisAlignment
-                                          //               .center,
-                                          //       children: [
-                                          //         Text(
-                                          //           "Negosiasi",
-                                          //           style: TextStyles
-                                          //               .cardbuttomTextStyle,
-                                          //         ),
-                                          //       ],
-                                          //     ),
-                                          //   ),
-                                          // ),
-                                        ],
-                                      ),
+                                                        return Dialog(
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        20),
+                                                          ),
+                                                          child: Container(
+                                                            width:
+                                                                Get.width * 0.8,
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(20),
+                                                            child: Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              children: [
+                                                                Text(
+                                                                  'Negosiasi',
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
+                                                                  style: TextStyles
+                                                                      .headerFieldStyle
+                                                                      .copyWith(
+                                                                    color: Colors
+                                                                        .blue,
+                                                                  ),
+                                                                ),
+                                                                const SizedBox(
+                                                                    height: 20),
+                                                                TextField(
+                                                                  controller: TextEditingController(
+                                                                      text: _formatNumber(approval
+                                                                              .property
+                                                                              ?.contractValueNetto
+                                                                              ?.toString() ??
+                                                                          '0')),
+                                                                  enabled:
+                                                                      false,
+                                                                  decoration:
+                                                                      InputDecoration(
+                                                                    labelText:
+                                                                        'Contract Value Netto',
+                                                                    labelStyle:
+                                                                        TextStyles
+                                                                            .approvalTextStyle,
+                                                                    prefixText:
+                                                                        'Rp. ',
+                                                                  ),
+                                                                ),
+                                                                const SizedBox(
+                                                                    height: 20),
+                                                                TextField(
+                                                                  controller:
+                                                                      valueController,
+                                                                  keyboardType:
+                                                                      TextInputType
+                                                                          .number,
+                                                                  decoration:
+                                                                      InputDecoration(
+                                                                    labelText:
+                                                                        'Value',
+                                                                    labelStyle:
+                                                                        TextStyles
+                                                                            .approvalTextStyle,
+                                                                    prefixText:
+                                                                        'Rp. ',
+                                                                  ),
+                                                                  inputFormatters: [
+                                                                    FilteringTextInputFormatter
+                                                                        .digitsOnly,
+                                                                    CurrencyInputFormatter(),
+                                                                  ],
+                                                                ),
+                                                                const SizedBox(
+                                                                    height: 20),
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .end,
+                                                                  children: [
+                                                                    TextButton(
+                                                                      onPressed:
+                                                                          () {
+                                                                        Get.back();
+                                                                      },
+                                                                      child: const Text(
+                                                                          'Back'),
+                                                                    ),
+                                                                    ElevatedButton(
+                                                                      onPressed:
+                                                                          () {
+                                                                        // Remove commas from the string before parsing
+                                                                        final text = valueController.text.replaceAll(
+                                                                            '.',
+                                                                            '');
+                                                                        int? value = int.tryParse(text.replaceAll(
+                                                                            ',',
+                                                                            ''));
+                                                                        if (value !=
+                                                                            null) {
+                                                                          controller.submitNegotiation(
+                                                                              approval.property?.id ?? "",
+                                                                              value);
+                                                                        } else {
+                                                                          Get.snackbar(
+                                                                              'Error',
+                                                                              'Invalid input value');
+                                                                        }
+                                                                        Get.back();
+                                                                      },
+                                                                      style: ElevatedButton
+                                                                          .styleFrom(
+                                                                        backgroundColor:
+                                                                            Colors.blue,
+                                                                      ),
+                                                                      child:
+                                                                          Text(
+                                                                        'Submit',
+                                                                        style: TextStyles
+                                                                            .cardbuttomTextStyle,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                    );
+                                                  },
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        Colors.green,
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Text(
+                                                        "Negosiasi",
+                                                        style: TextStyles
+                                                            .cardbuttomTextStyle,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                          ],
+                                        ),
                                     ],
                                   ),
                                 ),

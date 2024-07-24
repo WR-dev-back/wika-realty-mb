@@ -33,7 +33,7 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
         centerTitle: true,
       ),
       body: Container(
-        color: Colors.grey[200],
+        color: Colors.grey[300],
         child: Column(
           children: [
             Expanded(
@@ -70,16 +70,19 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                                         child: Icon(
                                           Icons.person_outline,
                                           size: 25,
-                                          color: Colors.blue, // Warna ikon
+                                          color: AppColor.primary, // Warna ikon
                                         ),
                                       ),
                                       SizedBox(
                                         width: 10,
                                       ),
-                                      Text(
-                                        '${leads?.fullName ?? '-'}',
-                                        style: TextStyles.headStyle.copyWith(
-                                          fontWeight: FontWeight.bold,
+                                      Expanded(
+                                        child: Text(
+                                          '${leads?.fullName ?? '-'}',
+                                          style: TextStyles.headStyle.copyWith(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
                                     ],
@@ -329,53 +332,46 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                 ),
               ),
             ),
-            Container(
-              color: Colors.transparent,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      width: 140,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Get.toNamed(
-                            Routes.EDIT_DETAIL_LEADS,
-                            arguments: leads,
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColor.error,
-                        ),
-                        child: Text(
-                          "Edit",
-                          style: TextStyles.cardbuttomTextStyle,
-                        ),
-                      ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  width: 140,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Get.toNamed(
+                        Routes.EDIT_DETAIL_LEADS,
+                        arguments: leads,
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColor.error,
                     ),
-                    Container(
-                      width: 140,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Get.toNamed(
-                            Routes.FOLLOWUP_LEADS,
-                            arguments: leads,
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green,
-                        ),
-                        child: Text(
-                          "Follow Up",
-                          style: TextStyles.cardbuttomTextStyle,
-                        ),
-                      ),
+                    child: Text(
+                      "Edit",
+                      style: TextStyles.cardbuttomTextStyle,
                     ),
-                  ],
+                  ),
                 ),
-              ),
+                Container(
+                  width: 140,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Get.toNamed(
+                        Routes.FOLLOWUP_LEADS,
+                        arguments: leads,
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                    ),
+                    child: Text(
+                      "Follow Up",
+                      style: TextStyles.cardbuttomTextStyle,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

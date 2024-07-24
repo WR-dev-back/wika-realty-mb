@@ -177,6 +177,7 @@ class ProfileView extends GetView<ProfileController> {
           Text(
             controller.user.position.title,
             style: TextStyles.descriptionStyle,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),

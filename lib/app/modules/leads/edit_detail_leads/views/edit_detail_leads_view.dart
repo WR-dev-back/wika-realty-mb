@@ -66,77 +66,76 @@ class EditDetailLeadsView extends GetView<EditDetailLeadsController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 20),
             _buildTextFieldWithCounter(
               controller.fullNameController,
               'Nama Panjang',
               30,
               controller.fullNameCount,
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             _buildTextFieldWithCounter(
               controller.emailController,
               'Email',
               241,
               controller.emailCount,
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             _buildTextFieldWithCounter(
               controller.phoneNumController,
               'Nomor Telepon',
               30,
               controller.phoneCount,
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             _buildTextFieldWithCounter(
               controller.sumDController,
               'Sumber Digital',
               30,
               controller.digitalSourceCount,
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             _buildTextFieldWithCounter(
               controller.sumOfController,
               'Sumber Offline',
               30,
               controller.offlineSourceCount,
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             _buildTextFieldWithCounter(
               controller.lokController,
               'Lokasi',
               30,
               controller.locationCount,
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             _buildTextFieldWithCounter(
               controller.npwpController,
               'Npwp',
               60,
               controller.npwpCount,
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             _buildTextFieldWithCounter(
               controller.cityController,
               'Kota',
               10,
               controller.cityCount,
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             _buildTextFieldWithCounter(
               controller.typeController,
               'Type',
               10,
               controller.typeCount,
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             _buildTextFieldWithCounter(
               controller.areaController,
               'Area',
               15,
               controller.areaCount,
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             _buildTextFieldWithCounter(
               controller.omzetController,
               'Omzet',
@@ -144,7 +143,7 @@ class EditDetailLeadsView extends GetView<EditDetailLeadsController> {
               controller.omzetCount,
             ),
             // Add input fields for other lead properties
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             Center(
               child: Container(
                 width: 140,
@@ -153,7 +152,7 @@ class EditDetailLeadsView extends GetView<EditDetailLeadsController> {
                     controller.updateLeadsData(leads.id, leads);
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF4B70F5),
+                    backgroundColor: AppColor.primary,
                   ),
                   child: Text(
                     'Save',

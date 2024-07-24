@@ -276,7 +276,7 @@ class LeadsView extends GetView<LeadsController> {
                                                 decoration: BoxDecoration(
                                                   border: Border.all(
                                                       color: Colors.grey,
-                                                      width: 0.5),
+                                                      width: 0.7),
                                                   borderRadius:
                                                       BorderRadius.circular(18),
                                                   color: Colors.white,
@@ -349,7 +349,7 @@ class LeadsView extends GetView<LeadsController> {
                                                             leads.fullName ??
                                                                 '-',
                                                             style: TextStyles
-                                                                .nameStyle
+                                                                .headerapprovalStyleProfile
                                                                 .copyWith(
                                                               color:
                                                                   Colors.black,
