@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 
 import '../../../common/models/leads.dart';
 import '../../../utils/constant/data/api.dart';
+import '../../../routes/app_pages.dart'; // Import your app pages/routes
 
 class LeadsProvider extends GetConnect {
   RxList<Datum> filteredLeads = <Datum>[].obs;
@@ -38,12 +39,17 @@ class LeadsProvider extends GetConnect {
           _leads = leadsData.data!;
           _filteredLeads.addAll(_leads);
           return _leads;
+        } else if (response.statusCode == 401) {
+          // Redirect to login page
+          Get.toNamed(Routes.LOGIN);
+          return [];
         } else {
           print('Request failed: ${response.statusCode}');
           return [];
         }
       } else {
         print('Token not found');
+        Get.toNamed(Routes.LOGIN);
         return [];
       }
     } catch (error) {
@@ -78,12 +84,17 @@ class LeadsProvider extends GetConnect {
           filteredLeads.value = leadsData.data!;
 
           return leadsData.data;
+        } else if (response.statusCode == 401) {
+          // Redirect to login page
+          Get.toNamed(Routes.LOGIN);
+          return [];
         } else {
           print('Failed to search data: ${response.statusCode}');
           return [];
         }
       } else {
         print('Token not found');
+        Get.toNamed(Routes.LOGIN);
         return [];
       }
     } catch (e) {
@@ -137,12 +148,17 @@ class LeadsProvider extends GetConnect {
             // Do not continue with post if status is false
             return true;
           }
+        } else if (response.statusCode == 401) {
+          // Redirect to login page
+          Get.toNamed(Routes.LOGIN);
+          return false;
         } else {
           // Handle other status codes (e.g., 400, 404, etc.) if needed
           throw Exception('Failed to check duplicate: ${response.statusCode}');
         }
       } else {
         // Handle case where token is not available
+        Get.toNamed(Routes.LOGIN);
         throw Exception('Token not found');
       }
     } catch (e) {
@@ -207,11 +223,16 @@ class LeadsProvider extends GetConnect {
             // Handle successful response
             print('Data successfully sent');
             Get.snackbar('Succes', 'Succes Post Data');
+          } else if (response.statusCode == 401) {
+            // Redirect to login page
+            Get.toNamed(Routes.LOGIN);
           } else {
             // Handle error response
             print('Error: ${response.statusCode}');
             Get.snackbar('Error', 'Failed to Post data');
           }
+        } else {
+          Get.toNamed(Routes.LOGIN);
         }
       } else {
         // Handle case where duplicate exists

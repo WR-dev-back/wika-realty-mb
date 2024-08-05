@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:wr_project/app/common/models/approval.dart';
+import 'package:wr_project/app/routes/app_pages.dart'; // Import your app pages/routes
 
 import '../../../utils/constant/data/api.dart';
 
@@ -35,12 +36,17 @@ class ApprovalProvider extends GetConnect {
           _approval = leadsData.data!;
           _filteredApproval.addAll(_approval);
           return _approval;
+        } else if (response.statusCode == 401) {
+          // Redirect to login page
+          Get.toNamed(Routes.LOGIN);
+          return [];
         } else {
           print('Request failed: ${response.statusCode}');
           return [];
         }
       } else {
         print('Token not found');
+        Get.toNamed(Routes.LOGIN);
         return [];
       }
     } catch (error) {
@@ -75,12 +81,17 @@ class ApprovalProvider extends GetConnect {
           _filteredApproval.value = approvalData.data!;
 
           return approvalData.data;
+        } else if (response.statusCode == 401) {
+          // Redirect to login page
+          Get.toNamed(Routes.LOGIN);
+          return [];
         } else {
           print('Failed to search data: ${response.statusCode}');
           return [];
         }
       } else {
         print('Token not found');
+        Get.toNamed(Routes.LOGIN);
         return [];
       }
     } catch (e) {
@@ -100,6 +111,7 @@ class ApprovalProvider extends GetConnect {
     });
 
     if (token == null) {
+      Get.toNamed(Routes.LOGIN);
       return Response(statusCode: 401, statusText: 'Unauthorized');
     }
 
@@ -112,6 +124,10 @@ class ApprovalProvider extends GetConnect {
           'Content-Type': 'application/json',
         },
       );
+      if (response.statusCode == 401) {
+        // Redirect to login page
+        Get.toNamed(Routes.LOGIN);
+      }
       return response;
     } catch (error) {
       return Response(statusCode: 500, statusText: 'Error: $error');
