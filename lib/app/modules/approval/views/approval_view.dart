@@ -116,8 +116,8 @@ class ApprovalView extends GetView<ApprovalController> {
                               break;
                             case Status.APPROVED:
                               trailingIcon = Icons.check;
-                              trailingIconColor = Colors.green;
-                              textColor = Colors.green;
+                              trailingIconColor = AppColor.primary;
+                              textColor = AppColor.primary;
                               break;
                             case Status.REJECT:
                               trailingIcon = Icons.close;
@@ -140,7 +140,7 @@ class ApprovalView extends GetView<ApprovalController> {
                               break;
                             case Status.APPROVED:
                               statusIcon = Icons.done_all;
-                              statusIconColor = Colors.green;
+                              statusIconColor = AppColor.primary;
                               break;
                             case Status.REJECT:
                               statusIcon = Icons.error;
@@ -304,8 +304,8 @@ class ApprovalView extends GetView<ApprovalController> {
                                                                   style: TextStyles
                                                                       .headerFieldStyle
                                                                       .copyWith(
-                                                                    color: Colors
-                                                                        .blue,
+                                                                    color: AppColor
+                                                                        .primary,
                                                                   ),
                                                                 ),
                                                                 const SizedBox(
@@ -323,9 +323,11 @@ class ApprovalView extends GetView<ApprovalController> {
                                                                       InputDecoration(
                                                                     labelText:
                                                                         'Contract Value Netto',
-                                                                    labelStyle:
-                                                                        TextStyles
-                                                                            .approvalTextStyle,
+                                                                    labelStyle: TextStyles
+                                                                        .descriptionStyle
+                                                                        .copyWith(
+                                                                            fontWeight:
+                                                                                FontWeight.bold),
                                                                     prefixText:
                                                                         'Rp. ',
                                                                   ),
@@ -340,13 +342,23 @@ class ApprovalView extends GetView<ApprovalController> {
                                                                           .number,
                                                                   decoration:
                                                                       InputDecoration(
+                                                                    floatingLabelBehavior:
+                                                                        FloatingLabelBehavior
+                                                                            .always,
                                                                     labelText:
                                                                         'Value',
-                                                                    labelStyle:
-                                                                        TextStyles
-                                                                            .approvalTextStyle,
+                                                                    labelStyle: TextStyles
+                                                                        .descriptionStyle
+                                                                        .copyWith(
+                                                                            fontWeight:
+                                                                                FontWeight.bold),
                                                                     prefixText:
                                                                         'Rp. ',
+                                                                    prefixStyle: TextStyles
+                                                                        .descriptionStyle
+                                                                        .copyWith(
+                                                                            fontWeight:
+                                                                                FontWeight.bold),
                                                                   ),
                                                                   inputFormatters: [
                                                                     FilteringTextInputFormatter
@@ -366,8 +378,15 @@ class ApprovalView extends GetView<ApprovalController> {
                                                                           () {
                                                                         Get.back();
                                                                       },
-                                                                      child: const Text(
-                                                                          'Back'),
+                                                                      child:
+                                                                          const Text(
+                                                                        'Back',
+                                                                        style:
+                                                                            TextStyle(
+                                                                          color:
+                                                                              Colors.black,
+                                                                        ),
+                                                                      ),
                                                                     ),
                                                                     ElevatedButton(
                                                                       onPressed:
@@ -394,7 +413,7 @@ class ApprovalView extends GetView<ApprovalController> {
                                                                       style: ElevatedButton
                                                                           .styleFrom(
                                                                         backgroundColor:
-                                                                            Colors.blue,
+                                                                            AppColor.primary,
                                                                       ),
                                                                       child:
                                                                           Text(
@@ -415,7 +434,7 @@ class ApprovalView extends GetView<ApprovalController> {
                                                   style:
                                                       ElevatedButton.styleFrom(
                                                     backgroundColor:
-                                                        Colors.green,
+                                                        AppColor.primary,
                                                   ),
                                                   child: Row(
                                                     mainAxisAlignment:

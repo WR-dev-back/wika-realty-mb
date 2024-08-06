@@ -637,7 +637,8 @@ class LeadsView extends GetView<LeadsController> {
           decoration: InputDecoration(
             label: Text(
               labelText,
-              style: TextStyles.approvalTextStyle,
+              style: TextStyles.descriptionStyle
+                  .copyWith(fontWeight: FontWeight.bold),
             ),
             floatingLabelBehavior: FloatingLabelBehavior.always,
             hintText: "",

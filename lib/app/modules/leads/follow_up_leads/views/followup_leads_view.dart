@@ -228,7 +228,8 @@ class FollowupLeadsView extends GetView<FollowupLeadsController> {
           decoration: InputDecoration(
             label: Text(
               labelText,
-              style: TextStyles.headStyle,
+              style: TextStyles.descriptionStyle
+                  .copyWith(fontWeight: FontWeight.bold),
             ),
             floatingLabelBehavior: FloatingLabelBehavior.always,
             hintText: "",

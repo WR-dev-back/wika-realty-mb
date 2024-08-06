@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:wr_project/app/modules/auth/login/provider/login_provider.dart';
+import 'package:wr_project/app/modules/dashboard/controller/page_index_controller.dart';
 
 import '../../../../routes/app_pages.dart';
 
@@ -104,7 +105,7 @@ class LoginController extends GetxController {
 
         List<dynamic> menuJsonList = jsonData['data']['menus'];
         await storage.write('menuList', jsonEncode(menuJsonList));
-
+        Get.find<PageIndexController>().changePage(0);
         Get.offAllNamed(Routes.HOME);
       } else {
         throw jsonDecode(response.body)["Message"] ?? "Unknown Error Occurred";
