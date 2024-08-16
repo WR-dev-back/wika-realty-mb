@@ -91,23 +91,6 @@ class LeadsController extends GetxController {
     omzetC.addListener(validateForm);
   }
 
-  @override
-  void onClose() {
-    super.onClose();
-    searchController.dispose();
-    email.dispose();
-    fullName.dispose();
-    phone.dispose();
-    sumD.dispose();
-    sumOf.dispose();
-    lok.dispose();
-    npwpC.dispose();
-    cityC.dispose();
-    typeC.dispose();
-    areaC.dispose();
-    omzetC.dispose();
-  }
-
   void validateForm() {
     isFormValid.value = email.text.isNotEmpty &&
         fullName.text.isNotEmpty &&

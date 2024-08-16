@@ -663,14 +663,20 @@ class PhoneNumberFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {
+    // Allow an empty input or an input that starts with "+"
     if (newValue.selection.baseOffset == 0) {
       return newValue;
     }
 
-    final int value = int.parse(newValue.text.replaceAll('.', ''));
-    final formatter = NumberFormat('#,###');
-    final newText = formatter.format(value);
+    // Extract text and filter out non-numeric characters except for the leading "+"
+    String newText = newValue.text;
+    if (newText.startsWith('+')) {
+      newText = '+' + newText.substring(1).replaceAll(RegExp(r'\D'), '');
+    } else {
+      newText = newText.replaceAll(RegExp(r'\D'), '');
+    }
 
+    // Return the updated value with the cursor positioned at the end
     return newValue.copyWith(
       text: newText,
       selection: TextSelection.collapsed(offset: newText.length),

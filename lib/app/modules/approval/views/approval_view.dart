@@ -79,6 +79,78 @@ class ApprovalView extends GetView<ApprovalController> {
           child: Column(
             children: [
               const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Obx(
+                      () => DropdownButton<String>(
+                        icon: const Icon(Icons.arrow_drop_down),
+                        isExpanded: true,
+                        value: controller.selectedStatus.value.isEmpty
+                            ? null
+                            : controller.selectedStatus.value,
+                        items: [
+                          DropdownMenuItem(
+                            value: 'approved',
+                            child: Text('Approved'),
+                          ),
+                          DropdownMenuItem(
+                            value: 'rejected',
+                            child: Text('Rejected'),
+                          ),
+                          DropdownMenuItem(
+                            value: 'pending',
+                            child: Text('Pending'),
+                          ),
+                        ],
+                        onChanged: (String? newValue) {
+                          if (newValue != null) {
+                            controller.status(newValue);
+                          }
+                        },
+                        hint: Text("Select Status"),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 10), // Add some space between the dropdowns
+                  Expanded(
+                    child: Obx(
+                      () => DropdownButton<String>(
+                        icon: const Icon(Icons.arrow_drop_down),
+                        isExpanded: true,
+                        value: controller.selectedfilterBy.value.isEmpty
+                            ? null
+                            : controller.selectedfilterBy.value,
+                        items: [
+                          DropdownMenuItem(
+                            value: 'property',
+                            child: Text('Property'),
+                          ),
+                          DropdownMenuItem(
+                            value: 'purchaseOrder',
+                            child: Text('Purchase Order'),
+                          ),
+                          DropdownMenuItem(
+                            value: 'purchaseRequisition',
+                            child: Text(
+                              'Purchase Requisition',
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                        onChanged: (String? newValue) {
+                          if (newValue != null) {
+                            controller.filterBy(newValue);
+                          }
+                        },
+                        hint: Text("Select Filter"),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
               Expanded(
                 child: Obx(
                   () {
@@ -243,9 +315,8 @@ class ApprovalView extends GetView<ApprovalController> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
                                           children: [
-                                            if (approval.property != null &&
-                                                approval
-                                                    .property!.isNegotiation)
+                                            if (approval.isNegotiate != null &&
+                                                approval.isNegotiate!)
                                               Container(
                                                 width: 150,
                                                 child: ElevatedButton(

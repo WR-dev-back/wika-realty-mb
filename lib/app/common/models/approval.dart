@@ -123,7 +123,6 @@ class Datum {
 }
 
 class Property {
-  final bool isNegotiation;
   String? id;
   bool? isActive;
   DateTime? createdAt;
@@ -152,7 +151,6 @@ class Property {
   bool? isSend;
 
   Property({
-    required this.isNegotiation,
     this.id,
     this.isActive,
     this.createdAt,
@@ -212,7 +210,6 @@ class Property {
         costCenter: json["cost_center"],
         isRead: json["isRead"],
         isSend: json["isSend"],
-        isNegotiation: true,
       );
 
   Map<String, dynamic> toJson() => {
@@ -262,7 +259,7 @@ class PurchaseOrder {
   TypeDesc? typeDesc;
   String? vendor;
   String? vendorDesc;
-  DocDate? docDate;
+  String? docDate;
   String? totalPrice;
   CompanyCode? poOrg;
   dynamic poGroup;
@@ -273,7 +270,7 @@ class PurchaseOrder {
   String? poNumber;
   dynamic userId;
   dynamic userEmail;
-  dynamic attachmentLink;
+  String? attachmentLink;
   Status? approvalStatus;
   bool? isSend;
 
@@ -315,7 +312,7 @@ class PurchaseOrder {
         typeDesc: typeDescValues.map[json["type_desc"]]!,
         vendor: json["vendor"],
         vendorDesc: json["vendor_desc"],
-        docDate: docDateValues.map[json["doc_date"]]!,
+        docDate: json["doc_date"],
         totalPrice: json["total_price"],
         poOrg: companyCodeValues.map[json["po_org"]]!,
         poGroup: json["po_group"],
@@ -341,7 +338,7 @@ class PurchaseOrder {
         "type_desc": typeDescValues.reverse[typeDesc],
         "vendor": vendor,
         "vendor_desc": vendorDesc,
-        "doc_date": docDateValues.reverse[docDate],
+        "doc_date": docDate,
         "total_price": totalPrice,
         "po_org": companyCodeValues.reverse[poOrg],
         "po_group": poGroup,
@@ -361,14 +358,6 @@ class PurchaseOrder {
 enum CompanyCode { C000 }
 
 final companyCodeValues = EnumValues({"C000": CompanyCode.C000});
-
-enum DocDate { THE_12062024, THE_26062024, THE_28062024 }
-
-final docDateValues = EnumValues({
-  "12.06.2024": DocDate.THE_12062024,
-  "26.06.2024": DocDate.THE_26062024,
-  "28.06.2024": DocDate.THE_28062024
-});
 
 enum PoType { YPOC }
 

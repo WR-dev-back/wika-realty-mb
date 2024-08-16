@@ -60,9 +60,13 @@ class HomeView extends GetView<HomeController> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    controller.user.name,
-                                    style: TextStyles.headerhomeStyle,
+                                  Expanded(
+                                    child: Text(
+                                      controller.user.name,
+                                      style: TextStyles.headerhomeStyle,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
                                   ),
                                   Text(
                                     "SiOlif",
@@ -80,9 +84,13 @@ class HomeView extends GetView<HomeController> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    controller.user.username, //
-                                    style: TextStyles.headerhomeStyle,
+                                  Expanded(
+                                    child: Text(
+                                      controller.user.username, //
+                                      style: TextStyles.headerhomeStyle,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
                                   ),
                                   ElevatedButton(
                                     onPressed: () async {

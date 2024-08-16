@@ -168,6 +168,9 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
                                   ],
                                 ),
                               ),
+                              Divider(
+                                height: 5,
+                              ),
                               Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 20, vertical: 10),

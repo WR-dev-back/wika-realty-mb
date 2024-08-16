@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:wr_project/app/common/models/approval.dart';
-import 'package:wr_project/app/routes/app_pages.dart'; // Import your app pages/routes
+import 'package:wr_project/app/routes/app_pages.dart';
 
 import '../../../utils/constant/data/api.dart';
 
@@ -12,15 +12,22 @@ class ApprovalProvider extends GetConnect {
   late List<Datum> _approval = [];
   late RxList<Datum> _filteredApproval = RxList<Datum>();
 
-  Future<List<Datum>> getApproval({int page = 1, int limit = 25}) async {
-    var apiUrl =
-        ApiEndPoints.baseUrl + ApiEndPoints.getDataApproval.dataApproval;
+  Future<List<Datum>> getApproval(Map<String, String> queryParams,
+      {int page = 1, int limit = 25}) async {
+    final uri = Uri(
+      scheme: 'http',
+      host: 'backend.sdsn.io',
+      path: '/api/v1/master-approval/user-approval',
+      queryParameters: queryParams,
+    );
+    print(queryParams);
+    print(uri.toString());
 
     try {
       final String? token = storage.read('token');
       if (token != null) {
         final response = await get(
-          apiUrl,
+          uri.toString(),
           headers: {
             'Authorization': 'Bearer $token',
           },
