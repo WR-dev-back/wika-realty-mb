@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wr_project/app/utils/constant/style/app_color.dart';
 import '../../../../common/models/approval_details.dart';
 import '../../../../utils/constant/style/text_styles.dart';
@@ -129,7 +130,48 @@ class ApprovalDetails extends StatelessWidget {
           buildTextColumn(
               'Approval Status', approval.purchaseOrder!.approvalStatus),
           buildTextColumn(
-              'Attachment Link', approval.purchaseOrder!.attachmentLink),
+            'Attachment Link',
+            approval.purchaseOrder!.attachmentLink != null
+                ? InkWell(
+                    onTap: () async {
+                      // Cek apakah URL ada dan valid
+                      final link = approval.purchaseOrder!.attachmentLink ?? '';
+                      print(link);
+
+                      // Jika link kosong, gunakan pencarian
+                      final searchQuery = Uri.encodeComponent(link);
+                      final searchUrl =
+                          'https://www.google.com/search?q=$searchQuery';
+
+                      final url =
+                          Uri.tryParse(link.isNotEmpty ? link : searchUrl);
+
+                      if (url != null && await canLaunchUrl(url)) {
+                        await launchUrl(
+                          url,
+                          mode: LaunchMode
+                              .externalApplication, // Tambahkan mode ini
+                        );
+                      } else {
+                        print('Could not launch $url');
+                      }
+                    },
+                    child: Row(
+                      children: [
+                        Icon(Icons.link), // Ikon yang diinginkan
+                        SizedBox(width: 5),
+                        Text(
+                          'Open Attachment',
+                          style: TextStyle(
+                            color: Colors.blue,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : Text('No attachment link available'),
+          ),
           SizedBox(height: 20),
           const Divider(color: Colors.grey, height: 1, thickness: 2),
           Text(
@@ -192,7 +234,7 @@ class ApprovalDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Item $itemNumber',
+          'Item $itemNumber: ${item.materialDesc}', // Tampilkan deskripsi material sebagai judul
           style: TextStyles.headerFieldStyle.copyWith(color: Colors.blue),
         ),
         SizedBox(
@@ -210,13 +252,16 @@ class ApprovalDetails extends StatelessWidget {
           height: 20,
         ),
         const Divider(color: Colors.grey, height: 1, thickness: 2),
-        Text(
-          'Service Details',
-          style: TextStyles.headerFieldStyle.copyWith(color: Colors.blue),
+        ExpansionTile(
+          title: Text(
+            'Service Details',
+            style: TextStyles.headerFieldStyle.copyWith(color: Colors.blue),
+          ),
+          children: [
+            for (var j = 0; j < item.details.length; j++)
+              buildServiceDetails(itemNumber, j + 1, item.details[j], format),
+          ],
         ),
-        SizedBox(height: 15),
-        for (var j = 0; j < item.details.length; j++)
-          buildServiceDetails(itemNumber, j + 1, item.details[j], format),
       ],
     );
   }
@@ -237,6 +282,7 @@ class ApprovalDetails extends StatelessWidget {
         buildTextColumn('Service Description', detail.serviceDesc ?? '-'),
         buildTextColumn('Service Quantity', detail.serviceQuantity ?? '-'),
         buildTextColumn('Service Unit', detail.serviceUnit ?? '-'),
+        buildTextColumn('Latest GR Date', detail.latestGrDate ?? '-'),
         buildCurrencyColumn('Service Price', detail.servicePrice, format),
         SizedBox(
           height: 20,
@@ -252,7 +298,7 @@ class ApprovalDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Item $itemNumber',
+          'Item $itemNumber: ${itemspr.materialDesc}', // Tampilkan deskripsi material sebagai judul
           style: TextStyles.headerFieldStyle.copyWith(color: Colors.blue),
         ),
         SizedBox(
@@ -283,13 +329,17 @@ class ApprovalDetails extends StatelessWidget {
           height: 20,
         ),
         const Divider(color: Colors.grey, height: 1, thickness: 2),
-        Text(
-          'Service Details',
-          style: TextStyles.headerFieldStyle.copyWith(color: Colors.blue),
+        ExpansionTile(
+          title: Text(
+            'Service Details',
+            style: TextStyles.headerFieldStyle.copyWith(color: Colors.blue),
+          ),
+          children: [
+            for (var j = 0; j < (itemspr.details?.length ?? 0); j++)
+              buildServicePrDetails(
+                  itemNumber, j + 1, itemspr.details![j], format),
+          ],
         ),
-        SizedBox(height: 15),
-        for (var j = 0; j < (itemspr.details?.length ?? 0); j++)
-          buildServicePrDetails(itemNumber, j + 1, itemspr.details![j], format),
       ],
     );
   }
@@ -332,13 +382,13 @@ class ApprovalDetails extends StatelessWidget {
     );
   }
 
-  Widget buildTextColumn(String label, String? value,
+  Widget buildTextColumn(String label, dynamic value,
       [NumberFormat? currencyFormat]) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(label, style: TextStyles.approvalTextStyle),
-        Text(emptyToDash(value), style: TextStyles.buttonprofileTextStyle),
+        value != null ? (value is String ? Text(value) : value) : Text('-'),
       ],
     );
   }

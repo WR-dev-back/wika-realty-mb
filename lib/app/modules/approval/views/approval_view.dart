@@ -96,7 +96,7 @@ class ApprovalView extends GetView<ApprovalController> {
                             child: Text('Approved'),
                           ),
                           DropdownMenuItem(
-                            value: 'rejected',
+                            value: 'reject',
                             child: Text('Rejected'),
                           ),
                           DropdownMenuItem(
@@ -106,14 +106,20 @@ class ApprovalView extends GetView<ApprovalController> {
                         ],
                         onChanged: (String? newValue) {
                           if (newValue != null) {
-                            controller.status(newValue);
+                            if (controller.selectedStatus.value == newValue) {
+                              controller.selectedStatus.value = '';
+                              controller.refreshData();
+                            } else {
+                              controller.selectedStatus.value = newValue;
+                              controller.refreshData();
+                            }
                           }
                         },
                         hint: Text("Select Status"),
                       ),
                     ),
                   ),
-                  SizedBox(width: 10), // Add some space between the dropdowns
+                  SizedBox(width: 10),
                   Expanded(
                     child: Obx(
                       () => DropdownButton<String>(
@@ -141,7 +147,13 @@ class ApprovalView extends GetView<ApprovalController> {
                         ],
                         onChanged: (String? newValue) {
                           if (newValue != null) {
-                            controller.filterBy(newValue);
+                            if (controller.selectedfilterBy.value == newValue) {
+                              controller.selectedfilterBy.value = '';
+                              controller.refreshData();
+                            } else {
+                              controller.selectedfilterBy.value = newValue;
+                              controller.refreshData();
+                            }
                           }
                         },
                         hint: Text("Select Filter"),
@@ -282,10 +294,10 @@ class ApprovalView extends GetView<ApprovalController> {
                                           Expanded(
                                             child: Text(
                                               approval.property?.unitDesc ??
-                                                  approval
-                                                      .purchaseOrder?.vendor ??
+                                                  approval.purchaseOrder
+                                                      ?.vendorDesc ??
                                                   approval.purchaseRequisition
-                                                      ?.prType ??
+                                                      ?.typeDesc ??
                                                   '',
                                               style: TextStyles
                                                   .headerapprovalStyleProfile

@@ -2,31 +2,31 @@ name: wr_project
 version: 1.0.0+1
 publish_to: none
 description: A new Flutter project.
-environment: 
-  sdk: '>=3.2.6 <4.0.0'
+environment:
+  sdk: ">=3.2.6 <4.0.0"
 
-dependencies: 
+dependencies:
   cupertino_icons: ^1.0.2
   introduction_screen: ^3.1.4
   google_fonts: ^6.2.1
   flutter_svg: ^2.0.10+1
   get: 4.6.6
-  flutter: 
+  flutter:
     sdk: flutter
   font_awesome_flutter: ^10.7.0
   intl: ^0.19.0
   get_storage: ^2.1.1
   lottie: ^3.1.2
   shared_preferences: ^2.2.3
-  
+  url_launcher: ^6.3.0
 
-dev_dependencies: 
+dev_dependencies:
   flutter_lints: 3.0.2
-  flutter_test: 
+  flutter_test:
     sdk: flutter
 
-flutter: 
-  assets: 
+flutter:
+  assets:
     - asset/images/
     - asset/icons/
     - asset/animations/

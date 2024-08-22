@@ -181,16 +181,16 @@ class FollowupLeadsView extends GetView<FollowupLeadsController> {
                         }
                       : null,
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
+                    backgroundColor: WidgetStateProperty.resolveWith<Color>(
+                      (Set<WidgetState> states) {
                         if (controller.isFormValid.value) {
                           return Colors.blue; // Color when the form is valid
                         }
                         return Colors.grey; // Color when the form is not valid
                       },
                     ),
-                    foregroundColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
+                    foregroundColor: WidgetStateProperty.resolveWith<Color>(
+                      (Set<WidgetState> states) {
                         if (controller.isFormValid.value) {
                           return Colors
                               .white; // Text color when the form is valid
