@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:wr_project/app/modules/leads/provider/leads_provider.dart';
 
@@ -56,11 +57,15 @@ class LeadsController extends GetxController {
   void onInit() {
     super.onInit();
     fetchDataLeads(page: 1);
+
     scrollController.addListener(
       () {
+        // Check if the user has scrolled to the bottom and if more pages are available
         if (scrollController.position.pixels ==
                 scrollController.position.maxScrollExtent &&
-            currentPage.value < totalPages.value) {
+            currentPage.value < totalPages.value &&
+            !isFetching.value) {
+          // Ensure no duplicate requests
           loadMoreData();
         }
       },
@@ -125,18 +130,30 @@ class LeadsController extends GetxController {
     try {
       isFetching(true);
       hasError(false);
-      final response = await leadsProvider.fetchDataLeads(page: page);
+
+      print("Fetching data for page: $page");
+
+      // Directly fetch the leads data from the provider
+      final List<Datum> response =
+          await leadsProvider.fetchDataLeads(page: page);
+
+      print("Data fetched successfully: ${response.length} leads");
+
       if (page == 1) {
+        // Replace the list if it's the first page
         filteredLeads.value = response;
       } else {
+        // Append to the existing list for additional pages
         filteredLeads.addAll(response);
       }
-      currentPage.value = page;
 
-      totalPages.value = (response.length / 25).ceil();
+      // Assuming 'page' and 'pageCount' values are stored in leadsProvider
+      currentPage.value = page;
+      totalPages.value = leadsProvider.totalPages.value;
     } catch (error) {
       hasError(true);
-      // print('Error fetching data: $error');
+      print("Error fetching data: $error"); // Log the error
+      Get.snackbar('Error', 'Error fetching data');
     } finally {
       isFetching(false);
     }
@@ -156,7 +173,35 @@ class LeadsController extends GetxController {
 
   Future<void> loadMoreData() async {
     if (currentPage.value < totalPages.value) {
+      // Pastikan ScrollController terhubung
+      if (!scrollController.hasClients) {
+        return;
+      }
+
+      // Simpan posisi gulir sebelum memuat data baru
+      double currentScrollPosition = scrollController.position.pixels;
+
+      // Tampilkan indikator loading
+      isFetching(true);
+
+      // Tambahkan penundaan 5 detik sebelum memuat data halaman berikutnya
+      await Future.delayed(Duration(seconds: 3));
+
+      // Muat data halaman berikutnya
       await fetchDataLeads(page: currentPage.value + 1);
+
+      // Update posisi gulir setelah data baru dimuat
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        if (scrollController.hasClients) {
+          // Hitung perbedaan maksimal scroll sebelum dan sesudah
+
+          // Pertahankan posisi scroll agar tetap berada di bagian bawah halaman 1
+          scrollController.jumpTo(currentScrollPosition);
+        }
+      });
+
+      // Sembunyikan indikator loading setelah data dimuat
+      isFetching(false);
     }
   }
 

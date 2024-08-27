@@ -251,203 +251,167 @@ class LeadsView extends GetView<LeadsController> {
                             } else {
                               return RefreshIndicator(
                                 onRefresh: controller.refreshData,
-                                child: controller.isFetching.value &&
-                                        controller.currentPage.value == 1
-                                    ? Center(
+                                child: ListView.builder(
+                                  controller: controller.scrollController,
+                                  itemCount: controller.filteredLeads.length +
+                                      (controller.isFetching.value ? 1 : 0),
+                                  itemBuilder: (context, index) {
+                                    if (index ==
+                                        controller.filteredLeads.length) {
+                                      // This is the loading indicator at the bottom
+                                      return Center(
                                         child: CircularProgressIndicator(),
-                                      )
-                                    : ListView.builder(
-                                        controller: controller.scrollController,
-                                        itemCount:
-                                            controller.filteredLeads.length,
-                                        itemBuilder: (context, index) {
-                                          final leads =
-                                              controller.filteredLeads[index];
+                                      );
+                                    }
+                                    final leads =
+                                        controller.filteredLeads[index];
 
-                                          return Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 8),
-                                            child: InkWell(
-                                              onTap: () => Get.toNamed(
-                                                Routes.DETAIL_LEADS,
-                                                arguments: leads,
-                                              ),
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      color: Colors.grey,
-                                                      width: 0.7),
-                                                  borderRadius:
-                                                      BorderRadius.circular(18),
-                                                  color: Colors.white,
+                                    return Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 8),
+                                      child: InkWell(
+                                        onTap: () => Get.toNamed(
+                                          Routes.DETAIL_LEADS,
+                                          arguments: leads,
+                                        ),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: Colors.grey, width: 0.7),
+                                            borderRadius:
+                                                BorderRadius.circular(18),
+                                            color: Colors.white,
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 15, vertical: 10),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                // Your UI code for each list item goes here...
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Icon(
+                                                          size: 18,
+                                                          Icons.qr_code_2,
+                                                          color:
+                                                              AppColor.primary,
+                                                        ),
+                                                        SizedBox(
+                                                          width: 15,
+                                                        ),
+                                                        Text(
+                                                          leads.leadsCode ??
+                                                              '-',
+                                                          style: TextStyle(
+                                                            color: Colors.black,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Container(
+                                                      height: 25,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                      ),
+                                                      child: Text(
+                                                        '${leads.createdAt != null ? formatDateTime(leads.createdAt!) : 'Unknown'}',
+                                                        style: TextStyles
+                                                            .decTextStyle,
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 15,
-                                                      vertical: 10),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Row(
-                                                            children: [
-                                                              Icon(
-                                                                size: 18,
-                                                                Icons.qr_code_2,
-                                                                color: AppColor
-                                                                    .primary,
-                                                              ),
-                                                              SizedBox(
-                                                                width: 15,
-                                                              ),
-                                                              Text(
-                                                                leads.leadsCode ??
-                                                                    '-',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Colors
-                                                                      .black,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Container(
-                                                            height: 25,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10),
-                                                            ),
-                                                            child: Text(
-                                                              '${leads.createdAt != null ? formatDateTime(leads.createdAt!) : 'Unknown'}',
-                                                              style: TextStyles
-                                                                  .decTextStyle,
-                                                            ),
-                                                          ),
-                                                        ],
+                                                SizedBox(height: 5),
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                      size: 20,
+                                                      Icons.person,
+                                                      color: AppColor.primary,
+                                                    ),
+                                                    SizedBox(width: 10),
+                                                    Text(
+                                                      leads.fullName ?? '-',
+                                                      style: TextStyles
+                                                          .headerapprovalStyleProfile
+                                                          .copyWith(
+                                                        color: Colors.black,
                                                       ),
-                                                      SizedBox(height: 5),
-                                                      Row(
-                                                        children: [
-                                                          Icon(
-                                                            size: 20,
-                                                            Icons.person,
-                                                            color: AppColor
-                                                                .primary,
-                                                          ),
-                                                          SizedBox(width: 10),
-                                                          Text(
-                                                            leads.fullName ??
-                                                                '-',
-                                                            style: TextStyles
-                                                                .headerapprovalStyleProfile
-                                                                .copyWith(
-                                                              color:
-                                                                  Colors.black,
-                                                            ),
-                                                            maxLines: 1,
-                                                          ),
-
-                                                          // Text(
-                                                          //   leads.omzet != null
-                                                          //       ? formatOmzet(double
-                                                          //           .parse(leads
-                                                          //               .omzet!))
-                                                          //       : '-',
-                                                          //   style: TextStyles
-                                                          //       .buttonprofileTextStyle,
-                                                          // ),
-                                                        ],
-                                                      ),
-                                                      SizedBox(height: 10),
-                                                      Divider(
-                                                          height: 2,
-                                                          thickness: 1),
-                                                      SizedBox(height: 10),
-                                                      Row(
-                                                        children: [
-                                                          // ClipOval(
-                                                          //   child: SizedBox(
-                                                          //     width: 40,
-                                                          //     height: 40,
-                                                          //     child: Center(
-                                                          //       child: Image.network(
-                                                          //           "https://ui-avatars.com/api/?name=${leads.fullName}",
-                                                          //           fit: BoxFit
-                                                          //               .contain),
-                                                          //     ),
-                                                          //   ),
-                                                          // ),
-                                                          // SizedBox(width: 10),
-                                                          Icon(
-                                                            size: 20,
-                                                            Icons.email,
-                                                            color: AppColor
-                                                                .primary,
-                                                          ),
-                                                          SizedBox(width: 10),
-                                                          Text(
-                                                            leads.email ?? '-',
-                                                            style: TextStyles
-                                                                .leadsTextStyle,
-                                                            maxLines: 1,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      SizedBox(height: 10),
-                                                      Row(
-                                                        children: [
-                                                          Icon(
-                                                            size: 20,
-                                                            Icons.phone,
-                                                            color: AppColor
-                                                                .primary,
-                                                          ),
-                                                          SizedBox(width: 10),
-                                                          Text(
-                                                            leads.phoneNumber ??
-                                                                '-',
-                                                            style: TextStyles
-                                                                .leadsTextStyle,
-                                                            maxLines: 1,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      SizedBox(height: 10),
-                                                      Row(
-                                                        children: [
-                                                          Icon(
-                                                            size: 20,
-                                                            Icons.location_city,
-                                                            color: AppColor
-                                                                .primary,
-                                                          ),
-                                                          SizedBox(width: 10),
-                                                          Text(
-                                                            leads.city ?? '-',
-                                                            style: TextStyles
-                                                                .leadsTextStyle,
-                                                            maxLines: 1,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
+                                                      maxLines: 1,
+                                                    ),
+                                                  ],
                                                 ),
-                                              ),
+                                                SizedBox(height: 10),
+                                                Divider(
+                                                    height: 2, thickness: 1),
+                                                SizedBox(height: 10),
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                      size: 20,
+                                                      Icons.email,
+                                                      color: AppColor.primary,
+                                                    ),
+                                                    SizedBox(width: 10),
+                                                    Text(
+                                                      leads.email ?? '-',
+                                                      style: TextStyles
+                                                          .leadsTextStyle,
+                                                      maxLines: 1,
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(height: 10),
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                      size: 20,
+                                                      Icons.phone,
+                                                      color: AppColor.primary,
+                                                    ),
+                                                    SizedBox(width: 10),
+                                                    Text(
+                                                      leads.phoneNumber ?? '-',
+                                                      style: TextStyles
+                                                          .leadsTextStyle,
+                                                      maxLines: 1,
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(height: 10),
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                      size: 20,
+                                                      Icons.location_city,
+                                                      color: AppColor.primary,
+                                                    ),
+                                                    SizedBox(width: 10),
+                                                    Text(
+                                                      leads.city ?? '-',
+                                                      style: TextStyles
+                                                          .leadsTextStyle,
+                                                      maxLines: 1,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
                                             ),
-                                          );
-                                        },
+                                          ),
+                                        ),
                                       ),
+                                    );
+                                  },
+                                ),
                               );
                             }
                           }),

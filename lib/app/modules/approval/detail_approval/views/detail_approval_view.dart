@@ -249,9 +249,8 @@ class ApprovalDetails extends StatelessWidget {
         buildCurrencyColumn('Item Total Price', item.itemTotalPrice, format),
         buildTextColumn('Delivery Date', item.deliveryDate),
         SizedBox(
-          height: 20,
+          height: 10,
         ),
-        const Divider(color: Colors.grey, height: 1, thickness: 2),
         ExpansionTile(
           title: Text(
             'Service Details',
@@ -262,6 +261,10 @@ class ApprovalDetails extends StatelessWidget {
               buildServiceDetails(itemNumber, j + 1, item.details[j], format),
           ],
         ),
+        Divider(color: Colors.grey, height: 1, thickness: 2),
+        SizedBox(
+          height: 20,
+        )
       ],
     );
   }

@@ -10,6 +10,7 @@ import '../../../routes/app_pages.dart'; // Import your app pages/routes
 class LeadsProvider extends GetConnect {
   RxList<Datum> filteredLeads = <Datum>[].obs;
   late List<Datum> _leads = [];
+  RxInt totalPages = 1.obs;
   late RxList<Datum> _filteredLeads = RxList<Datum>();
   final GetStorage storage = GetStorage();
 
@@ -38,9 +39,12 @@ class LeadsProvider extends GetConnect {
 
           _leads = leadsData.data!;
           _filteredLeads.addAll(_leads);
+
+          // Set the total number of pages based on API response
+          totalPages.value = leadsData.pageCount ?? 1;
+
           return _leads;
         } else if (response.statusCode == 401) {
-          // Redirect to login page
           Get.toNamed(Routes.LOGIN);
           return [];
         } else {
