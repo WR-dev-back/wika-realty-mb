@@ -253,16 +253,8 @@ class LeadsView extends GetView<LeadsController> {
                                 onRefresh: controller.refreshData,
                                 child: ListView.builder(
                                   controller: controller.scrollController,
-                                  itemCount: controller.filteredLeads.length +
-                                      (controller.isFetching.value ? 1 : 0),
+                                  itemCount: controller.filteredLeads.length,
                                   itemBuilder: (context, index) {
-                                    if (index ==
-                                        controller.filteredLeads.length) {
-                                      // This is the loading indicator at the bottom
-                                      return Center(
-                                        child: CircularProgressIndicator(),
-                                      );
-                                    }
                                     final leads =
                                         controller.filteredLeads[index];
 
@@ -289,7 +281,6 @@ class LeadsView extends GetView<LeadsController> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                // Your UI code for each list item goes here...
                                                 Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment

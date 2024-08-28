@@ -173,34 +173,24 @@ class LeadsController extends GetxController {
 
   Future<void> loadMoreData() async {
     if (currentPage.value < totalPages.value) {
-      // Pastikan ScrollController terhubung
       if (!scrollController.hasClients) {
         return;
       }
 
-      // Simpan posisi gulir sebelum memuat data baru
       double currentScrollPosition = scrollController.position.pixels;
 
-      // Tampilkan indikator loading
       isFetching(true);
 
-      // Tambahkan penundaan 5 detik sebelum memuat data halaman berikutnya
-      await Future.delayed(Duration(seconds: 3));
+      await Future.delayed(Duration(seconds: 1));
 
-      // Muat data halaman berikutnya
       await fetchDataLeads(page: currentPage.value + 1);
 
-      // Update posisi gulir setelah data baru dimuat
       SchedulerBinding.instance.addPostFrameCallback((_) {
         if (scrollController.hasClients) {
-          // Hitung perbedaan maksimal scroll sebelum dan sesudah
-
-          // Pertahankan posisi scroll agar tetap berada di bagian bawah halaman 1
           scrollController.jumpTo(currentScrollPosition);
         }
       });
 
-      // Sembunyikan indikator loading setelah data dimuat
       isFetching(false);
     }
   }

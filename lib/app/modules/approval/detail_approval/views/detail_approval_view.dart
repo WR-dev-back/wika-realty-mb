@@ -194,8 +194,10 @@ class ApprovalDetails extends StatelessWidget {
           ),
           SizedBox(height: 15),
           buildTextColumn('PR Type', approval.purchaseRequisition!.prType),
-          buildTextColumn(
-              'Vendor 1', approval.purchaseRequisition!.newVendorName1 ?? '-'),
+          buildTextColumn('Registered Vendor 1',
+              approval.purchaseRequisition!.registeredVendorDesc1 ?? '-'),
+          buildTextColumn('New Vendor 1',
+              approval.purchaseRequisition!.newVendorName1 ?? '-'),
           buildTextColumn('Vendor 1 Description',
               approval.purchaseRequisition!.newVendorLocation1 ?? '-'),
           buildTextColumn(
@@ -281,12 +283,15 @@ class ApprovalDetails extends StatelessWidget {
         SizedBox(
           height: 20,
         ),
+        buildTextColumn('Latest GR Date', detail.latestGrDate ?? '-'),
         buildTextColumn('Service No', detail.serviceNo ?? '-'),
         buildTextColumn('Service Description', detail.serviceDesc ?? '-'),
-        buildTextColumn('Service Quantity', detail.serviceQuantity ?? '-'),
-        buildTextColumn('Service Unit', detail.serviceUnit ?? '-'),
-        buildTextColumn('Latest GR Date', detail.latestGrDate ?? '-'),
+        buildTextColumn(
+          'Service Quantity',
+          '${detail.serviceQuantity} ${detail.serviceUnit ?? '-'}',
+        ),
         buildCurrencyColumn('Service Price', detail.servicePrice, format),
+        buildTextColumn('Procurement Name', detail.procurementName ?? '-'),
         SizedBox(
           height: 20,
         ),
@@ -315,7 +320,7 @@ class ApprovalDetails extends StatelessWidget {
         buildTextColumn('Quantity', itemspr.prQuantity),
         buildTextColumn('Unit', itemspr.prOrderUnit),
         buildCurrencyColumn('Unit Price', itemspr.unitPrice, format),
-        buildCurrencyColumn('Total Price Unit', itemspr.priceUnit, format),
+        buildTextColumn('Price Unit', itemspr.priceUnit),
         buildCurrencyColumn('Total Value', itemspr.totalValue, format),
         buildTextColumn('Currency', itemspr.currency),
         buildTextColumn('Plant', itemspr.plant),
@@ -361,8 +366,10 @@ class ApprovalDetails extends StatelessWidget {
         ),
         buildTextColumn('Service No', detail.serviceNo ?? '-'),
         buildTextColumn('Service Description', detail.serviceDesc ?? '-'),
-        buildTextColumn('Service Quantity', detail.serviceQuantity ?? '-'),
-        buildTextColumn('Service Unit', detail.serviceUnit ?? '-'),
+        buildTextColumn(
+          'Service Quantity',
+          '${detail.serviceQuantity} ${detail.serviceUnit ?? '-'}',
+        ),
         buildCurrencyColumn('Service Price', detail.servicePrice, format),
         SizedBox(
           height: 20,
@@ -380,7 +387,7 @@ class ApprovalDetails extends StatelessWidget {
           label,
           style: TextStyles.headerFieldStyle.copyWith(color: Colors.blue),
         ),
-        Text(emptyToDash(value), style: TextStyles.buttonprofileTextStyle),
+        Text(value!, style: TextStyles.buttonprofileTextStyle),
       ],
     );
   }
@@ -407,7 +414,7 @@ class ApprovalDetails extends StatelessWidget {
               : format.format(
                   double.tryParse(value.replaceAll('.', '')) ?? 0,
                 ),
-          style: TextStyles.buttonprofileTextStyle,
+          // style: TextStyles.buttonprofileTextStyle,
         ),
       ],
     );
@@ -496,8 +503,4 @@ class ApprovalActions extends StatelessWidget {
       },
     );
   }
-}
-
-String emptyToDash(String? value) {
-  return (value == null || value.isEmpty) ? '-' : value;
 }
