@@ -7,6 +7,77 @@ class NotificationsView extends GetView<NotificationsController> {
 
   final List<String> items = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
 
+  void _showBottomSheet(BuildContext context, String title) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled:
+          true, // This allows the bottom sheet to take 70% of the screen height
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20),
+        ),
+      ),
+      builder: (BuildContext context) {
+        return FractionallySizedBox(
+          heightFactor: 0.7,
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.only(top: 8.0),
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: Colors.grey[400],
+                  borderRadius: BorderRadius.circular(2.0),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Select $title', // Title based on the pressed field
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Search...',
+                        prefixIcon: Icon(Icons.search),
+                        border: OutlineInputBorder(),
+                      ),
+                      onChanged: (value) {
+                        // Implement search logic here
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: items.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(items[index]),
+                      onTap: () {
+                        Navigator.pop(context);
+                        // Handle item selection
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,78 +98,7 @@ class NotificationsView extends GetView<NotificationsController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  const Text(
-                    "Notifications",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                  ),
-                  const Spacer(),
-                  SizedBox(
-                    width: 200,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        suffixIcon: Icon(Icons.bookmark_outline),
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  const Text(
-                    "Notifications Status",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                  ),
-                  const Spacer(),
-                  SizedBox(
-                    width: 200,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        suffixIcon: Icon(Icons.bookmark_outline),
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  const Text(
-                    "Orders",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                  ),
-                  const Spacer(),
-                  SizedBox(
-                    width: 200,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        suffixIcon: Icon(Icons.bookmark_outline),
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Center(
-                child: Column(
-                  children: [
-                    Text(
-                      "Reference Object",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    Divider(
-                      color: Colors.blue,
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20),
+              // Functional Location Field
               Row(
                 children: [
                   const Text(
@@ -108,449 +108,101 @@ class NotificationsView extends GetView<NotificationsController> {
                   const Spacer(),
                   SizedBox(
                     width: 200,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        suffixIcon: Icon(Icons.bookmark_outline),
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  const Text(
-                    "Equipment",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                  ),
-                  const Spacer(),
-                  SizedBox(
-                    width: 200,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        suffixIcon: Icon(Icons.bookmark_outline),
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Center(
-                child: Column(
-                  children: [
-                    Text(
-                      "Subject",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    Divider(
-                      color: Colors.blue,
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  const Text(
-                    "Equipment",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                  ),
-                  const Spacer(),
-                  SizedBox(
-                    width: 200,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        suffixIcon: Icon(Icons.bookmark_outline),
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Container(
-                child: TextFormField(
-                  maxLines: 4,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-              Center(
-                child: Column(
-                  children: [
-                    Text(
-                      "Responsibility",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    Divider(
-                      color: Colors.blue,
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  const Text(
-                    "Planner Group",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                  ),
-                  const Spacer(),
-                  SizedBox(
-                    width: 100,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        suffixIcon: Icon(Icons.bookmark_outline),
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    "/",
-                    style: TextStyle(fontSize: 14),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  SizedBox(
-                    width: 100,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        suffixIcon: Icon(Icons.bookmark_outline),
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  const Text(
-                    "Main WorkCtr",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                  ),
-                  const Spacer(),
-                  SizedBox(
-                    width: 100,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        suffixIcon: Icon(Icons.bookmark_outline),
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    "/",
-                    style: TextStyle(fontSize: 14),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  SizedBox(
-                    width: 100,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        suffixIcon: Icon(Icons.bookmark_outline),
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  const Text(
-                    "Reported By",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                  ),
-                  const Spacer(),
-                  SizedBox(
-                    width: 200,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        suffixIcon: Icon(Icons.bookmark_outline),
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  const Text(
-                    "Notif Date",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                  ),
-                  const Spacer(),
-                  SizedBox(
-                    width: 100,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        suffixIcon: Icon(Icons.bookmark_outline),
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  SizedBox(
-                    width: 100,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        suffixIcon: Icon(Icons.bookmark_outline),
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Center(
-                child: Column(
-                  children: [
-                    Text(
-                      "Start/End Date",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    Divider(
-                      color: Colors.blue,
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  const Text(
-                    "Required Start",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                  ),
-                  const Spacer(),
-                  SizedBox(
-                    width: 100,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        suffixIcon: Icon(Icons.bookmark_outline),
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  SizedBox(
-                    width: 100,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        suffixIcon: Icon(Icons.bookmark_outline),
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  const Text(
-                    "Required End",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                  ),
-                  const Spacer(),
-                  SizedBox(
-                    width: 100,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        suffixIcon: Icon(Icons.bookmark_outline),
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  SizedBox(
-                    width: 100,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        suffixIcon: Icon(Icons.bookmark_outline),
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  const Text(
-                    "Priority",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                  ),
-                  const Spacer(),
-                  Obx(
-                    () => DropdownButton<String>(
-                      value: controller.selectedValue.value.isEmpty
-                          ? null
-                          : controller.selectedValue.value,
-                      hint: const Text('Select an option'),
-                      items: items.map((String item) {
-                        return DropdownMenuItem<String>(
-                          value: item,
-                          child: Text(item),
-                        );
-                      }).toList(),
-                      onChanged: controller.updateDropdownValue,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  const Text(
-                    "Breakdown",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                  ),
-                  const Spacer(),
-                  Obx(
-                    () => Checkbox(
-                      value: controller.isBreakdown.value,
-                      onChanged: (bool? newValue) {
-                        controller.isBreakdown.value = newValue ?? false;
+                    child: GestureDetector(
+                      onTap: () {
+                        _showBottomSheet(context, "Functional Location");
                       },
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(height: 20),
-              Center(
-                child: Column(
-                  children: [
-                    Text(
-                      "Item",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    Divider(
-                      color: Colors.blue,
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  const Text(
-                    "Damage",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                  ),
-                  const Spacer(),
-                  SizedBox(
-                    width: 150,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        suffixIcon: Icon(Icons.bookmark_outline),
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  SizedBox(
-                    width: 50,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        // suffixIcon: Icon(Icons.bookmark_outline),
-                        border: OutlineInputBorder(),
+                      child: AbsorbPointer(
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                            suffixIcon: Icon(Icons.bookmark_outline),
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ],
               ),
               SizedBox(height: 20),
+
+              // Equipment Field
               Row(
                 children: [
                   const Text(
-                    "Text",
+                    "Equipment",
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                   ),
                   const Spacer(),
                   SizedBox(
                     width: 200,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        suffixIcon: Icon(Icons.bookmark_outline),
-                        border: OutlineInputBorder(),
+                    child: GestureDetector(
+                      onTap: () {
+                        _showBottomSheet(context, "Equipment");
+                      },
+                      child: AbsorbPointer(
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                            suffixIcon: Icon(Icons.bookmark_outline),
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ],
               ),
               SizedBox(height: 20),
-              SizedBox(height: 20),
+
+              // Group Cause Field
               Row(
                 children: [
                   const Text(
-                    "Cause",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                  ),
-                  const Spacer(),
-                  SizedBox(
-                    width: 150,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        suffixIcon: Icon(Icons.bookmark_outline),
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  SizedBox(
-                    width: 50,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        // suffixIcon: Icon(Icons.bookmark_outline),
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  const Text(
-                    "Cause Text",
+                    "Group Cause",
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                   ),
                   const Spacer(),
                   SizedBox(
                     width: 200,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        suffixIcon: Icon(Icons.bookmark_outline),
-                        border: OutlineInputBorder(),
+                    child: GestureDetector(
+                      onTap: () {
+                        _showBottomSheet(context, "Group Cause");
+                      },
+                      child: AbsorbPointer(
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                            suffixIcon: Icon(Icons.bookmark_outline),
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+
+              // Group Problem Field
+              Row(
+                children: [
+                  const Text(
+                    "Group Problem",
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  ),
+                  const Spacer(),
+                  SizedBox(
+                    width: 200,
+                    child: GestureDetector(
+                      onTap: () {
+                        _showBottomSheet(context, "Group Problem");
+                      },
+                      child: AbsorbPointer(
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                            suffixIcon: Icon(Icons.bookmark_outline),
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
                       ),
                     ),
                   ),

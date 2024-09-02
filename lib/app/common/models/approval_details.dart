@@ -547,6 +547,8 @@ class PurchaseRequisition {
   String? approvalStatus;
   bool? isSend;
   List<ItemPr>? itemspr;
+  List<RegisteredVendor>? registeredVendors;
+  List<NewVendor>? newVendors;
 
   PurchaseRequisition({
     required this.id,
@@ -585,6 +587,8 @@ class PurchaseRequisition {
     this.approvalStatus,
     this.isSend,
     this.itemspr,
+    this.registeredVendors,
+    this.newVendors,
   });
 
   factory PurchaseRequisition.fromJson(Map<String, dynamic> json) =>
@@ -631,6 +635,14 @@ class PurchaseRequisition {
         itemspr: json["items"] == null
             ? []
             : List<ItemPr>.from(json["items"]!.map((x) => ItemPr.fromJson(x))),
+        registeredVendors: json["registered_vendors"] == null
+            ? []
+            : List<RegisteredVendor>.from(json["registered_vendors"]!
+                .map((x) => RegisteredVendor.fromJson(x))),
+        newVendors: json["new_vendors"] == null
+            ? []
+            : List<NewVendor>.from(
+                json["new_vendors"]!.map((x) => NewVendor.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -672,6 +684,12 @@ class PurchaseRequisition {
         "items": itemspr == null
             ? []
             : List<dynamic>.from(itemspr!.map((x) => x.toJson())),
+        "registered_vendors": registeredVendors == null
+            ? []
+            : List<dynamic>.from(registeredVendors!.map((x) => x.toJson())),
+        "new_vendors": newVendors == null
+            ? []
+            : List<dynamic>.from(newVendors!.map((x) => x.toJson())),
       };
 }
 
@@ -889,5 +907,46 @@ class DetailPr {
         "service_price": servicePrice,
         "service_total_price": serviceTotalPrice,
         "service_currency": serviceCurrency,
+      };
+}
+
+class NewVendor {
+  String? name;
+  String? location;
+
+  NewVendor({
+    this.name,
+    this.location,
+  });
+
+  factory NewVendor.fromJson(Map<String, dynamic> json) => NewVendor(
+        name: json["name"],
+        location: json["location"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "location": location,
+      };
+}
+
+class RegisteredVendor {
+  String? code;
+  String? desc;
+
+  RegisteredVendor({
+    this.code,
+    this.desc,
+  });
+
+  factory RegisteredVendor.fromJson(Map<String, dynamic> json) =>
+      RegisteredVendor(
+        code: json["code"],
+        desc: json["desc"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "code": code,
+        "desc": desc,
       };
 }

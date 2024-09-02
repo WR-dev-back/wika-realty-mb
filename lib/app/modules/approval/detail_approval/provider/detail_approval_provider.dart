@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import '../../../../routes/app_pages.dart';
 import '../../../../utils/constant/data/api.dart';
 
 class DetailApprovalProvider extends GetConnect {
@@ -24,6 +25,9 @@ class DetailApprovalProvider extends GetConnect {
           'Content-Type': 'application/json',
         },
       );
+      if (response.statusCode == 401) {
+        Get.toNamed(Routes.LOGIN);
+      }
       return response;
     } catch (error) {
       return Response(statusCode: 500, statusText: 'Error: $error');
@@ -48,7 +52,10 @@ class DetailApprovalProvider extends GetConnect {
           'Content-Type': 'application/json',
         },
       );
-      print(response.body);
+      if (response.statusCode == 401) {
+        Get.toNamed(Routes.LOGIN);
+      }
+
       return response;
     } catch (error) {
       return Response(statusCode: 500, statusText: 'Error: $error');
@@ -75,6 +82,9 @@ class DetailApprovalProvider extends GetConnect {
           'Content-Type': 'application/json',
         },
       );
+      if (response.statusCode == 401) {
+        Get.toNamed(Routes.LOGIN);
+      }
       return response;
     } catch (error) {
       return Response(statusCode: 500, statusText: 'Error: $error');

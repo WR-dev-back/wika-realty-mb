@@ -194,20 +194,35 @@ class ApprovalDetails extends StatelessWidget {
           ),
           SizedBox(height: 15),
           buildTextColumn('PR Type', approval.purchaseRequisition!.prType),
-          buildTextColumn('Registered Vendor 1',
-              approval.purchaseRequisition!.registeredVendorDesc1 ?? '-'),
-          buildTextColumn('New Vendor 1',
-              approval.purchaseRequisition!.newVendorName1 ?? '-'),
-          buildTextColumn('Vendor 1 Description',
-              approval.purchaseRequisition!.newVendorLocation1 ?? '-'),
+
+          // Loop Registered Vendors
+          if (approval.purchaseRequisition!.registeredVendors != null)
+            for (var i = 0;
+                i < approval.purchaseRequisition!.registeredVendors!.length;
+                i++) ...[
+              buildTextColumn(
+                  'Registered Vendor ${i + 1}',
+                  approval.purchaseRequisition!.registeredVendors![i].desc ??
+                      '-'),
+            ],
+
+          // Loop New Vendors
+          if (approval.purchaseRequisition!.newVendors != null)
+            for (var i = 0;
+                i < approval.purchaseRequisition!.newVendors!.length;
+                i++) ...[
+              buildTextColumn('New Vendor ${i + 1}',
+                  approval.purchaseRequisition!.newVendors![i].name ?? '-'),
+              buildTextColumn('Location Vendor ${i + 1}',
+                  approval.purchaseRequisition!.newVendors![i].location ?? '-'),
+            ],
+
           buildTextColumn(
               'Description', approval.purchaseRequisition!.typeDesc),
           buildCurrencyColumn('Budget Value',
               approval.purchaseRequisition!.budgetValue, currencyFormat),
-          buildCurrencyColumn(
-              'Grand Total Value',
-              approval.purchaseRequisition!.grandTotalValue,
-              currencyFormat), // Corrected line
+          buildCurrencyColumn('Grand Total Value',
+              approval.purchaseRequisition!.grandTotalValue, currencyFormat),
           buildTextColumn('Release Group Code',
               approval.purchaseRequisition!.releaseGroupCode),
           buildTextColumn('Release Group Description',
