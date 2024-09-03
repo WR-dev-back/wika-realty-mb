@@ -15,7 +15,7 @@ Future<void> main() async {
 
   runApp(
     GetMaterialApp(
-      title: "Si Olife",
+      title: "Si Olif",
       debugShowCheckedModeBanner: false,
       initialRoute: token != null ? Routes.HOME : AppPages.INITIAL,
       getPages: AppPages.routes,

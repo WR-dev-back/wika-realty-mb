@@ -16,7 +16,7 @@ class LeadsProvider extends GetConnect {
 
   Future<List<Datum>> fetchDataLeads({int page = 1, int limit = 25}) async {
     var apiUrl = ApiEndPoints.baseUrl +
-        ApiEndPoints.getDataLeads.dataLeads +
+        ApiEndPoints.leads.dataLeads +
         'page=${page}&limit=${limit}';
     print(apiUrl);
 
@@ -64,7 +64,7 @@ class LeadsProvider extends GetConnect {
 
   Future<List<Datum>?> searchLeads(String query, String searchType) async {
     var apiUrl = Uri.parse(ApiEndPoints.baseUrl +
-        ApiEndPoints.getDataLeads.dataLeads +
+        ApiEndPoints.leads.dataLeads +
         '&searchBy=$searchType' +
         '&search=$query');
 
@@ -113,7 +113,7 @@ class LeadsProvider extends GetConnect {
     required String email,
   }) async {
     final apiUrl =
-        '${ApiEndPoints.baseUrl}${ApiEndPoints.checkLeads.checkDuplicate}?npwp=$npwp&phone=$phone&email=$email';
+        '${ApiEndPoints.baseUrl}${ApiEndPoints.leads.checkDuplicate}?npwp=$npwp&phone=$phone&email=$email';
 
     final data = {
       'npwp': npwp,
@@ -193,8 +193,7 @@ class LeadsProvider extends GetConnect {
       );
 
       if (!isDuplicate) {
-        var url =
-            '${ApiEndPoints.baseUrl}${ApiEndPoints.postDataLeads.postLeads}';
+        var url = '${ApiEndPoints.baseUrl}${ApiEndPoints.leads.postLeads}';
         var data = {
           'email': email,
           'full_name': fullName,

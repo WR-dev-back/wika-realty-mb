@@ -9,7 +9,7 @@ class DetailApprovalProvider extends GetConnect {
 
   Future<Response> fetchApprovalDetail(approvalId) async {
     final apiUrl =
-        '${ApiEndPoints.baseUrl}${ApiEndPoints.getDetailApproval.detailApproval}$approvalId';
+        '${ApiEndPoints.baseUrl}${ApiEndPoints.approval.detailApproval}$approvalId';
 
     final String? token = storage.read('token');
 
@@ -36,7 +36,7 @@ class DetailApprovalProvider extends GetConnect {
 
   Future<Response> approve(approvalId) async {
     final apiUrl =
-        '${ApiEndPoints.baseUrl}${ApiEndPoints.getDetailApproval.detailApproval}$approvalId/approve';
+        '${ApiEndPoints.baseUrl}${ApiEndPoints.approval.detailApproval}$approvalId/approve';
 
     final String? token = storage.read('token');
 
@@ -64,7 +64,7 @@ class DetailApprovalProvider extends GetConnect {
 
   Future<Response> reject(approvalId) async {
     final apiUrl =
-        '${ApiEndPoints.baseUrl}${ApiEndPoints.getDetailApproval.detailApproval}$approvalId/reject';
+        '${ApiEndPoints.baseUrl}${ApiEndPoints.approval.detailApproval}$approvalId/reject';
 
     print(apiUrl);
 

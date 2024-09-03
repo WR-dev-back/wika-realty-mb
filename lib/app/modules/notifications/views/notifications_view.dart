@@ -5,78 +5,7 @@ import '../controllers/notifications_controller.dart';
 class NotificationsView extends GetView<NotificationsController> {
   NotificationsView({Key? key}) : super(key: key);
 
-  final List<String> items = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
-
-  void _showBottomSheet(BuildContext context, String title) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled:
-          true, // This allows the bottom sheet to take 70% of the screen height
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(20),
-        ),
-      ),
-      builder: (BuildContext context) {
-        return FractionallySizedBox(
-          heightFactor: 0.7,
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.only(top: 8.0),
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: Colors.grey[400],
-                  borderRadius: BorderRadius.circular(2.0),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Select $title', // Title based on the pressed field
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Search...',
-                        prefixIcon: Icon(Icons.search),
-                        border: OutlineInputBorder(),
-                      ),
-                      onChanged: (value) {
-                        // Implement search logic here
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: items.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(items[index]),
-                      onTap: () {
-                        Navigator.pop(context);
-                        // Handle item selection
-                      },
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
+  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +31,7 @@ class NotificationsView extends GetView<NotificationsController> {
               Row(
                 children: [
                   const Text(
-                    "Functional Loc",
+                    "Functional Location",
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                   ),
                   const Spacer(),
@@ -214,5 +143,127 @@ class NotificationsView extends GetView<NotificationsController> {
         ),
       ),
     );
+  }
+
+  void _showBottomSheet(BuildContext context, String fieldType) {
+    // Reset page number and clear data for all field types
+    controller.resetAll();
+
+    // Fetch data and open the bottom sheet
+    controller.fetchData(fieldType).then((_) {
+      controller.selectedValue.value =
+          fieldType; // Set selected value after data is fetched
+
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(20),
+          ),
+        ),
+        builder: (BuildContext context) {
+          _scrollController.addListener(() {
+            if (_scrollController.position.pixels ==
+                _scrollController.position.maxScrollExtent) {
+              controller.loadMoreData(fieldType);
+            }
+          });
+
+          return FractionallySizedBox(
+            heightFactor: 0.7,
+            child: Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 8.0),
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[400],
+                    borderRadius: BorderRadius.circular(2.0),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Select $fieldType',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      TextField(
+                        decoration: InputDecoration(
+                          hintText: 'Search...',
+                          prefixIcon: Icon(Icons.search),
+                          border: OutlineInputBorder(),
+                        ),
+                        onChanged: (value) {
+                          // Implement search logic here if needed
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Obx(() {
+                    print(
+                        'Building ListView for ${controller.selectedValue.value}');
+                    List<String> displayList;
+                    switch (fieldType) {
+                      case "Functional Location":
+                        displayList = controller.functionalLocations;
+                        break;
+                      case "Equipment":
+                        displayList = controller.equipments;
+                        break;
+                      case "Group Cause":
+                        displayList = controller.groupCauses;
+                        break;
+                      case "Group Problem":
+                        displayList = controller.groupProblems;
+                        break;
+                      default:
+                        displayList = [];
+                    }
+                    return ListView.builder(
+                      controller: _scrollController,
+                      itemCount: displayList.length +
+                          1, // Add 1 for the loading indicator
+                      itemBuilder: (context, index) {
+                        if (index == displayList.length) {
+                          if (controller.hasMoreDataMap[fieldType]!) {
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            );
+                          } else {
+                            return SizedBox(); // No more data, return empty widget
+                          }
+                        } else {
+                          return ListTile(
+                            title: Text(displayList[index]),
+                            onTap: () {
+                              Navigator.pop(context);
+                              // Handle item selection
+                            },
+                          );
+                        }
+                      },
+                    );
+                  }),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    });
   }
 }

@@ -7,8 +7,7 @@ class LoginProvider extends GetConnect {
   Future<Response> login(String email, String password) async {
     var headers = {'Content-Type': 'application/json'};
     try {
-      var url =
-          '${ApiEndPoints.baseUrl}${ApiEndPoints.authEndpoints.loginEmail}';
+      var url = '${ApiEndPoints.baseUrl}${ApiEndPoints.auth.loginEmail}';
       var response = await post(
           url, {'identifier': email.trim(), 'password': password},
           headers: headers);

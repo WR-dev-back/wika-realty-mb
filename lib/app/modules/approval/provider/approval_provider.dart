@@ -64,7 +64,7 @@ class ApprovalProvider extends GetConnect {
 
   Future<List<Datum>?> searchApproval(String query) async {
     var apiUrl = ApiEndPoints.baseUrl +
-        ApiEndPoints.getDataApproval.dataApproval +
+        ApiEndPoints.approval.dataApproval +
         // '&searchBy=$searchType' +
         '&search=$query';
 
@@ -108,7 +108,7 @@ class ApprovalProvider extends GetConnect {
   }
 
   Future<Response> submitNegotiation(String propertyId, int value) async {
-    var apiUrl = ApiEndPoints.baseUrl + ApiEndPoints.nego.nego;
+    var apiUrl = ApiEndPoints.baseUrl + ApiEndPoints.approval.negotiation;
 
     final String? token = storage.read('token');
 

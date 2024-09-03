@@ -13,7 +13,7 @@ class EditDetailLeadsProvider extends GetConnect {
     required String email,
   }) async {
     final apiUrl =
-        '${ApiEndPoints.baseUrl}${ApiEndPoints.checkLeads.checkDuplicate}?npwp=$npwp&phone=$phone&email=$email';
+        '${ApiEndPoints.baseUrl}${ApiEndPoints.leads.checkDuplicate}?npwp=$npwp&phone=$phone&email=$email';
 
     final data = {
       'npwp': npwp,
@@ -67,8 +67,7 @@ class EditDetailLeadsProvider extends GetConnect {
   }
 
   Future<Response> updateLeadsData(String leadId, Datum leads) async {
-    final apiUrl =
-        ApiEndPoints.baseUrl + ApiEndPoints.puteditLeads.editLeads + leadId;
+    final apiUrl = ApiEndPoints.baseUrl + ApiEndPoints.leads.editLeads + leadId;
 
     try {
       final String? token = storage.read('token');

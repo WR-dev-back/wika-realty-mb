@@ -9,7 +9,7 @@ class FollowUpLeadsProvider extends GetConnect {
   final GetStorage storage = GetStorage();
   // Method to fetch follow-up data
   Future<Response> getFollowUpData() async {
-    final apiUrl = ApiEndPoints.baseUrl + ApiEndPoints.getDataLeads.dataLeads;
+    final apiUrl = ApiEndPoints.baseUrl + ApiEndPoints.leads.dataLeads;
 
     final String? token = storage.read('token');
 
@@ -35,8 +35,7 @@ class FollowUpLeadsProvider extends GetConnect {
   // Method to update follow-up data
   Future<Response> updateFollowUp(
       String leadId, Map<String, dynamic> body) async {
-    final apiUrl =
-        ApiEndPoints.baseUrl + ApiEndPoints.followUpLeads.follow + leadId;
+    final apiUrl = ApiEndPoints.baseUrl + ApiEndPoints.leads.followUp + leadId;
 
     try {
       final String? token = storage.read('token');
