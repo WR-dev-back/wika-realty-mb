@@ -184,16 +184,16 @@ class ApprovalDetails extends StatelessWidget {
                 i + 1, approval.purchaseOrder!.itemsPo![i], currencyFormat),
         ],
         if (approval.purchaseRequisition != null) ...[
-          buildTextHeaderColumn('Type Description',
-              approval.purchaseRequisition!.procurementItemName),
+          buildTextColumn('PR Type', approval.purchaseRequisition!.prType),
+          buildTextHeaderColumn(
+              'Type Description', approval.purchaseRequisition!.typeDesc),
           SizedBox(height: 15),
           Divider(color: Colors.grey, height: 1, thickness: 2),
           Text(
-            'Property Details',
+            'Purchase Requisition Details',
             style: TextStyles.headerFieldStyle.copyWith(color: Colors.blue),
           ),
           SizedBox(height: 15),
-          buildTextColumn('PR Type', approval.purchaseRequisition!.prType),
 
           // Loop Registered Vendors
           if (approval.purchaseRequisition!.registeredVendors != null)
@@ -217,18 +217,18 @@ class ApprovalDetails extends StatelessWidget {
                   approval.purchaseRequisition!.newVendors![i].location ?? '-'),
             ],
 
-          buildTextColumn(
-              'Description', approval.purchaseRequisition!.typeDesc),
-          buildCurrencyColumn('Budget Value',
+          // buildTextColumn(
+          //     'Description', approval.purchaseRequisition!.typeDesc),
+          buildCurrencyColumn('Pagu Anggaran',
               approval.purchaseRequisition!.budgetValue, currencyFormat),
-          buildCurrencyColumn('Grand Total Value',
+          buildCurrencyColumn('Total Harga Perkiraan Sendiri',
               approval.purchaseRequisition!.grandTotalValue, currencyFormat),
-          buildTextColumn('Release Group Code',
-              approval.purchaseRequisition!.releaseGroupCode),
-          buildTextColumn('Release Group Description',
-              approval.purchaseRequisition!.releaseGroupDesc),
-          buildTextColumn('Release Code Description',
-              approval.purchaseRequisition!.releaseCodeDesc),
+          // buildTextColumn('Release Group Code',
+          //     approval.purchaseRequisition!.releaseGroupCode),
+          // buildTextColumn('Release Group Description',
+          //     approval.purchaseRequisition!.releaseGroupDesc),
+          // buildTextColumn('Release Code Description',
+          //     approval.purchaseRequisition!.releaseCodeDesc),
           SizedBox(height: 20),
           Divider(color: Colors.grey, height: 1, thickness: 2),
           Text(

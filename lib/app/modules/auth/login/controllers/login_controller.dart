@@ -70,22 +70,6 @@ class LoginController extends GetxController {
   }
 
   Future<void> login() async {
-    // if (emailC.text.isEmpty || passC.text.isEmpty) {
-    //   _showDialog('Perhatian', 'Isi Email & Password Terlebih dahulu');
-    //   return;
-    // }
-
-    // if (!isValidEmail(emailC.text)) {
-    //   _showDialog('Perhatian', 'Masukkan alamat email yang valid');
-    //   return;
-    // }
-
-    // if (passC.text.length < 6) {
-    //   _showDialog(
-    //       'Perhatian', 'Password harus terdiri dari minimal 6 karakter');
-    //   return;
-    // }
-
     try {
       var response = await _loginProvider.login(emailC.text, passC.text);
       if (response.statusCode == 201) {
@@ -100,11 +84,14 @@ class LoginController extends GetxController {
         var ppuJson = jsonData['data']['user']['ppu'];
         await storage.write('ppu', jsonEncode(ppuJson));
 
-        print(ppuJson);
-        print(userJson);
+        // Extract and store costProfitCenterId
+        var costProfitCenterId = jsonData['data']['user']['ppu']['id'];
+        await storage.write(
+            'costProfitCenterId', jsonEncode(costProfitCenterId));
 
         List<dynamic> menuJsonList = jsonData['data']['menus'];
         await storage.write('menuList', jsonEncode(menuJsonList));
+
         Get.find<PageIndexController>().changePage(0);
         Get.offAllNamed(Routes.HOME);
       } else {

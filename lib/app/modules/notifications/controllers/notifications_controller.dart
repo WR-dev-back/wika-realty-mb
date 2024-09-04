@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import '../provider/notification_provider.dart';
 
 class NotificationsController extends GetxController {
@@ -6,6 +7,8 @@ class NotificationsController extends GetxController {
 
   RxString selectedValue = ''.obs;
   RxBool isBreakdown = false.obs;
+
+  RxString costProfitCenterId = ''.obs;
 
   var functionalLocations = <String>[].obs;
   var equipments = <String>[].obs;
@@ -21,6 +24,9 @@ class NotificationsController extends GetxController {
   void onInit() {
     super.onInit();
     _initializeMaps();
+
+    String? storedId = GetStorage().read('costProfitCenterId');
+    costProfitCenterId.value = storedId ?? '';
   }
 
   void _initializeMaps() {
@@ -58,21 +64,24 @@ class NotificationsController extends GetxController {
 
         print('Data fetched for $fieldType: $newLocations');
 
-        if (newLocations.isEmpty) {
+        // If newLocations is empty or contains only one item, stop further loading
+        if (newLocations.isEmpty || newLocations.length == 1) {
           hasMoreDataMap[fieldType] = false; // No more data to load
+        }
+
+        // Update the correct list based on fieldType
+        if (pageMap[fieldType] == 1) {
+          _updateLocationsList(fieldType, newLocations, clear: true);
         } else {
-          // Update the correct list based on fieldType
-          if (pageMap[fieldType] == 1) {
-            _updateLocationsList(fieldType, newLocations, clear: true);
-          } else {
-            _updateLocationsList(fieldType, newLocations);
-          }
+          _updateLocationsList(fieldType, newLocations);
         }
       } else {
         print('Request failed: ${response.statusCode}');
+        hasMoreDataMap[fieldType] = false; // Stop loading if there's an error
       }
     } catch (error) {
       print('Error fetching data: $error');
+      hasMoreDataMap[fieldType] = false; // Stop loading if an error occurs
     } finally {
       isLoading.value = false;
     }
@@ -115,7 +124,10 @@ class NotificationsController extends GetxController {
   Future<Response> _fetchApiDataByFieldType(String fieldType, {int page = 1}) {
     switch (fieldType) {
       case "Functional Location":
-        return notificationProvider.fetchLocations(page: page);
+        return notificationProvider.fetchLocations(
+          page: page,
+          costProfitCenterId: costProfitCenterId.value,
+        );
       case "Equipment":
         return notificationProvider.fetchEquipment(page: page);
       case "Group Cause":
@@ -128,7 +140,9 @@ class NotificationsController extends GetxController {
   }
 
   void loadMoreData(String fieldType) {
-    if (hasMoreDataMap[fieldType]! && !isLoading.value) {
+    if (selectedValue.value == fieldType &&
+        hasMoreDataMap[fieldType]! &&
+        !isLoading.value) {
       pageMap[fieldType] = pageMap[fieldType]! + 1;
       fetchData(fieldType);
     }
