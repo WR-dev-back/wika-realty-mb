@@ -49,6 +49,7 @@ class Data {
     this.property,
     this.purchaseOrder,
     this.purchaseRequisition,
+    required List approvalDetails,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
@@ -70,6 +71,7 @@ class Data {
         purchaseRequisition: json["purchaseRequisition"] == null
             ? null
             : PurchaseRequisition.fromJson(json["purchaseRequisition"]),
+        approvalDetails: [],
       );
 
   Map<String, dynamic> toJson() => {

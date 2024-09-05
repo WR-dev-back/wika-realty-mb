@@ -10,6 +10,8 @@ class NotificationsController extends GetxController {
 
   RxString costProfitCenterId = ''.obs;
 
+  RxString selectedLocationId = ''.obs; // Store selected Functional Location ID
+
   var functionalLocations = <String>[].obs;
   var equipments = <String>[].obs;
   var groupCauses = <String>[].obs;
@@ -129,7 +131,10 @@ class NotificationsController extends GetxController {
           costProfitCenterId: costProfitCenterId.value,
         );
       case "Equipment":
-        return notificationProvider.fetchEquipment(page: page);
+        return notificationProvider.fetchEquipment(
+          page: page,
+          locationId: selectedLocationId.value, // Use the selected location ID
+        );
       case "Group Cause":
         return notificationProvider.fetchGroupCause(page: page);
       case "Group Problem":
@@ -152,7 +157,17 @@ class NotificationsController extends GetxController {
     if (selectedValue.value != newFieldType) {
       resetAll(); // Reset all data and page numbers
       selectedValue.value = newFieldType;
+
+      if (newFieldType == "Functional Location") {
+        // Handle selecting a Functional Location item
+        // Example: selectedLocationId.value = "some-location-id";
+      }
+
       fetchData(newFieldType);
     }
+  }
+
+  void selectFunctionalLocation(String locationId) {
+    selectedLocationId.value = locationId; // Store the selected location ID
   }
 }

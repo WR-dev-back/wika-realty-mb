@@ -40,7 +40,8 @@ class NotificationProvider extends GetConnect {
         page: page, limit: limit);
   }
 
-  Future<Response> fetchEquipment({int page = 1, int limit = 25}) async {
+  Future<Response> fetchEquipment(
+      {int page = 1, int limit = 25, required String locationId}) async {
     return getApiData(ApiEndPoints.notification.getEquipment,
         page: page, limit: limit);
   }
