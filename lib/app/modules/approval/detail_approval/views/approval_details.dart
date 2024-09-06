@@ -103,7 +103,6 @@ class ApprovalDetails extends StatelessWidget {
             buildTextColumn('', purchaseOrder.vendorDesc),
             buildCurrencyColumn(
                 'Total Price', purchaseOrder.totalPrice, currencyFormat),
-            SizedBox(height: 10),
             // buildTextColumn('PO Organization', purchaseOrder.poOrg),
             // buildTextColumn('Release Group', purchaseOrder.releaseGroup),
             // buildTextColumn(
@@ -152,6 +151,7 @@ class ApprovalDetails extends StatelessWidget {
                     : Text('No Link'),
               ),
             ),
+            SizedBox(height: 10),
             _buildServiceDetailsList(purchaseOrder.itemsPo!),
           ],
         ),
@@ -195,17 +195,30 @@ class ApprovalDetails extends StatelessWidget {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           title: Text(
-            'Service Details',
+            'Item Details',
             style: TextStyles.approvalTextStyle.copyWith(color: Colors.blue),
           ),
           children: [
             for (var j = 0; j < item.details.length; j++)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
-                child: _buildServiceDetails(j + 1, item.details[j]),
+                child: Container(
+                  decoration: BoxDecoration(
+                    border:
+                        Border.all(color: Colors.grey), // Menambahkan border
+                    borderRadius: BorderRadius.circular(
+                        8), // Membuat sudut border melengkung
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(
+                        8), // Tambahan padding untuk konten
+                    child: _buildServiceDetails(j + 1, item.details[j]),
+                  ),
+                ),
               ),
           ],
         ),
+
         const Divider(color: Colors.grey, thickness: 1),
         SizedBox(height: 10),
       ],
@@ -354,8 +367,19 @@ class ApprovalDetails extends StatelessWidget {
             for (var j = 0; j < itemPr.details!.length; j++)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
-                child: _buildServicePrDetails(j + 1, itemPr.details![j]),
-              ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    border:
+                        Border.all(color: Colors.grey), // Menambahkan border
+                    borderRadius: BorderRadius.circular(
+                        8), // Membuat sudut border melengkung
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: _buildServicePrDetails(j + 1, itemPr.details![j]),
+                  ),
+                ),
+              )
           ],
         ),
         Divider(color: Colors.grey, thickness: 1),
@@ -377,7 +401,7 @@ class ApprovalDetails extends StatelessWidget {
             'Service Price', detail.servicePrice, currencyFormat),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Divider(color: Colors.grey, thickness: 1),
+          // child: Divider(color: Colors.grey, thickness: 1),
         ),
         SizedBox(height: 10),
       ],

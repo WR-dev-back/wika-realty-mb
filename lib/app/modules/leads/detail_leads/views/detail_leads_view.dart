@@ -27,358 +27,207 @@ class DetailLeadsView extends GetView<DetailLeadsController> {
         ),
         backgroundColor: AppColor.primary,
         title: Text(
-          'Detail Leads View',
-          style: TextStyles.titleLabelStyle,
+          'Detail Leads',
+          style: TextStyles.titleLabelStyle.copyWith(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         centerTitle: true,
       ),
       body: Container(
-        color: Colors.grey[300],
+        color: Colors.grey[200],
+        padding: const EdgeInsets.all(10),
         child: Column(
           children: [
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                ),
                 child: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: Card(
-                        color: Colors.white,
-                        child: Column(
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 10),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        width: 30,
-                                        height: 30,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Colors.grey[
-                                              300], // Warna latar belakang lingkaran
-                                        ),
-                                        child: Icon(
-                                          Icons.person_outline,
-                                          size: 25,
-                                          color: AppColor.primary, // Warna ikon
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          '${leads?.fullName ?? '-'}',
-                                          style: TextStyles.headStyle.copyWith(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Divider(
-                                  height: 5,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 10),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Email',
-                                        style: TextStyles.descriptionStyle
-                                            .copyWith(
-                                                fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(
-                                        '${leads?.email ?? '-'}',
-                                        style: TextStyles.descriptionStyle,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
+                    _buildInfoCard(
+                      icon: Icons.person_outline,
+                      title: 'Nama Lengkap',
+                      value: leads?.fullName ?? '-',
                     ),
-                    SizedBox(
-                      height: 10,
+                    SizedBox(height: 10),
+                    _buildInfoCard(
+                      icon: Icons.email_outlined,
+                      title: 'Email',
+                      value: leads?.email ?? '-',
                     ),
-                    Card(
-                      color: Colors.white,
-                      child: Column(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'NPWP',
-                                      style: TextStyles.descriptionStyle
-                                          .copyWith(
-                                              fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      '${leads?.npwp ?? '-'}',
-                                      style: TextStyles.descriptionStyle,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Divider(
-                                height: 5,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Nomor Telepon',
-                                      style: TextStyles.descriptionStyle
-                                          .copyWith(
-                                              fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      '${leads?.phoneNumber ?? '-'}',
-                                      style: TextStyles.descriptionStyle,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Divider(
-                                height: 5,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Sumber Digital',
-                                      style: TextStyles.descriptionStyle
-                                          .copyWith(
-                                              fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      '${leads?.digitalSource ?? '-'}',
-                                      style: TextStyles.descriptionStyle,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Divider(
-                                height: 5,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Sumber Offline',
-                                      style: TextStyles.descriptionStyle
-                                          .copyWith(
-                                              fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      '${leads?.offlineSource ?? '-'}',
-                                      style: TextStyles.descriptionStyle,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Divider(
-                                height: 5,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Lokasi Kegiatan',
-                                      style: TextStyles.descriptionStyle
-                                          .copyWith(
-                                              fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      '${leads?.locationOffline ?? '-'}',
-                                      style: TextStyles.descriptionStyle,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Divider(
-                                height: 5,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Lokasi Kegiatan',
-                                      style: TextStyles.descriptionStyle
-                                          .copyWith(
-                                              fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      '${leads?.locationOffline ?? '-'}',
-                                      style: TextStyles.descriptionStyle,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Divider(
-                                height: 5,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Type',
-                                      style: TextStyles.descriptionStyle
-                                          .copyWith(
-                                              fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      '${leads?.type ?? '-'}',
-                                      style: TextStyles.descriptionStyle,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Divider(
-                                height: 5,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Area',
-                                      style: TextStyles.descriptionStyle
-                                          .copyWith(
-                                              fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      '${leads?.area ?? '-'}',
-                                      style: TextStyles.descriptionStyle,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Divider(
-                                height: 5,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Omzet',
-                                      style: TextStyles.descriptionStyle
-                                          .copyWith(
-                                              fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      leads?.omzet != null
-                                          ? currencyFormat.format(
-                                              double.parse(leads.omzet),
-                                            )
-                                          : '-',
-                                      style: TextStyles.descriptionStyle,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                    SizedBox(height: 10),
+                    _buildInfoCard(
+                      icon: Icons.credit_card_outlined,
+                      title: 'NPWP',
+                      value: leads?.npwp ?? '-',
+                    ),
+                    SizedBox(height: 10),
+                    _buildInfoCard(
+                      icon: Icons.phone_android_outlined,
+                      title: 'Nomor Telepon',
+                      value: leads?.phoneNumber ?? '-',
+                    ),
+                    SizedBox(height: 10),
+                    _buildInfoCard(
+                      icon: Icons.public_outlined,
+                      title: 'Sumber Digital',
+                      value: leads?.digitalSource ?? '-',
+                    ),
+                    SizedBox(height: 10),
+                    _buildInfoCard(
+                      icon: Icons.offline_pin_outlined,
+                      title: 'Sumber Offline',
+                      value: leads?.offlineSource ?? '-',
+                    ),
+                    SizedBox(height: 10),
+                    _buildInfoCard(
+                      icon: Icons.location_on_outlined,
+                      title: 'Lokasi Kegiatan',
+                      value: leads?.locationOffline ?? '-',
+                    ),
+                    SizedBox(height: 10),
+                    _buildInfoCard(
+                      icon: Icons.category_outlined,
+                      title: 'Type',
+                      value: leads?.type ?? '-',
+                    ),
+                    SizedBox(height: 10),
+                    _buildInfoCard(
+                      icon: Icons.area_chart_outlined,
+                      title: 'Area',
+                      value: leads?.area ?? '-',
+                    ),
+                    SizedBox(height: 10),
+                    _buildInfoCard(
+                      icon: Icons.attach_money_outlined,
+                      title: 'Omzet',
+                      value: leads?.omzet != null
+                          ? currencyFormat.format(double.parse(
+                              leads.omzet.toString())) // Convert int to String
+                          : '-',
                     ),
                   ],
                 ),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  width: 140,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Get.toNamed(
-                        Routes.EDIT_DETAIL_LEADS,
-                        arguments: leads,
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColor.error,
-                    ),
-                    child: Text(
-                      "Edit",
-                      style: TextStyles.cardbuttomTextStyle,
+            SizedBox(height: 20),
+            _buildActionButtons(leads),
+            SizedBox(height: 10),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Card for displaying lead information
+  _buildInfoCard(
+      {required IconData icon,
+      required String title,
+      required dynamic value // Accepts both String and int
+      }) {
+    return Card(
+      color: Colors.white,
+      elevation: 3,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.grey[300],
+              ),
+              child: Icon(
+                icon,
+                size: 28,
+                color: AppColor.primary,
+              ),
+            ),
+            SizedBox(width: 15),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyles.descriptionStyle.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: AppColor.primary,
                     ),
                   ),
-                ),
-                Container(
-                  width: 140,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Get.toNamed(
-                        Routes.FOLLOWUP_LEADS,
-                        arguments: leads,
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                    ),
-                    child: Text(
-                      "Follow Up",
-                      style: TextStyles.cardbuttomTextStyle,
-                    ),
+                  SizedBox(height: 5),
+                  Text(
+                    value?.toString() ?? '-', // Convert value to String
+                    style: TextStyles.descriptionStyle,
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  // Action buttons for "Edit" and "Follow Up"
+  Widget _buildActionButtons(leads) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Container(
+          width: 140,
+          child: ElevatedButton(
+            onPressed: () {
+              Get.toNamed(
+                Routes.EDIT_DETAIL_LEADS,
+                arguments: leads,
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColor.error,
+              padding: EdgeInsets.symmetric(vertical: 14),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18),
+              ),
+            ),
+            child: Text(
+              "Edit",
+              style: TextStyles.cardbuttomTextStyle.copyWith(
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+        Container(
+          width: 140,
+          child: ElevatedButton(
+            onPressed: () {
+              Get.toNamed(
+                Routes.FOLLOWUP_LEADS,
+                arguments: leads,
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.green,
+              padding: EdgeInsets.symmetric(vertical: 14),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18),
+              ),
+            ),
+            child: Text(
+              "Follow Up",
+              style: TextStyles.cardbuttomTextStyle.copyWith(
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import '../../../../utils/constant/style/text_styles.dart';
+import '../../../../utils/constant/style/app_color.dart'; // Assuming you have an AppColor class
 import '../controllers/followup_leads_controller.dart';
 
 class FollowupLeadsView extends GetView<FollowupLeadsController> {
@@ -21,9 +22,20 @@ class FollowupLeadsView extends GetView<FollowupLeadsController> {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text('Follow Up'),
+          backgroundColor: AppColor.primary,
+          leading: const BackButton(
+            color: Colors.white,
+          ), // Align with app's theme
+          title: Text(
+            'Follow Up',
+            style: TextStyles.titleLabelStyle.copyWith(
+              color: Colors.white, // Use white text for contrast
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           bottom: TabBar(
             controller: controller.tabController,
+            indicatorColor: Colors.white, // Tab indicator color for consistency
             tabs: [
               Obx(
                 () => FollowUpTab(
@@ -47,7 +59,7 @@ class FollowupLeadsView extends GetView<FollowupLeadsController> {
           ),
         ),
         body: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(16.0), // Adjust padding for consistency
           child: TabBarView(
             controller: controller.tabController,
             children: [
@@ -75,27 +87,19 @@ class FollowupLeadsView extends GetView<FollowupLeadsController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 20),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Nama",
-                style: TextStyles.descriptionStyle
-                    .copyWith(fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Text(
-                '${leads?.fullName}',
-                style: TextStyles.headStyle,
-              ),
-            ],
+          const SizedBox(height: 10),
+          Text(
+            "Nama",
+            style: TextStyles.descriptionStyle.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          SizedBox(
-            height: 10,
+          const SizedBox(height: 5),
+          Text(
+            '${leads?.fullName ?? 'N/A'}',
+            style: TextStyles.headStyle,
           ),
+          const SizedBox(height: 15),
           Obx(
             () => TextFormField(
               readOnly: true,
@@ -103,44 +107,44 @@ class FollowupLeadsView extends GetView<FollowupLeadsController> {
               decoration: InputDecoration(
                 label: Text(
                   "Tanggal",
-                  style: TextStyles.descriptionStyle
-                      .copyWith(fontWeight: FontWeight.bold),
+                  style: TextStyles.descriptionStyle.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 floatingLabelBehavior: FloatingLabelBehavior.always,
                 hintText: controller.hintText.value,
                 hintStyle: TextStyles.approvalTextStyle,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10), // Rounded borders
+                  borderSide: BorderSide(
+                    color: Colors.grey.shade400, // Border color consistency
+                  ),
+                ),
               ),
               onTap: () => controller.showFollowUpDialog(),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Date is required';
                 }
-                // Additional validation if needed
                 return null;
               },
             ),
           ),
-          SizedBox(
-            height: 20,
-          ),
+          const SizedBox(height: 20),
           _buildTextFieldWithCounter(
             controller.followUpController,
             'Follow Up',
             241,
             controller.followUpCount,
           ),
-          SizedBox(
-            height: 20,
-          ),
+          const SizedBox(height: 20),
           _buildTextFieldWithCounter(
             controller.prospectsController,
             'Prospects',
             241,
             controller.prospectsCount,
           ),
-          SizedBox(
-            height: 20,
-          ),
+          const SizedBox(height: 20),
           Obx(
             () => DropdownButtonFormField(
               value: controller.selectedFollowUpOption.value.isEmpty
@@ -159,15 +163,21 @@ class FollowupLeadsView extends GetView<FollowupLeadsController> {
               decoration: InputDecoration(
                 label: Text(
                   "Status Leads",
-                  style: TextStyles.descriptionStyle
-                      .copyWith(fontWeight: FontWeight.bold),
+                  style: TextStyles.descriptionStyle.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 floatingLabelBehavior: FloatingLabelBehavior.always,
-                hintText: "",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10), // Rounded corners
+                  borderSide: BorderSide(
+                    color: Colors.grey.shade400,
+                  ),
+                ),
               ),
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Center(
             child: Container(
               width: 150,
@@ -180,27 +190,22 @@ class FollowupLeadsView extends GetView<FollowupLeadsController> {
                           );
                         }
                       : null,
-                  style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.resolveWith<Color>(
-                      (Set<WidgetState> states) {
-                        if (controller.isFormValid.value) {
-                          return Colors.blue; // Color when the form is valid
-                        }
-                        return Colors.grey; // Color when the form is not valid
-                      },
-                    ),
-                    foregroundColor: WidgetStateProperty.resolveWith<Color>(
-                      (Set<WidgetState> states) {
-                        if (controller.isFormValid.value) {
-                          return Colors
-                              .white; // Text color when the form is valid
-                        }
-                        return Colors
-                            .black; // Text color when the form is not valid
-                      },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: controller.isFormValid.value
+                        ? AppColor.primary
+                        : Colors.grey, // Dynamic button color
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12), // Consistent button padding
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10), // Rounded button
                     ),
                   ),
-                  child: Text('Save'),
+                  child: Text(
+                    'Save',
+                    style: TextStyles.btnLabelStyle.copyWith(
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -232,18 +237,23 @@ class FollowupLeadsView extends GetView<FollowupLeadsController> {
                   .copyWith(fontWeight: FontWeight.bold),
             ),
             floatingLabelBehavior: FloatingLabelBehavior.always,
-            hintText: "",
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10), // Rounded input fields
+              borderSide: BorderSide(
+                color: Colors.grey.shade400,
+              ),
+            ),
           ),
           onChanged: (value) {
             // update character count in controller
             this.controller.updateCount(counter, value);
           },
         ),
-        SizedBox(height: 5),
+        const SizedBox(height: 5),
         Obx(
           () => Text(
             '${counter.value}/$maxLength',
-            style: TextStyle(color: Colors.grey, fontSize: 12),
+            style: const TextStyle(color: Colors.grey, fontSize: 12),
           ),
         ),
       ],

@@ -12,7 +12,6 @@ import '../../../../utils/constant/style/text_styles.dart';
 
 class HomeView extends GetView<HomeController> {
   final PageIndexController pageC = Get.find<PageIndexController>();
-
   final GetStorage storage = GetStorage();
 
   HomeView({Key? key}) : super(key: key);
@@ -87,7 +86,7 @@ class HomeView extends GetView<HomeController> {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      controller.user.username, //
+                                      controller.user.username,
                                       style: TextStyles.headerhomeStyle,
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
@@ -165,6 +164,16 @@ class HomeView extends GetView<HomeController> {
                                       } else {
                                         final List<Menu> menuList =
                                             snapshot.data ?? [];
+                                        final isMobile = MediaQuery.of(context)
+                                                .size
+                                                .shortestSide <
+                                            600;
+                                        final filteredMenuList = menuList
+                                            .where(
+                                              (menu) =>
+                                                  menu.isMobile == isMobile,
+                                            )
+                                            .toList();
                                         return GridView.builder(
                                           physics:
                                               NeverScrollableScrollPhysics(),
@@ -175,46 +184,34 @@ class HomeView extends GetView<HomeController> {
                                             crossAxisSpacing: 4,
                                             childAspectRatio: 1,
                                           ),
-                                          itemCount: menuList.length,
+                                          itemCount: filteredMenuList.length,
                                           itemBuilder: (context, index) {
-                                            final Menu menu = menuList[index];
-                                            if ((menu.isMobile &&
-                                                    MediaQuery.of(context)
-                                                            .size
-                                                            .shortestSide <
-                                                        600) ||
-                                                (!menu.isMobile &&
-                                                    MediaQuery.of(context)
-                                                            .size
-                                                            .shortestSide >=
-                                                        600)) {
-                                              return InkWell(
-                                                onTap: () {
-                                                  String routeName =
-                                                      '/${menu.name.toLowerCase()}';
-                                                  Get.toNamed(routeName,
-                                                      arguments: menu);
-                                                },
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: <Widget>[
-                                                    Image.asset(
-                                                      menu.icon,
-                                                      width: 80,
-                                                      height: 70,
-                                                    ),
-                                                    Text(menu.name,
-                                                        style: TextStyles
-                                                            .menuTextStyle),
-                                                  ],
-                                                ),
-                                              );
-                                            } else {
-                                              return SizedBox();
-                                            }
+                                            final Menu menu =
+                                                filteredMenuList[index];
+                                            return InkWell(
+                                              onTap: () {
+                                                String routeName =
+                                                    '/${menu.name.toLowerCase()}';
+                                                Get.toNamed(routeName,
+                                                    arguments: menu);
+                                              },
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: <Widget>[
+                                                  Image.asset(
+                                                    menu.icon,
+                                                    width: 80,
+                                                    height: 70,
+                                                  ),
+                                                  Text(menu.name,
+                                                      style: TextStyles
+                                                          .menuTextStyle),
+                                                ],
+                                              ),
+                                            );
                                           },
                                         );
                                       }

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-
 import 'package:get/get.dart';
 
 import 'package:wr_project/app/modules/dashboard/view/custom_navigation_bar.dart';
-
 import '../../dashboard/controller/page_index_controller.dart';
 import '../../../utils/constant/style/app_color.dart';
 import '../controllers/profile_controller.dart';
@@ -12,7 +9,9 @@ import '../../../utils/constant/style/text_styles.dart';
 
 class ProfileView extends GetView<ProfileController> {
   final pageC = Get.find<PageIndexController>();
+
   ProfileView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,17 +19,21 @@ class ProfileView extends GetView<ProfileController> {
       bottomNavigationBar: CustomBottomNavigationBar(),
       body: Stack(
         children: [
+          // Background color
           Container(
             height: MediaQuery.of(context).size.height,
             color: Colors.white,
           ),
+          // Header section
           Container(
             color: AppColor.primary,
             height: 200,
             width: MediaQuery.of(context).size.width,
           ),
+          // Main content
           ListView(
             physics: const BouncingScrollPhysics(),
+            padding: EdgeInsets.zero,
             children: [
               _buildHeader(context),
               _buildProfileSection(context),
@@ -45,13 +48,12 @@ class ProfileView extends GetView<ProfileController> {
 
   Widget _buildHeader(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _buildLogo(),
-          const Spacer(),
           _buildActionIcons(),
         ],
       ),
@@ -59,18 +61,16 @@ class ProfileView extends GetView<ProfileController> {
   }
 
   Widget _buildLogo() {
-    return Container(
-      padding: const EdgeInsets.only(
-        bottom: 20,
-        left: 5,
+    return SizedBox(
+      width: 90,
+      height: 28,
+      child: Text(
+        "SiOlife",
+        style: TextStyles.headerhomeStyle.copyWith(
+          color: Colors.white,
+          fontSize: 24,
+        ),
       ),
-      child: SizedBox(
-          width: 90,
-          height: 28,
-          child: Text(
-            "SiOlife",
-            style: TextStyles.headerhomeStyle,
-          )),
     );
   }
 
@@ -79,15 +79,15 @@ class ProfileView extends GetView<ProfileController> {
       children: [
         IconButton(
           onPressed: () {},
-          padding: const EdgeInsets.only(bottom: 20),
           icon: const Icon(Icons.message),
           color: Colors.white,
+          tooltip: 'Messages',
         ),
         IconButton(
           onPressed: () {},
-          padding: const EdgeInsets.only(bottom: 20),
           icon: const Icon(Icons.notifications),
           color: Colors.white,
+          tooltip: 'Notifications',
         ),
       ],
     );
@@ -95,98 +95,81 @@ class ProfileView extends GetView<ProfileController> {
 
   Widget _buildProfileSection(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        children: [
-          Card(
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildProfileInfo(),
-                  _buildDetailButton(context),
-                ],
-              ),
-            ),
-          )
-        ],
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+      child: Card(
+        margin: EdgeInsets.zero,
+        elevation: 4,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Container(
+          padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildProfileInfo(),
+              const SizedBox(height: 15),
+              _buildDetailButton(context),
+            ],
+          ),
+        ),
       ),
     );
   }
 
   Widget _buildProfileInfo() {
-    return Container(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: Column(
-        children: [
-          Row(
+    return Row(
+      children: [
+        ClipOval(
+          child: SizedBox(
+            width: 56,
+            height: 56,
+            child: Image.asset('asset/images/Rectangle.png'),
+          ),
+        ),
+        const SizedBox(width: 20),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ClipOval(
-                child: FittedBox(
-                  fit: BoxFit.cover,
-                  child: SizedBox(
-                    width: 56,
-                    height: 56,
-                    child: Image.asset(
-                      'asset/images/Rectangle.png',
-                    ),
-                  ),
+              Text(
+                controller.user.name,
+                style: TextStyles.headerStyleProfile.copyWith(
+                  fontSize: 18,
                 ),
               ),
-              const SizedBox(width: 20),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(
-                      controller.user.name,
-                      style: TextStyles.headerStyleProfile,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      controller.user.email,
-                      style: TextStyles.descriptionStyle,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                  ],
+              const SizedBox(height: 8),
+              Text(
+                controller.user.email,
+                style: TextStyles.descriptionStyle.copyWith(
+                  fontSize: 14,
                 ),
+              ),
+              const SizedBox(height: 10),
+              Divider(thickness: 1, color: Colors.grey[300]),
+              const SizedBox(height: 10),
+              Text(
+                controller.user.position.title,
+                style: TextStyles.descriptionStyle.copyWith(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),
-          SizedBox(
-            height: 10,
-          ),
-          Divider(
-            height: 5,
-            thickness: 2,
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            controller.user.position.title,
-            style: TextStyles.descriptionStyle,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
   Widget _buildDetailButton(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
+    return SizedBox(
+      width: double.infinity,
       child: ElevatedButton(
         onPressed: () {},
         style: ElevatedButton.styleFrom(
@@ -199,7 +182,9 @@ class ProfileView extends GetView<ProfileController> {
         ),
         child: Text(
           'Lihat Detail',
-          style: TextStyles.buttonprofileTextStyle,
+          style: TextStyles.buttonprofileTextStyle.copyWith(
+            fontSize: 16,
+          ),
         ),
       ),
     );
@@ -208,70 +193,24 @@ class ProfileView extends GetView<ProfileController> {
   Widget _buildMenuOptions(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      margin: const EdgeInsets.symmetric(
-        horizontal: 20,
-      ),
-      // child: Settings(
-      //   label: 'Settings',
-      //   children: [
-      //     ListTile(
-      //       visualDensity: VisualDensity.compact,
-      //       title: Text(
-      //         'Notifications',
-      //         style: TextStyles.headerStyleProfile,
-      //       ),
-      //       subtitle: Text(
-      //         'Receive notifications',
-      //         style: TextStyles.descriptionStyle,
-      //       ),
-      //       leading: const Icon(Icons.notifications_outlined),
-      //       trailing: const Icon(Icons.chevron_right_rounded),
-      //       onTap: () => debugPrint('Item 1'),
-      //     ),
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Column(
         children: [
-          ListTile(
-            visualDensity: VisualDensity.compact,
-            title: Text(
-              'Favorites',
-              style: TextStyles.headerStyleProfile,
-            ),
-            subtitle: Text(
-              'Want to know who likes you?',
-              style: TextStyles.descriptionStyle,
-            ),
-            leading: const Icon(Icons.favorite_border_outlined),
-            trailing: const Icon(
-              Icons.arrow_right_rounded,
-              size: 32,
-            ),
-            // onTap: controller.deleteToken,
+          MenuTile(
+            title: 'Favorites',
+            icon: Icon(Icons.favorite_border_outlined, color: AppColor.primary),
+            onTap: () {},
           ),
-          ListTile(
-            title: Text(
-              'Privacy Policy',
-              style: TextStyles.headerStyleProfile,
-            ),
-            leading: const Icon(Icons.shield_outlined),
-            trailing: const Icon(Icons.arrow_circle_right_outlined),
-            onTap: () => debugPrint('Item 3'),
+          MenuTile(
+            title: 'Privacy Policy',
+            icon: Icon(Icons.shield_outlined, color: AppColor.primary),
+            onTap: () => debugPrint('Privacy Policy tapped'),
           ),
-          ListTile(
-            title: Text(
-              'Log Out',
-              style: TextStyles.headerStyleProfile,
-            ),
-            leading: Icon(
-              Icons.logout,
-              color: Colors.red,
-            ),
-            trailing: Icon(
-              Icons.chevron_right_rounded,
-              color: Colors.red,
-            ),
+          MenuTile(
+            title: 'Log Out',
+            icon: Icon(Icons.logout, color: Colors.red),
             onTap: controller.deleteToken,
-            tileColor: Colors.red,
-            textColor: Colors.red,
+            isDanger: true,
           ),
         ],
       ),
@@ -285,25 +224,25 @@ class MenuTile extends StatelessWidget {
   final void Function() onTap;
   final bool isDanger;
   const MenuTile({
-    super.key,
+    Key? key,
     required this.title,
     required this.icon,
     required this.onTap,
     this.isDanger = false,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
       child: Container(
-        width: MediaQuery.of(context).size.width,
+        width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border(
-            top: BorderSide(
-              color: Colors.grey,
+            bottom: BorderSide(
+              color: Colors.grey[300]!,
               width: 1,
             ),
           ),
@@ -313,9 +252,12 @@ class MenuTile extends StatelessWidget {
             Container(
               width: 42,
               height: 42,
-              margin: const EdgeInsets.only(right: 24),
+              margin: const EdgeInsets.only(right: 20),
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
+                color: isDanger
+                    ? Colors.red.withOpacity(0.1)
+                    : AppColor.primary.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(100),
               ),
               child: icon,
@@ -324,19 +266,13 @@ class MenuTile extends StatelessWidget {
               child: Text(
                 title,
                 style: isDanger
-                    ? TextStyles.dangerTextStyle
-                    : TextStyles.generalTextStyle,
+                    ? TextStyles.dangerTextStyle.copyWith(fontSize: 16)
+                    : TextStyles.generalTextStyle.copyWith(fontSize: 16),
               ),
             ),
-            Container(
-              margin: const EdgeInsets.only(left: 24),
-              child: SvgPicture.asset(
-                'asset/icons/arrow-right.svg',
-                colorFilter: ColorFilter.mode(
-                  isDanger ? AppColor.error : AppColor.txt,
-                  BlendMode.srcIn,
-                ),
-              ),
+            Icon(
+              Icons.arrow_forward_ios,
+              color: isDanger ? Colors.red : Colors.black54,
             ),
           ],
         ),

@@ -21,7 +21,13 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(color: Colors.white),
-        title: Text('Detail Approval', style: TextStyles.titleLabelStyle),
+        title: Text(
+          'Detail Approval',
+          style: TextStyles.titleLabelStyle.copyWith(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         centerTitle: true,
         backgroundColor: AppColor.primary,
       ),

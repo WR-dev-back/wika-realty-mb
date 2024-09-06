@@ -12,6 +12,7 @@ class ApprovalController extends GetxController {
   var hasError = false.obs;
   var currentPage = 1.obs;
   var totalPages = 1.obs;
+  var searchText = ''.obs;
 
   void status(String status) {
     selectedStatus.value = status;
@@ -19,6 +20,18 @@ class ApprovalController extends GetxController {
 
   void filterBy(String filterBy) {
     selectedfilterBy.value = filterBy;
+  }
+
+  void clearSearch() {
+    // Clear the search text
+    searchText.value = '';
+
+    // Reset the search state to false
+    isSearching.value = false;
+
+    // Perform any additional actions needed after clearing the search
+    // For example, you might want to refresh the list or data
+    refreshData(); // Implement this method if needed
   }
 
   @override

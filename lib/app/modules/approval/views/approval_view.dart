@@ -30,7 +30,10 @@ class ApprovalView extends GetView<ApprovalController> {
               backgroundColor: AppColor.primary,
               title: Text(
                 'Approval View',
-                style: TextStyles.titleLabelStyle,
+                style: TextStyles.titleLabelStyle.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               centerTitle: true,
               actions: [
@@ -50,7 +53,7 @@ class ApprovalView extends GetView<ApprovalController> {
               title: TextField(
                 decoration: InputDecoration(
                   hintText: 'Search Approval',
-                  hintStyle: TextStyle(color: Colors.white),
+                  hintStyle: TextStyle(color: Colors.white.withOpacity(0.7)),
                   border: InputBorder.none,
                 ),
                 style: TextStyle(color: Colors.white),
@@ -68,6 +71,18 @@ class ApprovalView extends GetView<ApprovalController> {
                   controller.isSearching.value = false;
                 },
               ),
+              actions: [
+                IconButton(
+                  icon: Icon(
+                    Icons.clear,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    controller.isSearching.value = false;
+                    controller.clearSearch(); // Implement this method if needed
+                  },
+                ),
+              ],
             ),
           ),
         ),
@@ -82,81 +97,203 @@ class ApprovalView extends GetView<ApprovalController> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  // Dropdown for Status
                   Expanded(
                     child: Obx(
-                      () => DropdownButton<String>(
-                        icon: const Icon(Icons.arrow_drop_down),
-                        isExpanded: true,
-                        value: controller.selectedStatus.value.isEmpty
-                            ? null
-                            : controller.selectedStatus.value,
-                        items: [
-                          DropdownMenuItem(
-                            value: 'approved',
-                            child: Text('Approved'),
+                      () => GestureDetector(
+                        onTap: () {},
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 12),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.2),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: const Offset(
+                                    0, 3), // changes position of shadow
+                              ),
+                            ],
                           ),
-                          DropdownMenuItem(
-                            value: 'reject',
-                            child: Text('Rejected'),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                              icon: const Icon(Icons.arrow_drop_down,
+                                  color: Colors.blueAccent),
+                              isExpanded: true,
+                              value: controller.selectedStatus.value.isEmpty
+                                  ? null
+                                  : controller.selectedStatus.value,
+                              items: [
+                                DropdownMenuItem(
+                                  value: 'approved',
+                                  child: Row(
+                                    children: [
+                                      if (controller.selectedStatus.value ==
+                                          'approved')
+                                        const Icon(Icons.check,
+                                            color: Colors.green),
+                                      const SizedBox(width: 8),
+                                      const Text('Approved'),
+                                    ],
+                                  ),
+                                ),
+                                DropdownMenuItem(
+                                  value: 'reject',
+                                  child: Row(
+                                    children: [
+                                      if (controller.selectedStatus.value ==
+                                          'reject')
+                                        const Icon(Icons.check,
+                                            color: Colors.green),
+                                      const SizedBox(width: 8),
+                                      const Text('Rejected'),
+                                    ],
+                                  ),
+                                ),
+                                DropdownMenuItem(
+                                  value: 'pending',
+                                  child: Row(
+                                    children: [
+                                      if (controller.selectedStatus.value ==
+                                          'pending')
+                                        const Icon(Icons.check,
+                                            color: Colors.green),
+                                      const SizedBox(width: 8),
+                                      const Text('Pending'),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                              onChanged: (String? newValue) {
+                                if (newValue != null) {
+                                  if (controller.selectedStatus.value ==
+                                      newValue) {
+                                    controller.selectedStatus.value = '';
+                                  } else {
+                                    controller.selectedStatus.value = newValue;
+                                  }
+                                  controller.refreshData();
+                                }
+                              },
+                              hint: const Text(
+                                "Select Status",
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                              dropdownColor:
+                                  Colors.white, // Background for dropdown list
+                            ),
                           ),
-                          DropdownMenuItem(
-                            value: 'pending',
-                            child: Text('Pending'),
-                          ),
-                        ],
-                        onChanged: (String? newValue) {
-                          if (newValue != null) {
-                            if (controller.selectedStatus.value == newValue) {
-                              controller.selectedStatus.value = '';
-                              controller.refreshData();
-                            } else {
-                              controller.selectedStatus.value = newValue;
-                              controller.refreshData();
-                            }
-                          }
-                        },
-                        hint: Text("Select Status"),
+                        ),
                       ),
                     ),
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
+                  // Dropdown for Filter
                   Expanded(
                     child: Obx(
-                      () => DropdownButton<String>(
-                        icon: const Icon(Icons.arrow_drop_down),
-                        isExpanded: true,
-                        value: controller.selectedfilterBy.value.isEmpty
-                            ? null
-                            : controller.selectedfilterBy.value,
-                        items: [
-                          DropdownMenuItem(
-                            value: 'property',
-                            child: Text('Property'),
+                      () => GestureDetector(
+                        onTap: () {},
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 12),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.2),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: const Offset(
+                                    0, 3), // changes position of shadow
+                              ),
+                            ],
                           ),
-                          DropdownMenuItem(
-                            value: 'purchaseOrder',
-                            child: Text('Purchase Order'),
-                          ),
-                          DropdownMenuItem(
-                            value: 'purchaseRequisition',
-                            child: Text(
-                              'Purchase Requisition',
-                              overflow: TextOverflow.ellipsis,
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                              icon: const Icon(Icons.arrow_drop_down,
+                                  color: Colors.blueAccent),
+                              isExpanded: true,
+                              value: controller.selectedfilterBy.value.isEmpty
+                                  ? null
+                                  : controller.selectedfilterBy.value,
+                              items: [
+                                DropdownMenuItem(
+                                  value: 'property',
+                                  child: Row(
+                                    children: [
+                                      if (controller.selectedfilterBy.value ==
+                                          'property')
+                                        const Icon(Icons.check,
+                                            color: Colors.green),
+                                      const SizedBox(width: 8),
+                                      const Text('Property'),
+                                    ],
+                                  ),
+                                ),
+                                DropdownMenuItem(
+                                  value: 'purchaseOrder',
+                                  child: Row(
+                                    children: [
+                                      if (controller.selectedfilterBy.value ==
+                                          'purchaseOrder')
+                                        Flexible(
+                                          child: const Icon(Icons.check,
+                                              color: Colors.green),
+                                        ),
+                                      const SizedBox(width: 8),
+                                      Flexible(
+                                        child: const Text(
+                                          'Purchase Order',
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                DropdownMenuItem(
+                                  value: 'purchaseRequisition',
+                                  child: Row(
+                                    children: [
+                                      if (controller.selectedfilterBy.value ==
+                                          'purchaseRequisition')
+                                        const Icon(Icons.check,
+                                            color: Colors.green),
+                                      const SizedBox(width: 8),
+                                      const Flexible(
+                                        child: Text(
+                                          'Purchase Requisition',
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                              onChanged: (String? newValue) {
+                                if (newValue != null) {
+                                  if (controller.selectedfilterBy.value ==
+                                      newValue) {
+                                    controller.selectedfilterBy.value = '';
+                                  } else {
+                                    controller.selectedfilterBy.value =
+                                        newValue;
+                                  }
+                                  controller.refreshData();
+                                }
+                              },
+                              hint: const Text(
+                                "Select Filter",
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                              dropdownColor:
+                                  Colors.white, // Background for dropdown list
                             ),
                           ),
-                        ],
-                        onChanged: (String? newValue) {
-                          if (newValue != null) {
-                            if (controller.selectedfilterBy.value == newValue) {
-                              controller.selectedfilterBy.value = '';
-                              controller.refreshData();
-                            } else {
-                              controller.selectedfilterBy.value = newValue;
-                              controller.refreshData();
-                            }
-                          }
-                        },
-                        hint: Text("Select Filter"),
+                        ),
                       ),
                     ),
                   ),
@@ -247,17 +384,23 @@ class ApprovalView extends GetView<ApprovalController> {
                               child: Container(
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                    color: Colors.grey,
-                                    width: 0.7,
+                                    color: Colors.grey.withOpacity(0.3),
+                                    width: 1.0,
                                   ),
-                                  borderRadius: BorderRadius.circular(18),
+                                  borderRadius: BorderRadius.circular(15),
                                   color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.2),
+                                      spreadRadius: 2,
+                                      blurRadius: 5,
+                                      offset: Offset(0, 3),
+                                    ),
+                                  ],
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
-                                    horizontal: 15,
-                                    vertical: 10,
-                                  ),
+                                      horizontal: 15, vertical: 15),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -273,22 +416,19 @@ class ApprovalView extends GetView<ApprovalController> {
                                                   .headerapprovalStyleProfile
                                                   .copyWith(
                                                 color: textColor,
+                                                fontWeight: FontWeight.bold,
                                               ),
-                                              maxLines: 3,
+                                              maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
                                         ],
                                       ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
+                                      SizedBox(height: 10),
                                       Divider(
-                                        height: 5,
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
+                                          height: 1,
+                                          color: Colors.grey.withOpacity(0.5)),
+                                      SizedBox(height: 10),
                                       Row(
                                         children: [
                                           Expanded(
@@ -302,7 +442,7 @@ class ApprovalView extends GetView<ApprovalController> {
                                               style: TextStyles
                                                   .headerapprovalStyleProfile
                                                   .copyWith(
-                                                color: textColor,
+                                                color: Colors.grey[700],
                                               ),
                                               maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
@@ -313,15 +453,13 @@ class ApprovalView extends GetView<ApprovalController> {
                                               Icon(trailingIcon,
                                                   color: trailingIconColor),
                                               SizedBox(width: 10),
-                                              Icon(
-                                                statusIcon,
-                                                color: statusIconColor,
-                                              ),
+                                              Icon(statusIcon,
+                                                  color: statusIconColor),
                                             ],
                                           )
                                         ],
                                       ),
-                                      SizedBox(height: 10),
+                                      SizedBox(height: 15),
                                       if (approvalStatus == Status.PENDING)
                                         Row(
                                           mainAxisAlignment:
@@ -329,7 +467,7 @@ class ApprovalView extends GetView<ApprovalController> {
                                           children: [
                                             if (approval.isNegotiate != null &&
                                                 approval.isNegotiate!)
-                                              Container(
+                                              SizedBox(
                                                 width: 150,
                                                 child: ElevatedButton(
                                                   onPressed: () {
@@ -368,9 +506,7 @@ class ApprovalView extends GetView<ApprovalController> {
                                                                     .circular(
                                                                         20),
                                                           ),
-                                                          child: Container(
-                                                            width:
-                                                                Get.width * 0.8,
+                                                          child: Padding(
                                                             padding:
                                                                 const EdgeInsets
                                                                     .all(20),
@@ -389,9 +525,12 @@ class ApprovalView extends GetView<ApprovalController> {
                                                                       .copyWith(
                                                                     color: AppColor
                                                                         .primary,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
                                                                   ),
                                                                 ),
-                                                                const SizedBox(
+                                                                SizedBox(
                                                                     height: 20),
                                                                 TextField(
                                                                   controller: TextEditingController(
@@ -415,7 +554,7 @@ class ApprovalView extends GetView<ApprovalController> {
                                                                         'Rp. ',
                                                                   ),
                                                                 ),
-                                                                const SizedBox(
+                                                                SizedBox(
                                                                     height: 20),
                                                                 TextField(
                                                                   controller:
@@ -449,7 +588,7 @@ class ApprovalView extends GetView<ApprovalController> {
                                                                     CurrencyInputFormatter(),
                                                                   ],
                                                                 ),
-                                                                const SizedBox(
+                                                                SizedBox(
                                                                     height: 20),
                                                                 Row(
                                                                   mainAxisAlignment:
@@ -474,7 +613,6 @@ class ApprovalView extends GetView<ApprovalController> {
                                                                     ElevatedButton(
                                                                       onPressed:
                                                                           () {
-                                                                        // Remove commas from the string before parsing
                                                                         final text = valueController.text.replaceAll(
                                                                             '.',
                                                                             '');
@@ -506,7 +644,7 @@ class ApprovalView extends GetView<ApprovalController> {
                                                                       ),
                                                                     ),
                                                                   ],
-                                                                )
+                                                                ),
                                                               ],
                                                             ),
                                                           ),
@@ -518,18 +656,17 @@ class ApprovalView extends GetView<ApprovalController> {
                                                       ElevatedButton.styleFrom(
                                                     backgroundColor:
                                                         AppColor.primary,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                    ),
                                                   ),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Text(
-                                                        "Negosiasi",
-                                                        style: TextStyles
-                                                            .cardbuttomTextStyle,
-                                                      ),
-                                                    ],
+                                                  child: Text(
+                                                    "Negosiasi",
+                                                    style: TextStyles
+                                                        .cardbuttomTextStyle,
                                                   ),
                                                 ),
                                               ),
