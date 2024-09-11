@@ -328,7 +328,7 @@ class LeadsView extends GetView<LeadsController> {
                                                           style: TextStyles
                                                               .headerapprovalStyleProfile
                                                               .copyWith(
-                                                            fontSize: 14,
+                                                            fontSize: 12,
                                                             color: Colors
                                                                 .grey[700],
                                                           ),
@@ -352,7 +352,7 @@ class LeadsView extends GetView<LeadsController> {
                                                         style: TextStyles
                                                             .headerapprovalStyleProfile
                                                             .copyWith(
-                                                          fontSize: 14,
+                                                          fontSize: 12,
                                                           color:
                                                               Colors.grey[700],
                                                         ),

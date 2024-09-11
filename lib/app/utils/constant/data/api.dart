@@ -32,7 +32,7 @@ class ApprovalEndpoints {
 }
 
 class NotificationEndpoints {
-  final String getNotification = '/api/v1/pm-notif-locations?orderBy=ASC';
+  final String getLocation = '/api/v1/pm-notif-locations?orderBy=ASC';
   final String getGroupCause = '/api/v1/pm-notif-couses?orderBy=ASC';
   final String getEquipment = '/api/v1/pm-notif-equipments?orderBy=ASC';
   final String getGroupProblem = '/api/v1/pm-notif-groups?orderBy=ASC&';

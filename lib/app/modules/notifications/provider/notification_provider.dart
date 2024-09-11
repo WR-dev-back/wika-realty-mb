@@ -10,45 +10,64 @@ class NotificationProvider extends GetConnect {
     int limit = 25,
     required String costProfitCenterId,
   }) async {
-    // Trim any surrounding quotes from costProfitCenterId
     costProfitCenterId = costProfitCenterId.replaceAll('"', '');
 
-    final String endpoint = ApiEndPoints.notification.getNotification;
+    final String endpoint = ApiEndPoints.notification.getLocation;
     final Map<String, String> queryParameters = {
       'costProfitCenterId': costProfitCenterId,
       'orderBy': 'ASC',
       'page': '$page',
       'limit': '$limit',
     };
-
-    // Log the request details
-    print('Requesting data from: $endpoint');
-    print('Query parameters: $queryParameters');
-
-    // Hit the API endpoint and get the response
     final response =
         await getApiData(endpoint, queryParameters: queryParameters);
-
-    // Log the response details
-    print('Response: ${response.body}');
 
     return response;
   }
 
-  Future<Response> fetchGroupCause({int page = 1, int limit = 25}) async {
-    return getApiData(ApiEndPoints.notification.getGroupCause,
-        page: page, limit: limit);
+  Future<Response> fetchGroupCause({
+    int page = 1,
+    int limit = 25,
+  }) async {
+    final String endpoint = ApiEndPoints.notification.getGroupCause;
+    final Map<String, String> queryParameters = {
+      'orderBy': 'ASC',
+      'page': '$page',
+      'limit': '$limit',
+    };
+    final response =
+        await getApiData(endpoint, queryParameters: queryParameters);
+    return response;
   }
 
-  Future<Response> fetchEquipment(
-      {int page = 1, int limit = 25, required String locationId}) async {
-    return getApiData(ApiEndPoints.notification.getEquipment,
-        page: page, limit: limit);
+  Future<Response> fetchEquipment({
+    int page = 1,
+    int limit = 25,
+  }) async {
+    final String endpoint = ApiEndPoints.notification.getEquipment;
+    final Map<String, String> queryParameters = {
+      'orderBy': 'ASC',
+      'page': '$page',
+      'limit': '$limit',
+    };
+    final response =
+        await getApiData(endpoint, queryParameters: queryParameters);
+    return response;
   }
 
-  Future<Response> fetchGroupProblem({int page = 1, int limit = 25}) async {
-    return getApiData(ApiEndPoints.notification.getGroupProblem,
-        page: page, limit: limit);
+  Future<Response> fetchGroupProblem({
+    int page = 1,
+    int limit = 25,
+  }) async {
+    final String endpoint = ApiEndPoints.notification.getGroupProblem;
+    final Map<String, String> queryParameters = {
+      'orderBy': 'ASC',
+      'page': '$page',
+      'limit': '$limit',
+    };
+    final response =
+        await getApiData(endpoint, queryParameters: queryParameters);
+    return response;
   }
 
   Future<Response> getApiData(String endpoint,

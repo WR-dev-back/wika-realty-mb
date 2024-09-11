@@ -28,6 +28,7 @@ class DetailApprovalProvider extends GetConnect {
       if (response.statusCode == 401) {
         Get.toNamed(Routes.LOGIN);
       }
+
       return response;
     } catch (error) {
       return Response(statusCode: 500, statusText: 'Error: $error');

@@ -109,48 +109,43 @@ class ApprovalDetails extends StatelessWidget {
             // 'Release Group Description', purchaseOrder.releaseGroupDesc),
             // buildTextColumn('PO Number', purchaseOrder.poNumber),
             buildTextColumn('Approval Status', purchaseOrder.approvalStatus),
-            buildTextColumn(
+            buildLinkColumn(
               'Attachment Link',
-              (
-                approval.purchaseOrder!.attachmentLink != null
-                    ? InkWell(
-                        onTap: () async {
-                          // Cek apakah URL ada dan valid
-                          final link =
-                              approval.purchaseOrder!.attachmentLink ?? '';
-                          print(link);
+              approval.purchaseOrder!.attachmentLink != null &&
+                      approval.purchaseOrder!.attachmentLink!.isNotEmpty
+                  ? InkWell(
+                      onTap: () async {
+                        final link = approval.purchaseOrder!.attachmentLink;
 
-                          // Jika link kosong, gunakan pencarian
-                          final searchQuery = Uri.encodeComponent(link);
-                          final searchUrl =
-                              'https://www.google.com/search?q=$searchQuery';
+                        // Cek apakah URL valid
+                        final Uri? url = Uri.tryParse(link!);
 
-                          final url =
-                              Uri.tryParse(link.isNotEmpty ? link : searchUrl);
-
-                          if (url != null && await canLaunchUrl(url)) {
-                            await launchUrl(
-                              url,
-                              mode: LaunchMode
-                                  .externalApplication, // Tambahkan mode ini
-                            );
-                          } else {
-                            print('Could not launch $url');
-                          }
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Icon(
-                              Icons.open_in_new,
-                              color: Colors.blue,
-                            ), // Ikon yang diinginkan
-                          ],
-                        ),
-                      )
-                    : Text('No Link'),
-              ),
+                        if (url != null && await canLaunchUrl(url)) {
+                          await launchUrl(
+                            url,
+                            mode: LaunchMode.externalApplication,
+                          );
+                        } else {
+                          print('Could not launch $url');
+                          // Tampilkan pesan atau log jika gagal
+                        }
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: const [
+                          Icon(
+                            Icons.open_in_new,
+                            color: Colors.blue,
+                          ),
+                        ],
+                      ),
+                    )
+                  : const Text(
+                      'No Link',
+                      textAlign: TextAlign.end,
+                    ),
             ),
+
             SizedBox(height: 10),
             _buildServiceDetailsList(purchaseOrder.itemsPo!),
           ],
@@ -276,48 +271,49 @@ class ApprovalDetails extends StatelessWidget {
                 purchaseRequisition.budgetValue, currencyFormat),
             buildCurrencyColumn('Total Harga Perkiraan Sendiri',
                 purchaseRequisition.grandTotalValue, currencyFormat),
-            buildTextColumn(
+            buildLinkColumn(
               'Attachment Link',
-              (
-                purchaseRequisition.prType != null
-                    ? InkWell(
-                        onTap: () async {
-                          // Cek apakah URL ada dan valid
-                          final link = purchaseRequisition.prType ?? '';
-                          print(link);
+              approval.purchaseRequisition!.attachmentLink != null
+                  ? InkWell(
+                      onTap: () async {
+                        // Cek apakah URL ada dan valid
+                        final link =
+                            approval.purchaseRequisition!.attachmentLink ?? '';
+                        print(link);
 
-                          // Jika link kosong, gunakan pencarian
-                          final searchQuery = Uri.encodeComponent(link);
-                          final searchUrl =
-                              'https://www.google.com/search?q=$searchQuery';
+                        // Jika link kosong, gunakan pencarian
+                        final searchQuery = Uri.encodeComponent(link);
+                        final searchUrl =
+                            'https://www.google.com/search?q=$searchQuery';
 
-                          final url =
-                              Uri.tryParse(link.isNotEmpty ? link : searchUrl);
+                        final url =
+                            Uri.tryParse(link.isNotEmpty ? link : searchUrl);
 
-                          if (url != null && await canLaunchUrl(url)) {
-                            await launchUrl(
-                              url,
-                              mode: LaunchMode
-                                  .externalApplication, // Tambahkan mode ini
-                            );
-                          } else {
-                            print('Could not launch $url');
-                          }
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Icon(
-                              Icons.open_in_new,
-                              color: Colors.blue,
-                            ), // Ikon yang diinginkan
-                          ],
-                        ),
-                      )
-                    : Text('No Link'),
-              ),
+                        if (url != null && await canLaunchUrl(url)) {
+                          await launchUrl(
+                            url,
+                            mode: LaunchMode
+                                .externalApplication, // Tambahkan mode ini
+                          );
+                        } else {
+                          print('Could not launch $url');
+                        }
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: const [
+                          Icon(
+                            Icons.open_in_new,
+                            color: Colors.blue,
+                          ),
+                        ],
+                      ),
+                    )
+                  : const Text(
+                      'No Link',
+                      textAlign: TextAlign.end,
+                    ),
             ),
-
             SizedBox(height: 10),
             _buildRequisitionItemsList(purchaseRequisition.itemspr!),
           ],
@@ -421,34 +417,100 @@ class ApprovalDetails extends StatelessWidget {
     );
   }
 
-  Widget buildTextColumn(String label, dynamic value) {
+  Widget buildTextColumn(String label, dynamic value,
+      [NumberFormat? currencyFormat]) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Flexible(
-            child: Text(
-              label,
-              style: TextStyles.approvalTextStyle.copyWith(fontSize: 14),
+      child: IntrinsicHeight(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            // Label
+            Expanded(
+              flex:
+                  2, // Flex untuk memastikan label mengambil ruang yang sesuai
+              child: Text(
+                label,
+                style: TextStyles.approvalTextStyle.copyWith(fontSize: 14),
+              ),
             ),
-          ),
-          Flexible(
-            child: value != null && value is String && value.isNotEmpty
-                ? Text(
-                    value,
-                    style: TextStyles.buttonprofileTextStyle
-                        .copyWith(fontSize: 14),
-                    textAlign: TextAlign.right, // Align text to the right
-                  )
-                : Text(
-                    '-',
-                    style: TextStyles.buttonprofileTextStyle
-                        .copyWith(fontSize: 14),
-                    textAlign: TextAlign.right, // Align text to the right
-                  ),
-          ),
-        ],
+            const SizedBox(width: 8), // Spasi antara label dan value
+
+            // Value
+            Expanded(
+              flex:
+                  2, // Flex yang lebih besar untuk memastikan value mengambil lebih banyak ruang
+              child: value != null && value is String && value.isNotEmpty
+                  ? Text(
+                      value,
+                      style: TextStyles.buttonprofileTextStyle
+                          .copyWith(fontSize: 14),
+                      textAlign: TextAlign.right,
+                      maxLines:
+                          null, // Biarkan teks value terisi secara dinamis (multiline)
+                      overflow: TextOverflow
+                          .visible, // Izinkan teks meluas ke beberapa baris
+                    )
+                  : Text(
+                      '-', // Jika value null atau string kosong
+                      style: TextStyles.buttonprofileTextStyle
+                          .copyWith(fontSize: 14),
+                      textAlign: TextAlign.right,
+                    ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildLinkColumn(String label, dynamic value,
+      [NumberFormat? currencyFormat]) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: IntrinsicHeight(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            // Label
+            Expanded(
+              flex:
+                  2, // Flex untuk memastikan label mengambil ruang yang sesuai
+              child: Text(
+                label,
+                style: TextStyles.approvalTextStyle.copyWith(fontSize: 14),
+                // Batasi label ke satu baris
+                // Jika teks terlalu panjang, tampilkan ellipsis
+              ),
+            ),
+            const SizedBox(width: 8), // Spasi antara label dan value
+
+            // Value
+            Expanded(
+              flex:
+                  2, // Flex yang lebih besar untuk memastikan value mengambil lebih banyak ruang
+              child: value != null
+                  ? (value is String
+                      ? Text(
+                          value,
+                          style: TextStyles.buttonprofileTextStyle
+                              .copyWith(fontSize: 14),
+                          textAlign: TextAlign.right,
+                          maxLines:
+                              null, // Biarkan teks value terisi secara dinamis (multiline)
+                          overflow: TextOverflow
+                              .visible, // Izinkan teks meluas ke beberapa baris
+                        )
+                      : value)
+                  : Text(
+                      '-', // Jika value null
+                      style: TextStyles.buttonprofileTextStyle
+                          .copyWith(fontSize: 14),
+                      textAlign: TextAlign.right,
+                    ),
+            ),
+          ],
+        ),
       ),
     );
   }

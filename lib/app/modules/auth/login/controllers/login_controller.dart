@@ -75,19 +75,20 @@ class LoginController extends GetxController {
       if (response.statusCode == 201) {
         Map<String, dynamic> jsonData = response.body as Map<String, dynamic>;
 
-        var token = jsonData['data']['token'];
+        var token = jsonData['data']['token'] ?? "";
         await storage.write('token', token);
 
-        var userJson = jsonData['data']['user'];
+        var userJson = jsonData['data']['user'] ?? {};
         await storage.write('user', jsonEncode(userJson));
 
-        var ppuJson = jsonData['data']['user']['ppu'];
+        var ppuJson = jsonData['data']['user']['ppu'] ?? {};
         await storage.write('ppu', jsonEncode(ppuJson));
 
-        // Extract and store costProfitCenterId
-        var costProfitCenterId = jsonData['data']['user']['ppu']['id'];
+        var costProfitCenterId = jsonData['data']['user']['ppu']['id'] ?? "";
         await storage.write(
             'costProfitCenterId', jsonEncode(costProfitCenterId));
+
+        print('Stored costProfitCenterId: $costProfitCenterId');
 
         List<dynamic> menuJsonList = jsonData['data']['menus'];
         await storage.write('menuList', jsonEncode(menuJsonList));
@@ -98,6 +99,7 @@ class LoginController extends GetxController {
         throw jsonDecode(response.body)["Message"] ?? "Unknown Error Occurred";
       }
     } catch (error) {
+      print(error);
       _showDialog('Error', 'Wrong Email And Password');
     }
   }

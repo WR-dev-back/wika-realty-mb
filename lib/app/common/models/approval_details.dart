@@ -547,6 +547,7 @@ class PurchaseRequisition {
   String? releaseCodeDesc;
   String? prNumber;
   String? approvalStatus;
+  String? attachmentLink;
   bool? isSend;
   List<ItemPr>? itemspr;
   List<RegisteredVendor>? registeredVendors;
@@ -587,6 +588,7 @@ class PurchaseRequisition {
     this.releaseCodeDesc,
     this.prNumber,
     this.approvalStatus,
+    this.attachmentLink,
     this.isSend,
     this.itemspr,
     this.registeredVendors,
@@ -633,6 +635,7 @@ class PurchaseRequisition {
         releaseCodeDesc: json["release_code_desc"],
         prNumber: json["pr_number"],
         approvalStatus: json["approval_status"],
+        attachmentLink: json["attachment_link"],
         isSend: json["isSend"],
         itemspr: json["items"] == null
             ? []
@@ -682,6 +685,7 @@ class PurchaseRequisition {
         "release_code_desc": releaseCodeDesc,
         "pr_number": prNumber,
         "approval_status": approvalStatus,
+        "attachment_link": attachmentLink,
         "isSend": isSend,
         "items": itemspr == null
             ? []

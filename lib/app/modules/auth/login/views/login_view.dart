@@ -14,6 +14,14 @@ class LoginView extends GetView<LoginController> {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
+          // Background image (outside the login card)
+          Positioned.fill(
+            child: Image.asset(
+              'asset/images/background.png',
+              fit: BoxFit.cover,
+            ),
+          ),
+          // Gradient and title
           Positioned(
             top: 0,
             left: 0,
@@ -36,43 +44,42 @@ class LoginView extends GetView<LoginController> {
               ),
             ),
           ),
+          // Login card
           Positioned(
             top: 180,
             left: 20,
             right: 20,
-            bottom: 20,
-            child: SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 8,
-                      offset: Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Masuk Akun',
-                      style: TextStyles.headerStyle,
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Lengkapi data di bawah untuk masuk ke akunmu yang sudah terdaftar di Olif Mobile.',
-                      style: TextStyles.descriptionStyle,
-                    ),
-                    SizedBox(height: 30),
-                    buildLoginForm(),
-                    SizedBox(height: 20),
-                    buildBottomImageContainer(),
-                  ],
-                ),
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.15),
+                    blurRadius: 12,
+                    spreadRadius: 2,
+                    offset: Offset(0, 6), // More pronounced shadow effect
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Keep "Masuk Akun" and description
+                  Text(
+                    'Masuk Akun',
+                    style: TextStyles.headerStyle,
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'Lengkapi data di bawah untuk masuk ke akunmu yang sudah terdaftar di Olif Mobile.',
+                    style: TextStyles.descriptionStyle,
+                  ),
+                  SizedBox(height: 30),
+                  buildLoginForm(),
+                ],
               ),
             ),
           ),
@@ -86,11 +93,11 @@ class LoginView extends GetView<LoginController> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         buildEmailField(),
-        SizedBox(height: 16),
+        SizedBox(height: 12),
         buildPasswordField(),
-        SizedBox(height: 16),
+        SizedBox(height: 12),
         buildForgotPasswordButton(),
-        SizedBox(height: 24),
+        SizedBox(height: 12),
         buildLoginButton(),
       ],
     );
@@ -143,7 +150,6 @@ class LoginView extends GetView<LoginController> {
               controller.obsecureText.value
                   ? 'asset/icons/show.svg'
                   : 'asset/icons/hide.svg',
-              // ignore: deprecated_member_use
               color: AppColor.primary,
             ),
             onPressed: () {
@@ -189,16 +195,6 @@ class LoginView extends GetView<LoginController> {
             color: Colors.white,
           ),
         ),
-      ),
-    );
-  }
-
-  Widget buildBottomImageContainer() {
-    return Container(
-      padding: EdgeInsets.only(top: 20),
-      child: Image.asset(
-        'asset/images/background.png',
-        fit: BoxFit.fitWidth,
       ),
     );
   }

@@ -194,6 +194,7 @@ class HomeView extends GetView<HomeController> {
                                                     '/${menu.name.toLowerCase()}';
                                                 Get.toNamed(routeName,
                                                     arguments: menu);
+                                                print(routeName);
                                               },
                                               child: Column(
                                                 crossAxisAlignment:
@@ -206,9 +207,15 @@ class HomeView extends GetView<HomeController> {
                                                     width: 80,
                                                     height: 70,
                                                   ),
-                                                  Text(menu.name,
+                                                  Flexible(
+                                                    child: Text(
+                                                      menu.name,
                                                       style: TextStyles
-                                                          .menuTextStyle),
+                                                          .menuTextStyle,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    ),
+                                                  ),
                                                 ],
                                               ),
                                             );
@@ -227,14 +234,25 @@ class HomeView extends GetView<HomeController> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  "Pembayaran Terbaru",
-                                  style: TextStyles.fieldLabelStyle,
+                                Flexible(
+                                  child: Text(
+                                    "Pembayaran Terbaru",
+                                    style: TextStyles.fieldLabelStyle.copyWith(
+                                      fontSize: 14,
+                                    ),
+                                  ),
                                 ),
-                                TextButton(
-                                  onPressed: () {},
-                                  child: Text("Lihat Semua",
-                                      style: TextStyles.buttonTextStyle),
+                                Flexible(
+                                  child: TextButton(
+                                    onPressed: () {},
+                                    child: Text(
+                                      "Lihat Semua",
+                                      style:
+                                          TextStyles.buttonTextStyle.copyWith(
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),

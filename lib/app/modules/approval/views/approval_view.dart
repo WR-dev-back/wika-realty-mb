@@ -418,7 +418,7 @@ class ApprovalView extends GetView<ApprovalController> {
                                                 color: textColor,
                                                 fontWeight: FontWeight.bold,
                                               ),
-                                              maxLines: 2,
+                                              maxLines: 3,
                                               overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
