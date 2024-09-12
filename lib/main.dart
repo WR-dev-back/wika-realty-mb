@@ -14,8 +14,7 @@ Future<void> main() async {
   final String? token = storage.read('token');
 
   final badgeController = Get.put(BadgeController(), permanent: true);
-  badgeController
-      .fetchPendingApprovals(); // Fetch pending approvals on app start
+  badgeController.fetchPendingApprovals();
 
   Get.put(PageIndexController(), permanent: true);
   Get.put(BadgeProvider(), permanent: true);

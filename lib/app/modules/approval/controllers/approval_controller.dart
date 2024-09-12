@@ -73,7 +73,7 @@ class ApprovalController extends GetxController {
         queryParams['filterBy'] = selectedfilterBy.value;
       }
 
-      queryParams['orderBy'] = 'ASC';
+      queryParams['orderBy'] = 'DSC';
       queryParams['page'] = '1';
       queryParams['limit'] = '25';
 
