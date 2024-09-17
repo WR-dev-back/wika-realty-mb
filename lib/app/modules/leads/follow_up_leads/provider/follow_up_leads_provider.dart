@@ -7,6 +7,7 @@ import '../../../../utils/constant/data/api.dart';
 
 class FollowUpLeadsProvider extends GetConnect {
   final GetStorage storage = GetStorage();
+
   // Method to fetch follow-up data
   Future<Response> getFollowUpData() async {
     final apiUrl = ApiEndPoints.baseUrl + ApiEndPoints.leads.dataLeads;

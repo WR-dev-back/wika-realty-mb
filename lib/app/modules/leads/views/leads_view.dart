@@ -446,6 +446,7 @@ class LeadsView extends GetView<LeadsController> {
                         _buildTextFieldWithCounter(
                           controller.sumD,
                           "Sumber Digital",
+                          "Masukkan sumber digital (ex: Facebook, Instagram, dll)",
                           50,
                           controller.digitalSourceCount,
                         ),
@@ -453,6 +454,7 @@ class LeadsView extends GetView<LeadsController> {
                         _buildTextFieldWithCounter(
                           controller.sumOf,
                           "Sumber Offline",
+                          "Masukkan sumber offline (ex: Pameran, Tour, dll)",
                           50,
                           controller.offlineSourceCount,
                         ),
@@ -460,6 +462,7 @@ class LeadsView extends GetView<LeadsController> {
                         _buildTextFieldWithCounter(
                           controller.lok,
                           "Lokasi Kegiatan",
+                          "Masukkan lokasi kegiatan (ex: Jakarta, Bandung, dll)",
                           100,
                           controller.locationCount,
                         ),
@@ -467,6 +470,7 @@ class LeadsView extends GetView<LeadsController> {
                         _buildTextFieldWithCounter(
                           controller.fullName,
                           "Full Name",
+                          "Masukkan nama lengkap",
                           100,
                           controller.fullNameCount,
                           validator: controller.validateFullName,
@@ -475,6 +479,7 @@ class LeadsView extends GetView<LeadsController> {
                         _buildTextFieldWithCounter(
                           controller.phone,
                           "Phone Number",
+                          "Masukkan nomor telepon",
                           15,
                           controller.phoneCount,
                           keyboardType: TextInputType.phone,
@@ -488,6 +493,7 @@ class LeadsView extends GetView<LeadsController> {
                         _buildTextFieldWithCounter(
                           controller.npwpC,
                           "Npwp",
+                          "Masukkan npwp",
                           20,
                           controller.npwpCount,
                           keyboardType: TextInputType.numberWithOptions(),
@@ -496,6 +502,7 @@ class LeadsView extends GetView<LeadsController> {
                         _buildTextFieldWithCounter(
                           controller.email,
                           "Email",
+                          "Masukkan email",
                           100,
                           controller.emailCount,
                         ),
@@ -503,6 +510,7 @@ class LeadsView extends GetView<LeadsController> {
                         _buildTextFieldWithCounter(
                           controller.cityC,
                           "City",
+                          "Masukkan kota",
                           50,
                           controller.cityCount,
                         ),
@@ -510,6 +518,7 @@ class LeadsView extends GetView<LeadsController> {
                         _buildTextFieldWithCounter(
                           controller.typeC,
                           "Type",
+                          "Masukkan tipe",
                           50,
                           controller.typeCount,
                         ),
@@ -517,6 +526,7 @@ class LeadsView extends GetView<LeadsController> {
                         _buildTextFieldWithCounter(
                           controller.areaC,
                           "Area",
+                          "Masukkan area",
                           10,
                           controller.areaCount,
                           keyboardType: TextInputType.number,
@@ -528,6 +538,7 @@ class LeadsView extends GetView<LeadsController> {
                         _buildTextFieldWithCounter(
                           controller.omzetC,
                           "Omzet",
+                          "Masukkan omzet",
                           20,
                           controller.omzetCount,
                         ),
@@ -584,7 +595,7 @@ class LeadsView extends GetView<LeadsController> {
   }
 
   Widget _buildTextFieldWithCounter(TextEditingController controller,
-      String labelText, int maxLength, RxInt counter,
+      String labelText, String hintText, int maxLength, RxInt counter,
       {TextInputType keyboardType = TextInputType.text,
       List<TextInputFormatter>? inputFormatters,
       String? Function(String?)? validator}) {
@@ -605,8 +616,14 @@ class LeadsView extends GetView<LeadsController> {
               style: TextStyles.descriptionStyle
                   .copyWith(fontWeight: FontWeight.bold),
             ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
             floatingLabelBehavior: FloatingLabelBehavior.always,
-            hintText: "",
+            hintText: hintText,
+            hintStyle: TextStyles.headerapprovalStyleProfile.copyWith(
+              color: Colors.grey[700],
+            ),
           ),
           validator: validator,
           onChanged: (value) {

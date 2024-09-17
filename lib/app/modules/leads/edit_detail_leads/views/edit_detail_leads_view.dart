@@ -197,7 +197,11 @@ class EditDetailLeadsView extends GetView<EditDetailLeadsController> {
           ],
           decoration: InputDecoration(
             labelText: labelText,
-            labelStyle: TextStyles.approvalTextStyle,
+            labelStyle: TextStyles.descriptionStyle
+                .copyWith(fontWeight: FontWeight.bold),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
             floatingLabelBehavior: FloatingLabelBehavior.always,
             hintText: "",
           ),

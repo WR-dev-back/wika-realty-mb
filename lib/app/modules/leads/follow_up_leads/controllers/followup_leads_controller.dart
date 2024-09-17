@@ -18,7 +18,7 @@ class FollowupLeadsController extends GetxController
   TextEditingController followUpController = TextEditingController();
   TextEditingController prospectsController = TextEditingController();
   RxString hintText = "".obs;
-  final followUpOptions = ['cold', 'reserved', 'hot prospek', 'ok'];
+  final followUpOptions = ['Cold', 'Hot Prospek', 'Reserved', 'O K'];
 
   RxString selectedFollowUpOption = ''.obs;
 
