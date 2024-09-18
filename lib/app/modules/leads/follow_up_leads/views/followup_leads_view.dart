@@ -180,32 +180,51 @@ class FollowupLeadsView extends GetView<FollowupLeadsController> {
           const SizedBox(height: 20),
           Center(
             child: Container(
-              width: 150,
+              width: 300,
               child: Obx(
-                () => ElevatedButton(
-                  onPressed: controller.isFormValid.value
-                      ? () {
-                          controller.updateFollowUp(
-                            leads?.id ?? '', // Ensure leads.id is not null
-                          );
-                        }
-                      : null,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: controller.isFormValid.value
-                        ? AppColor.primary
-                        : Colors.grey, // Dynamic button color
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 12), // Consistent button padding
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10), // Rounded button
+                () => Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: controller.isFormValid.value
+                          ? () {
+                              controller.updateFollowUp(leads?.id ?? '');
+                            }
+                          : null,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: controller.isFormValid.value
+                            ? AppColor.primary
+                            : Colors.grey,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: Text(
+                        'Save',
+                        style: TextStyles.btnLabelStyle
+                            .copyWith(color: Colors.white),
+                      ),
                     ),
-                  ),
-                  child: Text(
-                    'Save',
-                    style: TextStyles.btnLabelStyle.copyWith(
-                      color: Colors.white,
-                    ),
-                  ),
+                    if (controller.showFillFormButton.value)
+                      ElevatedButton(
+                        onPressed: () {
+                          // Handle "Fill Form" action here
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColor.primary,
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: Text(
+                          'Fill Form',
+                          style: TextStyles.btnLabelStyle
+                              .copyWith(color: Colors.white),
+                        ),
+                      ),
+                  ],
                 ),
               ),
             ),
