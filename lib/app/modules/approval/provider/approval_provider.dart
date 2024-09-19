@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:wr_project/app/common/models/approval.dart';
+import 'package:wr_project/app/routes/app_pages.dart';
 
 import '../../../utils/constant/data/api.dart';
 
@@ -11,15 +12,22 @@ class ApprovalProvider extends GetConnect {
   late List<Datum> _approval = [];
   late RxList<Datum> _filteredApproval = RxList<Datum>();
 
-  Future<List<Datum>> getApproval({int page = 1, int limit = 25}) async {
-    var apiUrl =
-        ApiEndPoints.baseUrl + ApiEndPoints.getDataApproval.dataApproval;
+  Future<List<Datum>> getApproval(Map<String, String> queryParams,
+      {int page = 1, int limit = 25}) async {
+    final uri = Uri(
+      scheme: 'http',
+      host: 'backend.sdsn.io',
+      path: '/api/v1/master-approval/user-approval',
+      queryParameters: queryParams,
+    );
+    print(queryParams);
+    print(uri.toString());
 
     try {
       final String? token = storage.read('token');
       if (token != null) {
         final response = await get(
-          apiUrl,
+          uri.toString(),
           headers: {
             'Authorization': 'Bearer $token',
           },
@@ -35,12 +43,17 @@ class ApprovalProvider extends GetConnect {
           _approval = leadsData.data!;
           _filteredApproval.addAll(_approval);
           return _approval;
+        } else if (response.statusCode == 401) {
+          // Redirect to login page
+          Get.toNamed(Routes.LOGIN);
+          return [];
         } else {
           print('Request failed: ${response.statusCode}');
           return [];
         }
       } else {
         print('Token not found');
+        Get.toNamed(Routes.LOGIN);
         return [];
       }
     } catch (error) {
@@ -51,7 +64,7 @@ class ApprovalProvider extends GetConnect {
 
   Future<List<Datum>?> searchApproval(String query) async {
     var apiUrl = ApiEndPoints.baseUrl +
-        ApiEndPoints.getDataApproval.dataApproval +
+        ApiEndPoints.approval.dataApproval +
         // '&searchBy=$searchType' +
         '&search=$query';
 
@@ -75,17 +88,56 @@ class ApprovalProvider extends GetConnect {
           _filteredApproval.value = approvalData.data!;
 
           return approvalData.data;
+        } else if (response.statusCode == 401) {
+          // Redirect to login page
+          Get.toNamed(Routes.LOGIN);
+          return [];
         } else {
           print('Failed to search data: ${response.statusCode}');
           return [];
         }
       } else {
         print('Token not found');
+        Get.toNamed(Routes.LOGIN);
         return [];
       }
     } catch (e) {
       print('Error searching data: $e');
       return [];
+    }
+  }
+
+  Future<Response> submitNegotiation(String propertyId, int value) async {
+    var apiUrl = ApiEndPoints.baseUrl + ApiEndPoints.approval.negotiation;
+
+    final String? token = storage.read('token');
+
+    final body = jsonEncode({
+      'propertyId': propertyId,
+      'value': value,
+    });
+
+    if (token == null) {
+      Get.toNamed(Routes.LOGIN);
+      return Response(statusCode: 401, statusText: 'Unauthorized');
+    }
+
+    try {
+      final response = await put(
+        apiUrl,
+        body,
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+      if (response.statusCode == 401) {
+        // Redirect to login page
+        Get.toNamed(Routes.LOGIN);
+      }
+      return response;
+    } catch (error) {
+      return Response(statusCode: 500, statusText: 'Error: $error');
     }
   }
 }

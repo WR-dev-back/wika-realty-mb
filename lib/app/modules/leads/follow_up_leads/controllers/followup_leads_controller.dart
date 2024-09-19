@@ -10,6 +10,8 @@ class FollowupLeadsController extends GetxController
 
   late TabController tabController;
 
+  RxBool showFillFormButton = false.obs;
+
   var followUpCount = 0.obs;
   var prospectsCount = 0.obs;
 
@@ -18,7 +20,7 @@ class FollowupLeadsController extends GetxController
   TextEditingController followUpController = TextEditingController();
   TextEditingController prospectsController = TextEditingController();
   RxString hintText = "".obs;
-  final followUpOptions = ['cold', 'reserved', 'hot prospek', 'ok'];
+  final followUpOptions = ['Cold', 'Hot Prospek', 'Reserved', 'O K'];
 
   RxString selectedFollowUpOption = ''.obs;
 
@@ -116,15 +118,23 @@ class FollowupLeadsController extends GetxController
               }
             }
 
-            if (followUp1Completed.value && !followUp2Completed.value) {
+            // Periksa apakah status follow-up 1 adalah "OK" atau "Reserved"
+            if (followUp1Completed.value &&
+                (followUp1Data['status'] == "O K" ||
+                    followUp1Data['status'] == "Reserved")) {
+              currentFollowUpType = 1;
+              tabController.index = 0; // Tetap di follow-up 1
+            } else if (followUp1Completed.value && !followUp2Completed.value) {
               currentFollowUpType = 2;
-              tabController.index = 1;
+              tabController.index =
+                  1; // Pindah ke follow-up 2 jika status bukan "OK" atau "Reserved"
             } else if (followUp1Completed.value &&
                 followUp2Completed.value &&
                 !followUp3Completed.value) {
               currentFollowUpType = 3;
               tabController.index = 2;
             }
+
             loadFormData(currentFollowUpType);
           }
         }
@@ -141,22 +151,42 @@ class FollowupLeadsController extends GetxController
       dateController.text = formatDate(followUp1Data['date'] ?? '');
       followUpController.text = followUp1Data['follow_up'] ?? '';
       prospectsController.text = followUp1Data['prospects'] ?? '';
-      selectedFollowUpOption.value =
-          followUp1Data['status'] ?? ''; // Set to empty if null
+      selectedFollowUpOption.value = followUp1Data['status'] ?? '';
+
+      // Check if the status is "OK" or "Reserved"
+      if (selectedFollowUpOption.value == "O K" ||
+          selectedFollowUpOption.value == "Reserved") {
+        showFillFormButton.value = true;
+      } else {
+        showFillFormButton.value = false;
+      }
+
       hintText.value = " ${followUp1Data['date'] ?? ''}";
     } else if (followUpType == 2) {
       dateController.text = formatDate(followUp2Data['date'] ?? '');
       followUpController.text = followUp2Data['follow_up'] ?? '';
       prospectsController.text = followUp2Data['prospects'] ?? '';
-      selectedFollowUpOption.value =
-          followUp2Data['status'] ?? ''; // Set to empty if null
+      selectedFollowUpOption.value = followUp2Data['status'] ?? '';
+
+      if (selectedFollowUpOption.value == "O K" ||
+          selectedFollowUpOption.value == "Reserved") {
+        showFillFormButton.value = true;
+      } else {
+        showFillFormButton.value = false;
+      }
+
       hintText.value = "${followUp2Data['date'] ?? ''}";
     } else if (followUpType == 3) {
       dateController.text = formatDate(followUp3Data['date'] ?? '');
       followUpController.text = followUp3Data['follow_up'] ?? '';
       prospectsController.text = followUp3Data['prospects'] ?? '';
-      selectedFollowUpOption.value =
-          followUp3Data['status'] ?? ''; // Set to empty if null
+      selectedFollowUpOption.value = followUp3Data['status'] ?? '';
+      if (selectedFollowUpOption.value == "O K" ||
+          selectedFollowUpOption.value == "Reserved") {
+        showFillFormButton.value = true;
+      } else {
+        showFillFormButton.value = false;
+      }
       hintText.value = "${followUp3Data['date'] ?? ''}";
     } else {
       dateController.clear();
@@ -273,18 +303,37 @@ class FollowupLeadsController extends GetxController
   }
 
   void moveToNextFollowUpType() {
-    if (currentFollowUpType < 3) {
-      currentFollowUpType++;
-      tabController.animateTo(currentFollowUpType - 1);
-
-      dateController.clear();
-      followUpController.clear();
-      prospectsController.clear();
-      hintText.value = "Tanggal :";
-      selectedFollowUpOption.value = '';
-
-      validateForm();
+    // Jika status follow-up saat ini adalah "OK" atau "Reserved", jangan pindah
+    if (selectedFollowUpOption.value == "O K" ||
+        selectedFollowUpOption.value == "Reserved") {
+      // Tetap di follow-up yang sama
+      return;
     }
+
+    // Jika follow-up 1 memiliki status "Cold" atau "Hot Prospek", pindah ke follow-up 2
+    if (currentFollowUpType == 1 &&
+        (selectedFollowUpOption.value == "Cold" ||
+            selectedFollowUpOption.value == "Hot Prospek")) {
+      currentFollowUpType = 2;
+      tabController.animateTo(1); // Pindah ke tab follow-up 2
+    }
+
+    // Jika follow-up 2 memiliki status "Cold" atau "Hot Prospek", pindah ke follow-up 3
+    else if (currentFollowUpType == 2 &&
+        (selectedFollowUpOption.value == "Cold" ||
+            selectedFollowUpOption.value == "Hot Prospek")) {
+      currentFollowUpType = 3;
+      tabController.animateTo(2); // Pindah ke tab follow-up 3
+    }
+
+    // Reset form saat pindah ke follow-up berikutnya
+    dateController.clear();
+    followUpController.clear();
+    prospectsController.clear();
+    hintText.value = "Tanggal :";
+    selectedFollowUpOption.value = '';
+
+    validateForm();
   }
 
   void validateForm() {

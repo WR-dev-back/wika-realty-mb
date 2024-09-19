@@ -4,14 +4,13 @@ import 'package:get/get_connect/http/src/exceptions/exceptions.dart';
 import '../../../../utils/constant/data/api.dart';
 
 class LoginProvider extends GetConnect {
-  Future<Response> login(String email, String password) async {
+  Future<Response> login(String emailC, String passC) async {
     var headers = {'Content-Type': 'application/json'};
     try {
-      var url =
-          '${ApiEndPoints.baseUrl}${ApiEndPoints.authEndpoints.loginEmail}';
-      var response = await post(
-          url, {'identifier': email.trim(), 'password': password},
+      var url = '${ApiEndPoints.baseUrl}${ApiEndPoints.auth.loginEmail}';
+      var response = await post(url, {'identifier': emailC, 'password': passC},
           headers: headers);
+      print("Response: ${response.body}");
       return response;
     } catch (error) {
       if (error is GetHttpException) {

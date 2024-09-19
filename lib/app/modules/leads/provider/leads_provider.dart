@@ -5,16 +5,18 @@ import 'package:get_storage/get_storage.dart';
 
 import '../../../common/models/leads.dart';
 import '../../../utils/constant/data/api.dart';
+import '../../../routes/app_pages.dart'; // Import your app pages/routes
 
 class LeadsProvider extends GetConnect {
   RxList<Datum> filteredLeads = <Datum>[].obs;
   late List<Datum> _leads = [];
+  RxInt totalPages = 1.obs;
   late RxList<Datum> _filteredLeads = RxList<Datum>();
   final GetStorage storage = GetStorage();
 
   Future<List<Datum>> fetchDataLeads({int page = 1, int limit = 25}) async {
     var apiUrl = ApiEndPoints.baseUrl +
-        ApiEndPoints.getDataLeads.dataLeads +
+        ApiEndPoints.leads.dataLeads +
         'page=${page}&limit=${limit}';
     print(apiUrl);
 
@@ -35,15 +37,23 @@ class LeadsProvider extends GetConnect {
           final Map<String, dynamic> responseData = jsonDecode(responseBody!);
           final leadsData = Leads.fromJson(responseData);
 
-          _leads = leadsData.data;
+          _leads = leadsData.data!;
           _filteredLeads.addAll(_leads);
+
+          // Set the total number of pages based on API response
+          totalPages.value = leadsData.pageCount ?? 1;
+
           return _leads;
+        } else if (response.statusCode == 401) {
+          Get.toNamed(Routes.LOGIN);
+          return [];
         } else {
           print('Request failed: ${response.statusCode}');
           return [];
         }
       } else {
         print('Token not found');
+        Get.toNamed(Routes.LOGIN);
         return [];
       }
     } catch (error) {
@@ -52,9 +62,9 @@ class LeadsProvider extends GetConnect {
     }
   }
 
-  Future<List<Datum>> searchLeads(String query, String searchType) async {
+  Future<List<Datum>?> searchLeads(String query, String searchType) async {
     var apiUrl = Uri.parse(ApiEndPoints.baseUrl +
-        ApiEndPoints.getDataLeads.dataLeads +
+        ApiEndPoints.leads.dataLeads +
         '&searchBy=$searchType' +
         '&search=$query');
 
@@ -75,15 +85,20 @@ class LeadsProvider extends GetConnect {
 
           Leads leadsData = leadsFromJson(response.bodyString!);
 
-          filteredLeads.value = leadsData.data;
+          filteredLeads.value = leadsData.data!;
 
           return leadsData.data;
+        } else if (response.statusCode == 401) {
+          // Redirect to login page
+          Get.toNamed(Routes.LOGIN);
+          return [];
         } else {
           print('Failed to search data: ${response.statusCode}');
           return [];
         }
       } else {
         print('Token not found');
+        Get.toNamed(Routes.LOGIN);
         return [];
       }
     } catch (e) {
@@ -98,7 +113,7 @@ class LeadsProvider extends GetConnect {
     required String email,
   }) async {
     final apiUrl =
-        '${ApiEndPoints.baseUrl}${ApiEndPoints.checkLeads.checkDuplicate}?npwp=$npwp&phone=$phone&email=$email';
+        '${ApiEndPoints.baseUrl}${ApiEndPoints.leads.checkDuplicate}?npwp=$npwp&phone=$phone&email=$email';
 
     final data = {
       'npwp': npwp,
@@ -137,12 +152,17 @@ class LeadsProvider extends GetConnect {
             // Do not continue with post if status is false
             return true;
           }
+        } else if (response.statusCode == 401) {
+          // Redirect to login page
+          Get.toNamed(Routes.LOGIN);
+          return false;
         } else {
           // Handle other status codes (e.g., 400, 404, etc.) if needed
           throw Exception('Failed to check duplicate: ${response.statusCode}');
         }
       } else {
         // Handle case where token is not available
+        Get.toNamed(Routes.LOGIN);
         throw Exception('Token not found');
       }
     } catch (e) {
@@ -173,8 +193,7 @@ class LeadsProvider extends GetConnect {
       );
 
       if (!isDuplicate) {
-        var url =
-            '${ApiEndPoints.baseUrl}${ApiEndPoints.postDataLeads.postLeads}';
+        var url = '${ApiEndPoints.baseUrl}${ApiEndPoints.leads.postLeads}';
         var data = {
           'email': email,
           'full_name': fullName,
@@ -207,11 +226,16 @@ class LeadsProvider extends GetConnect {
             // Handle successful response
             print('Data successfully sent');
             Get.snackbar('Succes', 'Succes Post Data');
+          } else if (response.statusCode == 401) {
+            // Redirect to login page
+            Get.toNamed(Routes.LOGIN);
           } else {
             // Handle error response
             print('Error: ${response.statusCode}');
             Get.snackbar('Error', 'Failed to Post data');
           }
+        } else {
+          Get.toNamed(Routes.LOGIN);
         }
       } else {
         // Handle case where duplicate exists

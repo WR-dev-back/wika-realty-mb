@@ -9,18 +9,18 @@ Leads leadsFromJson(String str) => Leads.fromJson(json.decode(str));
 String leadsToJson(Leads data) => json.encode(data.toJson());
 
 class Leads {
-  int total;
-  int page;
-  int count;
-  int pageCount;
-  List<Datum> data;
+  int? total;
+  int? page;
+  int? count;
+  int? pageCount;
+  List<Datum>? data;
 
   Leads({
-    required this.total,
-    required this.page,
-    required this.count,
-    required this.pageCount,
-    required this.data,
+    this.total,
+    this.page,
+    this.count,
+    this.pageCount,
+    this.data,
   });
 
   factory Leads.fromJson(Map<String, dynamic> json) => Leads(
@@ -28,7 +28,9 @@ class Leads {
         page: json["page"],
         count: json["count"],
         pageCount: json["pageCount"],
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+        data: json["data"] == null
+            ? []
+            : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -36,64 +38,70 @@ class Leads {
         "page": page,
         "count": count,
         "pageCount": pageCount,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": data == null
+            ? []
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 
 class Datum {
-  String id;
-  bool isActive;
-  DateTime createdAt;
-  DateTime updatedAt;
-  String leadsCode;
+  String? id;
+  bool? isActive;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  String? leadsCode;
   String? digitalSource;
   String? offlineSource;
   String? locationOffline;
-  String fullName;
-  String phoneNumber;
-  String email;
-  String npwp;
+  String? fullName;
+  String? phoneNumber;
+  String? email;
+  String? npwp;
   String? city;
-  String salesForce;
+  String? salesForce;
   String? ppu;
   String? type;
-  int area;
+  int? area;
   String? omzet;
-  bool isRead;
-  bool isSend;
-  List<LeadFollowUp> leadFollowUp;
-  dynamic user;
+  bool? isRead;
+  bool? isSend;
+  List<LeadFollowUp>? leadFollowUp;
+  User? user;
 
   Datum({
-    required this.id,
-    required this.isActive,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.leadsCode,
-    required this.digitalSource,
-    required this.offlineSource,
-    required this.locationOffline,
-    required this.fullName,
-    required this.phoneNumber,
-    required this.email,
-    required this.npwp,
-    required this.city,
-    required this.salesForce,
-    required this.ppu,
-    required this.type,
-    required this.area,
-    required this.omzet,
-    required this.isRead,
-    required this.isSend,
-    required this.leadFollowUp,
-    required this.user,
+    this.id,
+    this.isActive,
+    this.createdAt,
+    this.updatedAt,
+    this.leadsCode,
+    this.digitalSource,
+    this.offlineSource,
+    this.locationOffline,
+    this.fullName,
+    this.phoneNumber,
+    this.email,
+    this.npwp,
+    this.city,
+    this.salesForce,
+    this.ppu,
+    this.type,
+    this.area,
+    this.omzet,
+    this.isRead,
+    this.isSend,
+    this.leadFollowUp,
+    this.user,
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
         isActive: json["isActive"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
+        createdAt: json["createdAt"] == null
+            ? null
+            : DateTime.parse(json["createdAt"]),
+        updatedAt: json["updatedAt"] == null
+            ? null
+            : DateTime.parse(json["updatedAt"]),
         leadsCode: json["leads_code"],
         digitalSource: json["digital_source"],
         offlineSource: json["offline_source"],
@@ -110,16 +118,18 @@ class Datum {
         omzet: json["omzet"],
         isRead: json["isRead"],
         isSend: json["isSend"],
-        leadFollowUp: List<LeadFollowUp>.from(
-            json["LeadFollowUp"].map((x) => LeadFollowUp.fromJson(x))),
-        user: json["user"],
+        leadFollowUp: json["LeadFollowUp"] == null
+            ? []
+            : List<LeadFollowUp>.from(
+                json["LeadFollowUp"]!.map((x) => LeadFollowUp.fromJson(x))),
+        user: json["user"] == null ? null : User.fromJson(json["user"]),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "isActive": isActive,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
+        "createdAt": createdAt?.toIso8601String(),
+        "updatedAt": updatedAt?.toIso8601String(),
         "leads_code": leadsCode,
         "digital_source": digitalSource,
         "offline_source": offlineSource,
@@ -136,41 +146,47 @@ class Datum {
         "omzet": omzet,
         "isRead": isRead,
         "isSend": isSend,
-        "LeadFollowUp": List<dynamic>.from(leadFollowUp.map((x) => x.toJson())),
-        "user": user,
+        "LeadFollowUp": leadFollowUp == null
+            ? []
+            : List<dynamic>.from(leadFollowUp!.map((x) => x.toJson())),
+        "user": user?.toJson(),
       };
 }
 
 class LeadFollowUp {
-  String id;
-  bool isActive;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int type;
-  DateTime date;
-  String followUp;
-  String prospects;
-  String status;
+  String? id;
+  bool? isActive;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? type;
+  DateTime? date;
+  String? followUp;
+  String? prospects;
+  String? status;
 
   LeadFollowUp({
-    required this.id,
-    required this.isActive,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.type,
-    required this.date,
-    required this.followUp,
-    required this.prospects,
-    required this.status,
+    this.id,
+    this.isActive,
+    this.createdAt,
+    this.updatedAt,
+    this.type,
+    this.date,
+    this.followUp,
+    this.prospects,
+    this.status,
   });
 
   factory LeadFollowUp.fromJson(Map<String, dynamic> json) => LeadFollowUp(
         id: json["id"],
         isActive: json["isActive"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
+        createdAt: json["createdAt"] == null
+            ? null
+            : DateTime.parse(json["createdAt"]),
+        updatedAt: json["updatedAt"] == null
+            ? null
+            : DateTime.parse(json["updatedAt"]),
         type: json["type"],
-        date: DateTime.parse(json["date"]),
+        date: json["date"] == null ? null : DateTime.parse(json["date"]),
         followUp: json["follow_up"],
         prospects: json["prospects"],
         status: json["status"],
@@ -179,12 +195,80 @@ class LeadFollowUp {
   Map<String, dynamic> toJson() => {
         "id": id,
         "isActive": isActive,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
+        "createdAt": createdAt?.toIso8601String(),
+        "updatedAt": updatedAt?.toIso8601String(),
         "type": type,
-        "date": date.toIso8601String(),
+        "date": date?.toIso8601String(),
         "follow_up": followUp,
         "prospects": prospects,
         "status": status,
+      };
+}
+
+class User {
+  String? id;
+  bool? isActive;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  String? name;
+  String? email;
+  String? username;
+  String? phone;
+  String? password;
+  dynamic pushToken;
+  bool? isPasswordChanged;
+  dynamic apiKey;
+  dynamic token;
+
+  User({
+    this.id,
+    this.isActive,
+    this.createdAt,
+    this.updatedAt,
+    this.name,
+    this.email,
+    this.username,
+    this.phone,
+    this.password,
+    this.pushToken,
+    this.isPasswordChanged,
+    this.apiKey,
+    this.token,
+  });
+
+  factory User.fromJson(Map<String, dynamic> json) => User(
+        id: json["id"],
+        isActive: json["isActive"],
+        createdAt: json["createdAt"] == null
+            ? null
+            : DateTime.parse(json["createdAt"]),
+        updatedAt: json["updatedAt"] == null
+            ? null
+            : DateTime.parse(json["updatedAt"]),
+        name: json["name"],
+        email: json["email"],
+        username: json["username"],
+        phone: json["phone"],
+        password: json["password"],
+        pushToken: json["pushToken"],
+        isPasswordChanged: json["isPasswordChanged"],
+        apiKey: json["apiKey"],
+        token: json["token"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "isActive": isActive,
+        "createdAt": createdAt?.toIso8601String(),
+        "updatedAt": updatedAt?.toIso8601String(),
+        "name": name,
+        "email": email,
+        "username": username,
+        "phone": phone,
+        "password": password,
+        "pushToken": pushToken,
+        "isPasswordChanged": isPasswordChanged,
+        "apiKey": apiKey,
+        "token": token,
       };
 }

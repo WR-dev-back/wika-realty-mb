@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'package:wr_project/app/modules/dashboard/view/custom_navigation_bar.dart';
+import '../../../../routes/app_pages.dart';
 import '../../controller/page_index_controller.dart';
 import '../../../../utils/constant/style/app_color.dart';
 import '../../../auth/login/model/auth_model.dart';
@@ -11,7 +12,6 @@ import '../../../../utils/constant/style/text_styles.dart';
 
 class HomeView extends GetView<HomeController> {
   final PageIndexController pageC = Get.find<PageIndexController>();
-
   final GetStorage storage = GetStorage();
 
   HomeView({Key? key}) : super(key: key);
@@ -47,8 +47,8 @@ class HomeView extends GetView<HomeController> {
                           borderRadius: BorderRadius.circular(20),
                           gradient: LinearGradient(
                             colors: [
-                              Color.fromARGB(255, 33, 143, 247),
-                              Color.fromARGB(255, 97, 136, 242),
+                              Color(0XFF07c8f9),
+                              Color(0XFF0974F1),
                             ],
                           ),
                         ),
@@ -60,12 +60,16 @@ class HomeView extends GetView<HomeController> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    controller.user.name,
-                                    style: TextStyles.headerhomeStyle,
+                                  Expanded(
+                                    child: Text(
+                                      controller.user.name,
+                                      style: TextStyles.headerhomeStyle,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
                                   ),
                                   Text(
-                                    "SiOlife",
+                                    "SiOlif",
                                     style: TextStyles.headerhomeStyle,
                                   )
                                 ],
@@ -80,28 +84,31 @@ class HomeView extends GetView<HomeController> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    controller.user.username, //
-                                    style: TextStyles.headerhomeStyle,
+                                  Expanded(
+                                    child: Text(
+                                      controller.user.username,
+                                      style: TextStyles.headerhomeStyle,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
                                   ),
                                   ElevatedButton(
                                     onPressed: () async {
-                                      String? token = storage.read('token');
-                                      print(token);
+                                      Get.toNamed(Routes.NOTIFICATIONS);
                                     },
                                     child: Text(
                                       "Profile",
                                       style: TextStyles.cardbuttomTextStyle,
                                     ),
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: Color(0xFFF7B731),
+                                      backgroundColor: Color(0xFFFB8500),
                                     ),
                                   ),
                                 ],
                               ),
                               SizedBox(height: 10),
                               Divider(
-                                color: Colors.black,
+                                color: Color(0xFFFB8500),
                               ),
                               SizedBox(height: 10),
                               Text(
@@ -157,6 +164,16 @@ class HomeView extends GetView<HomeController> {
                                       } else {
                                         final List<Menu> menuList =
                                             snapshot.data ?? [];
+                                        final isMobile = MediaQuery.of(context)
+                                                .size
+                                                .shortestSide <
+                                            600;
+                                        final filteredMenuList = menuList
+                                            .where(
+                                              (menu) =>
+                                                  menu.isMobile == isMobile,
+                                            )
+                                            .toList();
                                         return GridView.builder(
                                           physics:
                                               NeverScrollableScrollPhysics(),
@@ -167,46 +184,41 @@ class HomeView extends GetView<HomeController> {
                                             crossAxisSpacing: 4,
                                             childAspectRatio: 1,
                                           ),
-                                          itemCount: menuList.length,
+                                          itemCount: filteredMenuList.length,
                                           itemBuilder: (context, index) {
-                                            final Menu menu = menuList[index];
-                                            if ((menu.isMobile &&
-                                                    MediaQuery.of(context)
-                                                            .size
-                                                            .shortestSide <
-                                                        600) ||
-                                                (!menu.isMobile &&
-                                                    MediaQuery.of(context)
-                                                            .size
-                                                            .shortestSide >=
-                                                        600)) {
-                                              return InkWell(
-                                                onTap: () {
-                                                  String routeName =
-                                                      '/${menu.name.toLowerCase()}';
-                                                  Get.toNamed(routeName,
-                                                      arguments: menu);
-                                                },
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: <Widget>[
-                                                    Image.asset(
-                                                      menu.icon,
-                                                      width: 80,
-                                                      height: 70,
+                                            final Menu menu =
+                                                filteredMenuList[index];
+                                            return InkWell(
+                                              onTap: () {
+                                                String routeName =
+                                                    '/${menu.name.toLowerCase()}';
+                                                Get.toNamed(routeName,
+                                                    arguments: menu);
+                                                print(routeName);
+                                              },
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: <Widget>[
+                                                  Image.asset(
+                                                    menu.icon,
+                                                    width: 80,
+                                                    height: 70,
+                                                  ),
+                                                  Flexible(
+                                                    child: Text(
+                                                      menu.name,
+                                                      style: TextStyles
+                                                          .menuTextStyle,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
                                                     ),
-                                                    Text(menu.name,
-                                                        style: TextStyles
-                                                            .menuTextStyle),
-                                                  ],
-                                                ),
-                                              );
-                                            } else {
-                                              return SizedBox();
-                                            }
+                                                  ),
+                                                ],
+                                              ),
+                                            );
                                           },
                                         );
                                       }
@@ -222,14 +234,25 @@ class HomeView extends GetView<HomeController> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  "Pembayaran Terbaru",
-                                  style: TextStyles.fieldLabelStyle,
+                                Flexible(
+                                  child: Text(
+                                    "Pembayaran Terbaru",
+                                    style: TextStyles.fieldLabelStyle.copyWith(
+                                      fontSize: 14,
+                                    ),
+                                  ),
                                 ),
-                                TextButton(
-                                  onPressed: () {},
-                                  child: Text("Lihat Semua",
-                                      style: TextStyles.buttonTextStyle),
+                                Flexible(
+                                  child: TextButton(
+                                    onPressed: () {},
+                                    child: Text(
+                                      "Lihat Semua",
+                                      style:
+                                          TextStyles.buttonTextStyle.copyWith(
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),

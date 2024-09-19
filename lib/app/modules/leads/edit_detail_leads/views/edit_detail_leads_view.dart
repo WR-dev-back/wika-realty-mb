@@ -57,103 +57,110 @@ class EditDetailLeadsView extends GetView<EditDetailLeadsController> {
         backgroundColor: AppColor.primary,
         title: Text(
           "Edit Leads",
-          style: TextStyles.titleLabelStyle,
+          style: TextStyles.titleLabelStyle.copyWith(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 20),
             _buildTextFieldWithCounter(
               controller.fullNameController,
               'Nama Panjang',
               30,
               controller.fullNameCount,
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 15),
             _buildTextFieldWithCounter(
               controller.emailController,
               'Email',
               241,
               controller.emailCount,
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 15),
             _buildTextFieldWithCounter(
               controller.phoneNumController,
               'Nomor Telepon',
               30,
               controller.phoneCount,
+              inputFormatters: [PhoneNumberFormatter()],
+              keyboardType: TextInputType.phone,
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 15),
             _buildTextFieldWithCounter(
               controller.sumDController,
               'Sumber Digital',
               30,
               controller.digitalSourceCount,
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 15),
             _buildTextFieldWithCounter(
               controller.sumOfController,
               'Sumber Offline',
               30,
               controller.offlineSourceCount,
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 15),
             _buildTextFieldWithCounter(
               controller.lokController,
               'Lokasi',
               30,
               controller.locationCount,
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 15),
             _buildTextFieldWithCounter(
               controller.npwpController,
               'Npwp',
               60,
               controller.npwpCount,
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 15),
             _buildTextFieldWithCounter(
               controller.cityController,
               'Kota',
               10,
               controller.cityCount,
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 15),
             _buildTextFieldWithCounter(
               controller.typeController,
               'Type',
               10,
               controller.typeCount,
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 15),
             _buildTextFieldWithCounter(
               controller.areaController,
               'Area',
               15,
               controller.areaCount,
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 15),
             _buildTextFieldWithCounter(
               controller.omzetController,
               'Omzet',
               15,
               controller.omzetCount,
             ),
-            // Add input fields for other lead properties
-            SizedBox(height: 20),
+            SizedBox(height: 30),
             Center(
-              child: Container(
-                width: 140,
+              child: SizedBox(
+                width: 160,
                 child: ElevatedButton(
                   onPressed: () {
                     controller.updateLeadsData(leads.id, leads);
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF4B70F5),
+                    backgroundColor: AppColor.primary,
+                    padding: EdgeInsets.symmetric(vertical: 15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
                   child: Text(
                     'Save',
@@ -168,11 +175,15 @@ class EditDetailLeadsView extends GetView<EditDetailLeadsController> {
     );
   }
 
-  Widget _buildTextFieldWithCounter(TextEditingController controller,
-      String labelText, int maxLength, RxInt counter,
-      {TextInputType keyboardType = TextInputType.text,
-      List<TextInputFormatter>? inputFormatters,
-      String? Function(String?)? validator}) {
+  Widget _buildTextFieldWithCounter(
+    TextEditingController controller,
+    String labelText,
+    int maxLength,
+    RxInt counter, {
+    TextInputType keyboardType = TextInputType.text,
+    List<TextInputFormatter>? inputFormatters,
+    String? Function(String?)? validator,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -185,16 +196,17 @@ class EditDetailLeadsView extends GetView<EditDetailLeadsController> {
             LengthLimitingTextInputFormatter(maxLength),
           ],
           decoration: InputDecoration(
-            label: Text(
-              labelText,
-              style: TextStyles.approvalTextStyle,
+            labelText: labelText,
+            labelStyle: TextStyles.descriptionStyle
+                .copyWith(fontWeight: FontWeight.bold),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
             ),
             floatingLabelBehavior: FloatingLabelBehavior.always,
             hintText: "",
           ),
           validator: validator,
           onChanged: (value) {
-            // update character count in controller
             this.controller.updateCount(counter, value);
           },
         ),

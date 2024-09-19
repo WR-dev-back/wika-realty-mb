@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:wr_project/app/modules/approval/detail_approval/views/approval_details.dart';
 import 'package:wr_project/app/utils/constant/style/app_color.dart';
 import '../../../../common/models/approval_details.dart';
 import '../../../../utils/constant/style/text_styles.dart';
@@ -20,17 +21,22 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(color: Colors.white),
-        title: Text('Detail Approval', style: TextStyles.titleLabelStyle),
+        title: Text(
+          'Detail Approval',
+          style: TextStyles.titleLabelStyle.copyWith(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         centerTitle: true,
         backgroundColor: AppColor.primary,
       ),
-      body: Stack(
-        children: [
-          Obx(() {
-            if (controller.approvalDetail.value.data.id.isEmpty) {
-              return Center(child: CircularProgressIndicator());
-            }
+      body: Obx(() {
+        if (controller.approvalDetail.value.data.id.isEmpty) {
+          return Center(child: CircularProgressIndicator());
+        }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
                               const SizedBox(height: 10),
                               Column(
@@ -280,13 +286,20 @@ class DetailApprovalView extends GetView<DetailApprovalController> {
           )
 =======
             Data approval = controller.approvalDetail.value.data;
+=======
+        Data approval = controller.approvalDetail.value.data;
+>>>>>>> c66acc6838ceb7a12c58eacbcb9306960df03734
 
-            return SingleChildScrollView(
-              child: Padding(
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: ApprovalDetails(
                     approval: approval, currencyFormat: currencyFormat),
               ),
+<<<<<<< HEAD
             );
           }),
           Obx(() => controller.approvalStatus.value == 'pending'
@@ -610,6 +623,17 @@ class ApprovalDetails extends StatelessWidget {
           style: TextStyles.buttonprofileTextStyle,
         ),
       ],
+=======
+            ),
+            if (controller.approvalStatus.value == 'pending')
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: ApprovalActions(controller: controller),
+              ),
+          ],
+        );
+      }),
+>>>>>>> c66acc6838ceb7a12c58eacbcb9306960df03734
     );
   }
 }
@@ -696,8 +720,4 @@ class ApprovalActions extends StatelessWidget {
       },
     );
   }
-}
-
-String emptyToDash(String? value) {
-  return (value == null || value.isEmpty) ? '-' : value;
 }

@@ -68,6 +68,12 @@ class EditDetailLeadsController extends GetxController {
 
   Future<void> updateLeadsData(String leadId, Datum leads) async {
     try {
+      // Validasi email dan phone number
+      if (emailController.text.isEmpty || phoneNumController.text.isEmpty) {
+        Get.snackbar('Error', 'Email dan Nomor Handphone harus diisi');
+        return;
+      }
+
       bool isNpwpChanged = npwpController.text != originalNpwp;
       bool isEmailChanged = emailController.text != originalEmail;
       bool isPhoneNumChanged = phoneNumController.text != originalPhoneNum;
@@ -87,6 +93,7 @@ class EditDetailLeadsController extends GetxController {
         return;
       }
 
+      // Update leads data
       leads.fullName = fullNameController.text;
       leads.email = emailController.text;
       leads.phoneNumber = phoneNumController.text;
@@ -97,8 +104,9 @@ class EditDetailLeadsController extends GetxController {
       leads.city = cityController.text;
       leads.type = typeController.text;
       leads.area = int.tryParse(areaController.text) ?? 0;
-      leads.omzet = omzetController.text;
+      leads.omzet = omzetController.text; // Tidak perlu manipulasi khusus
 
+      // Call API to update leads data
       final response =
           await _editDetailLeadsProvider.updateLeadsData(leadId, leads);
 

@@ -54,6 +54,8 @@ class Datum {
   String? approvalPositionName;
   String? code;
   String? group;
+  bool? isNegotiate;
+  bool? isApprover;
   Property? property;
   PurchaseOrder? purchaseOrder;
   PurchaseRequisition? purchaseRequisition;
@@ -68,6 +70,8 @@ class Datum {
     this.approvalPositionName,
     this.code,
     this.group,
+    this.isNegotiate,
+    this.isApprover,
     this.property,
     this.purchaseOrder,
     this.purchaseRequisition,
@@ -87,6 +91,8 @@ class Datum {
         approvalPositionName: json["approval_position_name"],
         code: json["code"],
         group: json["group"],
+        isNegotiate: json["isNegotiate"],
+        isApprover: json["isApprover"],
         property: json["property"] == null
             ? null
             : Property.fromJson(json["property"]),
@@ -108,6 +114,8 @@ class Datum {
         "approval_position_name": approvalPositionName,
         "code": code,
         "group": group,
+        "isNegotiate": isNegotiate,
+        "isApprover": isApprover,
         "property": property?.toJson(),
         "purchaseOrder": purchaseOrder?.toJson(),
         "purchaseRequisition": purchaseRequisition?.toJson(),
@@ -119,6 +127,7 @@ class Property {
   bool? isActive;
   DateTime? createdAt;
   DateTime? updatedAt;
+  dynamic ppcCode;
   String? contractNo;
   String? itemNo;
   String? ppuCode;
@@ -134,7 +143,7 @@ class Property {
   String? progressConst;
   String? cancelDate;
   dynamic refundRecommendation;
-  Status? approvalStatus;
+  String? approvalStatus;
   String? riRefound;
   String? recommendationValue;
   String? costCenter;
@@ -146,6 +155,7 @@ class Property {
     this.isActive,
     this.createdAt,
     this.updatedAt,
+    this.ppcCode,
     this.contractNo,
     this.itemNo,
     this.ppuCode,
@@ -178,6 +188,7 @@ class Property {
         updatedAt: json["updatedAt"] == null
             ? null
             : DateTime.parse(json["updatedAt"]),
+        ppcCode: json["ppc_code"],
         contractNo: json["contract_no"],
         itemNo: json["item_no"],
         ppuCode: json["ppu_code"],
@@ -193,7 +204,7 @@ class Property {
         progressConst: json["progress_const"],
         cancelDate: json["cancel_date"],
         refundRecommendation: json["refund_recommendation"],
-        approvalStatus: statusValues.map[json["approval_status"]]!,
+        approvalStatus: json["approval_status"],
         riRefound: json["ri_refound"],
         recommendationValue: json["recommendation_value"],
         costCenter: json["cost_center"],
@@ -206,6 +217,7 @@ class Property {
         "isActive": isActive,
         "createdAt": createdAt?.toIso8601String(),
         "updatedAt": updatedAt?.toIso8601String(),
+        "ppc_code": ppcCode,
         "contract_no": contractNo,
         "item_no": itemNo,
         "ppu_code": ppuCode,
@@ -221,7 +233,7 @@ class Property {
         "progress_const": progressConst,
         "cancel_date": cancelDate,
         "refund_recommendation": refundRecommendation,
-        "approval_status": statusValues.reverse[approvalStatus],
+        "approval_status": approvalStatus,
         "ri_refound": riRefound,
         "recommendation_value": recommendationValue,
         "cost_center": costCenter,
@@ -243,22 +255,22 @@ class PurchaseOrder {
   bool? isActive;
   DateTime? createdAt;
   DateTime? updatedAt;
-  PoType? poType;
-  TypeDesc? typeDesc;
+  String? poType;
+  String? typeDesc;
   String? vendor;
   String? vendorDesc;
-  DocDate? docDate;
+  String? docDate;
   String? totalPrice;
-  CompanyCode? poOrg;
+  String? poOrg;
   dynamic poGroup;
-  CompanyCode? companyCode;
-  ReleaseGroup? releaseGroup;
-  ReleaseGroupDesc? releaseGroupDesc;
-  ReleaseCode? releaseCode;
+  String? companyCode;
+  String? releaseGroup;
+  String? releaseGroupDesc;
+  String? releaseCode;
   String? poNumber;
   dynamic userId;
   dynamic userEmail;
-  dynamic attachmentLink;
+  String? attachmentLink;
   Status? approvalStatus;
   bool? isSend;
 
@@ -296,19 +308,18 @@ class PurchaseOrder {
         updatedAt: json["updatedAt"] == null
             ? null
             : DateTime.parse(json["updatedAt"]),
-        poType: poTypeValues.map[json["po_type"]]!,
-        typeDesc: typeDescValues.map[json["type_desc"]]!,
+        poType: json["po_type"]!,
+        typeDesc: json["type_desc"]!,
         vendor: json["vendor"],
         vendorDesc: json["vendor_desc"],
-        docDate: docDateValues.map[json["doc_date"]]!,
+        docDate: json["doc_date"],
         totalPrice: json["total_price"],
-        poOrg: companyCodeValues.map[json["po_org"]]!,
+        poOrg: json["po_org"]!,
         poGroup: json["po_group"],
-        companyCode: companyCodeValues.map[json["company_code"]]!,
-        releaseGroup: releaseGroupValues.map[json["release_group"]]!,
-        releaseGroupDesc:
-            releaseGroupDescValues.map[json["release_group_desc"]]!,
-        releaseCode: releaseCodeValues.map[json["release_code"]]!,
+        companyCode: json["company_code"]!,
+        releaseGroup: json["release_group"]!,
+        releaseGroupDesc: json["release_group_desc"]!,
+        releaseCode: json["release_code"]!,
         poNumber: json["po_number"],
         userId: json["user_id"],
         userEmail: json["user_email"],
@@ -322,18 +333,18 @@ class PurchaseOrder {
         "isActive": isActive,
         "createdAt": createdAt?.toIso8601String(),
         "updatedAt": updatedAt?.toIso8601String(),
-        "po_type": poTypeValues.reverse[poType],
-        "type_desc": typeDescValues.reverse[typeDesc],
+        "po_type": poType,
+        "type_desc": typeDesc,
         "vendor": vendor,
         "vendor_desc": vendorDesc,
-        "doc_date": docDateValues.reverse[docDate],
+        "doc_date": docDate,
         "total_price": totalPrice,
-        "po_org": companyCodeValues.reverse[poOrg],
+        "po_org": poOrg,
         "po_group": poGroup,
-        "company_code": companyCodeValues.reverse[companyCode],
-        "release_group": releaseGroupValues.reverse[releaseGroup],
-        "release_group_desc": releaseGroupDescValues.reverse[releaseGroupDesc],
-        "release_code": releaseCodeValues.reverse[releaseCode],
+        "company_code": companyCode,
+        "release_group": releaseGroup,
+        "release_group_desc": releaseGroupDesc,
+        "release_code": releaseCode,
         "po_number": poNumber,
         "user_id": userId,
         "user_email": userEmail,
@@ -342,43 +353,6 @@ class PurchaseOrder {
         "isSend": isSend,
       };
 }
-
-enum CompanyCode { C000 }
-
-final companyCodeValues = EnumValues({"C000": CompanyCode.C000});
-
-enum DocDate { THE_12062024, THE_26062024, THE_28062024 }
-
-final docDateValues = EnumValues({
-  "12.06.2024": DocDate.THE_12062024,
-  "26.06.2024": DocDate.THE_26062024,
-  "28.06.2024": DocDate.THE_28062024
-});
-
-enum PoType { YPOC }
-
-final poTypeValues = EnumValues({"YPOC": PoType.YPOC});
-
-enum ReleaseCode { SURROUNDING_APP, SURROUNDING_APP_TEST }
-
-final releaseCodeValues = EnumValues({
-  "Surrounding App": ReleaseCode.SURROUNDING_APP,
-  "Surrounding App test": ReleaseCode.SURROUNDING_APP_TEST
-});
-
-enum ReleaseGroup { Y2 }
-
-final releaseGroupValues = EnumValues({"Y2": ReleaseGroup.Y2});
-
-enum ReleaseGroupDesc { PO_WIRA_100_JT }
-
-final releaseGroupDescValues =
-    EnumValues({"PO WIRA > 100 JT": ReleaseGroupDesc.PO_WIRA_100_JT});
-
-enum TypeDesc { PRODUKSI_REGIONAL }
-
-final typeDescValues =
-    EnumValues({"Produksi Regional": TypeDesc.PRODUKSI_REGIONAL});
 
 class PurchaseRequisition {
   String? id;

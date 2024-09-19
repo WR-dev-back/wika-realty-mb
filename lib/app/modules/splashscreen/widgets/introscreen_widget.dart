@@ -11,7 +11,7 @@ class IntroscreenWidget extends StatelessWidget {
       key: controller.keyIntroScreen,
       pages: [
         PageViewModel(
-          title: "Selamat Datang di aplikasi Olive Mobile!",
+          title: "Selamat Datang di aplikasi Olif Mobile!",
           body: "",
           image: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),

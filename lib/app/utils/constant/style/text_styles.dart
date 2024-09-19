@@ -38,6 +38,10 @@ class TextStyles {
     fontWeight: FontWeight.w400,
   );
 
+  static TextStyle nameStyle = GoogleFonts.plusJakartaSans(
+    fontSize: 18,
+  );
+
   static TextStyle descriptionhomeStyle = GoogleFonts.plusJakartaSans(
     fontSize: 16,
     color: Colors.white,

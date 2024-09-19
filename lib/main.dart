@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:wr_project/app/modules/dashboard/controller/page_index_controller.dart';
+import 'app/modules/auth/badge/badge_controller.dart';
+import 'app/modules/auth/badge/badge_provider.dart';
 import 'app/routes/app_pages.dart';
 
 Future<void> main() async {
@@ -9,13 +11,17 @@ Future<void> main() async {
   await GetStorage.init();
 
   final GetStorage storage = GetStorage();
-
   final String? token = storage.read('token');
+
+  final badgeController = Get.put(BadgeController(), permanent: true);
+  badgeController.fetchPendingApprovals();
+
   Get.put(PageIndexController(), permanent: true);
+  Get.put(BadgeProvider(), permanent: true);
 
   runApp(
     GetMaterialApp(
-      title: "Si Olife",
+      title: "Si Olif",
       debugShowCheckedModeBanner: false,
       initialRoute: token != null ? Routes.HOME : AppPages.INITIAL,
       getPages: AppPages.routes,
